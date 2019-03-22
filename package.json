@@ -1,0 +1,19 @@
+{
+  "name": "nyco-js",
+  "version": "0.0.0-alpha",
+  "description": "JavaScript from the Mayor's Office for Economic Opportunity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CityOfNewYork/nyco-js.git"
+  },
+  "author": "NYC Opportunity <technology@nycopportunity.nyc.gov>",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/CityOfNewYork/nyco-js/issues"
+  },
+  "homepage": "https://github.com/CityOfNewYork/nyco-js#readme"
+}
