@@ -1,0 +1,1 @@
+The background colors assigned to each status (info, success, warning, and urgent) can be used through their corresponding `.bg-status-<status>` utility.

@@ -1,0 +1,13 @@
+/**
+ * Language
+ */
+
+// Dependencies
+@import 'config/variables';
+
+// Declarations
+@each $lang in map-get($variables, 'rtlLanguages') {
+  :lang(#{$lang}) {
+    direction: rtl;
+  }
+}

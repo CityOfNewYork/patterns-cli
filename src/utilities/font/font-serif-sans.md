@@ -1,0 +1,1 @@
+Using the `.font-serif` or `.font-sans` utility will render the serif or san-serif font of the current language selected.

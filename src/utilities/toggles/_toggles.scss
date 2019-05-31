@@ -1,0 +1,76 @@
+/**
+ * Toggles
+ * Reusable classes for hidden/active elements utilized by components that are
+ * toggled with the Utility.simpleToggle javascript function.
+ */
+
+// Dependencies
+@import 'config/variables';
+
+$animate: map-get($variables, 'animate');
+
+// Declarations
+[data-css-text]:before {
+  content: attr(data-css-text) // can't be read by screen readers
+}
+
+.active > [data-css-active-text]:before {
+  content: attr(data-css-active-text) // can't be read by screen readers
+}
+
+.hidden\:preload {
+  display: none;
+}
+
+.hidden\:preload.loaded {
+  display: inherit !important
+}
+
+.hidden\:overflow,
+.hidden.hidden\:overflow {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.hidden.hidden\:overflow {
+  display: inherit !important; // cancel out the .hidden display:none attribute.
+}
+
+.active.hidden\:overflow,
+.active.hidden.hidden\:overflow {
+  max-height: inherit;
+}
+
+.animated.hidden\:overflow {
+  transition-property: max-height;
+}
+
+.animated.hidden\:overflow {
+  transition-duration: 0.5s;
+  transition-timing-function: map-get($animate, 'ease-out-quint');
+}
+
+.animated.active.hidden\:overflow {
+  max-height: 10000px;
+  transition-duration: 0.75s;
+  transition-timing-function: map-get($animate, 'ease-in-quint');
+}
+
+@mixin toggles-print {
+  .print\:active {
+    display: inherit !important;
+  }
+
+  .print\:active.hidden\:overflow {
+    max-height: inherit !important;
+    overflow: visible !important;
+  }
+}
+
+.print-view {
+  @include toggles-print
+}
+
+@media print {
+  @include toggles-print
+}

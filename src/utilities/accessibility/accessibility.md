@@ -1,0 +1,1 @@
+The `.sr-only` utility will hide elements visually but keep them visible to screen readers.

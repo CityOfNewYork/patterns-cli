@@ -1,0 +1,6 @@
+article
+  div class='bg-color-blue-dark text-color-white font-smooth'
+    h1 class='m-0 p-4' Font Smooth
+
+  div class='color-dark-background font-smooth-auto'
+    h1 class='m-0 p-4' Font Smooth Auto

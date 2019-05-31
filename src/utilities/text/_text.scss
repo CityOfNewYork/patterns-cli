@@ -1,0 +1,15 @@
+/**
+ * Language
+ */
+
+// Dependencies
+@import 'config/variables';
+
+// Declarations
+.text-align-start {
+  text-align: $text-direction-start
+}
+
+.text-align-end {
+  text-align: $text-direction-end
+}

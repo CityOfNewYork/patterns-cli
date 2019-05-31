@@ -1,0 +1,23 @@
+/**
+ * Statuses
+ */
+
+// Dependencies
+@import 'config/colors';
+
+// Declarations
+.bg-status-success {
+  background-color: map-get($colors, map-get($statuses, 'success'));
+}
+
+.bg-status-info {
+  background-color: map-get($colors, map-get($statuses, 'info'));
+}
+
+.bg-status-warning {
+  background-color: map-get($colors, map-get($statuses, 'warning'));
+}
+
+.bg-status-urgent {
+  background-color: map-get($colors, map-get($statuses, 'urgent'));
+}

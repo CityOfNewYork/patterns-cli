@@ -1,0 +1,14 @@
+h1 class='type-h1' data-sketch-text=`${symbol}1`
+  | Find help in NYC with food, money, housing, work and more on ACCESS NYC.
+
+h2 class='type-h2' data-sketch-text=`${symbol}2`
+  | Find help in NYC with food, money, housing, work and more on ACCESS NYC.
+
+h3 class='type-h3' data-sketch-text=`${symbol}3`
+  | Find help in NYC with food, money, housing, work and more on ACCESS NYC.
+
+h4 class='type-h4' data-sketch-text=`${symbol}4`
+  | Find help in NYC with food, money, housing, work and more on ACCESS NYC.
+
+h5 class='type-h5' data-sketch-text=`${symbol}5`
+  | Find help in NYC with food, money, housing, work and more on ACCESS NYC.

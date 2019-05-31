@@ -1,0 +1,33 @@
+/**
+ * Font
+ */
+
+// Dependencies
+@import 'config/variables';
+@import 'config/language';
+@import 'config/fonts';
+
+// Declarations
+.font-smooth {
+  @include font-smooth
+}
+
+.font-smooth-auto {
+  @include font-smooth-auto
+}
+
+.font-serif {
+  @if $language == '' {
+    font-family: map-get(map-get($variables, 'fonts'), 'default-serif');
+  } @else {
+    font-family: map-get(map-get($variables, 'fonts'), '#{$language}-serif');
+  }
+}
+
+.font-sans {
+  @if $language == '' {
+    font-family: map-get(map-get($variables, 'fonts'), 'default-sans');
+  } @else {
+    font-family: map-get(map-get($variables, 'fonts'), '#{$language}-sans');
+  }
+}

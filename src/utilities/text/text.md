@@ -1,0 +1,1 @@
+Using the `.text-align-start` or `.text-align-end` will align text content to the alignment of the current language selected.

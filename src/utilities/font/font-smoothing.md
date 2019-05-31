@@ -1,0 +1,1 @@
+Font smoothing can be controlled through the `.font-smooth` and `.font-smooth-auto` utilities. This will modify the aliasing for Webkit- and Mozilla-based browsers only. This utility works the best with light-colored text on dark backgrounds.

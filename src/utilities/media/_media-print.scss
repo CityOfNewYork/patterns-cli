@@ -1,0 +1,43 @@
+/**
+ * Print
+ * This is needed for the .print-view class to display Tailwind print
+ * display utilities properly in the ".print-view" class.
+ */
+
+.print-view {
+  .print\:block {
+    display: block
+  }
+
+  .print\:inline-block {
+    display: inline-block
+  }
+
+  .print\:inline {
+    display: inline
+  }
+
+  .print\:table {
+    isplay: table
+  }
+
+  .print\:table-row {
+    isplay: table-row
+  }
+
+  .print\:table-cell {
+    display: table-cell
+  }
+
+  .print\:hidden {
+    display: none
+  }
+
+  .print\:flex {
+    display: flex
+  }
+
+  .print\:inline-flex {
+    display: inline-flex
+  }
+}

@@ -1,0 +1,5 @@
+p class='hidden screen-desktop:block' Visible for desktop screens and up.
+p class='hidden screen-tablet:block' Visible for tablet screens and up.
+p class='hidden screen-mobile:block' Visible mobile screens and up.
+p class='hidden screen-sm-mobile:block' Visible small mobile screens and up.
+p class='hidden' Hidden for all screens.

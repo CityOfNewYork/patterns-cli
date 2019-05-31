@@ -1,0 +1,10 @@
+div class='text-font-size-small'
+
+  h3 class='text-font-size-small capitalize mb-2' ${key.replace(/-/g," ")} Background
+
+  article class='bg-status-${key} w-full py-4 p-2 mb-2'
+    div class='capitalize' ${key.replace(/-/g," ")} Text
+
+  p class='mb-1 flex justify-between'
+    | selector
+    code .bg-status-${key}

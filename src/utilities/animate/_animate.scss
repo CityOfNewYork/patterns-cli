@@ -1,0 +1,17 @@
+// Dependencies
+@import 'config/animate';
+@import 'animate.scss/vendor/assets/stylesheets/animate/fadeInUp';
+@import 'animate.scss/vendor/assets/stylesheets/animate/fadeIn';
+
+// Declarations
+body {
+  backface-visibility: hidden;
+}
+
+.animated {
+  @include animate();
+}
+
+a, input, textarea, select, path, rect {
+  @include transition();
+}

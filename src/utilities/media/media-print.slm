@@ -1,0 +1,4 @@
+article class='print-view'
+  p Styles specific for print will apply within this article.
+  p class='print:hidden'
+    | This paragraph will be hidden for @media 'print' and within the '.print-view' class.

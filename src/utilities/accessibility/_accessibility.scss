@@ -1,0 +1,16 @@
+/**
+ * Accessibility
+ */
+
+// Dependencies
+@import 'config/accessibility';
+@import 'config/direction';
+
+// Declarations
+.sr-only {
+  @include sr-only();
+}
+
+.sr-only-focusable {
+  @include sr-only-focusable();
+}

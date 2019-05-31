@@ -1,0 +1,94 @@
+/**
+ * Typography
+ */
+
+// Dependencies
+@import 'config/fonts';
+@import 'config/dimensions';
+
+@import 'scss/functions/rem';
+@import 'scss/functions/strip-units';
+
+@import 'config/typography';
+@import 'bourbon/app/assets/stylesheets/addons/margin';
+
+// Declarations
+html {
+  @include typography-base();
+  @if $text-direction == 'rtl' {
+    direction: rtl;
+  }
+}
+
+h1, .h1, .type-h1, .typography-h1 {
+  @include margin(0 null rem($spacing-base, $em-base));
+  @include typography-h1();
+}
+
+h2, .h2, .type-h2, .typography-h2 {
+  @include margin(0 null rem($spacing-base, $em-base));
+  @include typography-h2();
+}
+
+h3, .h3, .type-h3, .typography-h3 {
+  @include margin(0 null rem($spacing-base, $em-base));
+  @include typography-h3();
+}
+
+h4, .h4, .type-h4, .typography-h4 {
+  @include margin(0 null rem($spacing-base, $em-base));
+  @include typography-h4();
+}
+
+h5, .h5, .type-h5, .typography-h5 {
+  @include margin(0 null rem($spacing-base, $em-base));
+  @include typography-h5();
+}
+
+small, .small .type-small, .typography-small {
+  @include margin(0 null rem($spacing-base, $em-base));
+  @include typography-supplemental();
+}
+
+blockquote, .blockquote, .type-blockquote, .typography-blockquote {
+  @include margin(rem((.5 * $spacing-base), $em-base) null rem((1.5 * $spacing-base), $em-base));
+  @include typography-blockquote();
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.exposition, .type-exposition, .typography-exposition {
+  @include typography-exposition();
+  margin-bottom: $spacing-base * 2;
+}
+
+.jumbo, .type-jumbo, .typography-jumbo {
+  @include typography-jumbo();
+}
+
+.supplemental, .type-supplemental, .typography-supplemental {
+  @include typography-supplemental();
+}
+
+html {
+  $text-increment: 2;
+  $min-text-step: -3;
+  $max-text-step: 3;
+
+  @for $i from $min-text-step through $max-text-step {
+    &.text-size-#{$i} {
+      font-size: #{$em-base + ($text-increment * $i)}px;
+    }
+  }
+}
+
+p, ul, ol {
+  margin-top: 0;
+  margin-bottom: rem(strip-units($spacing-base), $em-base);
+}
+
+@media print {
+  html {
+    @include typography-print();
+  }
+}

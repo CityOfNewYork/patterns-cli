@@ -1,0 +1,14 @@
+/**
+ * Colors
+ */
+
+// Dependencies
+@import 'config/colors';
+
+// Declarations
+@each $combo, $c in $combinations {
+  $selector: '.color-#{$combo}';
+  #{$selector} {
+    @include combination($selector, $c, $colors, map-get($c, 'font-smooth'));
+  }
+}
