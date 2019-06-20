@@ -7,9 +7,12 @@
 class Forms {
   /**
    * The Form constructor
-   * @return {object} The Utility class
+   * @return {object} The class
    */
   constructor() {
+    /** Strings can be passed to the constructor */
+    this.STRINGS = Forms.strings;
+
     return this;
   }
 
@@ -87,14 +90,16 @@ class Forms {
       message = document.createElement('div');
 
       // Get the error message from localized strings.
-      if (el.validity.valueMissing)
-        message.innerHTML = Utility.localize('VALID_REQUIRED');
-      else if (!el.validity.valid)
-        message.innerHTML = Utility.localize(
-          `VALID_${el.type.toUpperCase()}_INVALID`
-        );
-      else
+      if (el.validity.valueMissing &&
+        this.STRINGS.VALID_REQUIRED) {
+        message.innerHTML = this.STRINGS.VALID_REQUIRED;
+      } else if (!el.validity.valid &&
+        this.STRINGS[`VALID_${el.type.toUpperCase()}_INVALID`]) {
+        let stringKey = `VALID_${el.type.toUpperCase()}_INVALID`;
+        message.innerHTML = this.STRINGS[stringKey];
+      } else {
         message.innerHTML = el.validationMessage;
+      }
 
       message.setAttribute('aria-live', 'polite');
       message.classList.add('error-message');
@@ -106,4 +111,28 @@ class Forms {
 
     return (validity) ? event : validity;
   }
+
+  /**
+   * A function to assign pre localized strings to the class.
+   * @param  {object} localizedStrings A dictionairy of strings in the format
+   *                                   'VALID_REQUIRED': 'This is required',
+   *                                   'VALID_{{ TYPE }}_INVALID': 'Invalid'
+   * @return {class}                   The object class
+   */
+  strings(localizedStrings) {
+    Object.assign(this.STRINGS, localizedStrings);
+
+    return this;
+  }
 }
+
+/**
+ * A dictionairy of strings in the format.
+ * {
+ *   'VALID_REQUIRED': 'This is required',
+ *   'VALID_{{ TYPE }}_INVALID': 'Invalid'
+ * }
+ */
+Forms.strings = {};
+
+export default Forms;
