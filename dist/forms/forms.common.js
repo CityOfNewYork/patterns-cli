@@ -6,6 +6,8 @@
  */
 
 var Forms = function Forms() {
+  /** Strings can be passed to the constructor */
+  this.STRINGS = Forms.strings;
   return this;
 };
 /**
@@ -85,10 +87,11 @@ Forms.prototype.valid = function valid(event) {
 
     message = document.createElement('div'); // Get the error message from localized strings.
 
-    if (el.validity.valueMissing) {
-      message.innerHTML = Utility.localize('VALID_REQUIRED');
-    } else if (!el.validity.valid) {
-      message.innerHTML = Utility.localize("VALID_" + el.type.toUpperCase() + "_INVALID");
+    if (el.validity.valueMissing && this.STRINGS.VALID_REQUIRED) {
+      message.innerHTML = this.STRINGS.VALID_REQUIRED;
+    } else if (!el.validity.valid && this.STRINGS["VALID_" + el.type.toUpperCase() + "_INVALID"]) {
+      var stringKey = "VALID_" + el.type.toUpperCase() + "_INVALID";
+      message.innerHTML = this.STRINGS[stringKey];
     } else {
       message.innerHTML = el.validationMessage;
     }
@@ -102,5 +105,28 @@ Forms.prototype.valid = function valid(event) {
 
   return validity ? event : validity;
 };
+/**
+ * A function to assign pre localized strings to the class.
+ * @param{object} localizedStrings A dictionairy of strings in the format
+ *                                 'VALID_REQUIRED': 'This is required',
+ *                                 'VALID_{{ TYPE }}_INVALID': 'Invalid'
+ * @return {class}                 The object class
+ */
+
+
+Forms.prototype.strings = function strings(localizedStrings) {
+  Object.assign(this.STRINGS, localizedStrings);
+  return this;
+};
+/**
+ * A dictionairy of strings in the format.
+ * {
+ *   'VALID_REQUIRED': 'This is required',
+ *   'VALID_{{ TYPE }}_INVALID': 'Invalid'
+ * }
+ */
+
+
+Forms.strings = {};
 
 module.exports = Forms;
