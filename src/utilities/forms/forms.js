@@ -7,7 +7,8 @@
 class Forms {
   /**
    * The Form constructor
-   * @return {object} The class
+   * @param  {Object} form The form DOM element
+   * @return {object}      The Form class
    */
   constructor(form = false) {
     this.FORM = form;
@@ -97,7 +98,7 @@ class Forms {
     }
 
     /** Submit Event */
-    this.FORM.addEventListener('submit', event => {
+    this.FORM.addEventListener('submit', (event) => {
       event.preventDefault();
 
       if (this.valid(event) === false)
@@ -142,16 +143,14 @@ class Forms {
     message = document.createElement(Forms.markup.ERROR_MESSAGE);
 
     // Get the error message from localized strings (if set).
-    if (el.validity.valueMissing &&
-      Forms.strings.VALID_REQUIRED) {
+    if (el.validity.valueMissing && Forms.strings.VALID_REQUIRED)
       message.innerHTML = Forms.strings.VALID_REQUIRED;
-    } else if (!el.validity.valid &&
+    else if (!el.validity.valid &&
       Forms.strings[`VALID_${el.type.toUpperCase()}_INVALID`]) {
       let stringKey = `VALID_${el.type.toUpperCase()}_INVALID`;
       message.innerHTML = Forms.strings[stringKey];
-    } else {
+    } else
       message.innerHTML = el.validationMessage;
-    }
 
     // Set aria attributes and css classes to the message
     message.setAttribute(Forms.attrs.ERROR_MESSAGE[0],
