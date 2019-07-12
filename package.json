@@ -1,7 +1,7 @@
 {
   "name": "nyco-patterns-framework",
   "version": "0.0.0-alpha",
-  "description": "JavaScript from the Mayor's Office for Economic Opportunity",
+  "description": "Front-end utilities from the Mayor's Office for Economic Opportunity",
   "main": "scripts/cli.js",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "ajv": "^6.4.0",
     "autoprefixer": "^8.2.0",
     "browser-sync": "^2.24.7",
-    "concurrently": "^4.1.0",
+    "concurrently": "^4.1.1",
     "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
     "css-mqpacker": "^6.0.2",
@@ -59,6 +59,12 @@
     "tailwindcss": "^1.0.5",
     "uglify-js": "^3.3.16",
     "vue-template-compiler": "^2.6.9"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve\" \"pttrn sync\" -p \"none\"",
+    "start:production": "cross-env NODE_ENV=production cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve\" \"pttrn sync\" -p \"none\"",
+    "prepublish": "cross-env NODE_ENV=production pttrn default",
+    "publish": "cross-env NODE_ENV=production pttrn build && cross-env NODE_ENV=production pttrn publish"
   },
   "bin": {
     "pttrn": "scripts/cli.js"
