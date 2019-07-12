@@ -1,16 +1,16 @@
 const concurrently = require('concurrently');
 const nodemon = require('nodemon');
 const args = process.argv.slice(2);
-const prefix = '[styles]';
 
 if (args.includes('-w') || args.includes('--watch')) {
-  nodemon('-e scss --watch src --ignore _variables.scss -x pttrn styles');
+  nodemon('-e scss,js,svg,slm,md --watch src -x pttrn default --ignore _variables.scss');
 } else {
   concurrently([
-    'pttrn variables',
-    'pttrn sass',
-    'pttrn postcss'
+    'pttrn svg',
+    'pttrn styles',
+    'pttrn scripts',
+    'pttrn build'
   ], {
-    prefix: prefix
+    prefix: 'none'
   });
 }
