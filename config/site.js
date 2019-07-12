@@ -2,7 +2,7 @@
  * Config
  */
 
-const package = require('../package.json');
+const package = require(`${process.env.PWD}/package.json`);
 const version = process.env.V || package.version;
 
 /**
@@ -12,7 +12,7 @@ const version = process.env.V || package.version;
 const site = {
   versions: {
     package: version,
-    tailwindcss: package.dependencies.tailwindcss.replace('^', ''),
+    tailwindcss: package.devDependencies.tailwindcss.replace('^', ''),
   },
   urls: {
     production: 'https://cityofnewyork.github.io/nyco-patterns-framework',

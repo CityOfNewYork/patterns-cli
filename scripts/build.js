@@ -8,18 +8,21 @@ const Fs = require('fs');
 const pretty = require('pretty');
 const escape = require('escape-html');
 const markdown = require('markdown').markdown;
-const alerts = require('../config/alerts');
+const nodemon = require('nodemon');
+const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
  * Constants
  */
 
-const SOURCE = Path.join(__dirname, '../', 'src/');
+const SOURCE = Path.join(process.env.PWD, 'src/');
 const BASE_PATH = `${SOURCE}/views`;
 const VIEWS = 'src/views/';
 const DIST ='dist/';
 const WHITELIST = ['partials', 'layouts', 'section'];
 const LOCALS = require('./locals');
+const ARGS = process.argv.slice(2);
+const PREFIX = '[build]';
 
 /**
  * Functions
@@ -37,12 +40,12 @@ function fnWrite(filename, path, data) {
 
   Fs.writeFile(distFile, data, err => {
     if (err) {
-      console.log(`${alerts.error} ${err}`);
+      console.log(`${PREFIX} ${alerts.error} ${err}`);
       return;
     }
     distFile = distFile.replace(Path.join(__dirname, '../'), '');
 
-    console.log(`${alerts.success} Slm compiled to ${distFile}`);
+    console.log(`${PREFIX} ${alerts.success} Slm compiled to ${distFile}`);
   });
 }
 
@@ -147,7 +150,7 @@ function fnReadFile(filename, path, fnCallback) {
   let fullPath = Path.join(path, filename);
   Fs.readFile(fullPath, 'utf-8', (err, src) => {
     if (err) {
-      console.log(`${alerts.error} ${err}`);
+      console.log(`${PREFIX} ${alerts.error} ${err}`);
       return;
     }
     let compiled = slm(src, {
@@ -181,7 +184,7 @@ function fnReadFiles(files, path) {
 function fnReadDir(path) {
   Fs.readdir(path, 'utf-8', (err, files) => {
     if (err) {
-      console.log(`${alerts.error} ${err}`);
+      console.log(`${PREFIX} ${alerts.error} ${err}`);
       return;
     }
     fnReadFiles(files, path);
@@ -192,4 +195,8 @@ function fnReadDir(path) {
  * Init
  */
 
-fnReadDir(Path.join(__dirname, '../', VIEWS));
+if (ARGS.includes('-w') || ARGS.includes('--watch')) {
+  nodemon('nodemon -e slm,md --watch src -x pttrn build');
+} else {
+  fnReadDir(Path.join(process.env.PWD, VIEWS));
+}

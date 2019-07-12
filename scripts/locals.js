@@ -10,7 +10,7 @@ const dirTree = require('directory-tree');
  */
 
 const SRC = 'src/';
-const VIEWS = Path.join(__dirname, '../', 'src/views');
+const VIEWS = Path.join(process.env.PWD, 'src/views');
 const WHITELIST = ['elements', 'components', 'objects'];
 
 /**
@@ -18,14 +18,14 @@ const WHITELIST = ['elements', 'components', 'objects'];
  */
 
 let locals = {
-  vars: require('../config/variables'),
-  site: require('../config/site'),
+  vars: require(`${process.env.PWD}/config/variables`),
+  site: require(`${process.env.PWD}/config/site`),
   views: VIEWS,
   modules: []
 };
 
 for (let i = 0; i < WHITELIST.length; i++) {
-  let path = Path.join(__dirname, '../', SRC, WHITELIST[i]);
+  let path = Path.join(process.env.PWD, SRC, WHITELIST[i]);
   let namespace = {
     path: path,
     name: WHITELIST[i],

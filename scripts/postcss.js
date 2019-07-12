@@ -5,15 +5,15 @@
 const Fs = require('fs');
 const Path = require('path');
 const Postcss = require('postcss');
-const alerts = require('../config/alerts');
-const config = require('../config/postcss');
-const modules = require('../config/styles');
+const alerts = require(`${process.env.PWD}/config/alerts`);
+const config = require(`${process.env.PWD}/config/postcss`);
+const modules = require(`${process.env.PWD}/config/styles`);
 
 /**
  * Init
  */
 function run(module) {
-  let bundle = Path.join(__dirname, '../', module.outDir, module.outFile);
+  let bundle = Path.join(process.env.PWD, module.outDir, module.outFile);
 
   Fs.readFile(bundle, (err, css) => {
     Postcss(config.plugins)

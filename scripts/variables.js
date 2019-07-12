@@ -2,11 +2,11 @@
  * Dependencies
  */
 
-const jsSass = require('../node_modules/json-sass/lib/jsToSassString');
-const variables = require('../config/variables');
 const Path = require('path');
 const fs = require('fs');
-const alerts = require('../config/alerts');
+const jsSass = require(`${process.env.PWD}/node_modules/json-sass/lib/jsToSassString`);
+const variables = require(`${process.env.PWD}/config/variables`);
+const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
  * Constants
@@ -14,7 +14,7 @@ const alerts = require('../config/alerts');
 
 const prefix = '$variables';
 const data = jsSass(variables);
-const dir = Path.join(__dirname, '../', 'src/config/');
+const dir = Path.join(process.env.PWD, 'src/config/');
 const filename = '_variables.scss';
 
 /**

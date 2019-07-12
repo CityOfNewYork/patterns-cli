@@ -4,15 +4,17 @@
 
 const Express = require('express');
 const Path = require('path');
+const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
  * Constants
  */
 
 const APP = new Express();
-const PORT = process.env.PORT;
-const DIST = Path.join(__dirname, '../', 'dist');
-const VIEWS = Path.join(__dirname, '../', 'src/views');
+const PORT = process.env.PORT || '7000';
+const PREFIX = '[serve]';
+const DIST = Path.join(process.env.PWD, 'dist');
+const VIEWS = Path.join(process.env.PWD, 'src/views');
 const ENGINE = 'slm';
 const LOCALS = require('./locals');
 
@@ -34,7 +36,7 @@ function fnGet(request, resolve) {
  */
 function fnListenCallback() {
   let p = APP.get('port');
-  console.log(`Listening on port ${p}!`);
+  console.log(`${PREFIX} ${alerts.info} Listening on port ${p}!`);
 }
 
 /**

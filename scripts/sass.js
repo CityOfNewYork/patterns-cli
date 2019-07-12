@@ -5,16 +5,16 @@
 const Sass = require('node-sass');
 const Path = require('path');
 const Fs = require('fs');
-const modules = require('../config/styles');
 const mkdirp = require('mkdirp');
-const alerts = require('../config/alerts');
+const modules = require(`${process.env.PWD}/config/styles`);
+const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
  * Init
  */
 
 function write(module) {
-  let outDir = Path.join(__dirname, '../', module.outDir);
+  let outDir = Path.join(process.env.PWD, module.outDir);
   let name = module.outFile;
   Sass.render(module, (err, result) => {
     if (err) {
@@ -32,7 +32,7 @@ function write(module) {
 }
 
 function run(module) {
-  let outDir = Path.join(__dirname, '../', module.outDir);
+  let outDir = Path.join(process.env.PWD, module.outDir);
   if (!Fs.existsSync(outDir)) {
     mkdirp(outDir, (err) => {
       if (err) {
