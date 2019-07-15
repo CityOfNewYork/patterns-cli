@@ -14,13 +14,12 @@ const alerts = require(`${process.env.PWD}/config/alerts`);
 const dist = Path.join(process.env.PWD, 'dist/');
 const remote = (process.env.NODE_ENV === 'production')
   ? 'origin' : process.env.NODE_ENV;
-const prefix = '[publish]';
 
 /**
  * Functions
  */
 
-console.log(`${prefix} ${alerts.info} Publishing to ${remote}; ${config[process.env.NODE_ENV]}`);
+console.log(`${alerts.info} Publishing to ${remote}; ${config[process.env.NODE_ENV]}`);
 
 ghpages.publish(dist, {
     remote: remote,

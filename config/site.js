@@ -12,7 +12,7 @@ const version = process.env.V || package.version;
 const site = {
   versions: {
     package: version,
-    tailwindcss: package.devDependencies.tailwindcss.replace('^', ''),
+    tailwindcss: package.dependencies.tailwindcss.replace('^', ''),
   },
   urls: {
     production: 'https://cityofnewyork.github.io/nyco-patterns-framework',
