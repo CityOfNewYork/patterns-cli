@@ -55,10 +55,8 @@
     "uglify-js": "^3.3.16"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve\" \"pttrn sync\" -p \"none\"",
-    "start:production": "cross-env NODE_ENV=production cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve\" \"pttrn sync\" -p \"none\"",
-    "prepublishOnly": "cross-env NODE_ENV=production pttrn default",
-    "publish": "cross-env NODE_ENV=production pttrn build && cross-env NODE_ENV=production pttrn publish"
+    "prepublishOnly": "cross-env NODE_ENV=production node scripts/cli.js default",
+    "publish": "cross-env NODE_ENV=production node scripts/cli.js build && cross-env NODE_ENV=production node scripts/cli.js publish"
   },
   "bin": {
     "pttrn": "scripts/cli.js"
