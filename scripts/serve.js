@@ -12,7 +12,6 @@ const alerts = require(`${process.env.PWD}/config/alerts`);
 
 const APP = new Express();
 const PORT = process.env.PORT || '7000';
-const PREFIX = '[serve]';
 const DIST = Path.join(process.env.PWD, 'dist');
 const VIEWS = Path.join(process.env.PWD, 'src/views');
 const ENGINE = 'slm';
@@ -36,7 +35,7 @@ function fnGet(request, resolve) {
  */
 function fnListenCallback() {
   let p = APP.get('port');
-  console.log(`${PREFIX} ${alerts.info} Listening on port ${p}!`);
+  console.log(`${alerts.info} Serving http://localhost:${p}`);
 }
 
 /**

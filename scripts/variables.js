@@ -37,14 +37,27 @@
 //   console.log(`${alerts.success} Variables compiled to ${dir}${filename}`);
 // });
 const shell = require('shelljs');
+
+
 const nodemon = require('nodemon');
 const path = require('path');
 const args = process.argv.slice(2);
-const source = path.join(process.env.PWD, 'config/variables.js');
-const destination = path.join(process.env.PWD, 'src/config/_variables.scss');
+const alerts = require(`${process.env.PWD}/config/alerts`);
+
+const input = './config/variables.js';
+const output = './src/config/_variables.scss';
+
+shell.config.silent = true;
 
 if (args.includes('-w') || args.includes('--watch')) {
-  nodemon('-e js --watch config/variables.js -x pttrn variables');
+  nodemon('-e js --watch config/variables.js -x node scripts/variables.js');
 } else {
-  shell.exec(`npx json-to-scss ${source} ${destination} --p='$variables:'`);
+  shell.exec(`npx json-to-scss ${input} ${output} --p='$variables:'`, (code, stdout, stderr) => {
+    if (code) {
+      console.log(`${alerts.error} "variables" failed: ${stderr}`);
+      process.exit(1);
+    } else {
+      console.log(`${alerts.scripts} Created ${output} from ${input}`);
+    }
+  });
 }

@@ -38,7 +38,7 @@ const plugins = {
     }
   }),
   replace: replace({
-    'process.env.NODE_ENV': JSON.stringify('production')
+    'process.env.NODE_ENV': "'production'"
   }),
   common: commonjs(),
   buble: buble({
