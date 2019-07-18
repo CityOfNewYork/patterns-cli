@@ -4,3 +4,7 @@ html lang='en'
     title Hello World
   body
     h1 Hello World
+
+    / The reload script. This is reserved for development only.
+    - if this.NODE_ENV === 'development'
+      script src='/reload/reload.js'

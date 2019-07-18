@@ -6,7 +6,7 @@ const alerts = require(`${process.env.PWD}/config/alerts`);
 shell.config.silent = true;
 
 if (args.includes('-w') || args.includes('--watch')) {
-  nodemon('-e svg --watch ./src/svg -x node scripts/svgs.js');
+  nodemon(`-e svg --watch ./src/svg -x node ${__dirname}/svgs.js`);
 } else {
   let input = './src/svg';
   let output = './dist/svg';

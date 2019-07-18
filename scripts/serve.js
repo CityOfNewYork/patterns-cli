@@ -3,14 +3,17 @@
  */
 
 const Express = require('express');
+const reload = require('reload');
 const Path = require('path');
 const alerts = require(`${process.env.PWD}/config/alerts`);
+const nodemon = require('nodemon');
+const http = require('http');
 
 /**
  * Constants
  */
 
-const APP = new Express();
+const args = process.argv.slice(2);
 const PORT = process.env.PORT || '7000';
 const DIST = Path.join(process.env.PWD, 'dist');
 const VIEWS = Path.join(process.env.PWD, 'src/views');
@@ -18,33 +21,51 @@ const ENGINE = 'slm';
 const LOCALS = require('./locals');
 
 /**
- * Functions
- */
-
-/**
- * The getter function for rendering views
- * @param  {object} request - the Express.get() request
- * @param  {function} resolve - the callback function
- */
-function fnGet(request, resolve) {
-  resolve.render(request.params[0], LOCALS);
-}
-
-/**
- * The callback function to signal the app is running
- */
-function fnListenCallback() {
-  let p = APP.get('port');
-  console.log(`${alerts.info} Serving http://localhost:${p}`);
-}
-
-/**
  * Init
  */
+
+let APP = new Express();
 
 APP.set('views', VIEWS); // set the views directory
 APP.set('view engine', ENGINE); // set the template engine
 APP.set('port', PORT); // set the port
-APP.use(Express.static(DIST)); // choose the static file directory
-APP.get('/*', fnGet); // request handler
-APP.listen(APP.get('port'), fnListenCallback); // set the port to listen on
+
+/**
+ * Request handler
+ */
+APP.get('/*', (request, resolve, next) => {
+  let req = request.params[0];
+
+  // Allow the reload script to pass
+  if (req === 'reload/reload.js') {
+    next();
+  } else {
+    resolve.render(req, LOCALS);
+  }
+});
+
+let server = http.createServer(APP);
+
+/**
+ * Use nodemon + reload to reload the server
+ */
+
+if (args.includes('-w') || args.includes('--watch')) {
+  nodemon(`-e slm,md --watch ./src -x node ${__dirname}/serve.js`);
+} else {
+  reload(APP).then(() => {
+    // Set the port to listen on
+    server.listen(APP.get('port'), () => {
+      let port = APP.get('port');
+      console.log(`${alerts.info} Serving ./src/views to http://localhost:${port}`);
+    });
+  }).catch(function (err) {
+    console.error(`${alerts.error} Reload could not start`, err)
+  })
+}
+
+/**
+ * Mount the static file directory
+ */
+
+APP.use(Express.static(DIST));

@@ -37,6 +37,7 @@
     "nodemon": "^1.18.7",
     "postcss": "^7.0.17",
     "pretty": "^2.0.0",
+    "reload": "^3.0.1",
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-buble": "^0.19.8",
@@ -54,10 +55,10 @@
     "uglify-js": "^3.3.16"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"node scripts/default.js -w\" \"node scripts/serve.js\" -p \"none\"",
-    "version": "cross-env NODE_ENV=production node scripts/cli.js default",
-    "prepublishOnly": "cross-env NODE_ENV=production node scripts/cli.js default",
-    "publish": "cross-env NODE_ENV=production node scripts/cli.js publish"
+    "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"node scripts/default.js -w\" \"node scripts/serve.js -w\" -p \"none\"",
+    "version": "cross-env NODE_ENV=production node scripts/default.js",
+    "prepublishOnly": "cross-env NODE_ENV=production node scripts/default.js",
+    "publish": "cross-env NODE_ENV=production node scripts/publish.js"
   },
   "bin": {
     "pttrn": "scripts/cli.js"
