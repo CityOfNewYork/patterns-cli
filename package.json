@@ -94,5 +94,8 @@
         "multi"
       ]
     }
+  },
+  "devDependencies": {
+    "nyco-patterns": "^1.7.0"
   }
 }

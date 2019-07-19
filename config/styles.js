@@ -12,7 +12,9 @@ const sass = {
   sourceMapEmbed: true,
   precision: 2,
   includePaths: [
-    './node_modules', './src'
+    './node_modules/nyco-patterns/src/',
+    './src',
+    './node_modules'
   ]
 };
 

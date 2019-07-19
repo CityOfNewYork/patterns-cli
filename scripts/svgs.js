@@ -6,7 +6,7 @@ const alerts = require(`${process.env.PWD}/config/alerts`);
 shell.config.silent = true;
 
 if (args.includes('-w') || args.includes('--watch')) {
-  nodemon(`-e svg --watch ./src/svg -x node ${__dirname}/svgs.js`);
+  nodemon(`-e svg -w ${process.env.PWD}/src/svg -x node ${__dirname}/svgs.js`);
   console.log(`${alerts.watching} Svgs watching ${alerts.ext('.svg')} in ${alerts.path('./src/svg')}`);
 } else {
   let input = './src/svg';

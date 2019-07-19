@@ -2,16 +2,37 @@
 <html lang="en">
 
   <head>
-    <title>Hello World</title>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>NYC Opportunity Patterns Framework</title>
+    <link href="styles/site-default.css" rel="stylesheet" />
   </head>
 
-  <body><h1>NYCO Patterns Framework</h1>
+  <body>
+    <main class="container mx-auto">
+      <h1>0.0.5-alpha</h1><h1>NYCO Patterns Framework</h1>
 
 <h2>Installation</h2>
 
 <pre><code>$ npm install @nycopportunity/patterns-framework --save-dev
 
 $ npm link @nycopportunity/patterns-framework</code></pre>
+
+<p>Add the <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a> directory to the root your pattern library.</p>
+
+<p>Optionally, but recommended, add the following npm scripts to your Patterns Library;</p>
+
+<pre><code>&quot;scripts&quot;: {
+  &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
+  &quot;preversion&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
+  &quot;prepublishOnly&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
+  &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
+},</code></pre>
+
+<p>Start the development server (assuming you&#39;ve added the npm scripts above to your package.json);</p>
+
+<pre><code>npm start</code></pre>
 
 <h2>Scripts</h2>
 
@@ -31,13 +52,10 @@ $ pttrn serve
 
 $ pttrn publish</code></pre>
 
-<p>It is recommended to add the following npm scripts to your Patterns Library;</p>
-
-<pre><code>&quot;scripts&quot;: {
-  &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
-  &quot;preversion&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
-  &quot;prepublishOnly&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
-  &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
-},</code></pre></body>
+<p>More details to come!</p>
+      <script src="/utilities/forms/forms.iffe.js"></script>
+    </main>
+    <script src="/reload/reload.js"></script>
+  </body>
 
 </html>

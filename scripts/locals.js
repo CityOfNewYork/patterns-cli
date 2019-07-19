@@ -21,7 +21,9 @@ let locals = {
   vars: require(`${process.env.PWD}/config/variables`),
   site: require(`${process.env.PWD}/config/site`),
   views: VIEWS,
-  NODE_ENV: process.env.NODE_ENV,
+  env: {
+    NODE_ENV: process.env.NODE_ENV
+  },
   modules: []
 };
 

@@ -1,11 +1,23 @@
 doctype html
 html lang='en'
   head
-    title Hello World
-  body
+    meta charset='utf-8'
+    meta http-equiv='X-UA-Compatible' content='IE=edge'
+    meta name='viewport' content='width=device-width, initial-scale=1'
 
-    = 'md{{ ../readme.md }}'
+    title NYC Opportunity Patterns Framework
+
+    link rel='stylesheet' href='styles/site-default.css'
+
+  body
+    main class='container mx-auto'
+      h1
+        = this.site.versions.package
+
+      = 'md{{ ../readme.md }}'
+
+      script src='/utilities/forms/forms.iffe.js'
 
     / The reload script. This is reserved for development only.
-    - if this.NODE_ENV === 'development'
+    - if this.env.NODE_ENV === 'development'
       script src='/reload/reload.js'

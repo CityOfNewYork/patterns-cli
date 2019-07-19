@@ -13,5 +13,5 @@ module.exports = {
   watching: emoji.get('eyes') + ' ',
   path: (str) => chalk.hex('#f2695d').underline(str),
   url: (str) => chalk.hex('#ebbcd8').underline(str),
-  ext: (str) => chalk.hex('#3155a6').underline(str),
+  ext: (str) => chalk.hex('#3155a6').underline(str)
 };
