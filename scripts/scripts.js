@@ -11,12 +11,13 @@ const cb = (code, stdout, stderr) => {
     console.log(`${alerts.error} "scripts" failed: ${stderr}`);
     process.exit(1);
   } else {
-    console.log(`${alerts.rollup} Rolled up modules defined in ${config}`);
+    console.log(`${alerts.rollup} Rolled up modules defined in ${alerts.path(config)}`);
   }
 };
 
 if (args.includes('-w') || args.includes('--watch')) {
   shell.exec(`npx -q rollup -c ${config} -w`, cb);
+  console.log(`${alerts.watching} Scripts watching ${alerts.ext('.js')} defined in ${alerts.path(config)}`);
 } else {
   shell.exec(`npx -q rollup -c ${config}`, cb);
 }

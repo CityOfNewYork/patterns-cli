@@ -5,9 +5,9 @@
   "main": "scripts/cli.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CityOfNewYork/nyco-js.git"
+    "url": "git+https://github.com/CityOfNewYork/nyco-patterns-framework.git"
   },
-  "author": "NYC Opportunity <technology@nycopportunity.nyc.gov>",
+  "author": "NYC Opportunity<technology@nycopportunity.nyc.gov>",
   "license": "GPL-3.0+",
   "bugs": {
     "url": "https://github.com/CityOfNewYork/nyco-js/issues"
@@ -18,6 +18,7 @@
     "@babel/preset-env": "^7.5.4",
     "ajv": "^6.10.2",
     "autoprefixer": "^9.6.1",
+    "chalk": "^2.4.2",
     "concurrently": "^4.1.1",
     "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
@@ -56,7 +57,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"node scripts/default.js -w\" \"node scripts/serve.js -w\" -p \"none\"",
-    "version": "cross-env NODE_ENV=production node scripts/default.js",
+    "preversion": "cross-env NODE_ENV=production node scripts/default.js",
     "prepublishOnly": "cross-env NODE_ENV=production node scripts/default.js",
     "publish": "cross-env NODE_ENV=production node scripts/publish.js"
   },

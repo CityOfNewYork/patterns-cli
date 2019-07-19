@@ -52,12 +52,13 @@ let server = http.createServer(APP);
 
 if (args.includes('-w') || args.includes('--watch')) {
   nodemon(`-e slm,md --watch ./src -x node ${__dirname}/serve.js`);
+  console.log(`${alerts.watching} Serve watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src')}`);
 } else {
   reload(APP).then(() => {
     // Set the port to listen on
     server.listen(APP.get('port'), () => {
       let port = APP.get('port');
-      console.log(`${alerts.info} Serving ./src/views to http://localhost:${port}`);
+      console.log(`${alerts.info} Serving ${alerts.path('./src/views')} to ${alerts.url('http://localhost:' + port)}`);
     });
   }).catch(function (err) {
     console.error(`${alerts.error} Reload could not start`, err)

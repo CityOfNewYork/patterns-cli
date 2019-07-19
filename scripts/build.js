@@ -44,7 +44,7 @@ function fnWrite(filename, path, data) {
     }
     distFile = distFile.replace(Path.join(__dirname, '../'), '');
 
-    console.log(`${alerts.success} Slm compiled to ${distFile}`);
+    console.log(`${alerts.success} Slm compiled to ${alerts.path(distFile)}`);
   });
 }
 
@@ -195,7 +195,8 @@ function fnReadDir(path) {
  */
 
 if (ARGS.includes('-w') || ARGS.includes('--watch')) {
-  nodemon(`nodemon -e slm,md --watch src -x node ${__dirname}/build.js`);
+  nodemon(`nodemon -e slm,md --watch ./src -x node ${__dirname}/build.js`);
+  console.log(`${alerts.watching} Build watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src')}`);
 } else {
   fnReadDir(Path.join(process.env.PWD, VIEWS));
 }

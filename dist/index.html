@@ -5,8 +5,41 @@
     <title>Hello World</title>
   </head>
 
-  <body>
-    <h1>Hello World</h1>
+  <body><h1>NYCO Patterns Framework</h1>
+
+<h2>Installation</h2>
+
+<pre><code>$ npm install @nycopportunity/patterns-framework --save-dev
+
+$ npm link @nycopportunity/patterns-framework</code></pre>
+
+<h2>Scripts</h2>
+
+<p>The Patterns Framework is a Node.js application that uses various libraries—including Express, Rollup.js, Node Sass, Nodemon, and Concurrently run a development server and build tasks for Style, JavaScript, SVG, and Views. This is all managed via <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a> in the package.json and the cli command <code>pttrn {{ script }}</code>. Configuration for the various scripts can be found in the <strong>config/</strong> directory.</p>
+
+<pre><code>$ pttrn default
+
+$ pttrn scripts
+
+$ pttrn styles
+
+$ pttrn svgs
+
+$ pttrn build
+
+$ pttrn serve
+
+$ pttrn publish</code></pre>
+
+<p>It is recommended to add the following npm scripts to your Patterns Library;</p>
+
+<pre><code>&quot;scripts&quot;: {
+  &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
+  &quot;preversion&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
+  &quot;prepublishOnly&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
+  &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
+},</code></pre>
+    <script src="/reload/reload.js"></script>
   </body>
 
 </html>

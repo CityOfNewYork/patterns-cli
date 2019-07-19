@@ -24,7 +24,7 @@ function write(module) {
         if (err) {
           console.log(`${alerts.error} ${err}`);
         } else {
-          console.log(`${alerts.styles} Sass compiled to ${module.outDir}${name}`);
+          console.log(`${alerts.styles} Sass compiled to ${alerts.path(module.outDir + name)}`);
         }
       });
     }

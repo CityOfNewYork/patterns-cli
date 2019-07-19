@@ -1,4 +1,5 @@
 let emoji = require('node-emoji');
+let chalk = require('chalk');
 
 module.exports = {
   styles: emoji.get('nail_care') + ' ',
@@ -8,5 +9,9 @@ module.exports = {
   attention: emoji.get('wave') + ' ',
   info: emoji.get('nerd_face') + ' ',
   error: emoji.get('octagonal_sign') + ' ',
-  success: emoji.get('sparkles') + ' '
+  success: emoji.get('sparkles') + ' ',
+  watching: emoji.get('eyes') + ' ',
+  path: (str) => chalk.hex('#f2695d').underline(str),
+  url: (str) => chalk.hex('#ebbcd8').underline(str),
+  ext: (str) => chalk.hex('#3155a6').underline(str),
 };

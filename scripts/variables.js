@@ -57,7 +57,7 @@ if (args.includes('-w') || args.includes('--watch')) {
       console.log(`${alerts.error} "variables" failed: ${stderr}`);
       process.exit(1);
     } else {
-      console.log(`${alerts.scripts} Created ${output} from ${input}`);
+      console.log(`${alerts.scripts} Created ${alerts.path(output)} from ${alerts.path(input)}`);
     }
   });
 }

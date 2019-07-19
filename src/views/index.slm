@@ -3,7 +3,8 @@ html lang='en'
   head
     title Hello World
   body
-    h1 Hello World
+
+    = 'md{{ ../readme.md }}'
 
     / The reload script. This is reserved for development only.
     - if this.NODE_ENV === 'development'
