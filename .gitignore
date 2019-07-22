@@ -1,3 +1,7 @@
+# this is the component name I usually use to test the make script
+*something.*
+**/something/readme.md
+
 # Logs
 logs
 *.log

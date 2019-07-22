@@ -11,6 +11,8 @@ module.exports = {
   error: emoji.get('octagonal_sign') + ' ',
   success: emoji.get('sparkles') + ' ',
   watching: emoji.get('eyes') + ' ',
+  compression: emoji.get('compression') + ' ',
+  package: emoji.get('package') + ' ',
   path: (str) => chalk.hex('#f2695d').underline(str),
   url: (str) => chalk.hex('#ebbcd8').underline(str),
   ext: (str) => chalk.hex('#3155a6').underline(str)

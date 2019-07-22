@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Dependencies
  */
@@ -44,7 +46,7 @@ function fnWrite(filename, path, data) {
     }
     distFile = distFile.replace(Path.join(__dirname, '../'), '');
 
-    console.log(`${alerts.success} Slm compiled to ${alerts.path(distFile)}`);
+    console.log(`${alerts.success} Slm compiled to ${alerts.path('./' + distFile)}`);
   });
 }
 
@@ -194,9 +196,9 @@ function fnReadDir(path) {
  * Init
  */
 if (ARGS.includes('-w') || ARGS.includes('--watch')) {
-  nodemon(`-e slm,md -w ${process.env.PWD}/src -x "node ${__dirname}/build.js"`);
+  nodemon(`-e slm,md -w ${process.env.PWD}/src -x ${__dirname}/build.js`);
 
-  console.log(`${alerts.watching} Build watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src')}`);
+  console.log(`${alerts.watching} Build watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src/')}`);
 } else {
   fnReadDir(Path.join(process.env.PWD, VIEWS));
 }

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Dependencies
  */
@@ -25,13 +27,7 @@ const LOCALS = require('./locals');
  */
 
 let APP = new Express();
-
-// APP.set('views', VIEWS); // set the views directory
-// APP.set('view engine', ENGINE); // set the template engine
 APP.set('port', PORT); // set the port
-
-/** Mount the static file directory */
-// APP.use(Express.static(DIST));
 
 /**
  * Request handler
@@ -43,8 +39,8 @@ APP.get('/*', (request, resolve, next) => {
   if (req === 'reload/reload.js') {
     next();
   } else {
-    // resolve.render(req, LOCALS);
-    let page = (req === '') ? 'index.html' : req;
+    let page = (req === '') ? 'index.html' :
+      (req.includes('.')) ? req : `${req}.html`;
     resolve.sendFile(`${DIST}/${page}`);
   }
 });
@@ -56,15 +52,15 @@ let server = http.createServer(APP);
  */
 
 if (args.includes('-w') || args.includes('--watch')) {
-  nodemon(`-e html --watch ${process.env.PWD}/dist -x "node ${__dirname}/serve.js"`);
+  nodemon(`-e html --watch ${process.env.PWD}/dist -x ${__dirname}/serve.js`);
 
-  console.log(`${alerts.watching} Serve watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src')}`);
+  console.log(`${alerts.watching} Serve watching ${alerts.ext('.html')} in ${alerts.path('./dist/')}`);
 } else {
   reload(APP, {port: JSON.parse(PORT) + 1}).then(() => {
     // Set the port to listen on
     server.listen(APP.get('port'), () => {
       let port = APP.get('port');
-      console.log(`${alerts.info} Serving ${alerts.path('./src/views')} to ${alerts.url('http://localhost:' + port)}`);
+      console.log(`${alerts.info} Serving ${alerts.path('./dist/')} to ${alerts.url('http://localhost:' + port)}`);
     });
   }).catch(function (err) {
     console.error(`${alerts.error} Reload could not start`, err)

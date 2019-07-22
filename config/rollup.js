@@ -93,18 +93,18 @@ if (process.env.NODE_ENV === 'production') {
  */
 const modules = [
   {
-    input: './src/utilities/forms/forms.js',
+    input: `${process.env.PWD}/src/utilities/forms/forms.js`,
     plugins: rollup.dist,
     output: [
       {
         name: 'Forms',
-        file: `./dist/utilities/forms/forms.iffe.js`,
+        file: `${process.env.PWD}/dist/utilities/forms/forms.iffe.js`,
         format: 'iife',
         strict: rollup.strict
       },
       {
         name: 'Forms',
-        file: `./dist/utilities/forms/forms.common.js`,
+        file: `${process.env.PWD}/dist/utilities/forms/forms.common.js`,
         format: 'cjs',
         strict: rollup.strict
       }

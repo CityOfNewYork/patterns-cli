@@ -1,6 +1,5 @@
 = extend('layouts/default')
 
-- title = ''
+- title = 'Documentation'
 
 = content('main')
-  = 'md{{ ../readme.md }}'

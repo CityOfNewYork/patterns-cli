@@ -56,10 +56,10 @@
     "uglify-js": "^3.3.16"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"node scripts/default.js -w\" \"node scripts/serve.js -w\" -p \"none\"",
-    "preversion": "cross-env NODE_ENV=production node scripts/default.js",
-    "prepublishOnly": "cross-env NODE_ENV=production node scripts/default.js",
-    "publish": "cross-env NODE_ENV=production node scripts/publish.js"
+    "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"scripts/default.js -w\" \"scripts/serve.js -w\" -p \"none\"",
+    "preversion": "cross-env NODE_ENV=production scripts/default.js",
+    "prepublishOnly": "cross-env NODE_ENV=production scripts/default.js",
+    "publish": "cross-env NODE_ENV=production scripts/publish.js"
   },
   "bin": {
     "pttrn": "scripts/cli.js"
