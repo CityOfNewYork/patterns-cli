@@ -8,7 +8,6 @@ class Forms {
   /**
    * The Form constructor
    * @param  {Object} form The form DOM element
-   * @return {object}      The Form class
    */
   constructor(form = false) {
     this.FORM = form;

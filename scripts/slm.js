@@ -196,9 +196,9 @@ function fnReadDir(path) {
  * Init
  */
 if (ARGS.includes('-w') || ARGS.includes('--watch')) {
-  nodemon(`-e slm,md -w ${process.env.PWD}/src -x ${__dirname}/build.js`);
+  nodemon(`-e slm,md -w ${process.env.PWD}/src -x ${__dirname}/slm.js`);
 
-  console.log(`${alerts.watching} Build watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src/')}`);
+  console.log(`${alerts.watching} Slm watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src/')}`);
 } else {
   fnReadDir(Path.join(process.env.PWD, VIEWS));
 }

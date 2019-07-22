@@ -3,12 +3,11 @@
 /**
  * Dependencies
  */
-
 const Sass = require('node-sass');
 const Path = require('path');
 const Fs = require('fs');
 const mkdirp = require('mkdirp');
-const modules = require(`${process.env.PWD}/config/styles`);
+const modules = require(`${process.env.PWD}/config/sass`);
 const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
@@ -18,6 +17,7 @@ const alerts = require(`${process.env.PWD}/config/alerts`);
 function write(module) {
   let outDir = Path.join(process.env.PWD, module.outDir);
   let name = module.outFile;
+
   Sass.render(module, (err, result) => {
     if (err) {
       console.log(`${alerts.error} ${err.formatted}`);
@@ -35,6 +35,7 @@ function write(module) {
 
 function run(module) {
   let outDir = Path.join(process.env.PWD, module.outDir);
+
   if (!Fs.existsSync(outDir)) {
     mkdirp(outDir, (err) => {
       if (err) {

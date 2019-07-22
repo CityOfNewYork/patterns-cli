@@ -18,13 +18,13 @@ shell.config.silent = (args.noisy) ? false : true;
 
 if (args.watch) {
   let noisy = args.noisy ? '-n' : '';
-  nodemon(`-e js -w ${process.env.PWD}/src/ -x ${__dirname}/scripts.js ${noisy}`);
+  nodemon(`-e js -w ${process.env.PWD}/src/ -x ${__dirname}/rollup.js ${noisy}`);
 
-  console.log(`${alerts.watching} Scripts watching ${alerts.ext('.js')} in ${alerts.path('./src/')}`);
+  console.log(`${alerts.watching} Rollup watching ${alerts.ext('.js')} in ${alerts.path('./src/')}`);
 } else {
   shell.exec(`npx rollup -c ${pathToConfig}`, (code, stdout, stderr) => {
     if (code) {
-      console.log(`${alerts.error} "scripts" failed: ${stderr}`);
+      console.log(`${alerts.error} Rollup failed: ${stderr}`);
 
       process.exit(1);
     } else {

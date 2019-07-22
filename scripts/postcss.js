@@ -9,7 +9,7 @@ const Path = require('path');
 const Postcss = require('postcss');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const config = require(`${process.env.PWD}/config/postcss`);
-const modules = require(`${process.env.PWD}/config/styles`);
+const modules = require(`${process.env.PWD}/config/sass`);
 
 /**
  * Init
