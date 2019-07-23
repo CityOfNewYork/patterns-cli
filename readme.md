@@ -8,7 +8,9 @@
 
 Add the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory to the root your pattern library.
 
-Optionally, but recommended, add the following npm scripts to your Patterns Library;
+If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually.
+
+Recommended. Add the following npm scripts to your Patterns Library;
 
     "scripts": {
       "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve -w\" -p \"none\"",
@@ -20,6 +22,14 @@ Optionally, but recommended, add the following npm scripts to your Patterns Libr
 Start the development server (assuming you've added the npm scripts above to your package.json);
 
     npm start
+
+[CLI commands](#commands) can be executed using the `pttrn` command. Avaliable commands can be seen below.
+
+    pttrn {{ command }}
+
+**Upgrading a current NYC Opportunity Patterns Library**
+
+Once the framework is installed as a dependency of the library you can delete the `.app/` directory and remove any dependencies from the library listed in the framework's [package.json](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json) dependency object. Keep in mind, you will need to keep any [optional dependencies](#optional-dependencies) that the library is using.
 
 ## Scripts
 
@@ -52,11 +62,11 @@ Flag | Full&nbsp;Flag | Description
 
 ## Make
 
-Details about the make script to come.
+Details about the make script to come. For now, refer to the documentation in the [ACCESS NYC Patterns, Developer Tools, Make Script documentation](https://accesspatterns.cityofnewyork.us/developer-tools#make-script).
 
 ## Optional dependencies
 
-The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be installed.
+The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.
 
     "autoprefixer": "^9.6.1",
     "chalk": "^2.4.2",
