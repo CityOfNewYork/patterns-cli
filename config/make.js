@@ -171,7 +171,7 @@ const patterns = [
  * to write files to, it should be added here.
  */
 const dirs = {
-  'base': '../',
+  'base': Path.join(__dirname, '../'),
   'src': 'src',
   'config': 'config',
   'views': 'views'

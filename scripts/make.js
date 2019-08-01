@@ -114,7 +114,7 @@ function makeFile(dir, filetype, pattern, callback) {
  */
 function makeDefaults(type, pattern, callback) {
   let relative = Path.join(config.dirs.src, type);
-  let absolute = Path.join(__dirname, config.dirs.base, relative, pattern);
+  let absolute = Path.join(config.dirs.base, relative, pattern);
 
   fnDirectory(absolute, type, pattern, (success) => {
     if (success) {
