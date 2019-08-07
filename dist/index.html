@@ -11,7 +11,7 @@
 
   <body>
     <main class="container mx-auto">
-      <h1>0.0.7-alpha</h1><h1>NYCO Patterns Framework</h1>
+      <h1>0.0.8-alpha</h1><h1>NYCO Patterns Framework</h1>
 
 <h2>Installation</h2>
 
@@ -21,7 +21,9 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 
 <p>Add the <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a> directory to the root your pattern library.</p>
 
-<p>Optionally, but recommended, add the following npm scripts to your Patterns Library;</p>
+<p>If you are using any of the <a href="#optional-dependencies">optional dependencies</a> used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually.</p>
+
+<p>Recommended. Add the following npm scripts to your Patterns Library;</p>
 
 <pre><code>&quot;scripts&quot;: {
   &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
@@ -33,6 +35,14 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 <p>Start the development server (assuming you&#39;ve added the npm scripts above to your package.json);</p>
 
 <pre><code>npm start</code></pre>
+
+<p><a href="#commands">CLI commands</a> can be executed using the <code>pttrn</code> command. Avaliable commands can be seen below.</p>
+
+<pre><code>pttrn {{ command }}</code></pre>
+
+<p><strong>Upgrading a current NYC Opportunity Patterns Library</strong></p>
+
+<p>Once the framework is installed as a dependency of the library you can delete the <code>.app/</code> directory and remove any dependencies from the library listed in the framework&#39;s <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json">package.json</a> dependency object. Keep in mind, you will need to keep any <a href="#optional-dependencies">optional dependencies</a> that the library is using.</p>
 
 <h2>Scripts</h2>
 
@@ -156,6 +166,26 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 </table>
 
 <h2>Make</h2>
+
+<p>Details about the make script to come. For now, refer to the documentation in the <a href="https://accesspatterns.cityofnewyork.us/developer-tools#make-script">ACCESS NYC Patterns, Developer Tools, Make Script documentation</a>.</p>
+
+<h2>Optional dependencies</h2>
+
+<p>The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.</p>
+
+<pre><code>&quot;autoprefixer&quot;: &quot;^9.6.1&quot;,
+&quot;chalk&quot;: &quot;^2.4.2&quot;,
+&quot;css-mqpacker&quot;: &quot;^7.0.0&quot;,
+&quot;cssnano&quot;: &quot;^4.1.10&quot;,
+&quot;eslint-config-google&quot;: &quot;^0.13.0&quot;,
+&quot;node-emoji&quot;: &quot;^1.10.0&quot;,
+&quot;rollup-plugin-babel&quot;: &quot;^4.3.3&quot;,
+&quot;rollup-plugin-buble&quot;: &quot;^0.19.8&quot;,
+&quot;rollup-plugin-commonjs&quot;: &quot;^10.0.1&quot;,
+&quot;rollup-plugin-node-resolve&quot;: &quot;^5.2.0&quot;,
+&quot;rollup-plugin-replace&quot;: &quot;^2.2.0&quot;,
+&quot;stylelint-config-standard&quot;: &quot;^18.2.0&quot;,
+&quot;tailwindcss&quot;: &quot;^1.0.5&quot;</code></pre>
 
 <p>More details to come!</p>
     </main>
