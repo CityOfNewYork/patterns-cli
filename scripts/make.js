@@ -150,7 +150,7 @@ function makeOptional(filetype, pattern, prompt) {
     let path = (isPattern) ? config.paths.pattern : config.paths[filetype]; // use the patterns default path instead
 
     let relative = parseVariables(path);
-    let absolute = Path.join(__dirname, config.dirs.base, relative);
+    let absolute = Path.join(config.dirs.base, relative);
 
     prompt.question(
       `${alerts.question} Would you like to create a "${filetype}" file for "${pattern}"? (y/n)`,

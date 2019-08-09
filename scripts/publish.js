@@ -23,10 +23,11 @@ const remote = (process.env.NODE_ENV === 'production')
 
 console.log(`${alerts.info} Publishing to ${remote}; ${config[process.env.NODE_ENV]}`);
 
-ghpages.publish(dist, {
-    remote: remote,
-    repo: config[process.env.NODE_ENV]
-  }, (err) => {
-    if (err) console.log(`${prefix} ${alerts.error} ${err}`);
-    console.log(`${prefix} ${alerts.success} Published to GitHub Pages`);
-  });
+function fnCallback(err) {
+  if (err) {
+    console.log(`${alerts.error} ${err}`);
+  }
+  console.log(`${alerts.success} Published to GitHub Pages`);
+}
+
+ghpages.publish(dist, fnCallback);
