@@ -28,8 +28,8 @@ if (args.watch) {
     eslinter.results.forEach((item) => {
       console.log(`${alerts.path(item.filePath.replace(process.env.PWD, ''))}`);
 
-      item.messages.forEach((message) => {
-        console.log(`${message.line}:${message.column}    ${message.message}`);
+      item.messages.forEach((msg) => {
+        console.log(`${msg.line}:${msg.column} ${msg.message} (${msg.ruleId})`);
       });
     });
 
@@ -47,7 +47,7 @@ if (args.watch) {
         if (item.errored) {
           console.log(`${alerts.path(item.source.replace(process.env.PWD, ''))}`);
           item.warnings.forEach((warning) => {
-            console.log(`${warning.line}:${warning.column}    ${warning.text}`);
+            console.log(`${warning.line}:${warning.column} ${warning.text}`);
           });
         }
       });
