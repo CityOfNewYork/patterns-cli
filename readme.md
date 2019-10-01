@@ -29,7 +29,11 @@ Start the development server (assuming you've added the npm scripts above to you
 
 **Upgrading a current NYC Opportunity Patterns Library**
 
-Once the framework is installed as a dependency of the library you can delete the `.app/` directory and remove any dependencies from the library listed in the framework's [package.json](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json) dependency object. Keep in mind, you will need to keep any [optional dependencies](#optional-dependencies) that the library is using.
+Once the framework is installed as a dependency of the library you can delete the <u>.app/</u> directory and remove any dependencies from the library listed in the framework's [package.json](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json) dependency object. Keep in mind, you will need to keep any [optional dependencies](#optional-dependencies) that the library is using. These may include specific plugins for Rollup and Vue.
+
+Remove **rollup-plugin-eslint** from the <u>./config/rollup.js</u> file if used. Linting is now done through a corresponding [Script](#scripts). Update esLint configuration in the <u>./package.json</u> file
+
+A few configuration files were renamed to keep parity with their corresponding [Scripts](#scripts) name. Rename <u>./config/styles.js</u> to <u>./config/sass.js</u> and rename <u>./config/site.js</u> to <u>./config/slm.js</u>.
 
 ## Scripts
 
