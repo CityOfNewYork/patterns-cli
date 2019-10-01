@@ -61,8 +61,9 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"scripts/default.js -w\" \"scripts/serve.js -w\" -p \"none\"",
-    "preversion": "cross-env NODE_ENV=production scripts/default.js",
-    "prepublishOnly": "cross-env NODE_ENV=production scripts/default.js",
+    "default": "cross-env NODE_ENV=production scripts/default.js",
+    "version": "npm run default && git add .",
+    "prepublishOnly": "git push && git push --tags",
     "publish": "cross-env NODE_ENV=production scripts/publish.js"
   },
   "bin": {

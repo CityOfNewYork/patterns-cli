@@ -14,8 +14,9 @@ If you are using any of the [optional dependencies](#optional-dependencies) used
 
     "scripts": {
       "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve -w\" -p \"none\"",
-      "preversion": "cross-env NODE_ENV=production pttrn default",
-      "prepublishOnly": "cross-env NODE_ENV=production pttrn default",
+      "default": "cross-env NODE_ENV=production pttrn default",
+      "version": "npm run default && git add .",
+      "prepublishOnly": "git push && git push --tags",
       "publish": "cross-env NODE_ENV=production pttrn publish"
     },
 
@@ -27,11 +28,11 @@ Start the development server (assuming you've added the npm scripts above to you
 
     pttrn {{ command }}
 
-Versioning uses the default `npm version` command. This will run the `preversion` command in the recommended NPM Scripts.
+Versioning uses the default `npm version` command. This will run the `version` command in the recommended NPM Scripts.
 
     npm version {{ major/minor/patch }}
 
-Publishing to the registry uses the default `npm publish` command. This will run `prepublishOnly` and `publish` commands in the recommended NPM Scripts above as well. Publishing requires a new tag/version before publishing.
+Publishing to the registry uses the default `npm publish` command. This will run `prepublishOnly` and `publish` commands in the recommended NPM Scripts above as well which push all tags to GitHub. Publishing requires a new tag/version before publishing.
 
     npm publish
 
