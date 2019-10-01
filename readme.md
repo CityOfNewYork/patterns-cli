@@ -10,7 +10,7 @@ Add the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree
 
 If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually.
 
-Recommended. Add the following npm scripts to your Patterns Library;
+**Recommended**. Add the following npm scripts to your Patterns Library;
 
     "scripts": {
       "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve -w\" -p \"none\"",
@@ -26,6 +26,14 @@ Start the development server (assuming you've added the npm scripts above to you
 [CLI commands](#commands) can be executed using the `pttrn` command. Avaliable commands can be seen below.
 
     pttrn {{ command }}
+
+Versioning uses the default `npm version` command. This will run the `preversion` command in the recommended NPM Scripts.
+
+    npm version {{ major/minor/patch }}
+
+Publishing to the registry uses the default `npm publish` command. This will run `prepublishOnly` and `publish` commands in the recommended NPM Scripts above as well. Publishing requires a new tag/version before publishing.
+
+    npm publish
 
 **Upgrading a current NYC Opportunity Patterns Library**
 
