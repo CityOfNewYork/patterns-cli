@@ -8,6 +8,12 @@
 var Forms = function Forms(form) {
   if (form === void 0) form = false;
   this.FORM = form;
+  this.strings = Forms.strings;
+  this.submit = Forms.submit;
+  this.classes = Forms.classes;
+  this.markup = Forms.markup;
+  this.selectors = Forms.selectors;
+  this.attrs = Forms.attrs;
   return this;
 };
 /**
@@ -50,7 +56,7 @@ Forms.prototype.joinValues = function joinValues(event) {
 
 Forms.prototype.valid = function valid(event) {
   var validity = event.target.checkValidity();
-  var elements = event.target.querySelectorAll(Forms.selectors.REQUIRED);
+  var elements = event.target.querySelectorAll(this.selectors.REQUIRED);
 
   for (var i = 0; i < elements.length; i++) {
     // Remove old messaging if it exists
@@ -78,7 +84,7 @@ Forms.prototype.watch = function watch(form) {
   var this$1 = this;
   if (form === void 0) form = false;
   this.FORM = form ? form : this.FORM;
-  var elements = this.FORM.querySelectorAll(Forms.selectors.REQUIRED);
+  var elements = this.FORM.querySelectorAll(this.selectors.REQUIRED);
   /** Watch Individual Inputs */
 
   var loop = function loop(i) {
@@ -119,15 +125,17 @@ Forms.prototype.watch = function watch(form) {
 
 
 Forms.prototype.reset = function reset(el) {
-  var container = el.parentNode;
-  var message = container.querySelector('.' + Forms.classes.ERROR_MESSAGE); // Remove old messaging if it exists
+  var container = this.selectors.ERROR_MESSAGE_PARENT ? el.closest(this.selectors.ERROR_MESSAGE_PARENT) : el.parentNode;
+  var message = container.querySelector('.' + this.classes.ERROR_MESSAGE); // Remove old messaging if it exists
 
-  container.classList.remove(Forms.classes.ERROR_CONTAINER);
+  container.classList.remove(this.classes.ERROR_CONTAINER);
 
   if (message) {
     message.remove();
-  }
+  } // Remove error class from the form
 
+
+  container.closest('form').classList.remove(this.classes.ERROR_CONTAINER);
   return this;
 };
 /**
@@ -142,26 +150,27 @@ Forms.prototype.reset = function reset(el) {
 
 
 Forms.prototype.highlight = function highlight(el) {
-  var container = el.parentNode;
-  var message = container.querySelector('.' + Forms.classes.ERROR_MESSAGE); // Create the new error message.
+  var container = this.selectors.ERROR_MESSAGE_PARENT ? el.closest(this.selectors.ERROR_MESSAGE_PARENT) : el.parentNode; // Create the new error message.
 
-  message = document.createElement(Forms.markup.ERROR_MESSAGE); // Get the error message from localized strings (if set).
+  var message = document.createElement(this.markup.ERROR_MESSAGE); // Get the error message from localized strings (if set).
 
-  if (el.validity.valueMissing && Forms.strings.VALID_REQUIRED) {
-    message.innerHTML = Forms.strings.VALID_REQUIRED;
-  } else if (!el.validity.valid && Forms.strings["VALID_" + el.type.toUpperCase() + "_INVALID"]) {
+  if (el.validity.valueMissing && this.strings.VALID_REQUIRED) {
+    message.innerHTML = this.strings.VALID_REQUIRED;
+  } else if (!el.validity.valid && this.strings["VALID_" + el.type.toUpperCase() + "_INVALID"]) {
     var stringKey = "VALID_" + el.type.toUpperCase() + "_INVALID";
-    message.innerHTML = Forms.strings[stringKey];
+    message.innerHTML = this.strings[stringKey];
   } else {
     message.innerHTML = el.validationMessage;
   } // Set aria attributes and css classes to the message
 
 
-  message.setAttribute(Forms.attrs.ERROR_MESSAGE[0], Forms.attrs.ERROR_MESSAGE[1]);
-  message.classList.add(Forms.classes.ERROR_MESSAGE); // Add the error class and error message to the dom.
+  message.setAttribute(this.attrs.ERROR_MESSAGE[0], this.attrs.ERROR_MESSAGE[1]);
+  message.classList.add(this.classes.ERROR_MESSAGE); // Add the error class and error message to the dom.
 
-  container.classList.add(Forms.classes.ERROR_CONTAINER);
-  container.insertBefore(message, container.childNodes[0]);
+  container.classList.add(this.classes.ERROR_CONTAINER);
+  container.insertBefore(message, container.childNodes[0]); // Add the error class to the form
+
+  container.closest('form').classList.add(this.classes.ERROR_CONTAINER);
   return this;
 };
 /**
@@ -183,8 +192,9 @@ Forms.submit = function () {};
 Forms.classes = {
   'ERROR_MESSAGE': 'error-message',
   // error class for the validity message
-  'ERROR_CONTAINER': 'error' // class for the validity message parent
-
+  'ERROR_CONTAINER': 'error',
+  // class for the validity message parent
+  'ERROR_FORM': 'error'
 };
 /** HTML tags and markup for various elements */
 
@@ -194,8 +204,9 @@ Forms.markup = {
 /** DOM Selectors for various elements */
 
 Forms.selectors = {
-  'REQUIRED': '[required="true"]' // Selector for required input elements
-
+  'REQUIRED': '[required="true"]',
+  // Selector for required input elements
+  'ERROR_MESSAGE_PARENT': false
 };
 /** Attributes for various elements */
 

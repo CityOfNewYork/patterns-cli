@@ -93,6 +93,24 @@ const modules = [
         strict: rollup.strict
       }
     ]
+  },
+  {
+    input: `${process.env.PWD}/src/utilities/toggle/toggle.js`,
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'Forms',
+        file: `${process.env.PWD}/dist/utilities/toggle/toggle.iffe.js`,
+        format: 'iife',
+        strict: rollup.strict
+      },
+      {
+        name: 'Forms',
+        file: `${process.env.PWD}/dist/utilities/toggle/toggle.common.js`,
+        format: 'cjs',
+        strict: rollup.strict
+      }
+    ]
   }
 ];
 

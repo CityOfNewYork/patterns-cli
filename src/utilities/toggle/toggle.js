@@ -10,27 +10,6 @@
  * This uses the .matches() method which will require a polyfill for IE
  * https://polyfill.io/v2/docs/features/#Element_prototype_matches
  *
- * Basic Usage;
- *
- * javascript:
- *   new Toggle().init();
- *
- * Toggling Anchor links:
- *   <a data-js='toggle' href='#main-menu'>Menu</a>
- *   <div id='main-menu' aria-hidden='true'> ... </div>
- *
- * Toggling aria-control elements:
- *
- *   <button data-js='toggle' aria-controls='#main-menu' aria-pressed='false'>
- *      Menu
- *   </button>
- *   <div id='main-menu' aria-hidden='true'> ... </div>
- *
- * Create "Undo" Event (to close a dialogue);
- *   <a href='#main-menu' data-js='toggle' data-toggle-undo='#close'>Menu</a>
- *   <div id='main-menu' aria-hidden='true'>
- *     <a id="close">Close</a>
- *   </div>
  * @class
  */
 class Toggle {
@@ -40,25 +19,41 @@ class Toggle {
    * @return {object}   The class
    */
   constructor(s) {
-    const body = document.querySelector('body');
+    // Create an object to store existing toggle listeners (if it doesn't exist)
+    if (!window.hasOwnProperty('ACCESS_TOGGLES'))
+      window.ACCESS_TOGGLES = [];
 
     s = (!s) ? {} : s;
 
-    this._settings = {
+    this.settings = {
       selector: (s.selector) ? s.selector : Toggle.selector,
       namespace: (s.namespace) ? s.namespace : Toggle.namespace,
       inactiveClass: (s.inactiveClass) ? s.inactiveClass : Toggle.inactiveClass,
       activeClass: (s.activeClass) ? s.activeClass : Toggle.activeClass,
+      before: (s.before) ? s.before : false,
+      after: (s.after) ? s.after : false
     };
 
-    body.addEventListener('click', (event) => {
-      if (!event.target.matches(this._settings.selector))
-        return;
+    this.element = (s.element) ? s.element : false;
 
-      event.preventDefault();
+    if (this.element) {
+      this.element.addEventListener('click', (event) => {
+        this.toggle(event);
+      });
+    } else {
+      // If there isn't an existing instantiated toggle, add the event listener.
+      if (!window.ACCESS_TOGGLES.hasOwnProperty(this.settings.selector))
+        document.querySelector('body').addEventListener('click', (event) => {
+          if (!event.target.matches(this.settings.selector))
+            return;
 
-      this._toggle(event);
-    });
+          this.toggle(event);
+        });
+    }
+
+    // Record that a toggle using this selector has been instantiated. This
+    // prevents double toggling.
+    window.ACCESS_TOGGLES[this.settings.selector] = true;
 
     return this;
   }
@@ -68,17 +63,18 @@ class Toggle {
    * @param  {object} event  The main click event
    * @return {object}        The class
    */
-  _toggle(event) {
+  toggle(event) {
     let el = event.target;
     let target = false;
 
+    event.preventDefault();
+
     /** Anchor Links */
-    target = (el.getAttribute('href')) ?
+    target = (el.hasAttribute('href')) ?
       document.querySelector(el.getAttribute('href')) : target;
 
     /** Toggle Controls */
-    // console.dir(el.getAttribute('aria-controls'));
-    target = (el.getAttribute('aria-controls')) ?
+    target = (el.hasAttribute('aria-controls')) ?
       document.querySelector(`#${el.getAttribute('aria-controls')}`) : target;
 
     /** Main Functionality */
@@ -86,9 +82,9 @@ class Toggle {
     this.elementToggle(el, target);
 
     /** Undo */
-    if (el.dataset[`${this._settings.namespace}Undo`]) {
+    if (el.dataset[`${this.settings.namespace}Undo`]) {
       const undo = document.querySelector(
-        el.dataset[`${this._settings.namespace}Undo`]
+        el.dataset[`${this.settings.namespace}Undo`]
       );
 
       undo.addEventListener('click', (event) => {
@@ -108,36 +104,86 @@ class Toggle {
    * @return {object}        The class
    */
   elementToggle(el, target) {
-    if (this._settings.activeClass !== '') {
-      el.classList.toggle(this._settings.activeClass);
-      target.classList.toggle(this._settings.activeClass);
+    let i = 0;
+    let attr = '';
+    let value = '';
+
+    // Get other toggles that might control the same element
+    let others = document.querySelectorAll(
+      `[aria-controls="${el.getAttribute('aria-controls')}"]`);
+
+    /**
+     * Toggling before hook.
+     */
+    if (this.settings.before) this.settings.before(this);
+
+    /**
+     * Toggle Element and Target classes
+     */
+    if (this.settings.activeClass) {
+      el.classList.toggle(this.settings.activeClass);
+      target.classList.toggle(this.settings.activeClass);
+
+      // If there are other toggles that control the same element
+      if (others) others.forEach((other) => {
+        if (other !== el) other.classList.toggle(this.settings.activeClass);
+      });
     }
 
-    if (this._settings.inactiveClass !== '') {
-      target.classList.toggle(this._settings.inactiveClass);
+    if (this.settings.inactiveClass)
+      target.classList.toggle(this.settings.inactiveClass);
+
+    /**
+     * Target Element Aria Attributes
+     */
+    for (i = 0; i < Toggle.targetAriaRoles.length; i++) {
+      attr = Toggle.targetAriaRoles[i];
+      value = target.getAttribute(attr);
+
+      if (value != '' && value)
+        target.setAttribute(attr, (value === 'true') ? 'false' : 'true');
     }
 
-    // Check the element for defined aria roles and toggle them if they exist
-    for (let i = 0; i < Toggle.elAriaRoles.length; i++) {
-      if (el.getAttribute(Toggle.elAriaRoles[i]))
-        el.setAttribute(Toggle.elAriaRoles[i],
-          !(el.getAttribute(Toggle.elAriaRoles[i]) === 'true'));
+    /**
+     * Jump Links
+     */
+    if (el.hasAttribute('href')) {
+      // Reset the history state, this will clear out
+      // the hash when the jump item is toggled closed.
+      history.pushState('', '',
+        window.location.pathname + window.location.search);
+
+      // Target element toggle.
+      if (target.classList.contains(this.settings.activeClass)) {
+        window.location.hash = el.getAttribute('href');
+
+        target.setAttribute('tabindex', '-1');
+        target.focus({preventScroll: true});
+      } else
+        target.removeAttribute('tabindex');
     }
 
-    // Check the target for defined aria roles and toggle them if they exist
-    for (let i = 0; i < Toggle.targetAriaRoles.length; i++) {
-      if (target.getAttribute(Toggle.targetAriaRoles[i]))
-        target.setAttribute(Toggle.targetAriaRoles[i],
-          !(target.getAttribute(Toggle.targetAriaRoles[i]) === 'true'));
+    /**
+     * Toggle Element (including multi toggles) Aria Attributes
+     */
+    for (i = 0; i < Toggle.elAriaRoles.length; i++) {
+      attr = Toggle.elAriaRoles[i];
+      value = el.getAttribute(attr);
+
+      if (value != '' && value)
+        el.setAttribute(attr, (value === 'true') ? 'false' : 'true');
+
+      // If there are other toggles that control the same element
+      if (others) others.forEach((other) => {
+        if (other !== el && other.getAttribute(attr))
+          other.setAttribute(attr, (value === 'true') ? 'false' : 'true');
+      });
     }
 
-    if (
-      el.getAttribute('href') &&
-      target.classList.contains(this._settings.activeClass))
-    {
-      window.location.hash = '';
-      window.location.hash = el.getAttribute('href');
-    }
+    /**
+     * Toggling complete hook.
+     */
+    if (this.settings.after) this.settings.after(this);
 
     return this;
   }
