@@ -11,7 +11,7 @@
 
   <body>
     <main class="container mx-auto">
-      <h1>0.0.9-alpha</h1><h1>NYCO Patterns Framework</h1>
+      <h1>0.0.10</h1><h1>NYCO Patterns Framework</h1>
 
 <h2>Installation</h2>
 
@@ -23,12 +23,13 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 
 <p>If you are using any of the <a href="#optional-dependencies">optional dependencies</a> used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually.</p>
 
-<p>Recommended. Add the following npm scripts to your Patterns Library;</p>
+<p><strong>Recommended</strong>. Add the following npm scripts to your Patterns Library;</p>
 
 <pre><code>&quot;scripts&quot;: {
   &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
-  &quot;preversion&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
-  &quot;prepublishOnly&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
+  &quot;default&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
+  &quot;version&quot;: &quot;npm run default &amp;&amp; git add .&quot;,
+  &quot;prepublishOnly&quot;: &quot;git push &amp;&amp; git push --tags&quot;,
   &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
 },</code></pre>
 
@@ -40,9 +41,21 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 
 <pre><code>pttrn {{ command }}</code></pre>
 
+<p>Versioning uses the default <code>npm version</code> command. This will run the <code>version</code> command in the recommended NPM Scripts.</p>
+
+<pre><code>npm version {{ major/minor/patch }}</code></pre>
+
+<p>Publishing to the registry uses the default <code>npm publish</code> command. This will run <code>prepublishOnly</code> and <code>publish</code> commands in the recommended NPM Scripts above as well which push all tags to GitHub. Publishing requires a new tag/version before publishing.</p>
+
+<pre><code>npm publish</code></pre>
+
 <p><strong>Upgrading a current NYC Opportunity Patterns Library</strong></p>
 
-<p>Once the framework is installed as a dependency of the library you can delete the <code>.app/</code> directory and remove any dependencies from the library listed in the framework&#39;s <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json">package.json</a> dependency object. Keep in mind, you will need to keep any <a href="#optional-dependencies">optional dependencies</a> that the library is using.</p>
+<p>Once the framework is installed as a dependency of the library you can delete the &lt;u&gt;.app/&lt;/u&gt; directory and remove any dependencies from the library listed in the framework&#39;s <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json">package.json</a> dependency object. Keep in mind, you will need to keep any <a href="#optional-dependencies">optional dependencies</a> that the library is using. These may include specific plugins for Rollup and Vue.</p>
+
+<p>Remove <strong>rollup-plugin-eslint</strong> from the &lt;u&gt;./config/rollup.js&lt;/u&gt; file if used. Linting is now done through a corresponding <a href="#scripts">Script</a>. Update esLint configuration in the &lt;u&gt;./package.json&lt;/u&gt; file</p>
+
+<p>A few configuration files were renamed to keep parity with their corresponding <a href="#scripts">Scripts</a> name. Rename &lt;u&gt;./config/styles.js&lt;/u&gt; to &lt;u&gt;./config/sass.js&lt;/u&gt; and rename &lt;u&gt;./config/site.js&lt;/u&gt; to &lt;u&gt;./config/slm.js&lt;/u&gt;.</p>
 
 <h2>Scripts</h2>
 
