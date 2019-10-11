@@ -24,7 +24,7 @@ class Forms {
 
     this.attrs = Forms.attrs;
 
-    this.form.FORM.setAttribute('novalidate', true);
+    this.FORM.setAttribute('novalidate', true);
 
     return this;
   }
