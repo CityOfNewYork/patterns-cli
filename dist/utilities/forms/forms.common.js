@@ -14,6 +14,7 @@ var Forms = function Forms(form) {
   this.markup = Forms.markup;
   this.selectors = Forms.selectors;
   this.attrs = Forms.attrs;
+  this.form.setAttribute('novalidate', true);
   return this;
 };
 /**
