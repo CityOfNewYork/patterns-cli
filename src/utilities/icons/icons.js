@@ -1,7 +1,5 @@
 'use strict';
 
-import Utility from '../../js/modules/utility';
-
 /**
  * The Icon module
  * @class
@@ -21,11 +19,13 @@ class Icons {
           return response.text();
         else
           // eslint-disable-next-line no-console
-          if (Utility.debug()) console.dir(response);
+          if (process.env.NODE_ENV !== 'production')
+            console.dir(response);
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
-        if (Utility.debug()) console.dir(error);
+        if (process.env.NODE_ENV !== 'production')
+          console.dir(error);
       })
       .then((data) => {
         const sprite = document.createElement('div');
