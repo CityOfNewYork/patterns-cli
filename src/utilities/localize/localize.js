@@ -12,9 +12,11 @@
  */
 export default function(slug) {
   let text = slug || '';
+
   const strings = window.LOCALIZED_STRINGS || [];
   const match = strings.filter(
     (s) => (s.hasOwnProperty('slug') && s['slug'] === slug) ? s : false
   );
+
   return (match[0] && match[0].hasOwnProperty('label')) ? match[0].label : text;
 };

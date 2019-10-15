@@ -1,9 +1,6 @@
 /* eslint-env browser */
 'use strict';
 
-import $ from 'jquery';
-import Utility from 'modules/utility';
-
 /**
  * Calc Input Class
  */
@@ -16,11 +13,9 @@ class CalcInput {
   constructor(element) {
     this.selector = '[data-js*="calc-input"]';
 
-    this.events = 'keypress paste drop';
-
-    $(element).on(this.events, this.selector, event => {
-      this.bus(event);
-    });
+    element.addEventListener('keypress', this.bus);
+    element.addEventListener('paste', this.bus);
+    element.addEventListener('drop', this.bus);
   }
 
   /**
@@ -40,7 +35,7 @@ class CalcInput {
       } else {
         event.preventDefault();
         /* eslint-disable no-console, no-debugger */
-        if (Utility.debug())
+        if (process.env.NODE_ENV !== 'production')
           console.warn('CalcInput: Blocked. Dropping not allowed from source.');
         /* eslint-enable no-console, no-debugger */
       }
@@ -48,7 +43,7 @@ class CalcInput {
       this._calc(event.originalEvent.clipboardData.getData('text'), event);
     } else if (!this._isPaste(key) || !this._isCopy(key)) {
       /* eslint-disable no-console, no-debugger */
-      if (Utility.debug())
+      if (process.env.NODE_ENV !== 'production')
         console.dir({
           'charCode': event.charCode,
           'fromCharCode': String.fromCharCode(event.charCode),
@@ -101,7 +96,7 @@ class CalcInput {
       value.substring(0, start), text, value.substring(end, value.length)
     ].join('');
     /* eslint-disable no-console, no-debugger */
-    if (Utility.debug()) {
+    if (process.env.NODE_ENV !== 'production') {
       console.dir(['CalcInput', {
         'selectionStart': start,
         'text': text,
@@ -122,16 +117,16 @@ class CalcInput {
     try {
       const r = new RegExp(event.currentTarget.dataset.jsRegex, 'g');
       /* eslint-disable no-console, no-debugger */
-      if (Utility.debug()) console.log(`CalcInput: ${r}`);
+      if (process.env.NODE_ENV !== 'production') console.log(`CalcInput: ${r}`);
       const found = calc.match(r);
-      if (found.length && Utility.debug()) {
+      if (found.length && process.env.NODE_ENV !== 'production') {
         console.log('CalcInput: Passed!');
       }
       /* eslint-enable no-console, no-debugger */
     } catch (error) {
       event.preventDefault(); // stop input
       /* eslint-disable no-console, no-debugger */
-      if (Utility.debug()) {
+      if (process.env.NODE_ENV !== 'production') {
         console.warn('CalcInput: Blocked. Input will not match valid format');
       }
       /* eslint-enable no-console, no-debugger */

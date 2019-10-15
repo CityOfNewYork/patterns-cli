@@ -1,7 +1,5 @@
 'use strict';
 
-import Utility from '../../js/modules/utility';
-
 /**
  * Tracking bus for Google analytics and Webtrends.
  */
@@ -22,7 +20,7 @@ class Track {
       let key = event.target.dataset.trackKey;
       let data = JSON.parse(event.target.dataset.trackData);
 
-      this.click(key, data);
+      this.track(key, data);
     });
 
     return this;
@@ -34,7 +32,7 @@ class Track {
    * @param  {collection} data The data to track
    * @return {object}          The final data object
    */
-  click(key, data) {
+  track(key, data) {
     // Set the path name based on the location
     const d = data.map(el => {
         if (el.hasOwnProperty(Track.key))
@@ -46,7 +44,7 @@ class Track {
     let ga = this.gtag(key, d);
 
     /* eslint-disable no-console */
-    if (Utility.debug())
+    if (process.env.NODE_ENV !== 'production')
       console.dir({'Track': [wt, ga]});
     /* eslint-enable no-console */
 
@@ -64,7 +62,7 @@ class Track {
     let ga = this.gtagView(app, key);
 
     /* eslint-disable no-console */
-    if (Utility.debug())
+    if (process.env.NODE_ENV !== 'production')
       console.dir({'Track': [wt, ga]});
     /* eslint-enable no-console */
   };
