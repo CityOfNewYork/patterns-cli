@@ -137,7 +137,10 @@ var Forms = (function () {
     } // Remove error class from the form
 
 
-    container.closest('form').classList.remove(this.classes.ERROR_CONTAINER);
+    container.closest('form').classList.remove(this.classes.ERROR_CONTAINER); // Remove dynamic attributes from the input
+
+    el.removeAttribute(this.attrs.ERROR_INPUT[0]);
+    el.removeAttribute(this.attrs.ERROR_LABEL);
     return this;
   };
   /**
@@ -154,7 +157,8 @@ var Forms = (function () {
   Forms.prototype.highlight = function highlight(el) {
     var container = this.selectors.ERROR_MESSAGE_PARENT ? el.closest(this.selectors.ERROR_MESSAGE_PARENT) : el.parentNode; // Create the new error message.
 
-    var message = document.createElement(this.markup.ERROR_MESSAGE); // Get the error message from localized strings (if set).
+    var message = document.createElement(this.markup.ERROR_MESSAGE);
+    var id = el.getAttribute('id') + "-" + this.classes.ERROR_MESSAGE; // Get the error message from localized strings (if set).
 
     if (el.validity.valueMissing && this.strings.VALID_REQUIRED) {
       message.innerHTML = this.strings.VALID_REQUIRED;
@@ -166,13 +170,17 @@ var Forms = (function () {
     } // Set aria attributes and css classes to the message
 
 
+    message.setAttribute('id', id);
     message.setAttribute(this.attrs.ERROR_MESSAGE[0], this.attrs.ERROR_MESSAGE[1]);
     message.classList.add(this.classes.ERROR_MESSAGE); // Add the error class and error message to the dom.
 
     container.classList.add(this.classes.ERROR_CONTAINER);
     container.insertBefore(message, container.childNodes[0]); // Add the error class to the form
 
-    container.closest('form').classList.add(this.classes.ERROR_CONTAINER);
+    container.closest('form').classList.add(this.classes.ERROR_CONTAINER); // Add dynamic attributes to the input
+
+    el.setAttribute(this.attrs.ERROR_INPUT[0], this.attrs.ERROR_INPUT[1]);
+    el.setAttribute(this.attrs.ERROR_LABEL, id);
     return this;
   };
   /**
@@ -213,8 +221,10 @@ var Forms = (function () {
   /** Attributes for various elements */
 
   Forms.attrs = {
-    'ERROR_MESSAGE': ['aria-live', 'polite'] // Attribute for valid error message
-
+    'ERROR_MESSAGE': ['aria-live', 'polite'],
+    // Attribute for valid error message
+    'ERROR_INPUT': ['aria-invalid', 'true'],
+    'ERROR_LABEL': 'aria-describedby'
   };
 
   return Forms;
