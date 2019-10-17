@@ -13,6 +13,8 @@ class Track {
       selector: (s.selector) ? s.selector : Track.selector,
     };
 
+    this.desinations = Track.destinations;
+
     body.addEventListener('click', (event) => {
       if (!event.target.matches(this._settings.selector))
         return;
@@ -73,6 +75,14 @@ class Track {
    * @param  {collection} data The data to track
    */
   webtrends(key, data) {
+    if (
+      typeof Webtrends === 'undefined' ||
+      typeof data === 'undefined' ||
+      !this.desinations.contains('webtrends')
+    ) {
+      return false;
+    }
+
     let event = [{
       'WT.ti': key
     }];
@@ -90,6 +100,17 @@ class Track {
       return Object.keys(e).flatMap(k => [k, e[k]]);
     })};
 
+    // If 'action' is used as the key (for gtag.js), switch it to Webtrends
+    let action = data.argsa.indexOf('action');
+    if (action) data.argsa[action] = 'DCS.dcsuri';
+
+    // Webtrends doesn't send the page view for MultiTrack, add path to url
+    let dcsuri = data.argsa.indexOf('DCS.dcsuri');
+    if (dcsuri) {
+      data.argsa[dcsuri + 1] = window.location.pathname +
+        data.argsa[dcsuri + 1];
+    }
+
     /* eslint-disable no-undef */
     if (typeof Webtrends !== 'undefined')
       Webtrends.multiTrack(wtd);
@@ -104,6 +125,14 @@ class Track {
    * @param  {collection} data The data to track
    */
   gtag(key, data) {
+    if (
+      typeof gtag === 'undefined' ||
+      typeof data === 'undefined' ||
+      !this.desinations.contains('gtag')
+    ) {
+      return false;
+    }
+
     let uri = data.find((element) => element.hasOwnProperty(Track.key));
 
     let event = {
@@ -111,8 +140,7 @@ class Track {
     };
 
     /* eslint-disable no-undef */
-    if (typeof gtag !== 'undefined')
-      gtag(Track.key, uri[Track.key], event);
+    gtag(Track.key, uri[Track.key], event);
     /* eslint-enable no-undef */
 
     return ['gtag', Track.key, uri[Track.key], event];
@@ -124,14 +152,21 @@ class Track {
    * @param  {string}     key  The key or event of the data
    */
   gtagView(app, key) {
+    if (
+      typeof gtag === 'undefined' ||
+      typeof data === 'undefined' ||
+      !this.desinations.contains('gtag')
+    ) {
+      return false;
+    }
+
     let view = {
       app_name: app,
       screen_name: key
     };
 
     /* eslint-disable no-undef */
-    if (typeof gtag !== 'undefined')
-      gtag('event', 'screen_view', view);
+    gtag('event', 'screen_view', view);
     /* eslint-enable no-undef */
 
     return ['gtag', Track.key, 'screen_view', view];
@@ -143,5 +178,11 @@ Track.selector = '[data-js*="track"]';
 
 /** @type {String} The main event tracking key to map to Webtrends DCS.uri */
 Track.key = 'event';
+
+/** @type {Array} What destinations to push data to */
+Track.destinations = [
+  'webtrends',
+  'gtag'
+];
 
 export default Track;
