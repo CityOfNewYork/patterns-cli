@@ -139,7 +139,11 @@ class Forms {
     if (message) message.remove();
 
     // Remove error class from the form
-    container.closest('form').classList.remove(this.classes.ERROR_CONTAINER)
+    container.closest('form').classList.remove(this.classes.ERROR_CONTAINER);
+
+    // Remove dynamic attributes from the input
+    el.removeAttribute(this.attrs.ERROR_INPUT[0]);
+    el.removeAttribute(this.attrs.ERROR_LABEL);
 
     return this;
   }
@@ -159,6 +163,7 @@ class Forms {
 
     // Create the new error message.
     let message = document.createElement(this.markup.ERROR_MESSAGE);
+    let id = `${el.getAttribute('id')}-${this.classes.ERROR_MESSAGE}`;
 
     // Get the error message from localized strings (if set).
     if (el.validity.valueMissing && this.strings.VALID_REQUIRED)
@@ -171,6 +176,7 @@ class Forms {
       message.innerHTML = el.validationMessage;
 
     // Set aria attributes and css classes to the message
+    message.setAttribute('id', id);
     message.setAttribute(this.attrs.ERROR_MESSAGE[0],
       this.attrs.ERROR_MESSAGE[1]);
     message.classList.add(this.classes.ERROR_MESSAGE);
@@ -181,6 +187,10 @@ class Forms {
 
     // Add the error class to the form
     container.closest('form').classList.add(this.classes.ERROR_CONTAINER);
+
+    // Add dynamic attributes to the input
+    el.setAttribute(this.attrs.ERROR_INPUT[0], this.attrs.ERROR_INPUT[1]);
+    el.setAttribute(this.attrs.ERROR_LABEL, id);
 
     return this;
   }
@@ -218,7 +228,9 @@ Forms.selectors = {
 
 /** Attributes for various elements */
 Forms.attrs = {
-  'ERROR_MESSAGE': ['aria-live', 'polite'] // Attribute for valid error message
+  'ERROR_MESSAGE': ['aria-live', 'polite'], // Attribute for valid error message
+  'ERROR_INPUT': ['aria-invalid', 'true'],
+  'ERROR_LABEL': 'aria-describedby'
 };
 
 export default Forms;
