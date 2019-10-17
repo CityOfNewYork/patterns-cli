@@ -31,7 +31,7 @@
     "node-sass": "^4.9.3",
     "nodemon": "^1.18.7",
     "postcss": "^7.0.17",
-    "pretty": "^2.0.0",
+    "prettier": "^1.18.2",
     "reload": "^3.0.1",
     "rollup": "^1.17.0",
     "shelljs": "^0.8.3",

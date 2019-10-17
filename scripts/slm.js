@@ -7,7 +7,7 @@
 const slm = require('slm').compile;
 const Path = require('path');
 const Fs = require('fs');
-const pretty = require('pretty');
+const prettier = require('prettier');
 const escape = require('escape-html');
 const markdown = require('markdown').markdown;
 const nodemon = require('nodemon');
@@ -65,7 +65,14 @@ function fnCode(filename, path, data) {
       let compiled = slm(src, {
         filename: path
       })(LOCALS);
-      data = data.replace(element, escape(pretty(compiled)));
+
+      data = data.replace(element, escape(prettier.format(compiled, {
+        parser: 'html',
+        printWidth: 2000,
+        singleQuote: true,
+        jsxBracketSameLine: true,
+        htmlWhitespaceSensitivity: 'ignore'
+      })));
     });
     fnMarkdown(filename, path, data);
   } else {
