@@ -99,13 +99,13 @@ const modules = [
     plugins: rollup.dist,
     output: [
       {
-        name: 'Forms',
+        name: 'Toggle',
         file: `${process.env.PWD}/dist/utilities/toggle/toggle.iffe.js`,
         format: 'iife',
         strict: rollup.strict
       },
       {
-        name: 'Forms',
+        name: 'Toggle',
         file: `${process.env.PWD}/dist/utilities/toggle/toggle.common.js`,
         format: 'cjs',
         strict: rollup.strict

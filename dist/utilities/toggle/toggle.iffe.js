@@ -1,4 +1,4 @@
-var Forms = (function () {
+var Toggle = (function () {
   'use strict';
 
   /**
