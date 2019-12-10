@@ -9,17 +9,56 @@
   </head>
   <body>
     <main class="container mx-auto">
-      <h1>0.0.18</h1>
+      <h1>0.0.19</h1>
       <h1>NYCO Patterns Framework</h1>
 
-<p>Command line utility for NYC Opportunity Patterns + Cross-pattern utility library.</p>
+<p>
+  Command line utility for NYC Opportunity Patterns (
+  <a href="https://accesspatterns.cityofnewyork.us">ACCESS NYC Patterns</a>
+  ,
+  <a href="https://nycopatterns.cityofnewyork.us">NYCO Patterns</a>
+  ) + Cross-pattern utility library.
+</p>
 
 <ul>
-  <li>💅 Compiles stylesheets using node-sass.</li>
-  <li>🗞 Bundles JavaScript ES using rollup.js.</li>
-  <li>📦 SVG icon optimizer and sprite generator using svgo and svgstore-cli.</li>
-  <li>✨ Static site generator using slm-lang.</li>
+  <li>
+    💅 Compiles stylesheets using
+    <a href="https://github.com/sass/node-sass">node-sass</a>
+    and
+    <a href="https://postcss.org/">PostCSS</a>
+    .
+  </li>
+  <li>
+    🗞 Bundles JavaScript ES using
+    <a href="https://rollupjs.org/guide/en/">rollup.js</a>
+    .
+  </li>
+  <li>
+    🗜️ SVG icon optimizer and sprite generator using
+    <a href="https://github.com/svg/svgo">svgo</a>
+    and
+    <a href="https://github.com/svgstore/svgstore-cli">svgstore-cli</a>
+    .
+  </li>
+  <li>
+    ✨ Static site generator using
+    <a href="https://github.com/slm-lang">slm-lang</a>
+    .
+  </li>
+  <li>
+    🤓 Development environment using
+    <a href="https://expressjs.com/">Express.js</a>
+    .
+  </li>
 </ul>
+
+<p>
+  Each major package accepts a
+  <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">custom configuration file</a>
+  . Additionally, this package can be extended with additional npm packages and custom
+  <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
+  .
+</p>
 
 <h2>Installation</h2>
 
@@ -28,19 +67,22 @@
 $ npm link @nycopportunity/patterns-framework</code></pre>
 
 <p>
-  Add the
+  <strong>$2</strong>
+  Copy the
   <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a>
-  directory to the root your pattern library.
+  directory into the root your pattern library.
 </p>
 
 <p>
+  <strong>$3</strong>
   If you are using any of the
   <a href="#optional-dependencies">optional dependencies</a>
   used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually.
 </p>
 
 <p>
-  <strong>Recommended</strong>
+  <strong>$4</strong>
+  <em>Recommended</em>
   . Add the following npm scripts to your Patterns Library;
 </p>
 
@@ -52,51 +94,83 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
   &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
 },</code></pre>
 
-<p>Start the development server (assuming you&#39;ve added the npm scripts above to your package.json);</p>
+<p>
+  <strong>$5</strong>
+  Start the development server (assuming you&#39;ve added the
+  <a href="#npm-scripts">npm scripts</a>
+  above to your package.json);
+</p>
 
 <pre><code>npm start</code></pre>
 
+<h3>NPM Scripts</h3>
+
 <p>
-  <a href="#commands">CLI commands</a>
-  can be executed using the
+  The recommended
+  <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
+  create shortcuts for using the cli.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Args</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>start</code></td>
+      <td></td>
+      <td>Starts the development environment.</td>
+    </tr>
+    <tr>
+      <td><code>run default</code></td>
+      <td></td>
+      <td>Runs a one-off compilation of all assets to the distribution directory.</td>
+    </tr>
+    <tr>
+      <td><code>version {{major/minor/patch}}</code></td>
+      <td>major/minor/patch</td>
+      <td>
+        Runs the
+        <code>default</code>
+        script and creates a new release using
+        <a href="https://docs.npmjs.com/cli/version">npm&#39;s semantic versioning command</a>
+        .
+      </td>
+    </tr>
+    <tr>
+      <td><code>publish</code></td>
+      <td></td>
+      <td>
+        Publish to the npm registry. This will run
+        <code>prepublishOnly</code>
+        and
+        <code>publish</code>
+        scripts in the recommended
+        <a href="#npm-scripts">npm scripts</a>
+        above as well which push all tags to GitHub. Publishing requires running the
+        <code>version</code>
+        script before publishing.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>CLI</h2>
+
+<p>
+  Individal commands can be executed using the
   <code>pttrn</code>
-  command. Avaliable commands can be seen below.
+  command which maps to this package&#39;s bin script. Avaliable commands can be seen below.
 </p>
 
 <pre><code>pttrn {{ command }}</code></pre>
 
 <p>
-  Versioning uses the default
-  <code>npm version</code>
-  command. This will run the
-  <code>version</code>
-  command in the recommended NPM Scripts.
-</p>
-
-<pre><code>npm version {{ major/minor/patch }}</code></pre>
-
-<p>
-  Publishing to the registry uses the default
-  <code>npm publish</code>
-  command. This will run
-  <code>prepublishOnly</code>
-  and
-  <code>publish</code>
-  commands in the recommended NPM Scripts above as well which push all tags to GitHub. Publishing requires a new tag/version before publishing.
-</p>
-
-<pre><code>npm publish</code></pre>
-
-<h2>Scripts</h2>
-
-<p>
-  The Patterns Framework is a Node.js application that uses various libraries—including
-  <a href="https://expressjs.com/">Express</a>
-  , Rollup.js, Sass, PostCSS, Nodemon, and Concurrently to run a development server and build tasks for Style, JavaScript, SVG, and static page views. This is all managed via the cli command
-  <code>pttrn {{ script }}</code>
-  and
-  <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
-  in the package.json. Configuration for the application can be found in the
+  Each script has corresponding configuration files in the
   <strong>config/</strong>
   directory.
 </p>
@@ -258,11 +332,11 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
   </tbody>
 </table>
 
-<h2>Make</h2>
+<h3>Make</h3>
 
 <p>
   Details about the make script to come. For now, refer to the documentation in the
-  <a href="https://accesspatterns.cityofnewyork.us/developer-tools#make-script">ACCESS NYC Patterns, Developer Tools, Make Script documentation</a>
+  <a href="https://accesspatterns.cityofnewyork.us/developer-tools#make-script">ACCESS NYC Patterns &gt; Developer Tools &gt; Make Script documentation</a>
   .
 </p>
 
@@ -308,7 +382,25 @@ tailwindcss</code></pre>
 
 <p>More details to come!</p>
 
+<hr />
+
+<p><img alt="The Mayor&#39;s Office for Economic Opportunity" src="NYCMOEO_SecondaryBlue256px.png" /></p>
+
+<p>
+  <a href="http://nyc.gov/opportunity">The Mayor&#39;s Office for Economic Opportunity</a>
+  (NYC Opportunity) is committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback.
+  <strong>Interested in contributing?</strong>
+  See our open positions on
+  <a href="http://buildwithnyc.github.io/">buildwithnyc.github.io</a>
+  . Follow our team on
+  <a href="https://github.com/orgs/CityOfNewYork/teams/nycopportunity">Github</a>
+  (if you are part of the
+  <a href="https://github.com/CityOfNewYork/">@cityofnewyork</a>
+  organization) or
+  <a href="https://github.com/search?q=nycopportunity">browse our work on Github</a>
+  .
+</p>
+
     </main>
-    <script src="/reload/reload.js"></script>
   </body>
 </html>
