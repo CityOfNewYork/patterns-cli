@@ -36,14 +36,6 @@ Publishing to the registry uses the default `npm publish` command. This will run
 
     npm publish
 
-**Upgrading a current NYC Opportunity Patterns Library**
-
-Once the framework is installed as a dependency of the library you can delete the <u>.app/</u> directory and remove any dependencies from the library listed in the framework's [package.json](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json) dependency object. Keep in mind, you will need to keep any [optional dependencies](#optional-dependencies) that the library is using. These may include specific plugins for Rollup and Vue.
-
-Remove **rollup-plugin-eslint** from the <u>./config/rollup.js</u> file if used. Linting is now done through a corresponding [Script](#scripts). Update esLint configuration in the <u>./package.json</u> file
-
-A few configuration files were renamed to keep parity with their corresponding [Scripts](#scripts) name. Rename <u>./config/styles.js</u> to <u>./config/sass.js</u> and rename <u>./config/site.js</u> to <u>./config/slm.js</u>.
-
 ## Scripts
 
 The Patterns Framework is a Node.js application that uses various libraries—including [Express](https://expressjs.com/), Rollup.js, Sass, PostCSS, Nodemon, and Concurrently to run a development server and build tasks for Style, JavaScript, SVG, and static page views. This is all managed via the cli command `pttrn {{ script }}` and [npm scripts](https://docs.npmjs.com/misc/scripts) in the package.json. Configuration for the application can be found in the **config/** directory.
@@ -81,18 +73,18 @@ Details about the make script to come. For now, refer to the documentation in th
 
 The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.
 
-    "autoprefixer": "^9.6.1",
-    "chalk": "^2.4.2",
-    "css-mqpacker": "^7.0.0",
-    "cssnano": "^4.1.10",
-    "eslint-config-google": "^0.13.0",
-    "node-emoji": "^1.10.0",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-buble": "^0.19.8",
-    "rollup-plugin-commonjs": "^10.0.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0",
-    "stylelint-config-standard": "^18.2.0",
-    "tailwindcss": "^1.0.5"
+    autoprefixer
+    chalk
+    css-mqpacker
+    cssnano
+    eslint-config-google
+    node-emoji
+    rollup-plugin-babel
+    rollup-plugin-buble
+    rollup-plugin-commonjs
+    rollup-plugin-node-resolve
+    rollup-plugin-replace
+    stylelint-config-standard
+    tailwindcss
 
 More details to come!

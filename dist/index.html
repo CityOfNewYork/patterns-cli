@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
@@ -8,10 +7,10 @@
     <title>NYC Opportunity Patterns Framework</title>
     <link href="styles/site-default.css" rel="stylesheet" />
   </head>
-
   <body>
     <main class="container mx-auto">
-      <h1>0.0.17</h1><h1>NYCO Patterns Framework</h1>
+      <h1>0.0.17</h1>
+      <h1>NYCO Patterns Framework</h1>
 
 <h2>Installation</h2>
 
@@ -19,11 +18,22 @@
 
 $ npm link @nycopportunity/patterns-framework</code></pre>
 
-<p>Add the <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a> directory to the root your pattern library.</p>
+<p>
+  Add the
+  <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a>
+  directory to the root your pattern library.
+</p>
 
-<p>If you are using any of the <a href="#optional-dependencies">optional dependencies</a> used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually.</p>
+<p>
+  If you are using any of the
+  <a href="#optional-dependencies">optional dependencies</a>
+  used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually.
+</p>
 
-<p><strong>Recommended</strong>. Add the following npm scripts to your Patterns Library;</p>
+<p>
+  <strong>Recommended</strong>
+  . Add the following npm scripts to your Patterns Library;
+</p>
 
 <pre><code>&quot;scripts&quot;: {
   &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
@@ -37,29 +47,50 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 
 <pre><code>npm start</code></pre>
 
-<p><a href="#commands">CLI commands</a> can be executed using the <code>pttrn</code> command. Avaliable commands can be seen below.</p>
+<p>
+  <a href="#commands">CLI commands</a>
+  can be executed using the
+  <code>pttrn</code>
+  command. Avaliable commands can be seen below.
+</p>
 
 <pre><code>pttrn {{ command }}</code></pre>
 
-<p>Versioning uses the default <code>npm version</code> command. This will run the <code>version</code> command in the recommended NPM Scripts.</p>
+<p>
+  Versioning uses the default
+  <code>npm version</code>
+  command. This will run the
+  <code>version</code>
+  command in the recommended NPM Scripts.
+</p>
 
 <pre><code>npm version {{ major/minor/patch }}</code></pre>
 
-<p>Publishing to the registry uses the default <code>npm publish</code> command. This will run <code>prepublishOnly</code> and <code>publish</code> commands in the recommended NPM Scripts above as well which push all tags to GitHub. Publishing requires a new tag/version before publishing.</p>
+<p>
+  Publishing to the registry uses the default
+  <code>npm publish</code>
+  command. This will run
+  <code>prepublishOnly</code>
+  and
+  <code>publish</code>
+  commands in the recommended NPM Scripts above as well which push all tags to GitHub. Publishing requires a new tag/version before publishing.
+</p>
 
 <pre><code>npm publish</code></pre>
 
-<p><strong>Upgrading a current NYC Opportunity Patterns Library</strong></p>
-
-<p>Once the framework is installed as a dependency of the library you can delete the &lt;u&gt;.app/&lt;/u&gt; directory and remove any dependencies from the library listed in the framework&#39;s <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/package.json">package.json</a> dependency object. Keep in mind, you will need to keep any <a href="#optional-dependencies">optional dependencies</a> that the library is using. These may include specific plugins for Rollup and Vue.</p>
-
-<p>Remove <strong>rollup-plugin-eslint</strong> from the &lt;u&gt;./config/rollup.js&lt;/u&gt; file if used. Linting is now done through a corresponding <a href="#scripts">Script</a>. Update esLint configuration in the &lt;u&gt;./package.json&lt;/u&gt; file</p>
-
-<p>A few configuration files were renamed to keep parity with their corresponding <a href="#scripts">Scripts</a> name. Rename &lt;u&gt;./config/styles.js&lt;/u&gt; to &lt;u&gt;./config/sass.js&lt;/u&gt; and rename &lt;u&gt;./config/site.js&lt;/u&gt; to &lt;u&gt;./config/slm.js&lt;/u&gt;.</p>
-
 <h2>Scripts</h2>
 
-<p>The Patterns Framework is a Node.js application that uses various libraries—including <a href="https://expressjs.com/">Express</a>, Rollup.js, Sass, PostCSS, Nodemon, and Concurrently to run a development server and build tasks for Style, JavaScript, SVG, and static page views. This is all managed via the cli command <code>pttrn {{ script }}</code> and <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a> in the package.json. Configuration for the application can be found in the <strong>config/</strong> directory.</p>
+<p>
+  The Patterns Framework is a Node.js application that uses various libraries—including
+  <a href="https://expressjs.com/">Express</a>
+  , Rollup.js, Sass, PostCSS, Nodemon, and Concurrently to run a development server and build tasks for Style, JavaScript, SVG, and static page views. This is all managed via the cli command
+  <code>pttrn {{ script }}</code>
+  and
+  <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
+  in the package.json. Configuration for the application can be found in the
+  <strong>config/</strong>
+  directory.
+</p>
 
 <h3>Commands</h3>
 
@@ -77,7 +108,17 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>default</code></td>
       <td></td>
       <td>-w -n</td>
-      <td>Lints files then asynchronously runs the <em>scripts</em>, <em>styles</em>, <em>svg</em>, and <em>build</em> scripts (detailed below).</td>
+      <td>
+        Lints files then asynchronously runs the
+        <em>scripts</em>
+        ,
+        <em>styles</em>
+        ,
+        <em>svg</em>
+        , and
+        <em>build</em>
+        scripts (detailed below).
+      </td>
     </tr>
     <tr>
       <td><code>serve</code></td>
@@ -89,16 +130,26 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>make</code></td>
       <td>&lt;u&gt;make.js&lt;/u&gt;</td>
       <td></td>
-      <td>Starts a survey prompt for creating a new pattern using templates defined in the configuration. <a href="#make">More details below</a>.</td>
+      <td>
+        Starts a survey prompt for creating a new pattern using templates defined in the configuration.
+        <a href="#make">More details below</a>
+        .
+      </td>
     </tr>
     <tr>
       <td><code>lint</code></td>
       <td>&lt;u&gt;package.json&lt;/u&gt;</td>
       <td></td>
-      <td>Lints JS and SASS files in the &lt;u&gt;./src/&lt;/u&gt; directory using the <code>eslintConfig</code> and <code>stylelintConfig</code> objects in the &lt;u&gt;package.json&lt;/u&gt; file.</td>
+      <td>
+        Lints JS and SASS files in the &lt;u&gt;./src/&lt;/u&gt; directory using the
+        <code>eslintConfig</code>
+        and
+        <code>stylelintConfig</code>
+        objects in the &lt;u&gt;package.json&lt;/u&gt; file.
+      </td>
     </tr>
     <tr>
-      <td><code>rollup </code></td>
+      <td><code>rollup</code></td>
       <td>&lt;u&gt;rollup.js&lt;/u&gt;</td>
       <td>-w -n</td>
       <td>Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.</td>
@@ -107,7 +158,15 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>styles</code></td>
       <td></td>
       <td>-w</td>
-      <td>Syncronously runs the <em>variables</em>, <em>sass</em>, and <em>postcss</em> scripts (detailed below).</td>
+      <td>
+        Syncronously runs the
+        <em>variables</em>
+        ,
+        <em>sass</em>
+        , and
+        <em>postcss</em>
+        scripts (detailed below).
+      </td>
     </tr>
     <tr>
       <td><code>variables</code></td>
@@ -149,7 +208,11 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>publish</code></td>
       <td>&lt;u&gt;publish.js&lt;/u&gt;</td>
       <td></td>
-      <td>Publishes the &lt;u&gt;./dist&lt;/u&gt; directory to the <code>gh-pages</code> branch of the repository.</td>
+      <td>
+        Publishes the &lt;u&gt;./dist&lt;/u&gt; directory to the
+        <code>gh-pages</code>
+        branch of the repository.
+      </td>
     </tr>
   </tbody>
 </table>
@@ -168,40 +231,52 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
     <tr>
       <td><code>-w</code></td>
       <td><code>--watch</code></td>
-      <td>Use <a href="https://www.npmjs.com/package/nodemon">Nodemon</a> to watch source files and rerun the command when changes are made.</td>
+      <td>
+        Use
+        <a href="https://www.npmjs.com/package/nodemon">Nodemon</a>
+        to watch source files and rerun the command when changes are made.
+      </td>
     </tr>
     <tr>
       <td><code>-n</code></td>
       <td><code>--noisy</code></td>
-      <td>Some commands use <a href="https://www.npmjs.com/package/shelljs">ShellJS</a> to execute other command line tasks. By default, their native output is silenced by configuring ShellJS to execute commands silently. This will allow those commands to show their native output.</td>
+      <td>
+        Some commands use
+        <a href="https://www.npmjs.com/package/shelljs">ShellJS</a>
+        to execute other command line tasks. By default, their native output is silenced by configuring ShellJS to execute commands silently. This will allow those commands to show their native output.
+      </td>
     </tr>
   </tbody>
 </table>
 
 <h2>Make</h2>
 
-<p>Details about the make script to come. For now, refer to the documentation in the <a href="https://accesspatterns.cityofnewyork.us/developer-tools#make-script">ACCESS NYC Patterns, Developer Tools, Make Script documentation</a>.</p>
+<p>
+  Details about the make script to come. For now, refer to the documentation in the
+  <a href="https://accesspatterns.cityofnewyork.us/developer-tools#make-script">ACCESS NYC Patterns, Developer Tools, Make Script documentation</a>
+  .
+</p>
 
 <h2>Optional dependencies</h2>
 
 <p>The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.</p>
 
-<pre><code>&quot;autoprefixer&quot;: &quot;^9.6.1&quot;,
-&quot;chalk&quot;: &quot;^2.4.2&quot;,
-&quot;css-mqpacker&quot;: &quot;^7.0.0&quot;,
-&quot;cssnano&quot;: &quot;^4.1.10&quot;,
-&quot;eslint-config-google&quot;: &quot;^0.13.0&quot;,
-&quot;node-emoji&quot;: &quot;^1.10.0&quot;,
-&quot;rollup-plugin-babel&quot;: &quot;^4.3.3&quot;,
-&quot;rollup-plugin-buble&quot;: &quot;^0.19.8&quot;,
-&quot;rollup-plugin-commonjs&quot;: &quot;^10.0.1&quot;,
-&quot;rollup-plugin-node-resolve&quot;: &quot;^5.2.0&quot;,
-&quot;rollup-plugin-replace&quot;: &quot;^2.2.0&quot;,
-&quot;stylelint-config-standard&quot;: &quot;^18.2.0&quot;,
-&quot;tailwindcss&quot;: &quot;^1.0.5&quot;</code></pre>
+<pre><code>autoprefixer
+chalk
+css-mqpacker
+cssnano
+eslint-config-google
+node-emoji
+rollup-plugin-babel
+rollup-plugin-buble
+rollup-plugin-commonjs
+rollup-plugin-node-resolve
+rollup-plugin-replace
+stylelint-config-standard
+tailwindcss</code></pre>
 
 <p>More details to come!</p>
+
     </main>
   </body>
-
 </html>

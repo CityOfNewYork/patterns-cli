@@ -66,13 +66,7 @@ function fnCode(filename, path, data) {
         filename: path
       })(LOCALS);
 
-      data = data.replace(element, escape(prettier.format(compiled, {
-        parser: 'html',
-        printWidth: 2000,
-        singleQuote: true,
-        jsxBracketSameLine: true,
-        htmlWhitespaceSensitivity: 'ignore'
-      })));
+      data = data.replace(element, escape(prettier.format(compiled, LOCALS.site.prettier)));
     });
     fnMarkdown(filename, path, data);
   } else {
@@ -95,7 +89,7 @@ function fnMarkdown(filename, path, data) {
       if (Fs.existsSync(path)) {
         let src = Fs.readFileSync(path, 'utf-8');
         let compiled = markdown.toHTML(src, 'Maruku');
-        data = data.replace(element, pretty(compiled));
+        data = data.replace(element, prettier.format(compiled, LOCALS.site.prettier));
       } else {
         data = data.replace(element, '');
       }
@@ -121,7 +115,7 @@ function fnSlm(filename, path, data) {
       let compiled = slm(src, {
         filename: path
       })(LOCALS);
-      data = data.replace(element, pretty(compiled));
+      data = data.replace(element, prettier.format(compiled, LOCALS.site.prettier));
     });
     fnStr(filename, path, data);
   } else {
@@ -165,7 +159,7 @@ function fnReadFile(filename, path, fnCallback) {
       filename: fullPath,
       basePath: BASE_PATH
     })(LOCALS);
-    fnCallback(filename, path, pretty(compiled));
+    fnCallback(filename, path, prettier.format(compiled, LOCALS.site.prettier));
   });
 }
 

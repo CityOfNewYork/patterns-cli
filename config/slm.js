@@ -16,6 +16,13 @@ const site = {
   urls: {
     production: 'https://cityofnewyork.github.io/nyco-patterns-framework',
     cdn: '"https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework@v' + version + '/dist"'
+  },
+  prettier: {
+    parser: 'html',
+    printWidth: 2000,
+    singleQuote: true,
+    jsxBracketSameLine: true,
+    htmlWhitespaceSensitivity: 'ignore'
   }
 };
 
