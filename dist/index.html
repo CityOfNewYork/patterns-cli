@@ -12,6 +12,15 @@
       <h1>0.0.18</h1>
       <h1>NYCO Patterns Framework</h1>
 
+<p>Command line utility for NYC Opportunity Patterns + Cross-pattern utility library.</p>
+
+<ul>
+  <li>💅 Compiles stylesheets using node-sass.</li>
+  <li>🗞 Bundles JavaScript ES using rollup.js.</li>
+  <li>📦 SVG icon optimizer and sprite generator using svgo and svgstore-cli.</li>
+  <li>✨ Static site generator using slm-lang.</li>
+</ul>
+
 <h2>Installation</h2>
 
 <pre><code>$ npm install @nycopportunity/patterns-framework --save-dev
@@ -275,8 +284,31 @@ rollup-plugin-replace
 stylelint-config-standard
 tailwindcss</code></pre>
 
+<h1>Troubleshooting</h1>
+
+<ul>
+  <li>
+    Some scripts require setting the
+    <code>NODE_ENV</code>
+    version to
+    <code>production</code>
+    or
+    <code>development</code>
+    in order to run.
+  </li>
+  <li>
+    <code>npm link</code>
+    creates a symlink to
+    <em>node_modules/@nycopportunity/patterns-framework</em>
+    in the global node folder. If you are using
+    <code>nvm</code>
+    to manage versions of node, be sure you are using the correct version of node in your project directory.
+  </li>
+</ul>
+
 <p>More details to come!</p>
 
     </main>
+    <script src="/reload/reload.js"></script>
   </body>
 </html>

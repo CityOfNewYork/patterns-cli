@@ -1,16 +1,26 @@
 # NYCO Patterns Framework
 
+Command line utility for NYC Opportunity Patterns ([ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), [NYCO Patterns](https://nycopatterns.cityofnewyork.us)) + Cross-pattern utility library.
+
+* 💅 Compiles stylesheets using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
+* 🗞 Bundles JavaScript ES using [rollup.js](https://rollupjs.org/guide/en/).
+* 🗜️ SVG icon optimizer and sprite generator using [svgo](https://github.com/svg/svgo) and [svgstore-cli](https://github.com/svgstore/svgstore-cli).
+* ✨ Static site generator using [slm-lang](https://github.com/slm-lang).
+* 🤓 Development environment using [Express.js](https://expressjs.com/).
+
+Each major package accepts a [custom configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config). Additionally, this package can be extended with additional npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+
 ## Installation
 
     $ npm install @nycopportunity/patterns-framework --save-dev
 
     $ npm link @nycopportunity/patterns-framework
 
-Add the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory to the root your pattern library.
+**$2** Copy the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory into the root your pattern library.
 
-If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually.
+**$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually.
 
-**Recommended**. Add the following npm scripts to your Patterns Library;
+**$4** *Recommended*. Add the following npm scripts to your Patterns Library;
 
     "scripts": {
       "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve -w\" -p \"none\"",
@@ -20,25 +30,28 @@ If you are using any of the [optional dependencies](#optional-dependencies) used
       "publish": "cross-env NODE_ENV=production pttrn publish"
     },
 
-Start the development server (assuming you've added the npm scripts above to your package.json);
+**$5** Start the development server (assuming you've added the [npm scripts](#npm-scripts) above to your package.json);
 
     npm start
 
-[CLI commands](#commands) can be executed using the `pttrn` command. Avaliable commands can be seen below.
+### NPM Scripts
+
+The recommended [npm scripts](https://docs.npmjs.com/misc/scripts) create shortcuts for using the cli.
+
+Command                         | Args              | Description
+--------------------------------|-------------------|-
+`start`                         |                   | Starts the development environment.
+`run default`                   |                   | Runs a one-off compilation of all assets to the distribution directory.
+`version {{major/minor/patch}}` | major/minor/patch | Runs the `default` script and creates a new release using [npm's semantic versioning command](https://docs.npmjs.com/cli/version).
+`publish`                       |                   | Publish to the npm registry. This will run `prepublishOnly` and `publish` scripts in the recommended [npm scripts](#npm-scripts) above as well which push all tags to GitHub. Publishing requires running the `version` script before publishing.
+
+## CLI
+
+Individal commands can be executed using the `pttrn` command which maps to this package's bin script. Avaliable commands can be seen below.
 
     pttrn {{ command }}
 
-Versioning uses the default `npm version` command. This will run the `version` command in the recommended NPM Scripts.
-
-    npm version {{ major/minor/patch }}
-
-Publishing to the registry uses the default `npm publish` command. This will run `prepublishOnly` and `publish` commands in the recommended NPM Scripts above as well which push all tags to GitHub. Publishing requires a new tag/version before publishing.
-
-    npm publish
-
-## Scripts
-
-The Patterns Framework is a Node.js application that uses various libraries—including [Express](https://expressjs.com/), Rollup.js, Sass, PostCSS, Nodemon, and Concurrently to run a development server and build tasks for Style, JavaScript, SVG, and static page views. This is all managed via the cli command `pttrn {{ script }}` and [npm scripts](https://docs.npmjs.com/misc/scripts) in the package.json. Configuration for the application can be found in the **config/** directory.
+Each script has corresponding configuration files in the **config/** directory.
 
 ### Commands
 
@@ -65,9 +78,10 @@ Flag | Full&nbsp;Flag | Description
 `-w` | `--watch`      | Use [Nodemon](https://www.npmjs.com/package/nodemon) to watch source files and rerun the command when changes are made.
 `-n` | `--noisy`      | Some commands use [ShellJS](https://www.npmjs.com/package/shelljs) to execute other command line tasks. By default, their native output is silenced by configuring ShellJS to execute commands silently. This will allow those commands to show their native output.
 
-## Make
+### Make
 
-Details about the make script to come. For now, refer to the documentation in the [ACCESS NYC Patterns, Developer Tools, Make Script documentation](https://accesspatterns.cityofnewyork.us/developer-tools#make-script).
+Details about the make script to come. For now, refer to the documentation in the [ACCESS NYC Patterns > Developer Tools > Make Script documentation](https://accesspatterns.cityofnewyork.us/developer-tools#make-script).
+
 
 ## Optional dependencies
 
@@ -87,4 +101,15 @@ The following dependencies are optional as they are used by configuration files.
     stylelint-config-standard
     tailwindcss
 
+# Troubleshooting
+
+* Some scripts require setting the `NODE_ENV` version to `production` or `development` in order to run.
+* `npm link` creates a symlink to *node_modules/@nycopportunity/patterns-framework* in the global node folder. If you are using `nvm` to manage versions of node, be sure you are using the correct version of node in your project directory.
+
 More details to come!
+
+---
+
+![The Mayor's Office for Economic Opportunity](NYCMOEO_SecondaryBlue256px.png)
+
+[The Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity) (NYC Opportunity) is committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback. **Interested in contributing?** See our open positions on [buildwithnyc.github.io](http://buildwithnyc.github.io/). Follow our team on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity) (if you are part of the [@cityofnewyork](https://github.com/CityOfNewYork/) organization) or [browse our work on Github](https://github.com/search?q=nycopportunity).

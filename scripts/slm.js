@@ -38,15 +38,15 @@ function fnWrite(filename, path, data) {
   let rename = `${filename.split('.')[0]}.html`;
   let distPath = path.replace(VIEWS, DIST);
   let distFile = Path.join(distPath, rename);
+  let local = Path.join(DIST, rename);
 
   Fs.writeFile(distFile, data, err => {
     if (err) {
       console.log(`${alerts.error} ${err}`);
       return;
     }
-    distFile = distFile.replace(Path.join(__dirname, '../'), '');
 
-    console.log(`${alerts.success} Slm compiled to ${alerts.path('./' + distFile)}`);
+    console.log(`${alerts.success} Slm compiled to ${alerts.path('./' + local)}`);
   });
 }
 
