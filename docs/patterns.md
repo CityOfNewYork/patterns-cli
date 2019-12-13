@@ -1,10 +1,10 @@
-[← Table of Contents](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs.md#table-of-contents)
+[← Table of Contents](../docs.md#table-of-contents)
 
 # Patterns
 
-All of the Patterns source is organized into four directories: elements, components, objects, and utilities. This naming convention is influenced by “[BEMIT: Taking the BEM Naming Convention a Step Further](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/).” Our four buckets included Elements, Components, Objects, and Utilities. If you are familiar with Brad Frost’s [Atomic Design Methodology](http://atomicdesign.bradfrost.com/chapter-2/), this structure will sound very familiar.
+All of the Patterns source is organized into four directories: [Elements](#elements), [Components](#components), [Objects](#objects), and [Utilities](#utilities). This naming convention is influenced by “[BEMIT: Taking the BEM Naming Convention a Step Further](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/).” Our four buckets included Elements, Components, Objects, and Utilities. If you are familiar with Brad Frost’s [Atomic Design Methodology](http://atomicdesign.bradfrost.com/chapter-2/), this structure will sound very familiar.
 
-![Elements, Components, Objects](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs/images/naming-01.png)
+![Elements, Components, Objects](./images/naming-01.png)
 
 ## Elements
 
@@ -18,10 +18,10 @@ Components are smaller patterns that require more complex markup and styling tha
 
 Objects are the most complex patterns and require a great deal of custom styling and markup to function. They can be global elements (`<footer>`) or appear only in certain views. Object CSS classes are denoted with the `.o-` prefix.
 
-![Elements and Components within Objects](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs/images/naming-02.png)
+![Elements and Components within Objects](./images/naming-02.png)
 
 ## Utilities
 
 Utilities are reusable single-attribute styles used to customize markup so that fewer patterns need to be written. They are not tied to any element, component, or object, but they can help override styling in certain contexts and build views more efficiently. These Patterns use the [Tailwind Framework](https://tailwindcss.com/). Refer to the Tailwind Docs and [Tailwind configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/config/tailwind.js) for details on available modules and usage.
 
-![Utilities](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs/images/naming-03.png)
+![Utilities](./images/naming-03.png)

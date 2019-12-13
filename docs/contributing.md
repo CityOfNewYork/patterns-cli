@@ -1,6 +1,12 @@
-[← Table of Contents](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs.md#table-of-contents)
+[← Table of Contents](../docs.md#table-of-contents)
 
 # Contributing
+
+Starting the development server (assuming you've added the recommended [npm scripts](../readme.md#npm-scripts) to your package.json) will enable compilation and previewing changes to patterns;
+
+    npm start
+
+![Development Server](images/start.png)
 
 The most important changes developers may need to make are to files within two directories: The **src/** directory, which includes all of the pattern source including scripts, styles, and template source, and the **config/** directory, which includes all of the configuration for the different node libraries and global variables for the Patterns.
 
@@ -8,13 +14,15 @@ Every Pattern is developed with Style, JavaScript, and Markup dependencies bundl
 
     src/{{ pattern type }}/{{ name }}/{{ name }}.{{ extension }}
 
-For example, all of the relevant Accordion Component dependencies live in:
+For example, all of the relevant **Accordion Component** dependencies live in:
 
     src/component/accordion/accordion.slm   // Markup
     src/component/accordion/accordion.js    // JavaScript
     src/component/accordion/_accordion.scss // Styling
     src/component/accordion/accordion.md    // Documentation
     src/component/accordion/readme.md       // Developer Usage
+
+The [`make` command](./commands/make.md) takes care of managing this organization for you when creating new patterns using the command. See the [documentation for more details](./commands/make.md).
 
 ### Style Guide
 
@@ -42,4 +50,4 @@ Templates source is written using [slm-lang](https://github.com/slm-lang/slm). E
 
 #### Documentation
 
-Documentation is written in [Markdown](https://daringfireball.net/projects/markdown/syntax). When you visit a pattern in the browser, the page looks for a Markdown file that maps to the Pattern’s template source path in the **dist/** directory. For example, with the Accordion Component, the [**src/components/accordion/accordion.slm**](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/src/components/accordion/accordion.slm) is the template source. The corresponding  documentation should live in [**dist/components/accordion/accordion.md**](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/dist/components/accordion/accordion.md). When a user visits the /accordion page, the page looks for [**dist/components/accordion/accordion.md**](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/dist/components/accordion/accordion.md) and renders the documentation in the browser.
+Documentation is written in [Markdown](https://daringfireball.net/projects/markdown/syntax). For example, with the Accordion Component, the **src/components/accordion/accordion.slm** is the template source. The corresponding documentation should live in **src/components/accordion/accordion.md**. Additional documentation may be required for things like developer usage and may be contained in the **src/components/accordion/readme.md** file.

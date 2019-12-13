@@ -1,8 +1,10 @@
-[← Table of Contents](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs.md#table-of-contents)
+[← Table of Contents](../../docs.md#table-of-contents)
 
 # Make
 
     pttrn make {{ type }} {{ pattern }}
+
+![Making Patterns](../images/make.png)
 
 This is the method for creating new patterns using templates defined in the [**config/make.js**](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/config/make.js) directory. Running...
 

@@ -1,12 +1,13 @@
-[← Readme](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/readme.md)
+[← Readme](./readme.md)
 
 # Documentation
 
 ## Table of Contents
 
-* [Patterns](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs/patterns.md)
-* [Contributing](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs/contributing.md)
+* [Patterns](./docs/patterns.md)
+* [Contributing](./docs/contributing.md)
 * Commands
-  * [Make](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs/commands/make.md)
+  * [Make](./docs/commands/make.md)
+  * [Publish](./docs/commands/publish.md)
 
 Missing something!? Let us know by [filing an issue](https://github.com/CityOfNewYork/nyco-patterns-framework/issues).
