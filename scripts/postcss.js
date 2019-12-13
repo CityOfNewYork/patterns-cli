@@ -28,7 +28,7 @@ function run(module) {
           if (err) {
             console.log(`${alerts.error} ${err}`);
           } else {
-            console.log(`${alerts.styles} PostCss processed ${alerts.path(module.outDir + module.outFile)}`);
+            console.log(`${alerts.styles} PostCSS processed ${alerts.path(module.outDir + module.outFile)}`);
           }
         });
       });
