@@ -1,5 +1,0 @@
-= extend('layouts/default')
-
-- title = 'Documentation'
-
-= content('main')

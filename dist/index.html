@@ -13,16 +13,16 @@
       <h1>NYCO Patterns Framework</h1>
 
 <p>
-  Command line utility for NYC Opportunity Patterns (
-  <a href="https://accesspatterns.cityofnewyork.us">ACCESS NYC Patterns</a>
-  ,
+  Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for
   <a href="https://nycopatterns.cityofnewyork.us">NYCO Patterns</a>
-  ) + Cross-pattern utility library.
+  ,
+  <a href="https://accesspatterns.cityofnewyork.us">ACCESS NYC Patterns</a>
+  , and Growing Up/Generation NYC Patterns.
 </p>
 
 <ul>
   <li>
-    💅 Compiles stylesheets using
+    💅 Compiles Sass using
     <a href="https://github.com/sass/node-sass">node-sass</a>
     and
     <a href="https://postcss.org/">PostCSS</a>
@@ -50,15 +50,50 @@
     <a href="https://expressjs.com/">Express.js</a>
     .
   </li>
+  <li>
+    📦 Creates and organizes pattern source code using a
+    <a href="#design-system-methodology">design system methodology</a>
+    .
+  </li>
+  <li>⚛️ JS Framework and dependency agnostic; use React, Vue, Svelte, etc.</li>
 </ul>
 
 <p>
-  Each major package accepts a
-  <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">custom configuration file</a>
-  . Additionally, this package can be extended with additional npm packages and custom
+  Each major feature uses a
+  <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">configuration file</a>
+  for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom
   <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
   .
 </p>
+
+<h3>Development Environment</h3>
+
+<p><img alt="Development Server" src="./docs/images/start.png" /></p>
+
+<h3>Making Patterns</h3>
+
+<p><img alt="Making Patterns" src="./docs/images/make.png" /></p>
+
+<h2>Contents</h2>
+
+<ul>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#npm-scripts">NPM Scripts</a></li>
+  <li><a href="#cli">CLI</a></li>
+  <li><a href="#commands">Commands</a></li>
+  <li><a href="#flags">Flags</a></li>
+  <li><a href="#make">Make</a></li>
+  <li>
+    [NODE
+    <em>ENV](#node</em>
+    env)
+  </li>
+  <li><a href="#optional-dependencies">Optional dependencies</a></li>
+  <li><a href="#updating">Updating</a></li>
+  <li><a href="#nvm">NVM</a></li>
+  <li><a href="#design-system-methodology">Design System Methodology</a></li>
+  <li><a href="#additional-documentation">Documentation</a></li>
+</ul>
 
 <h2>Installation</h2>
 
@@ -123,7 +158,23 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
     <tr>
       <td><code>start</code></td>
       <td></td>
-      <td>Starts the development environment.</td>
+      <td>
+        This starts the
+        <a href="https://expressjs.com/">Express.js</a>
+        development server, which uses Express to render the views in
+        <strong>dist/</strong>
+        . It also uses
+        <a href="https://www.npmjs.com/package/concurrently">Concurrently</a>
+        to trigger
+        <strong>--watch</strong>
+        scripts for the
+        <a href="#commands">default and serve commands</a>
+        . The
+        <code>NODE_ENV</code>
+        is set to
+        <code>development</code>
+        which affects the the styles compilation process by only compiling the global stylesheet.
+      </td>
     </tr>
     <tr>
       <td><code>run default</code></td>
@@ -131,7 +182,7 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td>Runs a one-off compilation of all assets to the distribution directory.</td>
     </tr>
     <tr>
-      <td><code>version {{major/minor/patch}}</code></td>
+      <td><code>version</code></td>
       <td>major/minor/patch</td>
       <td>
         Runs the
@@ -207,15 +258,27 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>serve</code></td>
       <td></td>
       <td>-w -n</td>
-      <td>Starts and Express app that serves the static files in the &lt;u&gt;./dist/&lt;/u&gt; directory.</td>
+      <td>
+        Starts and Express app that serves the static files in the &lt;u&gt;./dist/&lt;/u&gt; directory. By default it runs on port
+        <code>7000</code>
+        but this can be modified by the
+        <code>PORT</code>
+        environment variable.
+      </td>
     </tr>
     <tr>
-      <td><code>make</code></td>
+      <td>
+        <a href="docs/commands/make.md"><code>make</code></a>
+      </td>
       <td>&lt;u&gt;make.js&lt;/u&gt;</td>
       <td></td>
       <td>
         Starts a survey prompt for creating a new pattern using templates defined in the configuration.
-        <a href="#make">More details below</a>
+        <a href="docs/commands/make.md">
+          Read the
+          <code>make</code>
+          command docs
+        </a>
         .
       </td>
     </tr>
@@ -224,7 +287,7 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td>&lt;u&gt;package.json&lt;/u&gt;</td>
       <td></td>
       <td>
-        Lints JS and SASS files in the &lt;u&gt;./src/&lt;/u&gt; directory using the
+        Lints JS and Sass files in the &lt;u&gt;./src/&lt;/u&gt; directory using the
         <code>eslintConfig</code>
         and
         <code>stylelintConfig</code>
@@ -261,7 +324,11 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>sass</code></td>
       <td>&lt;u&gt;sass.js&lt;/u&gt;</td>
       <td></td>
-      <td>Processes pattern Sass stylesheets defined in the configuration into CSS.</td>
+      <td>
+        Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to &quot;development&quot; only the modules with the attribute
+        <code>devModule: true</code>
+        will be compiled.
+      </td>
     </tr>
     <tr>
       <td><code>postcss</code></td>
@@ -285,7 +352,7 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
       <td><code>locals</code></td>
       <td>&lt;u&gt;variables.js&lt;/u&gt;, &lt;u&gt;slm.js&lt;/u&gt;</td>
       <td></td>
-      <td>This isn&#39;t a CLI script but it exports the local variables for the Slm Lang templates.</td>
+      <td>This isn&#39;t a CLI script but it exports the local variables for the slm-lang templates.</td>
     </tr>
     <tr>
       <td><code>publish</code></td>
@@ -332,13 +399,27 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
   </tbody>
 </table>
 
-<h3>Make</h3>
+<h2>NODE_ENV</h2>
 
 <p>
-  Details about the make script to come. For now, refer to the documentation in the
-  <a href="https://accesspatterns.cityofnewyork.us/developer-tools#make-script">ACCESS NYC Patterns &gt; Developer Tools &gt; Make Script documentation</a>
-  .
+  Some scripts, particularly
+  <code>sass</code>
+  ,
+  <code>rollup</code>
+  , and
+  <code>publish</code>
+  require setting the
+  <code>NODE_ENV</code>
+  version to
+  <code>production</code>
+  or
+  <code>development</code>
+  in order to run. Patterns should be compiled in the production environment before publishing. The
+  <code>npm publish</code>
+  script will do this automatically.
 </p>
+
+<pre><code>NODE_ENV=production pttrn rollup</code></pre>
 
 <h2>Optional dependencies</h2>
 
@@ -358,29 +439,74 @@ rollup-plugin-replace
 stylelint-config-standard
 tailwindcss</code></pre>
 
-<h1>Troubleshooting</h1>
+<h2>Updating</h2>
 
-<ul>
-  <li>
-    Some scripts require setting the
-    <code>NODE_ENV</code>
-    version to
-    <code>production</code>
-    or
-    <code>development</code>
-    in order to run.
-  </li>
-  <li>
-    <code>npm link</code>
-    creates a symlink to
-    <em>node_modules/@nycopportunity/patterns-framework</em>
-    in the global node folder. If you are using
-    <code>nvm</code>
-    to manage versions of node, be sure you are using the correct version of node in your project directory.
-  </li>
-</ul>
+<p>It&#39;s easiest to specify a version of the framework to update to as well as link the updated version.</p>
 
-<p>More details to come!</p>
+<pre><code>npm install @nycopportunity/patterns-framework@{{ version }}
+
+npm link @nycopportunity/patterns-framework@{{ version }}</code></pre>
+
+<h2>NVM</h2>
+
+<p>
+  If you are using
+  <code>nvm</code>
+  to manage versions of node, be sure you are using the correct version of node in your project directory.
+  <code>npm link</code>
+  creates a symlink to
+  <em>node_modules/@nycopportunity/patterns-framework</em>
+  in the current environment&#39;s node folder. Therefore, the CLI will reference the linked package in the environment&#39;s version of node.
+</p>
+
+<h2>Design System Methodology</h2>
+
+<p><img alt="Elements, Components, Objects" src="./docs/images/naming-01.png" /></p>
+
+<p>
+  All of your project&#39;s source code will be organized into four directories:
+  <strong>Elements</strong>
+  ,
+  <strong>Components</strong>
+  ,
+  <strong>Objects</strong>
+  , and
+  <strong>Utilities</strong>
+  . Read about this system in the
+  <a href="./docs/patterns.md">documentation</a>
+  . The
+  <a href="./docs/commands/make.md">
+    <code>make</code>
+    command
+  </a>
+  automatically takes care of the organization for you, creating the necessary files based on templates in the
+  <a href="./config/make.js">
+    <code>make</code>
+    config
+  </a>
+  .
+</p>
+
+<pre><code>src/elements/pattern
+src/components/pattern
+src/objects/pattern
+src/utilities/pattern</code></pre>
+
+<p>Each Pattern directory will contain all of the files needed for it&#39;s</p>
+
+<pre><code>src/component/pattern/pattern.slm   // Markup
+src/component/pattern/pattern.js    // JavaScript
+src/component/pattern/_pattern.scss // Styling
+src/component/pattern/pattern.md    // Documentation
+src/component/pattern/readme.md     // Developer Usage</code></pre>
+
+<h2>Documentation</h2>
+
+<p>
+  Additional
+  <a href="docs.md">documentation can be found here</a>
+  .
+</p>
 
 <hr />
 
@@ -402,5 +528,6 @@ tailwindcss</code></pre>
 </p>
 
     </main>
+    <script src="/reload/reload.js"></script>
   </body>
 </html>

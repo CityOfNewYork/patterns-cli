@@ -18,7 +18,11 @@ const sass = {
   ]
 };
 
-const modules = [
+/**
+ * Our pattern style modules
+ */
+
+module.exports = [
   {
     file: './src/scss/site-default.scss',
     outDir: './dist/styles/',
@@ -26,8 +30,6 @@ const modules = [
     sourceMapEmbed: sass.sourceMapEmbed,
     precision: sass.precision,
     includePaths: sass.includePaths,
-    devModule: true
+    devModule: true // This needs to be set if we want the module to be compiled during development
   }
 ];
-
-module.exports = modules;

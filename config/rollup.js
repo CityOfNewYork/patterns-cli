@@ -77,6 +77,19 @@ rollup.dist = [
  */
 const modules = [
   {
+    input: `${process.env.PWD}/src/js/main.js`,
+    output: [
+      {
+        name: 'Patterns',
+        file: `${process.env.PWD}/dist/scripts/patterns.js`,
+        sourcemap: rollup.sourcemap,
+        format: rollup.format,
+        strict: rollup.strict
+      }
+    ],
+    plugins: rollup.plugins
+  },
+  {
     input: `${process.env.PWD}/src/utilities/forms/forms.js`,
     plugins: rollup.dist,
     output: [
