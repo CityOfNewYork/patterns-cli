@@ -9,7 +9,7 @@
   </head>
   <body>
     <main class="container mx-auto">
-      <h1>0.0.19</h1>
+      <h1>0.0.20</h1>
       <h1>NYCO Patterns Framework</h1>
 
 <p>
@@ -22,11 +22,18 @@
 
 <ul>
   <li>
-    💅 Compiles Sass using
+    💅 Compiles
+    <a href="https://sass-lang.com/">Sass</a>
+    using
     <a href="https://github.com/sass/node-sass">node-sass</a>
     and
     <a href="https://postcss.org/">PostCSS</a>
     .
+  </li>
+  <li>
+    💅 Integrates
+    <a href="https://tailwindcss.com/">Tailwind.css</a>
+    for CSS utilities and rapid UI development.
   </li>
   <li>
     🗞 Bundles JavaScript ES using
@@ -41,12 +48,12 @@
     .
   </li>
   <li>
-    ✨ Static site generator using
+    ✨ Generates a static site using
     <a href="https://github.com/slm-lang">slm-lang</a>
-    .
+    for documentation and development.
   </li>
   <li>
-    🤓 Development environment using
+    🤓 Serves the local development environment using
     <a href="https://expressjs.com/">Express.js</a>
     .
   </li>
@@ -55,7 +62,12 @@
     <a href="#design-system-methodology">design system methodology</a>
     .
   </li>
-  <li>⚛️ JS Framework and dependency agnostic; use React, Vue, Svelte, etc.</li>
+  <li>⚛️ JavaScript Framework and dependency agnostic; use Svelte, React, Vue, etc.</li>
+  <li>
+    🚀 Scripts for publishing a pattern library to
+    <a href="https://www.npmjs.com/">npm</a>
+    for integration in a digital product ecosystem.
+  </li>
 </ul>
 
 <p>
@@ -66,27 +78,22 @@
   .
 </p>
 
-<h3>Development Environment</h3>
-
-<p><img alt="Development Server" src="./docs/images/start.png" /></p>
-
-<h3>Making Patterns</h3>
-
-<p><img alt="Making Patterns" src="./docs/images/make.png" /></p>
-
 <h2>Contents</h2>
 
 <ul>
   <li><a href="#installation">Installation</a></li>
   <li><a href="#npm-scripts">NPM Scripts</a></li>
-  <li><a href="#cli">CLI</a></li>
-  <li><a href="#commands">Commands</a></li>
-  <li><a href="#flags">Flags</a></li>
-  <li><a href="#make">Make</a></li>
   <li>
-    [NODE
-    <em>ENV](#node</em>
-    env)
+    <a href="#cli">CLI</a>
+    <ul>
+      <li><a href="#commands">Commands</a></li>
+      <li><a href="#flags">Flags</a></li>
+      <li>
+        [NODE
+        <em>ENV](#node</em>
+        env)
+      </li>
+    </ul>
   </li>
   <li><a href="#optional-dependencies">Optional dependencies</a></li>
   <li><a href="#updating">Updating</a></li>
@@ -95,7 +102,7 @@
   <li><a href="#additional-documentation">Documentation</a></li>
 </ul>
 
-<h2>Installation</h2>
+<h2>Usage</h2>
 
 <pre><code>$ npm install @nycopportunity/patterns-framework --save-dev
 
@@ -131,14 +138,46 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 
 <p>
   <strong>$5</strong>
+  Make a pattern and configure
+  <strong>rollup.js</strong>
+  and
+  <strong>node-sass</strong>
+  to compile it;
+</p>
+
+<pre><code>pttrn make component accordion</code></pre>
+
+<p><img alt="Making Patterns" src="./docs/images/make.png" /></p>
+
+<p>
+  <strong>$6</strong>
   Start the development server (assuming you&#39;ve added the
   <a href="#npm-scripts">npm scripts</a>
-  above to your package.json);
+  above to your package.json) and writing code;
 </p>
 
 <pre><code>npm start</code></pre>
 
-<h3>NPM Scripts</h3>
+<p><img alt="Development Server" src="./docs/images/start.png" /></p>
+
+<p>
+  <strong>$7</strong>
+  Version your library (assuming you&#39;ve added the
+  <a href="#npm-scripts">npm scripts</a>
+  above to your package.json)...
+</p>
+
+<pre><code>npm version {{ major/minor/patch }}</code></pre>
+
+<p>
+  ... then publish to
+  <strong>npm</strong>
+  for integration in other projects...
+</p>
+
+<pre><code>npm publish</code></pre>
+
+<h2>NPM Scripts</h2>
 
 <p>
   The recommended
@@ -179,7 +218,11 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
     <tr>
       <td><code>run default</code></td>
       <td></td>
-      <td>Runs a one-off compilation of all assets to the distribution directory.</td>
+      <td>
+        Runs a one-off compilation of all assets to the distribution directory in
+        <code>production</code>
+        mode.
+      </td>
     </tr>
     <tr>
       <td><code>version</code></td>
@@ -268,13 +311,13 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
     </tr>
     <tr>
       <td>
-        <a href="docs/commands/make.md"><code>make</code></a>
+        <a href="./docs/commands/make.md"><code>make</code></a>
       </td>
       <td>&lt;u&gt;make.js&lt;/u&gt;</td>
       <td></td>
       <td>
         Starts a survey prompt for creating a new pattern using templates defined in the configuration.
-        <a href="docs/commands/make.md">
+        <a href="./docs/commands/make.md">
           Read the
           <code>make</code>
           command docs
@@ -399,7 +442,7 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
   </tbody>
 </table>
 
-<h2>NODE_ENV</h2>
+<h3>NODE_ENV</h3>
 
 <p>
   Some scripts, particularly
@@ -504,7 +547,7 @@ src/component/pattern/readme.md     // Developer Usage</code></pre>
 
 <p>
   Additional
-  <a href="docs.md">documentation can be found here</a>
+  <a href="./docs.md">documentation can be found here</a>
   .
 </p>
 
@@ -528,6 +571,5 @@ src/component/pattern/readme.md     // Developer Usage</code></pre>
 </p>
 
     </main>
-    <script src="/reload/reload.js"></script>
   </body>
 </html>
