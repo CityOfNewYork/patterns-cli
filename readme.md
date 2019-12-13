@@ -1,14 +1,30 @@
 # NYCO Patterns Framework
 
-Command line utility for NYC Opportunity Patterns ([ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), [NYCO Patterns](https://nycopatterns.cityofnewyork.us)) + Cross-pattern utility library.
+Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and Growing Up/Generation NYC Patterns.
 
-* 💅 Compiles stylesheets using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
+* 💅 Compiles Sass using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
 * 🗞 Bundles JavaScript ES using [rollup.js](https://rollupjs.org/guide/en/).
 * 🗜️ SVG icon optimizer and sprite generator using [svgo](https://github.com/svg/svgo) and [svgstore-cli](https://github.com/svgstore/svgstore-cli).
 * ✨ Static site generator using [slm-lang](https://github.com/slm-lang).
 * 🤓 Development environment using [Express.js](https://expressjs.com/).
+* 📦 Organizes source code using a [design system methodology](#design-system-methodology).
 
-Each major package accepts a [custom configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config). Additionally, this package can be extended with additional npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+Each major feature uses a [configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+
+## Contents
+
+* [Installation](#installation)
+* [NPM Scripts](#npm-scripts)
+* [CLI](#cli)
+* [Commands](#commands)
+* [Flags](#flags)
+* [Make](#make)
+* [NODE_ENV](#node_env)
+* [Optional dependencies](#optional-dependencies)
+* [Updating](#updating)
+* [NVM](#nvm)
+* [Design System Methodology](#design-system-methodology)
+* [Documentation](#additional-documentation)
 
 ## Installation
 
@@ -38,12 +54,12 @@ Each major package accepts a [custom configuration file](https://github.com/City
 
 The recommended [npm scripts](https://docs.npmjs.com/misc/scripts) create shortcuts for using the cli.
 
-Command                         | Args              | Description
---------------------------------|-------------------|-
-`start`                         |                   | Starts the development environment.
-`run default`                   |                   | Runs a one-off compilation of all assets to the distribution directory.
-`version {{major/minor/patch}}` | major/minor/patch | Runs the `default` script and creates a new release using [npm's semantic versioning command](https://docs.npmjs.com/cli/version).
-`publish`                       |                   | Publish to the npm registry. This will run `prepublishOnly` and `publish` scripts in the recommended [npm scripts](#npm-scripts) above as well which push all tags to GitHub. Publishing requires running the `version` script before publishing.
+Command       | Args              | Description
+--------------|-------------------|-
+`start`       |                   | This starts the [Express.js](https://expressjs.com/) development server, which uses Express to render the views in **dist/**. It also uses [Concurrently](https://www.npmjs.com/package/concurrently) to trigger **--watch** scripts for the [default and serve commands](#commands). The `NODE_ENV` is set to `development` which affects the the styles compilation process by only compiling the global stylesheet.
+`run default` |                   | Runs a one-off compilation of all assets to the distribution directory.
+`version`     | major/minor/patch | Runs the `default` script and creates a new release using [npm's semantic versioning command](https://docs.npmjs.com/cli/version).
+`publish`     |                   | Publish to the npm registry. This will run `prepublishOnly` and `publish` scripts in the recommended [npm scripts](#npm-scripts) above as well which push all tags to GitHub. Publishing requires running the `version` script before publishing.
 
 ## CLI
 
@@ -58,17 +74,17 @@ Each script has corresponding configuration files in the **config/** directory.
 Command     | Configuration                      | Optional&nbsp;Flags | Description
 ------------|------------------------------------|---------------------|-
 `default`   |                                    | -w -n               | Lints files then asynchronously runs the _scripts_, _styles_, _svg_, and _build_ scripts (detailed below).
-`serve`     |                                    | -w -n               | Starts and Express app that serves the static files in the <u>./dist/</u> directory.
-`make`      | <u>make.js</u>                     |                     | Starts a survey prompt for creating a new pattern using templates defined in the configuration. [More details below](#make).
-`lint`      | <u>package.json</u>                |                     | Lints JS and SASS files in the <u>./src/</u> directory using the `eslintConfig` and `stylelintConfig` objects in the <u>package.json</u> file.
+`serve`     |                                    | -w -n               | Starts and Express app that serves the static files in the <u>./dist/</u> directory. By default it runs on port `7000` but this can be modified by the `PORT` environment variable.
+[`make`](docs/commands/make.md)      | <u>make.js</u>                     |                     | Starts a survey prompt for creating a new pattern using templates defined in the configuration. [Read the `make` command docs](docs/commands/make.md).
+`lint`      | <u>package.json</u>                |                     | Lints JS and Sass files in the <u>./src/</u> directory using the `eslintConfig` and `stylelintConfig` objects in the <u>package.json</u> file.
 `rollup `   | <u>rollup.js</u>                   | -w -n               | Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.
 `styles`    |                                    | -w                  | Syncronously runs the _variables_, _sass_, and _postcss_ scripts (detailed below).
 `variables` | <u>variables.js</u>                | -w -n               | Converts <u>./config/variables.js</u> into <u>./src/config/_variables.scss</u>.
-`sass`      | <u>sass.js</u>                     |                     | Processes pattern Sass stylesheets defined in the configuration into CSS.
+`sass`      | <u>sass.js</u>                     |                     | Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to "development" only the modules with the attribute `devModule: true` will be compiled.
 `postcss`   | <u>sass.js</u>, <u>postcss.js</u>  |                     | Runs PostCSS on Patterns CSS stylesheets defined in the <u>./config/sass.js</u> into CSS. PostCSS plugins are defined in the configuration.
 `svgs`      |                                    | -w -n               | Optimizes SVGS in the <u>./src/svg/</u> directory into the <u>./dist/svg</u> directory and creates an svg sprite for library icons in the <u>./dist/icons.svg</u> file.
 `slm`       | <u>variables.js</u>, <u>slm.js</u> | -w                  | Compiles Slm Lang files in <u>./src/views/</u> directory into static .html pages in the <u>./dist</u> directory.
-`locals`    | <u>variables.js</u>, <u>slm.js</u> |                     | This isn't a CLI script but it exports the local variables for the Slm Lang templates.
+`locals`    | <u>variables.js</u>, <u>slm.js</u> |                     | This isn't a CLI script but it exports the local variables for the slm-lang templates.
 `publish`   | <u>publish.js</u>                  |                     | Publishes the <u>./dist</u> directory to the `gh-pages` branch of the repository.
 
 ### Flags
@@ -78,10 +94,11 @@ Flag | Full&nbsp;Flag | Description
 `-w` | `--watch`      | Use [Nodemon](https://www.npmjs.com/package/nodemon) to watch source files and rerun the command when changes are made.
 `-n` | `--noisy`      | Some commands use [ShellJS](https://www.npmjs.com/package/shelljs) to execute other command line tasks. By default, their native output is silenced by configuring ShellJS to execute commands silently. This will allow those commands to show their native output.
 
-### Make
+## NODE_ENV
 
-Details about the make script to come. For now, refer to the documentation in the [ACCESS NYC Patterns > Developer Tools > Make Script documentation](https://accesspatterns.cityofnewyork.us/developer-tools#make-script).
+Some scripts, particularly `sass`, `rollup`, and `publish` require setting the `NODE_ENV` version to `production` or `development` in order to run. Patterns should be compiled in the production environment before publishing. The `npm publish` script will do this automatically.
 
+    NODE_ENV=production pttrn rollup
 
 ## Optional dependencies
 
@@ -101,12 +118,27 @@ The following dependencies are optional as they are used by configuration files.
     stylelint-config-standard
     tailwindcss
 
-# Troubleshooting
+## Updating
 
-* Some scripts require setting the `NODE_ENV` version to `production` or `development` in order to run.
-* `npm link` creates a symlink to *node_modules/@nycopportunity/patterns-framework* in the global node folder. If you are using `nvm` to manage versions of node, be sure you are using the correct version of node in your project directory.
+It's easiest to specify a version of the framework to update to as well as link the updated version.
 
-More details to come!
+    npm install @nycopportunity/patterns-framework@{{ version }}
+
+    npm link @nycopportunity/patterns-framework@{{ version }}
+
+## NVM
+
+If you are using `nvm` to manage versions of node, be sure you are using the correct version of node in your project directory. `npm link` creates a symlink to *node_modules/@nycopportunity/patterns-framework* in the current environment's node folder. Therefore, the CLI will reference the linked package in the environment's version of node.
+
+## Design System Methodology
+
+All of the source code is organized into four directories: elements, components, objects, and utilities. Read about this system in the [documentation](docs/patterns.md).
+
+![Elements, Components, Objects](docs/images/naming-01.png)
+
+## Documentation
+
+Additional [documentation can be found here](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/docs.md).
 
 ---
 
