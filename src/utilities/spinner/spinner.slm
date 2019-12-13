@@ -2,5 +2,5 @@
 / Spinner
 /
 
-svg class='spinner icon-4 text-color-yellow-access' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' data-sketch-symbol=symbol data-sketch-symbol-instance=instance
+svg class='spinner icon-4 text-color-yellow-access' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'
   circle class='spinner__path' cx='12' cy='12' r='10' fill='none'
