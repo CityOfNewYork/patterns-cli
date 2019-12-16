@@ -102,12 +102,36 @@ const modules = [
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/toggle/toggle.js`,
+    input: `${process.env.PWD}/src/utilities/icons/icons.js`,
     plugins: rollup.dist,
     output: [
       {
-        name: 'Toggle',
-        file: `${process.env.PWD}/dist/utilities/toggle/toggle.iffe.js`,
+        name: 'Icons',
+        file: `${process.env.PWD}/dist/utilities/icons/icons.iffe.js`,
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
+  {
+    input: `${process.env.PWD}/src/utilities/localize/localize.js`,
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'localize',
+        file: `${process.env.PWD}/dist/utilities/localize/localize.iffe.js`,
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
+  {
+    input: `${process.env.PWD}/src/utilities/lzw/lzw.js`,
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'LZW',
+        file: `${process.env.PWD}/dist/utilities/lzw/lzw.iffe.js`,
         format: 'iife',
         strict: rollup.strict
       }
@@ -124,7 +148,31 @@ const modules = [
         strict: rollup.strict
       }
     ]
-  }
+  },
+  {
+    input: `${process.env.PWD}/src/utilities/toggle/toggle.js`,
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'Toggle',
+        file: `${process.env.PWD}/dist/utilities/toggle/toggle.iffe.js`,
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
+  {
+    input: `${process.env.PWD}/src/utilities/track/track.js`,
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'Track',
+        file: `${process.env.PWD}/dist/utilities/track/track.iffe.js`,
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
 ];
 
 export default modules;

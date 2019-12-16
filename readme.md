@@ -26,6 +26,7 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 * [Updating](#updating)
 * [NVM](#nvm)
 * [Design System Methodology](#design-system-methodology)
+* [Cross-Utility Library](#cross-utility-library)
 * [Documentation](#additional-documentation)
 
 ## Usage
@@ -166,6 +167,10 @@ Each Pattern directory will contain all of the files needed for it's
     src/component/pattern/_pattern.scss // Styling
     src/component/pattern/pattern.md    // Documentation
     src/component/pattern/readme.md     // Developer Usage
+
+## Cross-Utility Library
+
+The pattern framework ships with shared ES Utility Modules (and some SASS) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the [documentation](./docs.md).
 
 ## Documentation
 

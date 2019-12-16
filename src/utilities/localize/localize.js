@@ -7,7 +7,9 @@
  * `slug` key whose value is some constant, and a `label` value which is the
  * translated equivalent. This function takes a slug name and returns the
  * label.
+ *
  * @param  {string} slug
+ *
  * @return {string} localized value
  */
 export default function(slug) {
