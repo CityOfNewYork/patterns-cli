@@ -1,0 +1,141 @@
+/**
+ * Toggle
+ * Reusable classes for hidden/active elements utilized by components that are
+ * toggled with the Utility.simpleToggle javascript function.
+ */
+
+// Dependencies
+@import 'config/variables';
+@import 'config/animate';
+@import 'animate.scss/vendor/assets/stylesheets/animate/fadeInUp';
+
+$animate: map-get($variables, 'animate');
+
+// Declarations
+[data-css-text]:before {
+  content: attr(data-css-text) // can't be read by screen readers
+}
+
+.active > [data-css-active-text]:before {
+  content: attr(data-css-active-text) // can't be read by screen readers
+}
+
+.hidden\:preload {
+  display: none;
+}
+
+.hidden\:preload.loaded {
+  display: inherit !important
+}
+
+// Declarations
+/**
+ * Hidden by overflow
+  */
+.hidden\:overflow,
+.hidden.hidden\:overflow,
+.hidden\:overflowFadeInUp,
+.hidden.hidden\:overflowFadeInUp {
+  overflow: hidden;
+}
+
+.hidden\:overflow:not(.animated),
+.hidden.hidden\:overflow:not(.animated),
+.hidden\:overflowFadeInUp:not(.animated),
+.hidden.hidden\:overflowFadeInUp:not(.animated) {
+  width: 0;
+  height: 0;
+  position: absolute;
+  max-height: 0;
+  visibility: hidden;
+  /** styles here affect the print. .print\:active.hidden\:overflow below **/
+}
+
+.hidden.hidden\:overflow,
+.hidden.hidden\:overflowFadeInUp {
+  display: inherit !important; // cancel out the .hidden display:none attribute.
+}
+
+.active.hidden\:overflow,
+.active.hidden.hidden\:overflow,
+.active.hidden\:overflowFadeInUp,
+.active.hidden.hidden\:overflowFadeInUp {
+  width: inherit;
+  height: inherit;
+  position: inherit;
+  max-height: none;
+  visibility: visible;
+}
+
+/**
+ * Animated Fade In Up
+  */
+.animated.hidden\:fadeInUp {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.animated.active.hidden\:fadeInUp {
+  max-height: none;
+  overflow: initial;
+  animation-name: fadeInUp;
+}
+
+/**
+ * Animated Overflow
+  */
+.hidden.hidden\:overflow.animated,
+.hidden.hidden\:overflowFadeInUp.animated {
+  max-height: 0;
+}
+
+.animated.hidden\:overflow,
+.animated.hidden\:overflowFadeInUp {
+  transition-property: max-height;
+  transition-duration: 0.5s;
+  transition-timing-function: map-get($animate, 'ease-out-quint');
+}
+
+.animated.active.hidden\:overflow,
+.animated.active.hidden\:overflowFadeInUp {
+  max-height: 10000px;
+  transition-duration: 4s;
+  transition-timing-function: inherit;
+}
+
+/**
+ * Animated Overflow and Fade In Up
+  */
+.animated.hidden\:overflowFadeInUp {
+  > .animated {
+    @include animate();
+  }
+}
+
+.animated.active.hidden\:overflowFadeInUp {
+  > .animated {
+    animation-name: fadeInUp;
+  }
+}
+
+@mixin toggles-print {
+  .print\:active {
+    display: inherit !important;
+  }
+
+  .print\:active.hidden\:overflow {
+    max-height: inherit !important;
+    overflow: visible !important;
+    height: auto !important;
+    visibility: visible !important;
+    position: static !important;
+  }
+}
+
+.print-view {
+  @include toggles-print
+}
+
+@media print {
+  @include toggles-print
+}

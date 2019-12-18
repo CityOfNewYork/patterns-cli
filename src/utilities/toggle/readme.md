@@ -4,6 +4,10 @@ The Toggle utility uses JavaScript to expand and collapse elements based on user
 
 ## Usage
 
+Optional. The Toggle Utility supports CSS animations for fading in so the stylesheet can be imported.
+
+    @import '@nycopportunity/patterns-framework/src/utilities/toggle/toggle';
+
 ### JavaScript
 
     import Toggle from '@nycopportunity/patterns-framework/src/utilities/toggle/toggle';
@@ -59,6 +63,50 @@ Option          | Type             | Importance | Description
 `activeClass`   | *string/boolean* | optional   | Single class name that will be toggled on the target element when the element is active or "expanded." Pass "false" to skip toggling an active class.
 `before`        | *function*       | optional   | A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class.
 `after`         | *function*       | optional   | A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class.
+
+### Animation
+
+If the stylesheet is imported the following animations can be used when toggling elements from hidden to visible.
+
+#### Fade In Up
+
+Adding the `hidden:fadeInUp animated` classes to the toggle target will animatet it's opacity from zero to one and up a few pixels.
+
+    <button type="button" data-js="toggle" aria-expanded="false" aria-controls="toggle-target">
+      Fade In Up
+    </button>
+
+    <div id="toggle-target" aria-hidden="true" class="hidden hidden:fadeInUp animated">
+      Targeted toggle element
+    </div>
+
+#### Overflow
+
+Adding the `hidden:overflow animated` classes to the toggle target will animate it's height to full view. The toggle target should have a nested `div` with it's contents.
+
+    <button type='button' data-js="toggle" aria-expanded="false" aria-controls="toggle-target">
+      Overflow Fade In Up
+    </button>
+
+    <div id="toggle-target" aria-hidden="true" class="hidden hidden:overflow animated">
+      <div>
+        Targeted toggle element
+      </div>
+    </div>
+
+#### Overflow Fade In Up
+
+Adding the `hidden:overflowFadeInUp animated` classes to the toggle target will animate it's height to full view and it's first child's opacity from zero to one and up a few pixels. The toggle target should have a nested `div` with it's contents and the class `animated` as well.
+
+    <button type='button' data-js="toggle" aria-expanded="false" aria-controls="toggle-target">
+      Overflow Fade In Up
+    </button>
+
+    <div id="toggle-target" aria-hidden="true" class="hidden hidden:overflowFadeInUp animated">
+      <div class="animated">
+        Targeted toggle element
+      </div>
+    </div>
 
 ## Polyfills
 
