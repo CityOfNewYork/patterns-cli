@@ -5,6 +5,8 @@
 ## Table of Contents
 
 * [Patterns](./docs/patterns.md)
+* [Installation](./docs/installation.md)
+* [Prototyping](./docs/prototyping.md)
 * [Contributing](./docs/contributing.md)
 * Commands
   * [Make](./docs/commands/make.md)
