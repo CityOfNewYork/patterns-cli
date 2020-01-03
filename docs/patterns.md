@@ -22,6 +22,6 @@ Objects are the most complex patterns and require a great deal of custom styling
 
 ## Utilities
 
-Utilities are reusable single-attribute styles used to customize markup so that fewer patterns need to be written. They are not tied to any element, component, or object, but they can help override styling in certain contexts and build views more efficiently. These Patterns use the [Tailwind Framework](https://tailwindcss.com/). Refer to the Tailwind Docs and [Tailwind configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/master/config/tailwind.js) for details on available modules and usage.
+Utilities are reusable single-attribute styles used to customize markup so that fewer patterns need to be written. They are not tied to any element, component, or object, but they can help override styling in certain contexts and build views more efficiently. It is recommended to use the [Tailwind CSS Framework](https://tailwindcss.com/), however it is optional.
 
 ![Utilities](./images/naming-03.png)

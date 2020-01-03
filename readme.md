@@ -3,13 +3,12 @@
 Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and Growing Up/Generation NYC Patterns.
 
 * 💅 Compiles [Sass](https://sass-lang.com/) using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
-* 💅 Integrates [Tailwind.css](https://tailwindcss.com/) for CSS utilities and rapid UI development.
 * 🗞 Bundles JavaScript ES using [rollup.js](https://rollupjs.org/guide/en/).
 * 🗜️ SVG icon optimizer and sprite generator using [svgo](https://github.com/svg/svgo) and [svgstore-cli](https://github.com/svgstore/svgstore-cli).
 * ✨ Generates a static site using [slm-lang](https://github.com/slm-lang) for documentation and development.
 * 🤓 Serves the local development environment using [Express.js](https://expressjs.com/).
 * 📦 Creates and organizes pattern source code using a [design system methodology](#design-system-methodology).
-* ⚛️ JavaScript Framework and dependency agnostic; use Svelte, React, Vue, etc.
+* ⚛️ CSS and JavaScript Framework agnostic; use Bootstrap, Tailwind CSS, Svelte, React, or Vue (or none of them... or all of them).
 * 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for integration in a digital product ecosystem.
 
 Each major feature uses a [configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
@@ -37,7 +36,7 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 
 **$2** Copy the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory into the root your pattern library.
 
-**$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually.
+**$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the <u>./config</u> directory.
 
 **$4** *Recommended*. Add the following npm scripts to your Patterns Library;
 
@@ -136,6 +135,8 @@ The following dependencies are optional as they are used by configuration files.
     rollup-plugin-replace
     stylelint-config-standard
     tailwindcss
+
+However, if you do not want to include them you will need to update the config files for PostCSS (config/postcss.js), Rollup.js (config/rollup.js), and alerts (config/alerts.js) by removing the required/imported dependencies and instances of their use in the file.
 
 ## Updating
 
