@@ -26,7 +26,7 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 * [NVM](#nvm)
 * [Design System Methodology](#design-system-methodology)
 * [Cross-Utility Library](#cross-utility-library)
-* [Documentation](#additional-documentation)
+* [Documentation](#documentation)
 
 ## Usage
 
