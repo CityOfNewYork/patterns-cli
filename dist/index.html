@@ -9,7 +9,7 @@
   </head>
   <body>
     <main class="container mx-auto">
-      <h1>0.0.23</h1>
+      <h1>0.0.24</h1>
       <h1>NYCO Patterns Framework</h1>
 
 <p>
@@ -100,9 +100,7 @@
 
 <h2>Usage</h2>
 
-<pre><code>$ npm install @nycopportunity/patterns-framework --save-dev
-
-$ npm link @nycopportunity/patterns-framework</code></pre>
+<pre><code>$ npm install @nycopportunity/patterns-framework --save-dev</code></pre>
 
 <p>
   <strong>$2</strong>
@@ -125,6 +123,7 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
 </p>
 
 <pre><code>&quot;scripts&quot;: {
+  &quot;pttrn&quot;: &quot;pttrn&quot;,
   &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
   &quot;default&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
   &quot;version&quot;: &quot;npm run default &amp;&amp; git add .&quot;,
@@ -132,8 +131,20 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
   &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
 },</code></pre>
 
+<p><strong>$5</strong></p>
+
 <p>
-  <strong>$5</strong>
+  Optional. Create an alias for the
+  <code>pttrn</code>
+  cli. If this step is not done, the npm script
+  <code>pttrn</code>
+  above can be used instead.
+</p>
+
+<pre><code>alias pttrn=&quot;./node_modules/.bin/pttrn&quot;</code></pre>
+
+<p>
+  <strong>$6</strong>
   Make a pattern and configure
   <strong>rollup.js</strong>
   and
