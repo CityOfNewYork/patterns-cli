@@ -46,19 +46,26 @@ Sass stylesheets for any pattern can be imported into a project from the source 
 
     @import 'node_modules/{{ pattern framework or library }}/src/components/accordion/accordion';
 
+
+### Specificity
+
+The majority of patterns share the same filename for the Sass and JavaScript (if a pattern uses JavaScript). It may be necessary to specify that you need to import the Sass file for [React](https://reactjs.org/) (or other) applications.
+
+    @import 'node_modules/{{ pattern framework or library }}/src/components/accordion/_accordion.scss';
+
 ### tailwindcss
 
-The exception is **tailwindcss**, which is compiled to a Sass file...
+Importing tailwindcss is an exception **tailwindcss** because it is compiled to a Sass file in the _dist_ directory...
 
-    @import 'node_modules/{{ pattern framework or library }}/dist/styles/_tailwind.scss';
+    @import 'node_modules/{{ pattern framework or library }}/dist/styles/_tailwindcss.scss';
 
 ... and a CSS file in the distribution folder:
 
-    <link href="https://cdn.jsdelivr.net/gh/cityofnewyork/{{ pattern framework or library }}@v0.1.0/dist/styles/tailwind.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/cityofnewyork/{{ pattern framework or library }}@{{ version }}/dist/styles/tailwindcss.css" rel="stylesheet">
 
 ### Asset Paths and CDN
 
-The styles use the `url()` for loading webfonts, images, and svgs. By default, it is set to look for asset directories one directory up from the distributed stylesheet like so:
+The styles use the `url()` for loading webfonts, images, and svgs. By default, it is set to look for asset directories one directory up from the distributed stylesheet so the directory structure of your application is expected to look like so:
 
     styles/site-default.scss
     images/..
@@ -70,7 +77,9 @@ However, you can set the path to a different path that includes all of these fil
     // $cdn: '../'; (default)
     $cdn: 'path/to/assets/';
 
-The CDN can be set to another local path, or, it can be set to the remote url within the `$variables` map. This default uses [jsDelivr](https://www.jsdelivr.com/) to pull the assets from the patterns GitHub repository and the tag of the installed version. ex;
+This variable should be placed above all of your imports of the pattern Sass files. The CDN can be set to another local path (such as an absolute path), or, it can be set to the remote url within the `$variables` map.
+
+This default uses [jsDelivr](https://www.jsdelivr.com/) to pull the assets from the patterns GitHub repository and the tag of the installed version. ex;
 
     @import 'config/variables';
     $cdn: map-get($variables, 'cdn');
@@ -81,11 +90,17 @@ These are the default paths to the different asset types within the asset folder
     $path-to-images: 'images/';
     $path-to-svg: 'svg/';
 
-### Include Paths
+This is recommended for [Webpack](https://webpack.js.org/) projects using the [css-loader](https://webpack.js.org/loaders/css-loader) because Webpack will try to import the asset into your distributed stylesheet. If you don't want to change the `$cdn` variable it is recommended for to disable the [url / image-set functions handling with a boolean](https://webpack.js.org/loaders/css-loader/#boolean).
 
-You can add **node_modules/@nycopportunity/{{ pattern framework or library }}/src** to your “include” paths which will allow you to write the shorthand path;
+### Resolving Paths to Patterns
+
+You can add the string `'node_modules/@nycopportunity/{{ pattern framework or library }}/src'` to your "resolve" or "include" paths which will allow you to write the shorthand path;
 
     @import 'components/accordion/accordion';
+
+or
+
+    @import 'components/accordion/_accordion.scss';
 
 For example; the [node-sass](https://github.com/sass/node-sass) `includePaths` option which is array of paths that attempt to resolve your `@import` declarations.
 
@@ -110,6 +125,18 @@ Similar to the the [gulp-sass](https://www.npmjs.com/package/gulp-sass) `include
           'node_modules/@nycopportunity/{{ pattern framework or library }}/src'
         ]})).pipe(gulp.dest('./css'));
     });
+
+[Webpack](https://webpack.js.org/) can be configured with the [resolve > modules](https://webpack.js.org/configuration/resolve/#resolvemodules) option.
+
+    module.exports = {
+      //...
+      resolve: {
+        modules: [
+          './node_modules',
+          './node_modules/@nycopportunity/{{ pattern framework or library }}/src'
+        ]
+      }
+    };
 
 ## Scripts
 

@@ -12,13 +12,10 @@
 $animate: map-get($variables, 'animate');
 
 // Declarations
-[data-css-text]:before {
-  content: attr(data-css-text) // can't be read by screen readers
-}
 
-.active > [data-css-active-text]:before {
-  content: attr(data-css-active-text) // can't be read by screen readers
-}
+/**
+ * Loading Content
+ */
 
 .hidden\:preload {
   display: none;
@@ -28,10 +25,10 @@ $animate: map-get($variables, 'animate');
   display: inherit !important
 }
 
-// Declarations
 /**
- * Hidden by overflow
-  */
+ * Hidden by Overflow
+ */
+
 .hidden\:overflow,
 .hidden.hidden\:overflow,
 .hidden\:overflowFadeInUp,
@@ -69,7 +66,8 @@ $animate: map-get($variables, 'animate');
 
 /**
  * Animated Fade In Up
-  */
+ */
+
 .animated.hidden\:fadeInUp {
   max-height: 0;
   overflow: hidden;
@@ -83,7 +81,8 @@ $animate: map-get($variables, 'animate');
 
 /**
  * Animated Overflow
-  */
+ */
+
 .hidden.hidden\:overflow.animated,
 .hidden.hidden\:overflowFadeInUp.animated {
   max-height: 0;
@@ -105,7 +104,8 @@ $animate: map-get($variables, 'animate');
 
 /**
  * Animated Overflow and Fade In Up
-  */
+ */
+
 .animated.hidden\:overflowFadeInUp {
   > .animated {
     @include animate();

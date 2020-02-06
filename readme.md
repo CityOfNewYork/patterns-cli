@@ -32,8 +32,6 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 
     $ npm install @nycopportunity/patterns-framework --save-dev
 
-    $ npm link @nycopportunity/patterns-framework
-
 **$2** Copy the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory into the root your pattern library.
 
 **$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the <u>./config</u> directory.
@@ -41,6 +39,7 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 **$4** *Recommended*. Add the following npm scripts to your Patterns Library;
 
     "scripts": {
+      "pttrn": "pttrn",
       "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve -w\" -p \"none\"",
       "default": "cross-env NODE_ENV=production pttrn default",
       "version": "npm run default && git add .",
@@ -48,7 +47,13 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
       "publish": "cross-env NODE_ENV=production pttrn publish"
     },
 
-**$5** Make a pattern and configure **rollup.js** and **node-sass** to compile it;
+**$5**
+
+Optional. Create an alias for the `pttrn` cli. If this step is not done, the npm script `pttrn` above can be used instead.
+
+    alias pttrn="./node_modules/.bin/pttrn"
+
+**$6** Make a pattern and configure **rollup.js** and **node-sass** to compile it;
 
     pttrn make component accordion
 

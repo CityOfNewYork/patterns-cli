@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const nodemon = require('nodemon');
+const concurrently = require('concurrently');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 
 const argvs = process.argv.slice(2);
@@ -14,7 +15,19 @@ if (args.watch) {
 
   console.log(`${alerts.watching} Styles watching ${alerts.ext('.scss')} in ${alerts.path('./src/')}`);
 } else {
-  require(`${__dirname}/variables.js`);
-  require(`${__dirname}/sass.js`);
-  require(`${__dirname}/postcss.js`);
+  let config = {
+    prefix: 'none',
+    raw: true
+  };
+
+  concurrently([`node ${__dirname}/variables.js`], config).then(
+    concurrently([`node ${__dirname}/sass.js`], config).then(
+      concurrently([`node ${__dirname}/postcss.js`], config).then(
+        () => { console.log(`${alerts.success} Styles finished`); },
+        () => { console.log(`${alerts.error} PostCSS failed`); }
+      ),
+      () => { console.log(`${alerts.error} Sass failed`); }
+    ),
+    () => { console.log(`${alerts.error} Variables failed`); }
+  );
 }

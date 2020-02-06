@@ -31,11 +31,6 @@
     .
   </li>
   <li>
-    💅 Integrates
-    <a href="https://tailwindcss.com/">Tailwind.css</a>
-    for CSS utilities and rapid UI development.
-  </li>
-  <li>
     🗞 Bundles JavaScript ES using
     <a href="https://rollupjs.org/guide/en/">rollup.js</a>
     .
@@ -62,7 +57,7 @@
     <a href="#design-system-methodology">design system methodology</a>
     .
   </li>
-  <li>⚛️ JavaScript Framework and dependency agnostic; use Svelte, React, Vue, etc.</li>
+  <li>⚛️ CSS and JavaScript Framework agnostic; use Bootstrap, Tailwind CSS, Svelte, React, or Vue (or none of them... or all of them).</li>
   <li>
     🚀 Scripts for publishing a pattern library to
     <a href="https://www.npmjs.com/">npm</a>
@@ -100,7 +95,7 @@
   <li><a href="#nvm">NVM</a></li>
   <li><a href="#design-system-methodology">Design System Methodology</a></li>
   <li><a href="#cross-utility-library">Cross-Utility Library</a></li>
-  <li><a href="#additional-documentation">Documentation</a></li>
+  <li><a href="#documentation">Documentation</a></li>
 </ul>
 
 <h2>Usage</h2>
@@ -120,7 +115,7 @@ $ npm link @nycopportunity/patterns-framework</code></pre>
   <strong>$3</strong>
   If you are using any of the
   <a href="#optional-dependencies">optional dependencies</a>
-  used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually.
+  used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the &lt;u&gt;./config&lt;/u&gt; directory.
 </p>
 
 <p>
@@ -483,6 +478,8 @@ rollup-plugin-replace
 stylelint-config-standard
 tailwindcss</code></pre>
 
+<p>However, if you do not want to include them you will need to update the config files for PostCSS (config/postcss.js), Rollup.js (config/rollup.js), and alerts (config/alerts.js) by removing the required/imported dependencies and instances of their use in the file.</p>
+
 <h2>Updating</h2>
 
 <p>It&#39;s easiest to specify a version of the framework to update to as well as link the updated version.</p>
@@ -547,7 +544,7 @@ src/component/pattern/readme.md     // Developer Usage</code></pre>
 <h2>Cross-Utility Library</h2>
 
 <p>
-  The pattern framework ships with shared ES Utility Modules (and some SASS) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the
+  The pattern framework ships with shared ES Utility Modules (and some Sass) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the
   <a href="./docs.md">documentation</a>
   .
 </p>

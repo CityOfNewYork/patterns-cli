@@ -3,7 +3,7 @@ let chalk = require('chalk');
 
 module.exports = {
   styles: emoji.get('nail_care') + ' ',
-  scripts: emoji.get('atom_symbol') + ' ',
+  scripts: emoji.get('rainbow') + ' ',
   rollup: emoji.get('rolled_up_newspaper') + ' ',
   question: emoji.get('question') + ' ',
   attention: emoji.get('wave') + ' ',
