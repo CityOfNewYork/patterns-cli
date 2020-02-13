@@ -2,13 +2,14 @@
 
 Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and Growing Up/Generation NYC Patterns.
 
+* 📦 Creates and organizes pattern source code using a [design system methodology](#design-system-methodology).
+* ⚪ Manages [Design Tokens](#design-tokens) through JavaScript configuration and shares them with Sass files.
 * 💅 Compiles [Sass](https://sass-lang.com/) using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
 * 🗞 Bundles JavaScript ES using [rollup.js](https://rollupjs.org/guide/en/).
 * 🗜️ SVG icon optimizer and sprite generator using [svgo](https://github.com/svg/svgo) and [svgstore-cli](https://github.com/svgstore/svgstore-cli).
 * ✨ Generates a static site using [slm-lang](https://github.com/slm-lang) for documentation and development.
 * 🤓 Serves the local development environment using [Express.js](https://expressjs.com/).
-* 📦 Creates and organizes pattern source code using a [design system methodology](#design-system-methodology).
-* ⚛️ CSS and JavaScript Framework agnostic; use Bootstrap, Tailwind CSS, Svelte, React, or Vue (or none of them... or all of them).
+* 🌈 CSS and JavaScript Framework agnostic; use Bootstrap, Tailwindcss, Svelte, React, or Vue (or none of them... or all of them).
 * 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for integration in a digital product ecosystem.
 
 Each major feature uses a [configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
@@ -173,6 +174,14 @@ Each Pattern directory will contain all of the files needed for it's
     src/component/pattern/_pattern.scss // Styling
     src/component/pattern/pattern.md    // Documentation
     src/component/pattern/readme.md     // Developer Usage
+
+### Utilities
+
+Utilities are reusable single-attribute styles used to customize markup. They are not tied to any element, component, or object, but they can override properties in certain contexts and help build views more efficiently by having to write less CSS. The Pattern Framework can rely on [Tailwindcss](https://tailwindcss.com/) for most stylistic utilities, although, it is an optional dependency.
+
+### Design Tokens
+
+Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the `variables` command which converts stored tokens in <u>./config/variables.js</u> into <u>./src/config/_variables.scss</u>. They can also be passed to the [Tailwindcss Configuration](https://tailwindcss.com/docs/configuration) for customization of CSS utilities.
 
 ## Cross-Utility Library
 
