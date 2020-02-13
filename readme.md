@@ -176,11 +176,11 @@ Each Pattern directory will contain all of the files needed for it's
 
 ## Cross-Utility Library
 
-The pattern framework ships with shared ES Utility Modules (and some Sass) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the [documentation](./docs.md).
+The pattern framework ships with shared ES Utility Modules (and some Sass) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the [documentation](./docs/readme.md).
 
 ## Documentation
 
-Additional [documentation can be found here](./docs.md).
+Additional [documentation can be found here](./docs/readme.md).
 
 ---
 
