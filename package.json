@@ -18,6 +18,7 @@
     "@babel/preset-env": "^7.8.4",
     "ajv": "^6.11.0",
     "animate.scss": "0.0.6",
+    "chokidar": "^3.3.1",
     "concurrently": "^4.1.2",
     "core-js": "^3.6.4",
     "cross-env": "^5.2.1",

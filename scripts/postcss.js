@@ -4,43 +4,73 @@
  * Dependencies
  */
 
-const Fs = require('fs');
-const Path = require('path');
-const Postcss = require('postcss');
+const fs = require('fs');
+const path = require('path');
+const postcss = require('postcss');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const config = require(`${process.env.PWD}/config/postcss`);
-const modules = require(`${process.env.PWD}/config/sass`);
 
 /**
- * Init
+ * The single command for PostCSS to process a Sass Module
+ *
+ * @param   {Array}  files  The contents of config/sass.js
+ *
+ * @return  {Boolean}       Wether process has completed or not
  */
-function run(module) {
-  let bundle = Path.join(process.env.PWD, module.outDir, module.outFile);
+const run = async (file) => {
+  let bundle = path.join(process.env.PWD, file.outDir, file.outFile);
 
-  Fs.readFile(bundle, (err, css) => {
-    Postcss(config.plugins)
-      .process(css, {
-        from: bundle,
-        to: bundle
-      })
-      .then(result => {
-        Fs.writeFile(bundle, result.css, (err) => {
-          if (err) {
-            console.log(`${alerts.error} ${err}`);
-          } else {
-            console.log(`${alerts.styles} PostCSS processed ${alerts.path(module.outDir + module.outFile)}`);
-          }
-        });
-      });
-  });
+  let css = fs.readFileSync(bundle);
+  let result = await postcss(config.plugins)
+    .process(css, {
+      from: bundle,
+      to: bundle
+    });
+
+  try {
+    await fs.writeFileSync(bundle, result.css);
+
+    console.log(`${alerts.styles} PostCSS processed ${alerts.path(file.outDir + file.outFile)}`);
+  } catch (err) {
+    console.log(`${alerts.error} ${err}`);
+  }
 }
 
-if (process.env.NODE_ENV === 'development') {
-  modules.forEach(function(module) {
-    if (module.devModule) {
-      run(module);
+/**
+ * A batch process function for each Sass Module for PostCSS to run on
+ *
+ * @param   {Array}  files  The contents of config/sass.js
+ *
+ * @return  {Boolean}       Wether process has completed or not
+ */
+const each = async (files) => {
+  let i = 0;
+
+  try {
+    if (process.env.NODE_ENV === 'development') {
+      for (i; i < files.length; i++) {
+        if (files[i].devModule) {
+          await run(files[i]);
+
+          break;
+        }
+      }
+    } else {
+      for (i; i < files.length; i++) {
+        await run(files[i]);
+      }
     }
-  });
-} else {
-  modules.forEach(run);
-}
+
+    return true;
+  } catch (err) {
+    console.log(`${alerts.error} ${err}`);
+
+    return false;
+  }
+};
+
+/** @type  {Object}  Export our methods */
+module.exports = {
+  'run': run,
+  'each': each
+};
