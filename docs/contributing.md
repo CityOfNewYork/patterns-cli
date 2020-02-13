@@ -1,4 +1,4 @@
-[← Table of Contents](../docs.md#table-of-contents)
+[← Table of Contents](./readme.md#table-of-contents)
 
 # Contributing
 
