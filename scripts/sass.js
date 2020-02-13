@@ -3,7 +3,7 @@
 /**
  * Dependencies
  */
-const Sass = require('node-sass');
+const Sass = require('sass');
 const Path = require('path');
 const Fs = require('fs');
 const mkdirp = require('mkdirp');
