@@ -24,7 +24,7 @@ function run(module) {
         to: bundle
       })
       .then(result => {
-        Fs.writeFile(bundle, result.css, (err) => {
+        Fs.writeFile(result.opts.to, result.css, (err) => {
           if (err) {
             console.log(`${alerts.error} ${err}`);
           } else {
