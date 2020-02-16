@@ -3,7 +3,7 @@
 /**
  * Dependencies
  */
-const Sass = require('sass');
+const Sass = (process.env.SASS = 'libSass') ? require('node-sass') : require('sass');
 const Path = require('path');
 const Fs = require('fs');
 const mkdirp = require('mkdirp');
