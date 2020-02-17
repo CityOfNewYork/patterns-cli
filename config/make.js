@@ -54,9 +54,9 @@ const templates = {
       "// pattern so that they can be exported individually and it's clear",
       "// where the pattern is getting variables from. You can create a",
       "// pattern specific SASS configuration in the /src/config directory, or",
-      "// add configuration to the /config/variables.js object (which is",
+      "// add configuration to the /config/tokens.js object (which is",
       "// to SASS during the compilation process).",
-      "// @import 'config/variables';",
+      "// @import 'config/tokens';",
       "",
       "// Declarations",
       "// .{{ prefix }}{{ pattern }} { }"
@@ -124,15 +124,15 @@ const templates = {
     ].join("\n"),
   'config': [
       "//",
-      "// Variables",
+      "// Config",
       "//",
       "",
       "// Dependencies",
-      "// @import 'config/variables';",
+      "// @import 'config/tokens';",
       "",
       "// Declarations",
-      "// Using map-get to retrieve a variable from the global $variables object.",
-      "// $var: map-get(map-get($variables, ''), '');"
+      "// Using map-get to retrieve a variable from the global $tokens object.",
+      "// $var: map-get(map-get($tokens, ''), '');"
     ].join("\n"),
   'views': [
       "= extend('layouts/default')",

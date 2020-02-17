@@ -20,7 +20,7 @@ const WHITELIST = ['elements', 'components', 'objects'];
  */
 
 let locals = {
-  variables: require(`${process.env.PWD}/config/variables`),
+  tokens: require(`${process.env.PWD}/config/tokens`),
   site: require(`${process.env.PWD}/config/slm`),
   views: VIEWS,
   env: {

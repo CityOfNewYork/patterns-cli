@@ -3,16 +3,16 @@
 //
 
 // Dependencies
-@import 'config/variables';
+@import 'config/tokens';
 
 // Declarations
-@mixin animate($animation: none, $speed: map-get(map-get($variables, 'animate'), 'animate-scss-speed')) {
+@mixin animate($animation: none, $speed: map-get(map-get($tokens, 'animate'), 'animate-scss-speed')) {
   @if $animation != none {
     animation-name: $animation;
   }
   animation-duration: $speed;
   animation-fill-mode: both;
-  animation-timing-function: map-get(map-get($variables, 'animate'), 'animate-timing-function');
+  animation-timing-function: map-get(map-get($tokens, 'animate'), 'animate-timing-function');
 }
 
 @mixin transition() {

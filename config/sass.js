@@ -10,11 +10,10 @@
 
 const sass = {
   sourceMapEmbed: true,
-  precision: 2,
   includePaths: [
     './node_modules/nyco-patterns/src/',
-    './src',
-    './node_modules'
+    './node_modules/animate.scss/',
+    './src/',
   ]
 };
 
@@ -28,7 +27,6 @@ module.exports = [
     outDir: './dist/styles/',
     outFile: 'site-default.css',
     sourceMapEmbed: sass.sourceMapEmbed,
-    precision: sass.precision,
     includePaths: sass.includePaths,
     devModule: true // This needs to be set if we want the module to be compiled during development
   },
@@ -37,15 +35,14 @@ module.exports = [
     outDir: './dist/utilities/spinner/',
     outFile: 'spinner.css',
     sourceMapEmbed: sass.sourceMapEmbed,
-    precision: sass.precision,
-    includePaths: sass.includePaths
+    includePaths: sass.includePaths,
+    devModule: true
   },
   {
     file: './src/utilities/toggle/_toggle.scss',
     outDir: './dist/utilities/toggle/',
     outFile: 'toggle.css',
     sourceMapEmbed: sass.sourceMapEmbed,
-    precision: sass.precision,
     includePaths: sass.includePaths
   }
 ];

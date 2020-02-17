@@ -3,58 +3,57 @@
 /**
  * Dependencies
  */
-const Sass = require('sass');
-const Path = require('path');
-const Fs = require('fs');
+
+const sass = require('sass');
+const path = require('path');
+const fs = require('fs');
 const mkdirp = require('mkdirp');
-const modules = require(`${process.env.PWD}/config/sass`);
 const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
- * Init
+ * The single command for Sass to process a Sass Module
+ *
+ * @param   {Array}  files  The contents of config/sass.js
  */
+const run = async (mod) => {
+  let outDir = path.join(process.env.PWD, mod.outDir);
+  let name = mod.outFile;
 
-function write(module) {
-  let outDir = Path.join(process.env.PWD, module.outDir);
-  let name = module.outFile;
-
-  Sass.render(module, (err, result) => {
-    if (err) {
-      console.log(`${alerts.error} ${err.formatted}`);
-    } else {
-      Fs.writeFile(`${outDir}${name}`, result.css, (err) => {
-        if (err) {
-          console.log(`${alerts.error} ${err}`);
-        } else {
-          console.log(`${alerts.styles} Sass compiled to ${alerts.path(module.outDir + name)}`);
-        }
-      });
+  try {
+    if (!fs.existsSync(outDir)) {
+      await mkdirp(outDir);
     }
-  });
-}
 
-function run(module) {
-  let outDir = Path.join(process.env.PWD, module.outDir);
+    let result = await sass.renderSync(mod);
 
-  if (!Fs.existsSync(outDir)) {
-    mkdirp(outDir, (err) => {
-      if (err) {
-        console.error(`${alerts.error} ${err}`);
-      } else {
-        write(module);
-      }
-    });
-  } else {
-    write(module);
+    await fs.writeFileSync(`${outDir}${name}`, result.css);
+
+    console.log(`${alerts.styles} Sass compiled to ${alerts.path(mod.outDir + name)}`);
+  } catch (err) {
+    let error = (err.formatted) ? err.formatted : err;
+    console.log(`${alerts.error} Sass failed: ${error}`);
   }
 }
 
-if (process.env.NODE_ENV === 'development') {
-  modules.forEach(function(module) {
-    if (module.devModule) {
-      run(module);
+/**
+ * A batch process function for each Sass Module for Sass to run on
+ *
+ * @param   {Array}  files  The contents of config/sass.js
+ */
+const each = async (modules) => {
+  let i = 0;
+
+  try {
+    for (i; i < modules.length; i++) {
+      await run(modules[i]);
     }
-  });
-} else {
-  modules.forEach(run);
-}
+  } catch (err) {
+    console.log(`${alerts.error} Sass failed: ${err}`);
+  }
+};
+
+/** @type  {Object}  Export our methods */
+module.exports = {
+  'run': run,
+  'each': each
+};
