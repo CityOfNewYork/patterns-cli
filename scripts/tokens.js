@@ -1,28 +1,38 @@
 #!/usr/bin/env node
 
+/**
+ * Dependencies
+ */
+
 const path = require('path');
 const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/tokens`).opts;
 const jsJsonFilesToSassScssFiles = require('json-to-scss/lib/jsJsonFilesToSassScssFiles');
 
+/** Config Getter */
+const config = () => {
+  return require(`${process.env.PWD}/config/tokens`);
+};
+
+/** Set options for json-to-sass */
+const opts = config().opts;
 const input = './config/tokens.js';
-const output = config.output.replace(/"/g, '');
+const output = opts.output.replace(/"/g, '');
 
 const options = [
   {input: [path.join(process.env.PWD, input)]},
   {output: [path.join(process.env.PWD, output)]},
-  {prefix: config.prefix ? config.prefix : '$tokens:'},
-  {suffix: config.suffix ? config.suffix : ';'},
-  {format: config.format ? config.format : '.scss'},
-  {indentationText: config.indentationSize ? config.indentationSize : '  '},
-  {indentationSize: config.indentationSize ? config.indentationSize : 1},
-  {emptyString: config.emptyString ? config.emptyString : '""'},
-  {noUnderscore: config.noUnderscore ? config.noUnderscore : true},
-  {mergeSourceFiles: config.mergeSourceFiles ? config.mergeSourceFiles : false},
-  {mergeSassObjects: config.mergeSassObjects ? config.mergeSassObjects : false},
-  {keys: config.keys ? config.keys : 'auto'},
-  {values: config.values ? config.values : 'auto'},
-  {stringKeys: config.stringKeys ? config.stringKeys : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
+  {prefix: opts.prefix ? opts.prefix : '$tokens:'},
+  {suffix: opts.suffix ? opts.suffix : ';'},
+  {format: opts.format ? opts.format : '.scss'},
+  {indentationText: opts.indentationSize ? opts.indentationSize : '  '},
+  {indentationSize: opts.indentationSize ? opts.indentationSize : 1},
+  {emptyString: opts.emptyString ? opts.emptyString : '""'},
+  {noUnderscore: opts.noUnderscore ? opts.noUnderscore : true},
+  {mergeSourceFiles: opts.mergeSourceFiles ? opts.mergeSourceFiles : false},
+  {mergeSassObjects: opts.mergeSassObjects ? opts.mergeSassObjects : false},
+  {keys: opts.keys ? opts.keys : 'auto'},
+  {values: opts.values ? opts.values : 'auto'},
+  {stringKeys: opts.stringKeys ? opts.stringKeys : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
 ];
 
 /**
@@ -30,7 +40,7 @@ const options = [
  *
  * @param   {Array}  files  The contents of config/sass.js
  */
-const run = async (opts = options) => {
+const main = async (opts = options) => {
   try {
     let args = opts.map((obj) => Object.values(obj)[0]);
 
@@ -49,10 +59,13 @@ const run = async (opts = options) => {
 
     process.exit(1);
   }
-}
+};
 
 /** @type  {Object}  Export our method */
 module.exports = {
-  'run': run,
-  'input': input
+  'main': main,
+  'run': main,
+  'input': input,
+  'config': config,
+  'options': options
 };

@@ -53,8 +53,8 @@ console.log = (args.silent) ? () => {} : console.log;
  */
 const main = async (modules) => {
   await tokens.run();
-  await sass.each(modules);
-  await postcss.each(modules);
+  await sass.run(modules);
+  await postcss.run(modules);
 
   console.log(`${alerts.success} Styles finished`);
 };

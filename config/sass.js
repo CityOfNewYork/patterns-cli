@@ -11,9 +11,9 @@
 const sass = {
   sourceMapEmbed: true,
   includePaths: [
-    './node_modules/nyco-patterns/src/',
-    './node_modules/animate.scss/',
     './src/',
+    './node_modules/nyco-patterns/src/',
+    './node_modules/animate.scss/'
   ]
 };
 

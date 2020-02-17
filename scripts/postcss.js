@@ -8,19 +8,29 @@ const fs = require('fs');
 const path = require('path');
 const postcss = require('postcss');
 const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/postcss`);
+
+/** Config Getter */
+const config = () => {
+  return require(`${process.env.PWD}/config/postcss`);
+};
+
+/** Set options for PostCSS */
+const options = config();
+
+/** Get Modules */
+const modules = require(`${process.env.PWD}/config/sass`);
 
 /**
  * The single command for PostCSS to process a Sass Module
  *
  * @param   {Array}  files  The contents of config/sass.js
  */
-const run = async (mod) => {
-  let bundle = path.join(process.env.PWD, mod.outDir, mod.outFile);
+const main = async (style) => {
+  let bundle = path.join(process.env.PWD, style.outDir, style.outFile);
   let css = fs.readFileSync(bundle);
 
   try {
-    let result = await postcss(config.plugins)
+    let result = await postcss(options.plugins)
       .process(css, {
         from: bundle,
         to: bundle
@@ -28,7 +38,7 @@ const run = async (mod) => {
 
     await fs.writeFileSync(bundle, result.css);
 
-    console.log(`${alerts.styles} PostCSS processed ${alerts.path(mod.outDir + mod.outFile)}`);
+    console.log(`${alerts.styles} PostCSS processed ${alerts.path(style.outDir + style.outFile)}`);
   } catch (err) {
     console.log(`${alerts.error} ${err}`);
   }
@@ -39,12 +49,12 @@ const run = async (mod) => {
  *
  * @param   {Array}  files  The contents of config/sass.js
  */
-const each = async (modules) => {
+const run = async (styles = modules) => {
   let i = 0;
 
   try {
-    for (i; i < modules.length; i++) {
-      await run(modules[i]);
+    for (i; i < styles.length; i++) {
+      await main(styles[i]);
     }
   } catch (err) {
     console.log(`${alerts.error} ${err}`);
@@ -53,6 +63,9 @@ const each = async (modules) => {
 
 /** @type  {Object}  Export our methods */
 module.exports = {
+  'main': main,
   'run': run,
-  'each': each
+  'config': config,
+  'options': options,
+  'modules': modules
 };
