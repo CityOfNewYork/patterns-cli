@@ -30,6 +30,22 @@ const args = {
 };
 
 /**
+ * Our Chokidar Watcher
+ *
+ * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ */
+const watcher = chokidar.watch([
+  './src/**/*.slm',
+  './src/**/*.md',
+  './views/**/*.slm'
+], {
+  usePolling: false,
+  awaitWriteFinish: {
+    stabilityThreshold: 750
+  }
+});
+
+/**
  * Functions
  */
 
@@ -153,18 +169,22 @@ function fnStr(filename, path, data) {
  */
 function fnReadFile(filename, path, fnCallback) {
   let fullPath = Path.join(path, filename);
-  Fs.readFile(fullPath, 'utf-8', (err, src) => {
-    if (err) {
-      console.log(`${alerts.error} ${err}`);
-      return;
-    }
-    let compiled = slm(src, {
-      filename: fullPath,
-      basePath: BASE_PATH,
-      useCache: false
-    })(LOCALS);
-    fnCallback(filename, path, prettier.format(compiled, LOCALS.site.prettier));
-  });
+  if (Fs.existsSync(fullPath)) {
+    Fs.readFile(fullPath, 'utf-8', (err, src) => {
+      if (err) {
+        console.log(`${alerts.error} ${err}`);
+        return;
+      }
+      let compiled = slm(src, {
+        filename: fullPath,
+        basePath: BASE_PATH,
+        useCache: false
+      })(LOCALS);
+      fnCallback(filename, path, prettier.format(compiled, LOCALS.site.prettier));
+    });
+  } else {
+    console.log(`${alerts.error} Slm failed: ${fullPath} needs to be created.`);
+  }
 }
 
 /**
@@ -183,21 +203,22 @@ function fnReadFiles(files, path) {
 }
 
 /**
- * Read the views directory
- * @param  {string} path - The path of the directory or file to read
- * @return {null}        - The name of the file that has changed
+ * Extracts the filename
+ * @param  {string} path - The full path of the file
+ * @return {null}        - The name of the file
  */
 function fnExtractFile(path){
   let file = path.split('\/');
+
   if(path.indexOf('/views/') > -1){
-    return file[file.length- 1];
+    return file[file.length - 1];
   } else {
     return file[file.length - 2] + '.slm';
   }
 }
 
 /**
- * Read the views directory
+ * Read the file or views directory
  * @param  {string} path - The path of the directory or file to read
  * @return {null}        - Only returns null if there is an error
  */
@@ -222,21 +243,15 @@ function fnReadDir(path) {
  * Init
  */
 if (args.watch) {
-  chokidar.watch([
-    './src/**/*.slm',
-    './src/**/*.md',
-    './views/**/*.slm'
-  ]).on('all', (event, path) => {
-    if (event == 'change') {
-      console.log(`${alerts.watching} Detected change on ${path}`);
+  watcher.on('change', (path) => {
+    console.log(`${alerts.watching} Detected change on ${path}`);
 
-      if ((path.indexOf(VIEWS) > -1) && (path.split(VIEWS).pop().indexOf('\/') > -1)) {
-        path = Path.join(process.env.PWD, VIEWS);
-      } else {
-        path = Path.join(process.env.PWD, path);
-      }
-      fnReadDir(path);
+    if ((path.indexOf(VIEWS) > -1) && (path.split(VIEWS).pop().indexOf('\/') > -1)) {
+      path = Path.join(process.env.PWD, VIEWS);
+    } else {
+      path = Path.join(process.env.PWD, path);
     }
+    fnReadDir(path);
   });
 } else {
   fnReadDir(Path.join(process.env.PWD, VIEWS));
