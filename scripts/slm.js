@@ -10,7 +10,7 @@ const Fs = require('fs');
 const prettier = require('prettier');
 const escape = require('escape-html');
 const markdown = require('markdown').markdown;
-const nodemon = require('nodemon');
+const chokidar = require('chokidar');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
@@ -20,10 +20,14 @@ const alerts = require(`${process.env.PWD}/config/alerts`);
 const SOURCE = Path.join(process.env.PWD, 'src/');
 const BASE_PATH = `${SOURCE}/views`;
 const VIEWS = 'src/views/';
-const DIST ='dist/';
+const DIST = 'dist/';
 const WHITELIST = ['partials', 'layouts', 'section'];
 const LOCALS = require('./locals');
-const ARGS = process.argv.slice(2);
+
+const argvs = process.argv.slice(2);
+const args = {
+  watch: (argvs.includes('-w') || argvs.includes('--watch'))
+};
 
 /**
  * Functions
@@ -58,14 +62,13 @@ function fnWrite(filename, path, data) {
 function fnCode(filename, path, data) {
   let blocks = data.match(/code{{(.*)}}/g);
   if (blocks) {
-    blocks.forEach(function(element, index) {
+    blocks.forEach(function (element, index) {
       let file = element.replace('code{{', '').replace('}}', '').trim();
       let path = `${SOURCE}${file}`;
       let src = Fs.readFileSync(path, 'utf-8');
       let compiled = slm(src, {
         filename: path
       })(LOCALS);
-
       data = data.replace(element, escape(prettier.format(compiled, LOCALS.site.prettier)));
     });
     fnMarkdown(filename, path, data);
@@ -83,7 +86,7 @@ function fnCode(filename, path, data) {
 function fnMarkdown(filename, path, data) {
   let md = data.match(/md{{(.*)}}/g);
   if (md) {
-    md.forEach(function(element, index) {
+    md.forEach(function (element, index) {
       let file = element.replace('md{{', '').replace('}}', '').trim();
       let path = `${SOURCE}${file}`;
       if (Fs.existsSync(path)) {
@@ -108,7 +111,7 @@ function fnMarkdown(filename, path, data) {
 function fnSlm(filename, path, data) {
   let blocks = data.match(/slm{{(.*)}}/g);
   if (blocks) {
-    blocks.forEach(function(element, index) {
+    blocks.forEach(function (element, index) {
       let file = element.replace('slm{{', '').replace('}}', '').trim();
       let path = `${SOURCE}${file}`;
       let src = Fs.readFileSync(path, 'utf-8');
@@ -131,7 +134,7 @@ function fnSlm(filename, path, data) {
 function fnStr(filename, path, data) {
   let blocks = data.match(/str{{(.*)}}/g);
   if (blocks) {
-    blocks.forEach(function(element, index) {
+    blocks.forEach(function (element, index) {
       let file = element.replace('str{{', '').replace('}}', '').trim();
       let path = `${SOURCE}${file}`;
       let src = Fs.readFileSync(path, 'utf-8');
@@ -157,7 +160,8 @@ function fnReadFile(filename, path, fnCallback) {
     }
     let compiled = slm(src, {
       filename: fullPath,
-      basePath: BASE_PATH
+      basePath: BASE_PATH,
+      useCache: false
     })(LOCALS);
     fnCallback(filename, path, prettier.format(compiled, LOCALS.site.prettier));
   });
@@ -180,26 +184,60 @@ function fnReadFiles(files, path) {
 
 /**
  * Read the views directory
- * @param  {string} path - The path of the directory to read
+ * @param  {string} path - The path of the directory or file to read
+ * @return {null}        - The name of the file that has changed
+ */
+function fnExtractFile(path){
+  let file = path.split('\/');
+  if(path.indexOf('/views/') > -1){
+    return file[file.length- 1];
+  } else {
+    return file[file.length - 2] + '.slm';
+  }
+}
+
+/**
+ * Read the views directory
+ * @param  {string} path - The path of the directory or file to read
  * @return {null}        - Only returns null if there is an error
  */
 function fnReadDir(path) {
-  Fs.readdir(path, 'utf-8', (err, files) => {
-    if (err) {
-      console.log(`${alerts.error} ${err}`);
-      return;
-    }
-    fnReadFiles(files, path);
-  });
+  const extensions = ['.slm', '.md'];
+  if (extensions.some(ext => path.includes(ext))) {
+    let file = fnExtractFile(path);
+    fnReadFile(file, Path.join(process.env.PWD, VIEWS), fnCode);
+  } 
+  else {
+    Fs.readdir(path, 'utf-8', (err, files) => {
+      if (err) {
+        console.log(`${alerts.error} ${err}`);
+        return;
+      }
+      fnReadFiles(files, path);
+    });
+  }
 }
 
 /**
  * Init
  */
-if (ARGS.includes('-w') || ARGS.includes('--watch')) {
-  nodemon(`-e slm,md -w ${process.env.PWD}/src -x ${__dirname}/slm.js`);
+if (args.watch) {
+  chokidar.watch([
+    './src/**/*.slm',
+    './src/**/*.md',
+    './views/**/*.slm'
+  ]).on('all', (event, path) => {
+    if (event == 'change') {
+      console.log(`${alerts.watching} Detected change on ${path}`);
 
-  console.log(`${alerts.watching} Slm watching ${alerts.ext('.slm')} and ${alerts.ext('.md')} in ${alerts.path('./src/')}`);
+      if ((path.indexOf(VIEWS) > -1) && (path.split(VIEWS).pop().indexOf('\/') > -1)) {
+        path = Path.join(process.env.PWD, VIEWS);
+      } else {
+        path = Path.join(process.env.PWD, path);
+      }
+      fnReadDir(path);
+    }
+  });
 } else {
   fnReadDir(Path.join(process.env.PWD, VIEWS));
 }
