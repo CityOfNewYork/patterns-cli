@@ -36,7 +36,7 @@ const main = async (style) => {
         to: bundle
       });
 
-    await fs.writeFileSync(bundle, result.css);
+    await fs.writeFileSync(result.opts.to, result.css);
 
     console.log(`${alerts.styles} PostCSS processed ${alerts.path(style.outDir + style.outFile)}`);
   } catch (err) {
