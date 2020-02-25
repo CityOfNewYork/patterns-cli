@@ -67,6 +67,8 @@ function fnWrite(filename, path, data) {
     }
 
     console.log(`${alerts.success} Slm compiled to ${alerts.path('./' + local)}`);
+
+    if (!args.watch) process.exit(0);
   });
 }
 
@@ -227,7 +229,7 @@ function fnReadDir(path) {
   if (extensions.some(ext => path.includes(ext))) {
     let file = fnExtractFile(path);
     fnReadFile(file, Path.join(process.env.PWD, VIEWS), fnCode);
-  } 
+  }
   else {
     Fs.readdir(path, 'utf-8', (err, files) => {
       if (err) {
@@ -242,6 +244,7 @@ function fnReadDir(path) {
 /**
  * Init
  */
+
 if (args.watch) {
   watcher.on('change', (path) => {
     console.log(`${alerts.watching} Detected change on ${path}`);
@@ -251,6 +254,7 @@ if (args.watch) {
     } else {
       path = Path.join(process.env.PWD, path);
     }
+
     fnReadDir(path);
   });
 } else {
