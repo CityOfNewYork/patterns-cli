@@ -97,7 +97,7 @@ const run = async (styles = modules) => {
         main(styls);
       });
 
-      console.log(`${alerts.watching} Styles watching ${alerts.ext(globs)}`);
+      console.log(`${alerts.watching} Styles watching ${alerts.ext(globs.join(', '))}`);
     } else {
       await main(modules);
 

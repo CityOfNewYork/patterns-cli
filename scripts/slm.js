@@ -23,6 +23,12 @@ const VIEWS = 'src/views/';
 const DIST = 'dist/';
 const WHITELIST = ['partials', 'layouts', 'section'];
 const LOCALS = require('./locals');
+const EXTENSIONS = ['.slm', '.md'];
+const GLOBS = [
+  './src/**/*.slm',
+  './src/**/*.md',
+  './views/**/*.slm'
+];
 
 const argvs = process.argv.slice(2);
 const args = {
@@ -34,11 +40,7 @@ const args = {
  *
  * @param  {Source}  url  https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch([
-  './src/**/*.slm',
-  './src/**/*.md',
-  './views/**/*.slm'
-], {
+const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob)), {
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
@@ -78,7 +80,7 @@ function fnWrite(filename, folder, data) {
  * @param  {String}  filename  the filename to write
  * @param  {Object}  data      the data to pass to the file
  */
-function includeCode(filename, path, data) {
+const includeCode = async (filename, path, data) => {
   let blocks = data.match(/code{{(.*)}}/g);
 
   if (blocks) {
@@ -93,10 +95,12 @@ function includeCode(filename, path, data) {
       data = data.replace(element, escape(prettier.format(compiled, LOCALS.site.prettier)));
     });
 
-    fnMarkdown(filename, path, data);
+    // fnMarkdown(filename, path, data);
   } else {
-    fnMarkdown(filename, path, data);
+    // fnMarkdown(filename, path, data);
   }
+
+  return data;
 }
 
 /**
@@ -183,30 +187,31 @@ function fnStr(filename, path, data) {
 /**
  * Read the the individual file in the directory
  *
- * @param  {String}    filename      The path of the file
+ * @param  {String}    filename    The path of the file
  * @param  {Function}  fnCallback  The callback function after read
  */
-const readFile = (filename, path, callback) => {
-  let fullPath = path.join(path, filename);
+const readFile = async (dir, file) => {
+  let fullPath = path.join(dir, file);
 
-  if (fs.existsSync(fullPath)) {
-    fs.readFile(fullPath, 'utf-8', (err, src) => {
-      if (err) {
-        console.log(`${alerts.error} ${err}`);
+  try {
+    // if (fs.existsSync(fullPath)) {
+    let src = fs.readFileSync(fullPath, 'utf-8');
 
-        return;
-      }
+    // if (err) {
+    //   console.log(`${alerts.error} ${err}`);
 
-      let compiled = slm(src, {
-        filename: fullPath,
-        basePath: BASE_PATH,
-        useCache: false
-      })(LOCALS);
+    //   return;
+    // }
 
-      callback(filename, path, prettier.format(compiled, LOCALS.site.prettier));
-    });
-  } else {
-    console.log(`${alerts.error} Slm failed: ${fullPath} needs to be created.`);
+    return slm(src, {
+      filename: fullPath,
+      basePath: BASE_PATH,
+      useCache: false
+    })(LOCALS);
+    // callback(filename, dir, prettier.format(compiled, LOCALS.site.prettier));
+
+  } catch (err) {
+    console.log(`${alerts.error} Slm failed (readFile): ${err}.`);
   }
 };
 
@@ -236,7 +241,7 @@ const readFiles = (files, path) => {
 const extractFile = (file) => {
   file = file.split('\/');
 
-  if(file.indexOf('/views/') > -1){
+  if (file.indexOf('/views/') > -1) {
     return file[file.length - 1];
   } else {
     return file[file.length - 2] + '.slm';
@@ -251,12 +256,14 @@ const extractFile = (file) => {
  * @return  {null}          Only returns null if there is an error
  */
 const main = async (file) => {
-  const extensions = ['.slm', '.md'];
+  if (EXTENSIONS.some(ext => file.includes(ext))) {
+    dir = path.join(process.env.PWD, VIEWS);
+    file = path.basename(file);
 
-  if (extensions.some(ext => file.includes(ext))) {
-    file = extractFile(file);
+    let compiled = await readFile(dir, file);
+    let data = await includeCode(file, dir, prettier.format(compiled, LOCALS.site.prettier));
 
-    readFile(file, path.join(process.env.PWD, VIEWS), includeCode);
+    console.log(data);
   } else {
     fs.readdir(file, 'utf-8', (err, files) => {
       if (err) {
@@ -277,21 +284,23 @@ const run = async () => {
   try {
     if (args.watch) {
       watcher.on('change', (changed) => {
-        console.log(`${alerts.watching} Detected change on ${changed}`);
+        let local = changed.replace(process.env.PWD, '');
+
+        console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
 
         if ((changed.indexOf(VIEWS) > -1) && (changed.split(VIEWS).pop().indexOf('\/') > -1)) {
           changed = path.join(process.env.PWD, VIEWS);
-        } else {
-          changed = path.join(process.env.PWD, changed);
         }
 
         main(changed);
       });
+
+      console.log(`${alerts.watching} Slm watching ${alerts.ext(GLOBS.join(', '))}`);
     } else {
       await main(path.join(process.env.PWD, VIEWS));
     }
   } catch (err) {
-    console.log(`${alerts.error} Slm failed: ${err}`);
+    console.log(`${alerts.error} Slm failed (run): ${err}`);
   }
 };
 
