@@ -5,11 +5,11 @@
  */
 
 // Dependencies
-@import 'config/variables';
+@import 'config/tokens';
 @import 'config/animate';
-@import 'animate.scss/vendor/assets/stylesheets/animate/fadeInUp';
+@import 'vendor/assets/stylesheets/animate/fadeInUp';
 
-$animate: map-get($variables, 'animate');
+$animate: map-get($tokens, 'animate');
 
 // Declarations
 

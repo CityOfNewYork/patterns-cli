@@ -4,43 +4,68 @@
  * Dependencies
  */
 
-const Fs = require('fs');
-const Path = require('path');
-const Postcss = require('postcss');
+const fs = require('fs');
+const path = require('path');
+const postcss = require('postcss');
 const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/postcss`);
+
+/** Config Getter */
+const config = () => {
+  return require(`${process.env.PWD}/config/postcss`);
+};
+
+/** Set options for PostCSS */
+const options = config();
+
+/** Get Modules */
 const modules = require(`${process.env.PWD}/config/sass`);
 
 /**
- * Init
+ * The single command for PostCSS to process a Sass Module
+ *
+ * @param   {Array}  files  The contents of config/sass.js
  */
-function run(module) {
-  let bundle = Path.join(process.env.PWD, module.outDir, module.outFile);
+const main = async (style) => {
+  let bundle = path.join(process.env.PWD, style.outDir, style.outFile);
+  let css = fs.readFileSync(bundle);
 
-  Fs.readFile(bundle, (err, css) => {
-    Postcss(config.plugins)
+  try {
+    let result = await postcss(options.plugins)
       .process(css, {
         from: bundle,
         to: bundle
-      })
-      .then(result => {
-        Fs.writeFile(result.opts.to, result.css, (err) => {
-          if (err) {
-            console.log(`${alerts.error} ${err}`);
-          } else {
-            console.log(`${alerts.styles} PostCSS processed ${alerts.path(module.outDir + module.outFile)}`);
-          }
-        });
       });
-  });
+
+    await fs.writeFileSync(result.opts.to, result.css);
+
+    console.log(`${alerts.styles} PostCSS processed ${alerts.path(style.outDir + style.outFile)}`);
+  } catch (err) {
+    console.log(`${alerts.error} ${err}`);
+  }
 }
 
-if (process.env.NODE_ENV === 'development') {
-  modules.forEach(function(module) {
-    if (module.devModule) {
-      run(module);
+/**
+ * A batch process function for each Sass Module for PostCSS to run on
+ *
+ * @param   {Array}  files  The contents of config/sass.js
+ */
+const run = async (styles = modules) => {
+  let i = 0;
+
+  try {
+    for (i; i < styles.length; i++) {
+      await main(styles[i]);
     }
-  });
-} else {
-  modules.forEach(run);
-}
+  } catch (err) {
+    console.log(`${alerts.error} ${err}`);
+  }
+};
+
+/** @type  {Object}  Export our methods */
+module.exports = {
+  'main': main,
+  'run': run,
+  'config': config,
+  'options': options,
+  'modules': modules
+};

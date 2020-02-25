@@ -18,9 +18,6 @@ const http = require('http');
 const args = process.argv.slice(2);
 const PORT = process.env.PORT || '7000';
 const DIST = Path.join(process.env.PWD, 'dist');
-const VIEWS = Path.join(process.env.PWD, 'src/views');
-const ENGINE = 'slm';
-const LOCALS = require('./locals');
 
 /**
  * Init
