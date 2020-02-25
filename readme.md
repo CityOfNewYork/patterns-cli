@@ -102,13 +102,13 @@ Command                                | Configuration                      | Op
 [`make`](./docs/commands/make.md)      | <u>make.js</u>                     |                     | Starts a survey prompt for creating a new pattern using templates defined in the configuration. [Read the `make` command docs](./docs/commands/make.md).
 `lint`                                 | <u>package.json</u>                |                     | Lints JS and Sass files in the <u>./src/</u> directory using the `eslintConfig` and `stylelintConfig` objects in the <u>package.json</u> file.
 `rollup `                              | <u>rollup.js</u>                   | -w -n               | Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.
-`styles`                               |                                    | -w                  | Syncronously runs the _variables_, _sass_, and _postcss_ scripts (detailed below).
-`variables`                            | <u>variables.js</u>                | -w -n               | Converts <u>./config/variables.js</u> into <u>./src/config/_variables.scss</u>.
+`styles`                               |                                    | -w                  | Syncronously runs the _tokens_, _sass_, and _postcss_ scripts (detailed below).
+`tokens`                            | <u>tokens.js</u>                | -w -n               | Converts <u>./config/tokens.js</u> into <u>./src/config/_tokens.scss</u>.
 `sass`                                 | <u>sass.js</u>                     |                     | Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to "development" only the modules with the attribute `devModule: true` will be compiled.
 `postcss`                              | <u>sass.js</u>, <u>postcss.js</u>  |                     | Runs PostCSS on Patterns CSS stylesheets defined in the <u>./config/sass.js</u> into CSS. PostCSS plugins are defined in the configuration.
 `svgs`                                 |                                    | -w -n               | Optimizes SVGS in the <u>./src/svg/</u> directory into the <u>./dist/svg</u> directory and creates an svg sprite for library icons in the <u>./dist/icons.svg</u> file.
-`slm`                                  | <u>variables.js</u>, <u>slm.js</u> | -w                  | Compiles Slm Lang files in <u>./src/views/</u> directory into static .html pages in the <u>./dist</u> directory.
-`locals`                               | <u>variables.js</u>, <u>slm.js</u> |                     | This isn't a CLI script but it exports the local variables for the slm-lang templates.
+`slm`                                  | <u>tokens.js</u>, <u>slm.js</u> | -w                  | Compiles Slm Lang files in <u>./src/views/</u> directory into static .html pages in the <u>./dist</u> directory.
+`locals`                               | <u>tokens.js</u>, <u>slm.js</u> |                     | This isn't a CLI script but it exports the local variables for the slm-lang templates.
 `publish`                              | <u>publish.js</u>                  |                     | Publishes the <u>./dist</u> directory to the `gh-pages` branch of the repository.
 
 ### Flags
@@ -128,6 +128,10 @@ Some scripts, particularly `sass`, `rollup`, and `publish` require setting the `
 
 The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.
 
+    @rollup/plugin-buble
+    @rollup/plugin-commonjs
+    @rollup/plugin-node-resolve
+    @rollup/plugin-replace
     autoprefixer
     chalk
     css-mqpacker
@@ -135,10 +139,6 @@ The following dependencies are optional as they are used by configuration files.
     eslint-config-google
     node-emoji
     rollup-plugin-babel
-    rollup-plugin-buble
-    rollup-plugin-commonjs
-    rollup-plugin-node-resolve
-    rollup-plugin-replace
     stylelint-config-standard
     tailwindcss
 
@@ -181,7 +181,7 @@ Utilities are reusable single-attribute styles used to customize markup. They ar
 
 ### Design Tokens
 
-Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the `variables` command which converts stored tokens in <u>./config/variables.js</u> into <u>./src/config/_variables.scss</u>. They can also be passed to the [Tailwindcss Configuration](https://tailwindcss.com/docs/configuration) for customization of CSS utilities.
+Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the `tokens` command which converts stored tokens in <u>./config/tokens.js</u> into <u>./src/config/_tokens.scss</u>. They can also be passed to the [Tailwindcss Configuration](https://tailwindcss.com/docs/configuration) for customization of CSS utilities.
 
 ## Cross-Utility Library
 
