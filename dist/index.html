@@ -22,6 +22,16 @@
 
 <ul>
   <li>
+    📦 Creates and organizes pattern source code using a
+    <a href="#design-system-methodology">design system methodology</a>
+    .
+  </li>
+  <li>
+    ⚪ Manages
+    <a href="#design-tokens">Design Tokens</a>
+    through JavaScript configuration and shares them with Sass files.
+  </li>
+  <li>
     💅 Compiles
     <a href="https://sass-lang.com/">Sass</a>
     using
@@ -52,12 +62,7 @@
     <a href="https://expressjs.com/">Express.js</a>
     .
   </li>
-  <li>
-    📦 Creates and organizes pattern source code using a
-    <a href="#design-system-methodology">design system methodology</a>
-    .
-  </li>
-  <li>⚛️ CSS and JavaScript Framework agnostic; use Bootstrap, Tailwind CSS, Svelte, React, or Vue (or none of them... or all of them).</li>
+  <li>🌈 CSS and JavaScript Framework agnostic; use Bootstrap, Tailwindcss, Svelte, React, or Vue (or none of them... or all of them).</li>
   <li>
     🚀 Scripts for publishing a pattern library to
     <a href="https://www.npmjs.com/">npm</a>
@@ -552,11 +557,29 @@ src/component/pattern/_pattern.scss // Styling
 src/component/pattern/pattern.md    // Documentation
 src/component/pattern/readme.md     // Developer Usage</code></pre>
 
+<h3>Utilities</h3>
+
+<p>
+  Utilities are reusable single-attribute styles used to customize markup. They are not tied to any element, component, or object, but they can override properties in certain contexts and help build views more efficiently by having to write less CSS. The Pattern Framework can rely on
+  <a href="https://tailwindcss.com/">Tailwindcss</a>
+  for most stylistic utilities, although, it is an optional dependency.
+</p>
+
+<h3>Design Tokens</h3>
+
+<p>
+  Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the
+  <code>variables</code>
+  command which converts stored tokens in &lt;u&gt;./config/variables.js&lt;/u&gt; into &lt;u&gt;./src/config/_variables.scss&lt;/u&gt;. They can also be passed to the
+  <a href="https://tailwindcss.com/docs/configuration">Tailwindcss Configuration</a>
+  for customization of CSS utilities.
+</p>
+
 <h2>Cross-Utility Library</h2>
 
 <p>
   The pattern framework ships with shared ES Utility Modules (and some Sass) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the
-  <a href="./docs.md">documentation</a>
+  <a href="./docs/readme.md">documentation</a>
   .
 </p>
 
@@ -564,7 +587,7 @@ src/component/pattern/readme.md     // Developer Usage</code></pre>
 
 <p>
   Additional
-  <a href="./docs.md">documentation can be found here</a>
+  <a href="./docs/readme.md">documentation can be found here</a>
   .
 </p>
 

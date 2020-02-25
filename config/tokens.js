@@ -12,7 +12,7 @@ const tokens = {
    */
   opts: {
     output: '"./src/config/_tokens.scss"',
-    // prefix: '$tokens:',
+    prefix: '"$tokens:"',
     // suffix: ';',
     // format: '.scss',
     // indentationText: '  ',

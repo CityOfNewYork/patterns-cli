@@ -21,18 +21,18 @@ const output = opts.output.replace(/"/g, '');
 const options = [
   {input: [path.join(process.env.PWD, input)]},
   {output: [path.join(process.env.PWD, output)]},
-  {prefix: opts.prefix ? opts.prefix : '$tokens:'},
-  {suffix: opts.suffix ? opts.suffix : ';'},
-  {format: opts.format ? opts.format : '.scss'},
-  {indentationText: opts.indentationSize ? opts.indentationSize : '  '},
-  {indentationSize: opts.indentationSize ? opts.indentationSize : 1},
-  {emptyString: opts.emptyString ? opts.emptyString : '""'},
+  {prefix: opts.prefix ? opts.prefix.replace(/"/g, '') : '$tokens:'},
+  {suffix: opts.suffix ? opts.suffix.replace(/"/g, '') : ';'},
+  {format: opts.format ? opts.format.replace(/"/g, '') : '.scss'},
+  {indentationText: opts.indentationSize ? opts.indentationSize.replace(/"/g, '') : '  '},
+  {indentationSize: opts.indentationSize ? opts.indentationSize.replace(/"/g, '') : 1},
+  {emptyString: opts.emptyString ? opts.emptyString.replace(/"/g, '') : '""'},
   {noUnderscore: opts.noUnderscore ? opts.noUnderscore : true},
   {mergeSourceFiles: opts.mergeSourceFiles ? opts.mergeSourceFiles : false},
   {mergeSassObjects: opts.mergeSassObjects ? opts.mergeSassObjects : false},
-  {keys: opts.keys ? opts.keys : 'auto'},
-  {values: opts.values ? opts.values : 'auto'},
-  {stringKeys: opts.stringKeys ? opts.stringKeys : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
+  {keys: opts.keys ? opts.keys.replace(/"/g, '') : 'auto'},
+  {values: opts.values ? opts.values.replace(/"/g, '') : 'auto'},
+  {stringKeys: opts.stringKeys ? opts.stringKeys.replace(/"/g, '') : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
 ];
 
 /**
