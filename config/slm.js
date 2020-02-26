@@ -23,7 +23,12 @@ const site = {
     singleQuote: true,
     jsxBracketSameLine: true,
     htmlWhitespaceSensitivity: 'ignore'
-  }
+  },
+  whitelist: [
+    'partials',
+    'layouts',
+    'section'
+  ]
 };
 
 module.exports = site;

@@ -1,0 +1,6 @@
+= extend('layouts/default')
+
+- title = ''
+
+= content('main')
+  = 'md{{ utilities/toggle/readme.md }}'
