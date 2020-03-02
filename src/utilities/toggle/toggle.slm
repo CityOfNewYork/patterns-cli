@@ -1,0 +1,3 @@
+button aria-controls='toggle-target' aria-expanded='true' class='btn btn-primary mb-3' data-js='toggle' type='button' Toggle
+
+div aria-hidden='false' class='bg-color-blue-light p-4 text-center active' id='toggle-target' Targeted toggle element

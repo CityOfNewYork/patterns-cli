@@ -1,6 +1,7 @@
 = extend('layouts/default')
 
-- title = ''
+- title = 'Toggle'
 
 = content('main')
-  = 'md{{ utilities/toggle/readme.md }}'
+  == this.include('utilities/toggle/readme.md');
+  = this.include('utilities/toggle/toggle');
