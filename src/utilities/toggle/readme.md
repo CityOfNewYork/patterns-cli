@@ -111,3 +111,7 @@ Adding the `hidden:overflowFadeInUp animated` classes to the toggle target will 
 ## Polyfills
 
 The script uses the `Element.prototype.matches`, `Element.prototype.removes`, `Nodelist.prototype.forEach` methods which require polyfills for IE11 support.
+
+## Demo
+
+include{{ utilities/toggle/toggle.slm }}

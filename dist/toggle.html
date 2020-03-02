@@ -176,17 +176,21 @@ new Toggle();
     <p>The script uses the <code>Element.prototype.matches</code>,
       <code>Element.prototype.removes</code>,
       <code>Nodelist.prototype.forEach</code> methods which require polyfills
-      for IE11 support.</p> &lt;button aria-controls=&quot;toggle-target&quot;
+      for IE11 support.</p>
+    <h2 id="heading-demo">Demo</h2>
+    <p><button aria-controls="toggle-target" aria-expanded="true"
+        class="btn btn-primary mb-3" data-js="toggle"
+        type="button">Toggle</button>
+      <div aria-hidden="false"
+        class="bg-color-blue-light p-4 text-center active" id="toggle-target">
+        Targeted toggle element</div>
+    </p> &lt;button aria-controls=&quot;toggle-target&quot;
     aria-expanded=&quot;true&quot; class=&quot;btn btn-primary mb-3&quot;
     data-js=&quot;toggle&quot;
     type=&quot;button&quot;&gt;Toggle&lt;/button&gt;&lt;div
     aria-hidden=&quot;false&quot; class=&quot;bg-color-blue-light p-4
     text-center active&quot; id=&quot;toggle-target&quot;&gt;Targeted toggle
-    element&lt;/div&gt;<button aria-controls="toggle-target"
-      aria-expanded="true" class="btn btn-primary mb-3" data-js="toggle"
-      type="button">Toggle</button>
-    <div aria-hidden="false" class="bg-color-blue-light p-4 text-center active"
-      id="toggle-target">Targeted toggle element</div>
+    element&lt;/div&gt;
   </main>
 </body>
 

@@ -109,13 +109,16 @@ marked.setOptions(opts.marked);
  * @return  {String}        File contents with compiled slm
  */
 function mrkdwnslm(data) {
-  let blocks = data.match(/slm{{(.*)}}/g);
+  let blocks = data.match(/include{{(.*)}}/g);
 
   if (blocks) {
     blocks.forEach(element => {
-      let file = element.replace('slm{{', '').replace('}}', '').trim();
-      let path = `${SOURCE}${file}`;
-      let src = fs.readFileSync(path, 'utf-8');
+      let file = element.replace('include{{', '').replace('}}', '').trim();
+
+      file = `${SOURCE}/${file}`;
+
+      let src = fs.readFileSync(file, 'utf-8');
+
       let compiled = slm(src, {
         filename: path
       })(CONFIG);
