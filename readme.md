@@ -35,7 +35,7 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 
 **$2** Copy the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory into the root your pattern library.
 
-**$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the <u>./config</u> directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the <u>./config</u> directory.
+**$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the *./config* directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the *./config* directory.
 
 **$4** *Recommended*. Add the following npm scripts to your Patterns Library;
 
@@ -98,18 +98,18 @@ Each script has corresponding configuration files in the **config/** directory.
 Command                                | Configuration                      | Optional&nbsp;Flags | Description
 ---------------------------------------|------------------------------------|---------------------|-
 `default`                              |                                    | -w -n               | Lints files then asynchronously runs the _scripts_, _styles_, _svg_, and _build_ scripts (detailed below).
-`serve`                                |                                    | -w -n               | Starts and Express app that serves the static files in the <u>./dist/</u> directory. By default it runs on port `7000` but this can be modified by the `PORT` environment variable.
-[`make`](./docs/commands/make.md)      | <u>make.js</u>                     |                     | Starts a survey prompt for creating a new pattern using templates defined in the configuration. [Read the `make` command docs](./docs/commands/make.md).
-`lint`                                 | <u>package.json</u>                |                     | Lints JS and Sass files in the <u>./src/</u> directory using the `eslintConfig` and `stylelintConfig` objects in the <u>package.json</u> file.
-`rollup `                              | <u>rollup.js</u>                   | -w -n               | Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.
+`serve`                                |                                    | -w -n               | Starts and Express app that serves the static files in the *./dist/* directory. By default it runs on port `7000` but this can be modified by the `PORT` environment variable.
+[`make`](./docs/commands/make.md)      | *make.js*                     |                     | Starts a survey prompt for creating a new pattern using templates defined in the configuration. [Read the `make` command docs](./docs/commands/make.md).
+`lint`                                 | *package.json*                |                     | Lints JS and Sass files in the *./src/* directory using the `eslintConfig` and `stylelintConfig` objects in the *package.json* file.
+`rollup `                              | *rollup.js*                   | -w -n               | Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.
 `styles`                               |                                    | -w                  | Syncronously runs the _variables_, _sass_, and _postcss_ scripts (detailed below).
-`variables`                            | <u>variables.js</u>                | -w -n               | Converts <u>./config/variables.js</u> into <u>./src/config/_variables.scss</u>.
-`sass`                                 | <u>sass.js</u>                     |                     | Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to "development" only the modules with the attribute `devModule: true` will be compiled.
-`postcss`                              | <u>sass.js</u>, <u>postcss.js</u>  |                     | Runs PostCSS on Patterns CSS stylesheets defined in the <u>./config/sass.js</u> into CSS. PostCSS plugins are defined in the configuration.
-`svgs`                                 |                                    | -w -n               | Optimizes SVGS in the <u>./src/svg/</u> directory into the <u>./dist/svg</u> directory and creates an svg sprite for library icons in the <u>./dist/icons.svg</u> file.
-`slm`                                  | <u>variables.js</u>, <u>slm.js</u> | -w                  | Compiles Slm Lang files in <u>./src/views/</u> directory into static .html pages in the <u>./dist</u> directory.
-`locals`                               | <u>variables.js</u>, <u>slm.js</u> |                     | This isn't a CLI script but it exports the local variables for the slm-lang templates.
-`publish`                              | <u>publish.js</u>                  |                     | Publishes the <u>./dist</u> directory to the `gh-pages` branch of the repository.
+`variables`                            | *variables.js*                | -w -n               | Converts *./config/variables.js* into *./src/config/_variables.scss*.
+`sass`                                 | *sass.js*                     |                     | Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to "development" only the modules with the attribute `devModule: true` will be compiled.
+`postcss`                              | *sass.js*, *postcss.js*  |                     | Runs PostCSS on Patterns CSS stylesheets defined in the *./config/sass.js* into CSS. PostCSS plugins are defined in the configuration.
+`svgs`                                 |                                    | -w -n               | Optimizes SVGS in the *./src/svg/* directory into the *./dist/svg* directory and creates an svg sprite for library icons in the *./dist/icons.svg* file.
+`slm`                                  | *variables.js*, *slm.js* | -w                  | Compiles Slm Lang files in *./src/views/* directory into static .html pages in the *./dist* directory.
+`locals`                               | *variables.js*, *slm.js* |                     | This isn't a CLI script but it exports the local variables for the slm-lang templates.
+`publish`                              | *publish.js*                  |                     | Publishes the *./dist* directory to the `gh-pages` branch of the repository.
 
 ### Flags
 
@@ -181,7 +181,7 @@ Utilities are reusable single-attribute styles used to customize markup. They ar
 
 ### Design Tokens
 
-Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the `variables` command which converts stored tokens in <u>./config/variables.js</u> into <u>./src/config/_variables.scss</u>. They can also be passed to the [Tailwindcss Configuration](https://tailwindcss.com/docs/configuration) for customization of CSS utilities.
+Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the `variables` command which converts stored tokens in *./config/variables.js* into *./src/config/_variables.scss*. They can also be passed to the [Tailwindcss Configuration](https://tailwindcss.com/docs/configuration) for customization of CSS utilities.
 
 ## Cross-Utility Library
 
