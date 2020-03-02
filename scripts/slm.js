@@ -82,22 +82,25 @@ const write = async (file, data) => {
 }
 
 /**
- * Update marked renderer with slm compiler
+ * Update marked renderer with slm compiler.
+ * Intended to replace the mrkdwnslm() method of including slm files in Markdown
+ * however this implementation of the renderer doesn't appear to be correct.
  */
 
-const renderer = (opts.marked.hasOwnProperty('renderer')) ?
-  opts.marked.renderer : new marked.Renderer();
+// const renderer = (opts.marked.hasOwnProperty('renderer')) ?
+//   opts.marked.renderer : new marked.Renderer();
+//
+// renderer.slm = (data) => {
+//   let blocks = data.match(/include{{(.*)}}/g);
+//
+//   console.log(blocks);
+// };
+
+// opts.marked.renderer = renderer;
 
 /**
- *
+ * Set marked options from config
  */
-renderer.slm = (data) => {
-  let blocks = data.match(/slm{{(.*)}}/g);
-
-  console.log(blocks);
-};
-
-opts.marked.renderer = renderer;
 
 marked.setOptions(opts.marked);
 
