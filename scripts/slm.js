@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 /**
  * Dependencies
  */
@@ -7,36 +9,25 @@
 const slm = require('slm').compile;
 const path = require('path');
 const fs = require('fs');
-const prettier = require('prettier');
-const escape = require('escape-html');
-const markdown = require('markdown').markdown;
+
+const beautify = require('js-beautify').html;
+const marked = require('marked');
 const chokidar = require('chokidar');
 
 const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/slm`);
+const CONFIG = require(`${process.env.PWD}/config/slm`);
+const opts = CONFIG.config;
 
 /**
  * Constants
  */
 
-const SOURCE = path.join(process.env.PWD, 'src/');
-const BASE_PATH = `${SOURCE}views`;
-const VIEWS = 'src/views/';
-const DIST = 'dist/';
-const WHITELIST = ['partials', 'layouts', 'section'];
-const LOCALS = require('./locals');
+const SOURCE = path.join(process.env.PWD, opts.src);
+const DIST = path.join(process.env.PWD, opts.dist);
+const BASE_PATH = `${SOURCE}/${opts.views}`;
+
 const EXT = '.slm';
 const GLOBS = [
-  './src/**/*.slm',
-  './src/**/*.md',
-  './views/**/*.slm'
-];
-
-const GLOBS_VIEWS = [
-  './views/**/*.slm'
-];
-
-const GLOBS_PTTRNS = [
   './src/**/*.slm',
   './src/**/*.md'
 ];
@@ -65,92 +56,59 @@ const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob
 /**
  * Write the html file to the distribution folder
  *
- * @param  {String}  filename  The filename to write
- * @param  {String}  folder
- * @param  {Object}  data      The data to pass to the file
+ * @param  {String}  file  The file source
+ * @param  {Object}  data  The data to pass to the file
  */
-function fnWrite(filename, folder, data) {
-  let rename = `${filename.split('.')[0]}.html`;
-  let distPath = folder.replace(VIEWS, DIST);
-  let distFile = path.join(distPath, rename);
-  let local = path.join(DIST, rename);
+const write = async (file, data) => {
+  try {
+    let dist = file.replace(EXT, '.html').replace(BASE_PATH, DIST);
+    let src = file.replace(process.env.PWD, '.');
+    let local = dist.replace(process.env.PWD, '.');
 
-  fs.writeFile(distFile, data, err => {
-    if (err) {
-      console.log(`${alerts.error} ${err}`);
-      return;
+    if (!fs.existsSync(path.dirname(dist))){
+      fs.mkdirSync(path.dirname(dist));
     }
 
-    console.log(`${alerts.success} Slm compiled to ${alerts.path('./' + local)}`);
-  });
-}
+    if (opts.beautify) {
+      data = beautify(data, opts.beautify);
+    }
 
-/**
- * Replace code blocks with the desired slm template
- *
- * @param  {String}  filename  the filename to write
- * @param  {Object}  data      the data to pass to the file
- */
-const includeCode = async (filename, path, data) => {
-  let blocks = data.match(/code{{(.*)}}/g);
+    fs.writeFileSync(dist, data);
 
-  if (blocks) {
-    blocks.forEach(element => {
-      let file = element.replace('code{{', '').replace('}}', '').trim();
-      let path = `${SOURCE}${file}`;
-      let src = fs.readFileSync(path, 'utf-8');
-      let compiled = slm(src, {
-        filename: path
-      })(LOCALS);
-
-      data = data.replace(element, escape(prettier.format(compiled, LOCALS.site.prettier)));
-    });
-
-    // fnMarkdown(filename, path, data);
-  } else {
-    // fnMarkdown(filename, path, data);
-  }
-
-  return data;
-}
-
-/**
- * Replace Markdown blocks with the desired md template
- * @param  {string} filename - the filename to write
- * @param  {string} path     - [description]
- * @param  {object} data     - the data to pass to the file
- */
-function fnMarkdown(filename, path, data) {
-  let md = data.match(/md{{(.*)}}/g);
-
-  if (md) {
-    md.forEach(element => {
-      let file = element.replace('md{{', '').replace('}}', '').trim();
-      let path = `${SOURCE}${file}`;
-
-      if (fs.existsSync(path)) {
-        let src = fs.readFileSync(path, 'utf-8');
-        let compiled = markdown.toHTML(src, 'Maruku');
-
-        data = data.replace(element, prettier.format(compiled, LOCALS.site.prettier));
-      } else {
-        data = data.replace(element, '');
-      }
-    });
-
-    fnSlm(filename, path, data);
-  } else {
-    fnSlm(filename, path, data);
+    console.log(`${alerts.success} Slm compiled ${alerts.path(src)} to ${alerts.path(local)}`);
+  } catch (err) {
+    console.log(`${alerts.error} Slm (write): ${err}`);
   }
 }
 
 /**
+ * Update marked renderer with slm compiler
+ */
+
+const renderer = (opts.marked.hasOwnProperty('renderer')) ?
+  opts.marked.renderer : new marked.Renderer();
+
+/**
+ *
+ */
+renderer.slm = (data) => {
+  let blocks = data.match(/slm{{(.*)}}/g);
+
+  console.log(blocks);
+};
+
+opts.marked.renderer = renderer;
+
+marked.setOptions(opts.marked);
+
+/**
  * Replace code blocks with the desired slm template
  *
- * @param  {string}  filename  The filename to write
- * @param  {object}  data      The data to pass to the file
+ * @param   {Object}  data  File contents
+ *
+ * @return  {String}        File contents with compiled slm
  */
-function fnSlm(filename, path, data) {
+function mrkdwnslm(data) {
   let blocks = data.match(/slm{{(.*)}}/g);
 
   if (blocks) {
@@ -160,61 +118,113 @@ function fnSlm(filename, path, data) {
       let src = fs.readFileSync(path, 'utf-8');
       let compiled = slm(src, {
         filename: path
-      })(LOCALS);
+      })(CONFIG);
 
-      data = data.replace(element, prettier.format(compiled, LOCALS.site.prettier));
+      data = data.replace(element, compiled);
     });
-
-    fnStr(filename, path, data);
-  } else {
-    fnStr(filename, path, data);
   }
+
+  return data;
 }
 
 /**
- * Replace string blocks with the desired template
+ * Include a file in a template
  *
- * @param  {String}  Filename  The filename to write
- * @param  {Object}  Data      The data to pass to the file
+ * @param  {String}  file   The relative path of the file
+ *
+ * @return {String}         The compiled file
  */
-function fnStr(filename, path, data) {
-  let blocks = data.match(/str{{(.*)}}/g);
+const include = (file) => {
+  let data = file;
+  let extname = path.extname(file);
 
-  if (blocks) {
-    blocks.forEach(element => {
-      let file = element.replace('str{{', '').replace('}}', '').trim();
-      let path = `${SOURCE}${file}`;
-      let src = fs.readFileSync(path, 'utf-8');
-
-      data = data.replace(element, src);
-    });
-
-    fnWrite(filename, path, data);
-  } else {
-    fnWrite(filename, path, data);
+  // Assume file is slm if extension isn't specified
+  if (extname === '') {
+    extname = EXT;
+    file = file + extname;
   }
-}
+
+  let handler = extname.replace('.', '');
+
+  // Set includes base path (source)
+  let dir = SOURCE;
+
+  file = path.join(dir, file);
+
+  // Pass file to the compile handler
+  if (compile.hasOwnProperty(handler)) {
+    data = compile[handler](file);
+  } else {
+    data = compile['default'](file);
+
+    console.log(`${alerts.info} Slm (include): no handler exists for ${extname} files.`);
+  }
+
+  return data;
+};
 
 /**
- * Read the the individual file in the directory
- *
- * @param  {String}    filename    The path of the file
- * @param  {Function}  fnCallback  The callback function after read
+ * Comiling methods
  */
-const compile = async (dir, file) => {
-  let fullPath = path.join(dir, file);
+const compile = {
+  /**
+   * Read a slm file and compile it to html, return the data.
+   *
+   * @param  {String}  file  The path of the file
+   * @param  {String}  dir   The base directory of the file
+   *
+   * @return {String}        The compiled html
+   */
+  slm: (file, dir = BASE_PATH) => {
+    try {
+      let src = fs.readFileSync(file, 'utf-8');
 
-  try {
-    let src = fs.readFileSync(fullPath, 'utf-8');
+      // Make the include method available to templates
+      CONFIG.include = include;
 
-    return slm(src, {
-      filename: fullPath,
-      basePath: BASE_PATH,
-      useCache: false
-    })(LOCALS);
+      return slm(src, {
+        filename: file,
+        basePath: dir,
+        useCache: false
+      })(CONFIG);
 
-  } catch (err) {
-    console.log(`${alerts.error} Slm failed (compile): ${err}.`);
+    } catch (err) {
+      console.log(`${alerts.error} Slm failed (compile.slm): ${err.stack}`);
+    }
+  },
+  /**
+   * Read a markdown file and compile it to html, return the data.
+   *
+   * @param  {String}  file  Path to the file to compile
+   *
+   * @return {String}        The compiled html
+   */
+  md: (file) => {
+    try {
+      let md = fs.readFileSync(file, 'utf-8');
+
+      md = marked(md);
+
+      md = mrkdwnslm(md);
+
+      return md;
+    } catch (err) {
+      console.log(`${alerts.error} Slm failed (compile.md): ${err.stack}`);
+    }
+  },
+  /**
+   * Read a file and return it's contents.
+   *
+   * @param  {String}  file  Path to the file to compile
+   *
+   * @return {String}        The file contents
+   */
+  default: (file) => {
+    try {
+      return fs.readFileSync(file, 'utf-8');
+    } catch (err) {
+      console.log(`${alerts.error} Slm failed (compile.default): ${err.stack}`);
+    }
   }
 };
 
@@ -225,74 +235,91 @@ const compile = async (dir, file) => {
  */
 const main = async (file) => {
   if (file.includes(EXT)) {
-    dir = BASE_PATH;
-    file = path.basename(file);
+    let compiled = await compile.slm(file);
 
-    let compiled = await compile(dir, file);
-    let data = await includeCode(file, dir, prettier.format(compiled, LOCALS.site.prettier));
-
-    console.log(data);
+    write(file, compiled);
   }
 }
 
 /**
- * Read a specific file or if it's a directory, reread all of the files in it.
+ * Read a specific file or if it's a directory, read all of the files in it
  *
- * @param  {String}  err    The error from reading the directory, if any
- * @param  {Array}   files  The list of files in the directory
+ * @param  {String}  file  A single file or directory to recursively walk
+ * @param  {String}  dir   The base directory of the file
  */
-const walk = (file) => {
+const walk = async (file, dir = BASE_PATH) => {
+  file = (file.includes(dir)) ? file : path.join(dir, file);
+
   if (file.includes(EXT)) {
-    main(file);
-  } else if (!config.whitelist.some(ext => file.includes(ext))) {
-    fs.readdir(file, 'utf-8', (err, files) => {
+    await main(file);
+  } else if (!opts.blacklist.some(folder => file.includes(folder))) {
+    try {
+      let files = fs.readdirSync(file, 'utf-8');
+
       for (let i = files.length - 1; i >= 0; i--) {
-        walk(files[i]);
+        await walk(files[i], file);
       }
-    });
+    } catch (err) {
+      console.log(`${alerts.error} Slm failed (walk): ${err}`);
+    }
   }
 };
 
 /**
  * Tne runner for single commands and the watcher
+ *
+ * @param  {String}  dir  The base directory of the file
  */
 const run = async (dir = BASE_PATH) => {
   try {
     let views = fs.readdirSync(dir).filter(view => view.includes(EXT));
 
+    // Watcher command
     if (args.watch) {
-      watcher.on('change', changed => {
-        let local = changed.replace(process.env.PWD, '');
+      watcher.on('change', async changed => {
+        if (process.env.NODE_ENV === 'development') {
+          // Create local reference to log
+          let local = changed.replace(process.env.PWD, '');
 
-        // Check if the changed file is in the base views directory
-        let isView = views.some(view => changed.includes(view));
+          // Check if the changed file is in the base views directory
+          let isView = views.some(view => changed.includes(view));
 
-        // Check the basename of the directory of the changed file
-        let hasView = views.some(view => {
-          let pttrn = path.basename(view, EXT);
+          // Check the parent directory of the changed file
+          let hasView = views.some(view => {
+            let pttrn = path.basename(view, EXT);
 
-          return path.dirname(changed).includes(pttrn);
-        });
+            return path.dirname(changed).includes(pttrn);
+          });
 
-        let inViews = changed.includes(BASE_PATH);
+          // Check that the file is in the views directory
+          let inViews = changed.includes(BASE_PATH);
 
-        console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
+          console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
 
-        if (isView || hasView) {
-          let pttrn = path.basename(path.dirname(changed));
-          let view = path.join(dir, pttrn + EXT);
+          // Run the single compiler task if the changed file is a view or has a view
+          if (isView || hasView) {
+            let pttrn = path.basename(path.dirname(changed));
+            let view = path.join(dir, pttrn + EXT);
 
-          changed = (hasView) ? view : changed;
+            changed = (hasView) ? view : changed;
 
-          main(changed);
-        } else if (inViews) {
-          walk(dir);
+            main(changed);
+          // Walk if the changed file is in the views directory
+          // such as a layout template or partial
+          } else if (inViews) {
+            await walk(dir);
+          }
+        } else {
+          await walk(dir);
         }
       });
 
       console.log(`${alerts.watching} Slm watching ${alerts.ext(GLOBS.join(', '))}`);
+    // One-off command
     } else {
-      walk(dir);
+      await walk(dir);
+
+      process.exit(0);
     }
   } catch (err) {
     console.log(`${alerts.error} Slm failed (run): ${err}`);
@@ -303,7 +330,5 @@ const run = async (dir = BASE_PATH) => {
 module.exports = {
   'main': main,
   'run': run,
-  // 'config': config,
-  // 'options': options,
-  // 'modules': modules
+  'config': CONFIG
 };
