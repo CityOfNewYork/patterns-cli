@@ -4,7 +4,7 @@
 
 import resolve from '@rollup/plugin-node-resolve'; // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
 import commonjs from '@rollup/plugin-commonjs';    // Convert CommonJS modules to ES6, so they can be included in a Rollup bundle
-import babel from 'rollup-plugin-babel';          // Transpile source code.
+import babel from 'rollup-plugin-babel';           // Transpile source code.
 import buble from '@rollup/plugin-buble';          // Convert ES2015 with buble.
 import replace from '@rollup/plugin-replace';      // Replace content while bundling.
 

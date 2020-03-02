@@ -8,7 +8,7 @@ const chokidar = require('chokidar');
 const path = require('path');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const tokens = require(`${__dirname}/tokens`);
-const tokensOpts = require(`${process.env.PWD}/config/tokens`).opts;
+const tokensConfig = require(`${process.env.PWD}/config/tokens`).config;
 const sass = require(`${__dirname}/sass`);
 const postcss = require(`${__dirname}/postcss`);
 const globs = [
@@ -62,10 +62,10 @@ const main = async (modules) => {
 /**
  * Our Chokidar Watcher
  *
- * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ * @param {Source} url https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(globs.map(glob => path.join(process.env.PWD, glob)), {
-  ignored: path.join(process.env.PWD, tokensOpts.output.replace(/"/g, '')),
+  ignored: path.join(process.env.PWD, tokensConfig.output.replace(/"/g, '')),
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
@@ -80,7 +80,7 @@ const watcher = chokidar.watch(globs.map(glob => path.join(process.env.PWD, glob
 const run = async (styles = modules) => {
   try {
     if (args.watch) {
-      watcher.on('change', (changed) => {
+      watcher.on('change', changed => {
         let local = changed.replace(process.env.PWD, '');
         let styls = [];
 

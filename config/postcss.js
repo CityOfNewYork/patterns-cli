@@ -13,7 +13,7 @@ const stylelint = require('stylelint');
  * Config
  */
 
-const PostCSS = {
+module.exports = {
   parser: 'postcss-scss',
   plugins: [
     stylelint(package.stylelintConfig),
@@ -23,5 +23,3 @@ const PostCSS = {
     cssnano()
   ]
 };
-
-module.exports = PostCSS;

@@ -6,15 +6,11 @@
 
 const path = require('path');
 const alerts = require(`${process.env.PWD}/config/alerts`);
+const config = require(`${process.env.PWD}/config/tokens`);
 const jsJsonFilesToSassScssFiles = require('json-to-scss/lib/jsJsonFilesToSassScssFiles');
 
-/** Config Getter */
-const config = () => {
-  return require(`${process.env.PWD}/config/tokens`);
-};
-
 /** Set options for json-to-sass */
-const opts = config().opts;
+const opts = config.config;
 const input = './config/tokens.js';
 const output = opts.output.replace(/"/g, '');
 
