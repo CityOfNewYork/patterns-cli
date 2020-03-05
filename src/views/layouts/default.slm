@@ -21,6 +21,7 @@ html lang='en'
 
     = content('scripts')
 
-    / The reload script. This is reserved for development only.
-    - if this.process.env.NODE_ENV === 'development'
+    / The reload script. This should not be compile during production builds
+    / @source https://www.npmjs.com/package/reload
+    - if this.process.env.NODE_ENV !== 'production'
       script src='/reload/reload.js'

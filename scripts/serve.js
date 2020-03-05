@@ -1,33 +1,62 @@
 #!/usr/bin/env node
 
+'use strict'
+
 /**
  * Dependencies
  */
 
 const Express = require('express');
 const reload = require('reload');
-const Path = require('path');
+const path = require('path');
 const alerts = require(`${process.env.PWD}/config/alerts`);
-const nodemon = require('nodemon');
+const chokidar = require('chokidar');
 const http = require('http');
 
 /**
  * Constants
  */
 
-const args = process.argv.slice(2);
 const PORT = process.env.PORT || '7000';
-const DIST = Path.join(process.env.PWD, 'dist');
+const DIST = path.join(process.env.PWD, 'dist');
+const GLOBS = [
+  './dist/**/*.html',
+  './dist/styles/*.css',
+  './dist/scripts/*.js'
+];
 
 /**
- * Init
+ * Process CLI args
  */
 
+const argvs = process.argv.slice(2);
+const args = {
+  watch: (argvs.includes('-w') || argvs.includes('--watch'))
+};
+
+ /**
+ * Our Chokidar Watcher
+ *
+ * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ */
+const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob)), {
+  usePolling: false,
+  awaitWriteFinish: {
+    stabilityThreshold: 750
+  }
+});
+
+/**
+ * The Express App
+ *
+ * @param  {Source}  url  https://expressjs.com/
+ */
 let APP = new Express();
+
 APP.set('port', PORT); // set the port
 
 /**
- * Request handler
+ * Application request handler
  */
 APP.get('/*', (request, resolve, next) => {
   let req = request.params[0];
@@ -42,24 +71,54 @@ APP.get('/*', (request, resolve, next) => {
   }
 });
 
+/**
+ * Create the http server
+ */
 let server = http.createServer(APP);
 
 /**
- * Use nodemon + reload to reload the server
+ * Main script, turns the server on to listen to the app
+ *
+ * @param  {Object}  app  The express app
  */
+const main = async (app = APP) => {
+  // Set the port to listen on
+  server.listen(app.get('port'), () => {
+    let port = app.get('port');
 
-if (args.includes('-w') || args.includes('--watch')) {
-  nodemon(`-e html --watch ${process.env.PWD}/dist -x ${__dirname}/serve.js`);
+    console.log(`${alerts.info} Serving ${alerts.path('./dist/')} to ${alerts.url('http://localhost:' + port)}`);
+  });
+};
 
-  console.log(`${alerts.watching} Serve watching ${alerts.ext('.html')} in ${alerts.path('./dist/')}`);
-} else {
-  reload(APP, {port: JSON.parse(PORT) + 1}).then(() => {
-    // Set the port to listen on
-    server.listen(APP.get('port'), () => {
-      let port = APP.get('port');
-      console.log(`${alerts.info} Serving ${alerts.path('./dist/')} to ${alerts.url('http://localhost:' + port)}`);
-    });
-  }).catch(function (err) {
-    console.error(`${alerts.error} Reload could not start`, err)
-  })
-}
+/**
+ * Runner for the serve script
+ *
+ * @param  {Object}  app  The express app
+ */
+const run = async (app = APP) => {
+  if (args.watch) {
+    try {
+      let reloadReturned = await reload(app);
+
+      main();
+
+      watcher.on('change', () => {
+        reloadReturned.reload();
+
+        console.log(`${alerts.watching} Serve reloading`);
+      });
+
+      console.log(`${alerts.watching} Serve watching ${alerts.ext(GLOBS.join(', '))}`);
+    } catch (err) {
+      console.error(`${alerts.error} Serve (run): ${err}`);
+    }
+  } else {
+    main()
+  }
+};
+
+/** @type  {Object}  Export our methods */
+module.exports = {
+  'main': main,
+  'run': run
+};
