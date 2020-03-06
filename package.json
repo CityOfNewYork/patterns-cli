@@ -1,6 +1,6 @@
 {
   "name": "@nycopportunity/patterns-framework",
-  "version": "0.0.24",
+  "version": "0.1.0",
   "description": "Front-end utilities from the Mayor's Office for Economic Opportunity",
   "main": "scripts/cli.js",
   "repository": {

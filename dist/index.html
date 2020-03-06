@@ -11,7 +11,7 @@
 
 <body>
   <main class="container mx-auto">
-    <h1>0.0.24</h1>
+    <h1>0.1.0</h1>
     <h2>Home</h2>
     <h1 id="heading-nyco-patterns-framework">NYCO Patterns Framework</h1>
     <p>Front-end stack, CLI, and cross-utility library for design systems.
@@ -154,12 +154,12 @@
       <strong>config/</strong> directory.</p>
     <h3 id="heading-commands">Commands</h3>
     <p>Command | Configuration | Optional&nbsp;Flags | Description
-      —————————————|————————————|———————|- <code>default</code> | | -w -n |
-      Lints files then asynchronously runs the <em>scripts</em>,
-      <em>styles</em>, <em>svg</em>, and <em>build</em> scripts (detailed
-      below). <code>serve</code> | | -w -n | Starts and Express app that serves
-      the static files in the <em>./dist/</em> directory. By default it runs on
-      port <code>7000</code> but this can be modified by the <code>PORT</code>
+      ———————————-|————————-|———————|- <code>default</code> | | -w -n | Lints
+      files then asynchronously runs the <em>scripts</em>, <em>styles</em>,
+      <em>svg</em>, and <em>build</em> scripts (detailed below).
+      <code>serve</code> | | -w -n | Starts and Express app that serves the
+      static files in the <em>./dist/</em> directory. By default it runs on port
+      <code>7000</code> but this can be modified by the <code>PORT</code>
       environment variable. <a
         href="./docs/commands/make.md"><code>make</code></a> | <em>make.js</em>
       | | Starts a survey prompt for creating a new pattern using templates
@@ -171,23 +171,23 @@
       <code>rollup</code> | <em>rollup.js</em> | -w -n | Runs Rollup.js,
       compiling pattern scripts defined in the configuration from ES Modules
       into CommonJS and/or iffe modules. <code>styles</code> | | -w |
-      Syncronously runs the <em>variables</em>, <em>sass</em>, and
-      <em>postcss</em> scripts (detailed below). <code>variables</code> |
-      <em>variables.js</em> | -w -n | Converts <em>./config/variables.js</em>
-      into <em>./src/config/_variables.scss</em>. <code>sass</code> |
-      <em>sass.js</em> | | Processes pattern Sass stylesheets defined in the
-      configuration into CSS. If the NODE_ENV is set to “development” only the
-      modules with the attribute <code>devModule: true</code> will be compiled.
+      Syncronously runs the <em>tokens</em>, <em>sass</em>, and <em>postcss</em>
+      scripts (detailed below). <code>tokens</code> | <em>tokens.js</em> | -w -n
+      | Converts <em>./config/tokens.js</em> into
+      <em>./src/config/_tokens.scss</em>. <code>sass</code> | <em>sass.js</em> |
+      | Processes pattern Sass stylesheets defined in the configuration into
+      CSS. If the NODE_ENV is set to “development” only the modules with the
+      attribute <code>devModule: true</code> will be compiled.
       <code>postcss</code> | <em>sass.js</em>, <em>postcss.js</em> | | Runs
       PostCSS on Patterns CSS stylesheets defined in the
       <em>./config/sass.js</em> into CSS. PostCSS plugins are defined in the
       configuration. <code>svgs</code> | | -w -n | Optimizes SVGS in the
       <em>./src/svg/</em> directory into the <em>./dist/svg</em> directory and
       creates an svg sprite for library icons in the <em>./dist/icons.svg</em>
-      file. <code>slm</code> | <em>variables.js</em>, <em>slm.js</em> | -w |
+      file. <code>slm</code> | <em>tokens.js</em>, <em>slm.js</em> | -w |
       Compiles Slm Lang files in <em>./src/views/</em> directory into static
       .html pages in the <em>./dist</em> directory. <code>locals</code> |
-      <em>variables.js</em>, <em>slm.js</em> | | This isn’t a CLI script but it
+      <em>tokens.js</em>, <em>slm.js</em> | | This isn’t a CLI script but it
       exports the local variables for the slm-lang templates.
       <code>publish</code> | <em>publish.js</em> | | Publishes the
       <em>./dist</em> directory to the <code>gh-pages</code> branch of the
@@ -216,17 +216,17 @@
     <p>The following dependencies are optional as they are used by configuration
       files. If your pattern library uses them they will need to be added
       manually.</p>
-    <pre><code>autoprefixer
+    <pre><code>@rollup/plugin-buble
+@rollup/plugin-commonjs
+@rollup/plugin-node-resolve
+@rollup/plugin-replace
+autoprefixer
 chalk
 css-mqpacker
 cssnano
 eslint-config-google
 node-emoji
 rollup-plugin-babel
-rollup-plugin-buble
-rollup-plugin-commonjs
-rollup-plugin-node-resolve
-rollup-plugin-replace
 stylelint-config-standard
 tailwindcss
 
@@ -284,10 +284,10 @@ src/component/pattern/readme.md     // Developer Usage
       utilities, although, it is an optional dependency.</p>
     <h3 id="heading-design-tokens">Design Tokens</h3>
     <p>Design Tokens are named variables that store visual properties. They are
-      shared between JavaScript and Sass files using the <code>variables</code>
-      command which converts stored tokens in <em>./config/variables.js</em>
-      into <em>./src/config/_variables.scss</em>. They can also be passed to the
-      <a href="https://tailwindcss.com/docs/configuration">Tailwindcss
+      shared between JavaScript and Sass files using the <code>tokens</code>
+      command which converts stored tokens in <em>./config/tokens.js</em> into
+      <em>./src/config/_tokens.scss</em>. They can also be passed to the <a
+        href="https://tailwindcss.com/docs/configuration">Tailwindcss
         Configuration</a> for customization of CSS utilities.</p>
     <h2 id="heading-cross-utility-library">Cross-Utility Library</h2>
     <p>The pattern framework ships with shared ES Utility Modules (and some
