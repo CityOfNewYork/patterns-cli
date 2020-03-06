@@ -1,6 +1,6 @@
 = extend('layouts/default')
 
-- title = ''
+- title = 'Home'
 
 = content('main')
-  = 'md{{ ../readme.md }}'
+  == this.include('../readme.md');

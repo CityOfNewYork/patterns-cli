@@ -3,7 +3,7 @@
  */
 
 const Path = require('path');
-const alerts = require('./alerts.js');
+const alerts = require(`${process.env.PWD}/config/alerts.js`);
 
 /**
  * Config

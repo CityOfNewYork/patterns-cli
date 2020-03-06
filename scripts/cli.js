@@ -5,7 +5,9 @@ let modules = [
   'styles',
   'tokens',
   'sass',
-  'postcss'
+  'postcss',
+  'slm',
+  'serve'
 ];
 
 if (script === undefined) {

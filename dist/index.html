@@ -1,615 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>NYC Opportunity Patterns Framework</title>
-    <link href="styles/site-default.css" rel="stylesheet" />
-  </head>
-  <body>
-    <main class="container mx-auto">
-      <h1>0.1.0</h1>
-      <h1>NYCO Patterns Framework</h1>
 
-<p>
-  Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for
-  <a href="https://nycopatterns.cityofnewyork.us">NYCO Patterns</a>
-  ,
-  <a href="https://accesspatterns.cityofnewyork.us">ACCESS NYC Patterns</a>
-  , and Growing Up/Generation NYC Patterns.
-</p>
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>NYC Opportunity Patterns Framework</title>
+  <link href="styles/site-default.css" rel="stylesheet" />
+</head>
 
-<ul>
-  <li>
-    📦 Creates and organizes pattern source code using a
-    <a href="#design-system-methodology">design system methodology</a>
-    .
-  </li>
-  <li>
-    ⚪ Manages
-    <a href="#design-tokens">Design Tokens</a>
-    through JavaScript configuration and shares them with Sass files.
-  </li>
-  <li>
-    💅 Compiles
-    <a href="https://sass-lang.com/">Sass</a>
-    using
-    <a href="https://github.com/sass/node-sass">node-sass</a>
-    and
-    <a href="https://postcss.org/">PostCSS</a>
-    .
-  </li>
-  <li>
-    🗞 Bundles JavaScript ES using
-    <a href="https://rollupjs.org/guide/en/">rollup.js</a>
-    .
-  </li>
-  <li>
-    🗜️ SVG icon optimizer and sprite generator using
-    <a href="https://github.com/svg/svgo">svgo</a>
-    and
-    <a href="https://github.com/svgstore/svgstore-cli">svgstore-cli</a>
-    .
-  </li>
-  <li>
-    ✨ Generates a static site using
-    <a href="https://github.com/slm-lang">slm-lang</a>
-    for documentation and development.
-  </li>
-  <li>
-    🤓 Serves the local development environment using
-    <a href="https://expressjs.com/">Express.js</a>
-    .
-  </li>
-  <li>🌈 CSS and JavaScript Framework agnostic; use Bootstrap, Tailwindcss, Svelte, React, or Vue (or none of them... or all of them).</li>
-  <li>
-    🚀 Scripts for publishing a pattern library to
-    <a href="https://www.npmjs.com/">npm</a>
-    for integration in a digital product ecosystem.
-  </li>
-</ul>
-
-<p>
-  Each major feature uses a
-  <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">configuration file</a>
-  for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom
-  <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
-  .
-</p>
-
-<h2>Contents</h2>
-
-<ul>
-  <li><a href="#installation">Installation</a></li>
-  <li><a href="#npm-scripts">NPM Scripts</a></li>
-  <li>
-    <a href="#cli">CLI</a>
+<body>
+  <main class="container mx-auto">
+    <h1>0.2.0</h1>
+    <h2>Home</h2>
+    <h1 id="heading-nyco-patterns-framework">NYCO Patterns Framework</h1>
+    <p>Front-end stack, CLI, and cross-utility library for design systems.
+      Created by NYC Opportunity for <a
+        href="https://nycopatterns.cityofnewyork.us">NYCO Patterns</a>, <a
+        href="https://accesspatterns.cityofnewyork.us">ACCESS NYC Patterns</a>,
+      and Growing Up/Generation NYC Patterns.</p>
     <ul>
-      <li><a href="#commands">Commands</a></li>
-      <li><a href="#flags">Flags</a></li>
-      <li>
-        [NODE
-        <em>ENV](#node</em>
-        env)
-      </li>
+      <li>📦 Creates and organizes pattern source code using a <a
+          href="#design-system-methodology">design system methodology</a>.</li>
+      <li>⚪ Manages <a href="#design-tokens">Design Tokens</a> through
+        JavaScript configuration and shares them with Sass files.</li>
+      <li>💅 Compiles <a href="https://sass-lang.com/">Sass</a> using <a
+          href="https://github.com/sass/node-sass">node-sass</a> and <a
+          href="https://postcss.org/">PostCSS</a>.</li>
+      <li>🗞 Bundles JavaScript ES using <a
+          href="https://rollupjs.org/guide/en/">rollup.js</a>.</li>
+      <li>🗜️ SVG icon optimizer and sprite generator using <a
+          href="https://github.com/svg/svgo">svgo</a> and <a
+          href="https://github.com/svgstore/svgstore-cli">svgstore-cli</a>.</li>
+      <li>✨ Generates a static site using <a
+          href="https://github.com/slm-lang">slm-lang</a> for documentation and
+        development.</li>
+      <li>🤓 Serves the local development environment using <a
+          href="https://expressjs.com/">Express.js</a>.</li>
+      <li>🌈 CSS and JavaScript Framework agnostic; use Bootstrap, Tailwindcss,
+        Svelte, React, or Vue (or none of them… or all of them).</li>
+      <li>🚀 Scripts for publishing a pattern library to <a
+          href="https://www.npmjs.com/">npm</a> for integration in a digital
+        product ecosystem.</li>
     </ul>
-  </li>
-  <li><a href="#optional-dependencies">Optional dependencies</a></li>
-  <li><a href="#updating">Updating</a></li>
-  <li><a href="#nvm">NVM</a></li>
-  <li><a href="#design-system-methodology">Design System Methodology</a></li>
-  <li><a href="#cross-utility-library">Cross-Utility Library</a></li>
-  <li><a href="#documentation">Documentation</a></li>
-</ul>
+    <p>Each major feature uses a <a
+        href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">configuration
+        file</a> for adding additional plugins and functionality. Additionally,
+      this package can be extended with npm packages and custom <a
+        href="https://docs.npmjs.com/misc/scripts">npm scripts</a>.</p>
+    <h2 id="heading-contents">Contents</h2>
+    <ul>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#npm-scripts">NPM Scripts</a></li>
+      <li><a href="#cli">CLI</a>
+        <ul>
+          <li><a href="#commands">Commands</a></li>
+          <li><a href="#flags">Flags</a></li>
+          <li><a href="#node_env">NODE_ENV</a></li>
+        </ul>
+      </li>
+      <li><a href="#optional-dependencies">Optional dependencies</a></li>
+      <li><a href="#updating">Updating</a></li>
+      <li><a href="#nvm">NVM</a></li>
+      <li><a href="#design-system-methodology">Design System Methodology</a>
+      </li>
+      <li><a href="#cross-utility-library">Cross-Utility Library</a></li>
+      <li><a href="#documentation">Documentation</a></li>
+    </ul>
+    <h2 id="heading-usage">Usage</h2>
+    <pre><code>$ npm install @nycopportunity/patterns-framework --save-dev
 
-<h2>Usage</h2>
-
-<pre><code>$ npm install @nycopportunity/patterns-framework --save-dev</code></pre>
-
-<p>
-  <strong>$2</strong>
-  Copy the
-  <a href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a>
-  directory into the root your pattern library.
-</p>
-
-<p>
-  <strong>$3</strong>
-  If you are using any of the
-  <a href="#optional-dependencies">optional dependencies</a>
-  used by the scripts in the &lt;u&gt;./config&lt;/u&gt; directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the &lt;u&gt;./config&lt;/u&gt; directory.
-</p>
-
-<p>
-  <strong>$4</strong>
-  <em>Recommended</em>
-  . Add the following npm scripts to your Patterns Library;
-</p>
-
-<pre><code>&quot;scripts&quot;: {
+</code></pre>
+    <p><strong>$2</strong> Copy the <a
+        href="https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config">./config</a>
+      directory into the root your pattern library.</p>
+    <p><strong>$3</strong> If you are using any of the <a
+        href="#optional-dependencies">optional dependencies</a> used by the
+      scripts in the <em>./config</em> directory you will need to install them
+      manually. If you do not want to use them they need to be removed from the
+      config files in the <em>./config</em> directory.</p>
+    <p><strong>$4</strong> <em>Recommended</em>. Add the following npm scripts
+      to your Patterns Library;</p>
+    <pre><code>&quot;scripts&quot;: {
   &quot;pttrn&quot;: &quot;pttrn&quot;,
   &quot;start&quot;: &quot;cross-env NODE_ENV=development cross-env PORT=7070 concurrently \&quot;pttrn default -w\&quot; \&quot;pttrn serve -w\&quot; -p \&quot;none\&quot;&quot;,
   &quot;default&quot;: &quot;cross-env NODE_ENV=production pttrn default&quot;,
   &quot;version&quot;: &quot;npm run default &amp;&amp; git add .&quot;,
   &quot;prepublishOnly&quot;: &quot;git push &amp;&amp; git push --tags&quot;,
   &quot;publish&quot;: &quot;cross-env NODE_ENV=production pttrn publish&quot;
-},</code></pre>
+},
 
-<p><strong>$5</strong></p>
+</code></pre>
+    <p><strong>$5</strong></p>
+    <p>Optional. Create an alias for the <code>pttrn</code> cli. If this step is
+      not done, the npm script <code>pttrn</code> above can be used instead.</p>
+    <pre><code>alias pttrn=&quot;./node_modules/.bin/pttrn&quot;
 
-<p>
-  Optional. Create an alias for the
-  <code>pttrn</code>
-  cli. If this step is not done, the npm script
-  <code>pttrn</code>
-  above can be used instead.
-</p>
+</code></pre>
+    <p><strong>$6</strong> Make a pattern and configure
+      <strong>rollup.js</strong> and <strong>node-sass</strong> to compile it;
+    </p>
+    <pre><code>pttrn make component accordion
 
-<pre><code>alias pttrn=&quot;./node_modules/.bin/pttrn&quot;</code></pre>
+</code></pre>
+    <p><img src="./docs/images/make.png" alt="Making Patterns"></p>
+    <p><strong>$6</strong> Start the development server (assuming you’ve added
+      the <a href="#npm-scripts">npm scripts</a> above to your package.json) and
+      writing code;</p>
+    <pre><code>npm start
 
-<p>
-  <strong>$6</strong>
-  Make a pattern and configure
-  <strong>rollup.js</strong>
-  and
-  <strong>node-sass</strong>
-  to compile it;
-</p>
+</code></pre>
+    <p><img src="./docs/images/start.png" alt="Development Server"></p>
+    <p><strong>$7</strong> Version your library (assuming you’ve added the <a
+        href="#npm-scripts">npm scripts</a> above to your package.json)…</p>
+    <pre><code>npm version {{ major/minor/patch }}
 
-<pre><code>pttrn make component accordion</code></pre>
+</code></pre>
+    <p>… then publish to <strong>npm</strong> for integration in other projects…
+    </p>
+    <pre><code>npm publish
 
-<p><img alt="Making Patterns" src="./docs/images/make.png" /></p>
+</code></pre>
+    <h2 id="heading-npm-scripts">NPM Scripts</h2>
+    <p>The recommended <a href="https://docs.npmjs.com/misc/scripts">npm
+        scripts</a> create shortcuts for using the cli.</p>
+    <p>Command | Args | Description ————–|——————-|- <code>start</code> | | This
+      starts the <a href="https://expressjs.com/">Express.js</a> development
+      server, which uses Express to render the views in <strong>dist/</strong>.
+      It also uses <a
+        href="https://www.npmjs.com/package/concurrently">Concurrently</a> to
+      trigger <strong>–watch</strong> scripts for the <a
+        href="#commands">default and serve commands</a>. The
+      <code>NODE_ENV</code> is set to <code>development</code> which affects the
+      the styles compilation process by only compiling the global stylesheet.
+      <code>run default</code> | | Runs a one-off compilation of all assets to
+      the distribution directory in <code>production</code> mode.
+      <code>version</code> | major/minor/patch | Runs the <code>default</code>
+      script and creates a new release using <a
+        href="https://docs.npmjs.com/cli/version">npm’s semantic versioning
+        command</a>. <code>publish</code> | | Publish to the npm registry. This
+      will run <code>prepublishOnly</code> and <code>publish</code> scripts in
+      the recommended <a href="#npm-scripts">npm scripts</a> above as well which
+      push all tags to GitHub. Publishing requires running the
+      <code>version</code> script before publishing.</p>
+    <h2 id="heading-cli">CLI</h2>
+    <p>Individal commands can be executed using the <code>pttrn</code> command
+      which maps to this package’s bin script. Avaliable commands can be seen
+      below.</p>
+    <pre><code>pttrn {{ command }}
 
-<p>
-  <strong>$6</strong>
-  Start the development server (assuming you&#39;ve added the
-  <a href="#npm-scripts">npm scripts</a>
-  above to your package.json) and writing code;
-</p>
+</code></pre>
+    <p>Each script has corresponding configuration files in the
+      <strong>config/</strong> directory.</p>
+    <h3 id="heading-commands">Commands</h3>
+    <p>Command | Configuration | Optional&nbsp;Flags | Description
+      ———————————-|————————-|———————|- <code>default</code> | | -w -n | Lints
+      files then asynchronously runs the <em>scripts</em>, <em>styles</em>,
+      <em>svg</em>, and <em>build</em> scripts (detailed below).
+      <code>serve</code> | | -w -n | Starts and Express app that serves the
+      static files in the <em>./dist/</em> directory. By default it runs on port
+      <code>7000</code> but this can be modified by the <code>PORT</code>
+      environment variable. <a
+        href="./docs/commands/make.md"><code>make</code></a> | <em>make.js</em>
+      | | Starts a survey prompt for creating a new pattern using templates
+      defined in the configuration. <a href="./docs/commands/make.md">Read the
+        <code>make</code> command docs</a>. <code>lint</code> |
+      <em>package.json</em> | | Lints JS and Sass files in the <em>./src/</em>
+      directory using the <code>eslintConfig</code> and
+      <code>stylelintConfig</code> objects in the <em>package.json</em> file.
+      <code>rollup</code> | <em>rollup.js</em> | -w -n | Runs Rollup.js,
+      compiling pattern scripts defined in the configuration from ES Modules
+      into CommonJS and/or iffe modules. <code>styles</code> | | -w |
+      Syncronously runs the <em>tokens</em>, <em>sass</em>, and <em>postcss</em>
+      scripts (detailed below). <code>tokens</code> | <em>tokens.js</em> | -w -n
+      | Converts <em>./config/tokens.js</em> into
+      <em>./src/config/_tokens.scss</em>. <code>sass</code> | <em>sass.js</em> |
+      | Processes pattern Sass stylesheets defined in the configuration into
+      CSS. If the NODE_ENV is set to “development” only the modules with the
+      attribute <code>devModule: true</code> will be compiled.
+      <code>postcss</code> | <em>sass.js</em>, <em>postcss.js</em> | | Runs
+      PostCSS on Patterns CSS stylesheets defined in the
+      <em>./config/sass.js</em> into CSS. PostCSS plugins are defined in the
+      configuration. <code>svgs</code> | | -w -n | Optimizes SVGS in the
+      <em>./src/svg/</em> directory into the <em>./dist/svg</em> directory and
+      creates an svg sprite for library icons in the <em>./dist/icons.svg</em>
+      file. <code>slm</code> | <em>tokens.js</em>, <em>slm.js</em> | -w |
+      Compiles Slm Lang files in <em>./src/views/</em> directory into static
+      .html pages in the <em>./dist</em> directory. <code>locals</code> |
+      <em>tokens.js</em>, <em>slm.js</em> | | This isn’t a CLI script but it
+      exports the local variables for the slm-lang templates.
+      <code>publish</code> | <em>publish.js</em> | | Publishes the
+      <em>./dist</em> directory to the <code>gh-pages</code> branch of the
+      repository.</p>
+    <h3 id="heading-flags">Flags</h3>
+    <p>Flag | Full&nbsp;Flag | Description —–|—————-|- <code>-w</code> |
+      <code>--watch</code> | Use <a
+        href="https://www.npmjs.com/package/nodemon">Nodemon</a> to watch source
+      files and rerun the command when changes are made. <code>-n</code> |
+      <code>--noisy</code> | Some commands use <a
+        href="https://www.npmjs.com/package/shelljs">ShellJS</a> to execute
+      other command line tasks. By default, their native output is silenced by
+      configuring ShellJS to execute commands silently. This will allow those
+      commands to show their native output.</p>
+    <h3 id="heading-node_env">NODE_ENV</h3>
+    <p>Some scripts, particularly <code>sass</code>, <code>rollup</code>, and
+      <code>publish</code> require setting the <code>NODE_ENV</code> version to
+      <code>production</code> or <code>development</code> in order to run.
+      Patterns should be compiled in the production environment before
+      publishing. The <code>npm publish</code> script will do this
+      automatically.</p>
+    <pre><code>NODE_ENV=production pttrn rollup
 
-<pre><code>npm start</code></pre>
-
-<p><img alt="Development Server" src="./docs/images/start.png" /></p>
-
-<p>
-  <strong>$7</strong>
-  Version your library (assuming you&#39;ve added the
-  <a href="#npm-scripts">npm scripts</a>
-  above to your package.json)...
-</p>
-
-<pre><code>npm version {{ major/minor/patch }}</code></pre>
-
-<p>
-  ... then publish to
-  <strong>npm</strong>
-  for integration in other projects...
-</p>
-
-<pre><code>npm publish</code></pre>
-
-<h2>NPM Scripts</h2>
-
-<p>
-  The recommended
-  <a href="https://docs.npmjs.com/misc/scripts">npm scripts</a>
-  create shortcuts for using the cli.
-</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Command</th>
-      <th>Args</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>start</code></td>
-      <td></td>
-      <td>
-        This starts the
-        <a href="https://expressjs.com/">Express.js</a>
-        development server, which uses Express to render the views in
-        <strong>dist/</strong>
-        . It also uses
-        <a href="https://www.npmjs.com/package/concurrently">Concurrently</a>
-        to trigger
-        <strong>--watch</strong>
-        scripts for the
-        <a href="#commands">default and serve commands</a>
-        . The
-        <code>NODE_ENV</code>
-        is set to
-        <code>development</code>
-        which affects the the styles compilation process by only compiling the global stylesheet.
-      </td>
-    </tr>
-    <tr>
-      <td><code>run default</code></td>
-      <td></td>
-      <td>
-        Runs a one-off compilation of all assets to the distribution directory in
-        <code>production</code>
-        mode.
-      </td>
-    </tr>
-    <tr>
-      <td><code>version</code></td>
-      <td>major/minor/patch</td>
-      <td>
-        Runs the
-        <code>default</code>
-        script and creates a new release using
-        <a href="https://docs.npmjs.com/cli/version">npm&#39;s semantic versioning command</a>
-        .
-      </td>
-    </tr>
-    <tr>
-      <td><code>publish</code></td>
-      <td></td>
-      <td>
-        Publish to the npm registry. This will run
-        <code>prepublishOnly</code>
-        and
-        <code>publish</code>
-        scripts in the recommended
-        <a href="#npm-scripts">npm scripts</a>
-        above as well which push all tags to GitHub. Publishing requires running the
-        <code>version</code>
-        script before publishing.
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h2>CLI</h2>
-
-<p>
-  Individal commands can be executed using the
-  <code>pttrn</code>
-  command which maps to this package&#39;s bin script. Avaliable commands can be seen below.
-</p>
-
-<pre><code>pttrn {{ command }}</code></pre>
-
-<p>
-  Each script has corresponding configuration files in the
-  <strong>config/</strong>
-  directory.
-</p>
-
-<h3>Commands</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Command</th>
-      <th>Configuration</th>
-      <th>Optional&amp;nbsp;Flags</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>default</code></td>
-      <td></td>
-      <td>-w -n</td>
-      <td>
-        Lints files then asynchronously runs the
-        <em>scripts</em>
-        ,
-        <em>styles</em>
-        ,
-        <em>svg</em>
-        , and
-        <em>build</em>
-        scripts (detailed below).
-      </td>
-    </tr>
-    <tr>
-      <td><code>serve</code></td>
-      <td></td>
-      <td>-w -n</td>
-      <td>
-        Starts and Express app that serves the static files in the &lt;u&gt;./dist/&lt;/u&gt; directory. By default it runs on port
-        <code>7000</code>
-        but this can be modified by the
-        <code>PORT</code>
-        environment variable.
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a href="./docs/commands/make.md"><code>make</code></a>
-      </td>
-      <td>&lt;u&gt;make.js&lt;/u&gt;</td>
-      <td></td>
-      <td>
-        Starts a survey prompt for creating a new pattern using templates defined in the configuration.
-        <a href="./docs/commands/make.md">
-          Read the
-          <code>make</code>
-          command docs
-        </a>
-        .
-      </td>
-    </tr>
-    <tr>
-      <td><code>lint</code></td>
-      <td>&lt;u&gt;package.json&lt;/u&gt;</td>
-      <td></td>
-      <td>
-        Lints JS and Sass files in the &lt;u&gt;./src/&lt;/u&gt; directory using the
-        <code>eslintConfig</code>
-        and
-        <code>stylelintConfig</code>
-        objects in the &lt;u&gt;package.json&lt;/u&gt; file.
-      </td>
-    </tr>
-    <tr>
-      <td><code>rollup</code></td>
-      <td>&lt;u&gt;rollup.js&lt;/u&gt;</td>
-      <td>-w -n</td>
-      <td>Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.</td>
-    </tr>
-    <tr>
-      <td><code>styles</code></td>
-      <td></td>
-      <td>-w</td>
-      <td>
-        Syncronously runs the
-        <em>variables</em>
-        ,
-        <em>sass</em>
-        , and
-        <em>postcss</em>
-        scripts (detailed below).
-      </td>
-    </tr>
-    <tr>
-      <td><code>variables</code></td>
-      <td>&lt;u&gt;variables.js&lt;/u&gt;</td>
-      <td>-w -n</td>
-      <td>Converts &lt;u&gt;./config/variables.js&lt;/u&gt; into &lt;u&gt;./src/config/_variables.scss&lt;/u&gt;.</td>
-    </tr>
-    <tr>
-      <td><code>sass</code></td>
-      <td>&lt;u&gt;sass.js&lt;/u&gt;</td>
-      <td></td>
-      <td>
-        Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to &quot;development&quot; only the modules with the attribute
-        <code>devModule: true</code>
-        will be compiled.
-      </td>
-    </tr>
-    <tr>
-      <td><code>postcss</code></td>
-      <td>&lt;u&gt;sass.js&lt;/u&gt;, &lt;u&gt;postcss.js&lt;/u&gt;</td>
-      <td></td>
-      <td>Runs PostCSS on Patterns CSS stylesheets defined in the &lt;u&gt;./config/sass.js&lt;/u&gt; into CSS. PostCSS plugins are defined in the configuration.</td>
-    </tr>
-    <tr>
-      <td><code>svgs</code></td>
-      <td></td>
-      <td>-w -n</td>
-      <td>Optimizes SVGS in the &lt;u&gt;./src/svg/&lt;/u&gt; directory into the &lt;u&gt;./dist/svg&lt;/u&gt; directory and creates an svg sprite for library icons in the &lt;u&gt;./dist/icons.svg&lt;/u&gt; file.</td>
-    </tr>
-    <tr>
-      <td><code>slm</code></td>
-      <td>&lt;u&gt;variables.js&lt;/u&gt;, &lt;u&gt;slm.js&lt;/u&gt;</td>
-      <td>-w</td>
-      <td>Compiles Slm Lang files in &lt;u&gt;./src/views/&lt;/u&gt; directory into static .html pages in the &lt;u&gt;./dist&lt;/u&gt; directory.</td>
-    </tr>
-    <tr>
-      <td><code>locals</code></td>
-      <td>&lt;u&gt;variables.js&lt;/u&gt;, &lt;u&gt;slm.js&lt;/u&gt;</td>
-      <td></td>
-      <td>This isn&#39;t a CLI script but it exports the local variables for the slm-lang templates.</td>
-    </tr>
-    <tr>
-      <td><code>publish</code></td>
-      <td>&lt;u&gt;publish.js&lt;/u&gt;</td>
-      <td></td>
-      <td>
-        Publishes the &lt;u&gt;./dist&lt;/u&gt; directory to the
-        <code>gh-pages</code>
-        branch of the repository.
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3>Flags</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Flag</th>
-      <th>Full&amp;nbsp;Flag</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>-w</code></td>
-      <td><code>--watch</code></td>
-      <td>
-        Use
-        <a href="https://www.npmjs.com/package/nodemon">Nodemon</a>
-        to watch source files and rerun the command when changes are made.
-      </td>
-    </tr>
-    <tr>
-      <td><code>-n</code></td>
-      <td><code>--noisy</code></td>
-      <td>
-        Some commands use
-        <a href="https://www.npmjs.com/package/shelljs">ShellJS</a>
-        to execute other command line tasks. By default, their native output is silenced by configuring ShellJS to execute commands silently. This will allow those commands to show their native output.
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3>NODE_ENV</h3>
-
-<p>
-  Some scripts, particularly
-  <code>sass</code>
-  ,
-  <code>rollup</code>
-  , and
-  <code>publish</code>
-  require setting the
-  <code>NODE_ENV</code>
-  version to
-  <code>production</code>
-  or
-  <code>development</code>
-  in order to run. Patterns should be compiled in the production environment before publishing. The
-  <code>npm publish</code>
-  script will do this automatically.
-</p>
-
-<pre><code>NODE_ENV=production pttrn rollup</code></pre>
-
-<h2>Optional dependencies</h2>
-
-<p>The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.</p>
-
-<pre><code>autoprefixer
+</code></pre>
+    <h2 id="heading-optional-dependencies">Optional dependencies</h2>
+    <p>The following dependencies are optional as they are used by configuration
+      files. If your pattern library uses them they will need to be added
+      manually.</p>
+    <pre><code>@rollup/plugin-buble
+@rollup/plugin-commonjs
+@rollup/plugin-node-resolve
+@rollup/plugin-replace
+autoprefixer
 chalk
 css-mqpacker
 cssnano
 eslint-config-google
 node-emoji
 rollup-plugin-babel
-rollup-plugin-buble
-rollup-plugin-commonjs
-rollup-plugin-node-resolve
-rollup-plugin-replace
 stylelint-config-standard
-tailwindcss</code></pre>
+tailwindcss
 
-<p>However, if you do not want to include them you will need to update the config files for PostCSS (config/postcss.js), Rollup.js (config/rollup.js), and alerts (config/alerts.js) by removing the required/imported dependencies and instances of their use in the file.</p>
+</code></pre>
+    <p>However, if you do not want to include them you will need to update the
+      config files for PostCSS (config/postcss.js), Rollup.js
+      (config/rollup.js), and alerts (config/alerts.js) by removing the
+      required/imported dependencies and instances of their use in the file.</p>
+    <h2 id="heading-updating">Updating</h2>
+    <p>It’s easiest to specify a version of the framework to update to as well
+      as link the updated version.</p>
+    <pre><code>npm install @nycopportunity/patterns-framework@{{ version }}
 
-<h2>Updating</h2>
+npm link @nycopportunity/patterns-framework@{{ version }}
 
-<p>It&#39;s easiest to specify a version of the framework to update to as well as link the updated version.</p>
-
-<pre><code>npm install @nycopportunity/patterns-framework@{{ version }}
-
-npm link @nycopportunity/patterns-framework@{{ version }}</code></pre>
-
-<h2>NVM</h2>
-
-<p>
-  If you are using
-  <code>nvm</code>
-  to manage versions of node, be sure you are using the correct version of node in your project directory.
-  <code>npm link</code>
-  creates a symlink to
-  <em>node_modules/@nycopportunity/patterns-framework</em>
-  in the current environment&#39;s node folder. Therefore, the CLI will reference the linked package in the environment&#39;s version of node.
-</p>
-
-<h2>Design System Methodology</h2>
-
-<p><img alt="Elements, Components, Objects" src="./docs/images/naming-01.png" /></p>
-
-<p>
-  All of your project&#39;s source code will be organized into four directories:
-  <strong>Elements</strong>
-  ,
-  <strong>Components</strong>
-  ,
-  <strong>Objects</strong>
-  , and
-  <strong>Utilities</strong>
-  . Read about this system in the
-  <a href="./docs/patterns.md">documentation</a>
-  . The
-  <a href="./docs/commands/make.md">
-    <code>make</code>
-    command
-  </a>
-  automatically takes care of the organization for you, creating the necessary files based on templates in the
-  <a href="./config/make.js">
-    <code>make</code>
-    config
-  </a>
-  .
-</p>
-
-<pre><code>src/elements/pattern
+</code></pre>
+    <h2 id="heading-nvm">NVM</h2>
+    <p>If you are using <code>nvm</code> to manage versions of node, be sure you
+      are using the correct version of node in your project directory. <code>npm
+        link</code> creates a symlink to
+      <em>node_modules/@nycopportunity/patterns-framework</em> in the current
+      environment’s node folder. Therefore, the CLI will reference the linked
+      package in the environment’s version of node.</p>
+    <h2 id="heading-design-system-methodology">Design System Methodology</h2>
+    <p><img src="./docs/images/naming-01.png"
+        alt="Elements, Components, Objects"></p>
+    <p>All of your project’s source code will be organized into four
+      directories: <strong>Elements</strong>, <strong>Components</strong>,
+      <strong>Objects</strong>, and <strong>Utilities</strong>. Read about this
+      system in the <a href="./docs/patterns.md">documentation</a>. The <a
+        href="./docs/commands/make.md"><code>make</code> command</a>
+      automatically takes care of the organization for you, creating the
+      necessary files based on templates in the <a
+        href="./config/make.js"><code>make</code> config</a>.</p>
+    <pre><code>src/elements/pattern
 src/components/pattern
 src/objects/pattern
-src/utilities/pattern</code></pre>
+src/utilities/pattern
 
-<p>Each Pattern directory will contain all of the files needed for it&#39;s</p>
-
-<pre><code>src/component/pattern/pattern.slm   // Markup
+</code></pre>
+    <p>Each Pattern directory will contain all of the files needed for it’s</p>
+    <pre><code>src/component/pattern/pattern.slm   // Markup
 src/component/pattern/pattern.js    // JavaScript
 src/component/pattern/_pattern.scss // Styling
 src/component/pattern/pattern.md    // Documentation
-src/component/pattern/readme.md     // Developer Usage</code></pre>
+src/component/pattern/readme.md     // Developer Usage
 
-<h3>Utilities</h3>
+</code></pre>
+    <h3 id="heading-utilities">Utilities</h3>
+    <p>Utilities are reusable single-attribute styles used to customize markup.
+      They are not tied to any element, component, or object, but they can
+      override properties in certain contexts and help build views more
+      efficiently by having to write less CSS. The Pattern Framework can rely on
+      <a href="https://tailwindcss.com/">Tailwindcss</a> for most stylistic
+      utilities, although, it is an optional dependency.</p>
+    <h3 id="heading-design-tokens">Design Tokens</h3>
+    <p>Design Tokens are named variables that store visual properties. They are
+      shared between JavaScript and Sass files using the <code>tokens</code>
+      command which converts stored tokens in <em>./config/tokens.js</em> into
+      <em>./src/config/_tokens.scss</em>. They can also be passed to the <a
+        href="https://tailwindcss.com/docs/configuration">Tailwindcss
+        Configuration</a> for customization of CSS utilities.</p>
+    <h2 id="heading-cross-utility-library">Cross-Utility Library</h2>
+    <p>The pattern framework ships with shared ES Utility Modules (and some
+      Sass) for front-end development which includes helpers for Form
+      Validation, Toggling Elements, etc. Browse the current set in the <a
+        href="./docs/readme.md">documentation</a>.</p>
+    <h2 id="heading-documentation">Documentation</h2>
+    <p>Additional <a href="./docs/readme.md">documentation can be found
+        here</a>.</p>
+    <hr>
+    <p><img src="NYCMOEO_SecondaryBlue256px.png"
+        alt="The Mayor&#39;s Office for Economic Opportunity"></p>
+    <p><a href="http://nyc.gov/opportunity">The Mayor’s Office for Economic
+        Opportunity</a> (NYC Opportunity) is committed to sharing open source
+      software that we use in our products. Feel free to ask questions and share
+      feedback. <strong>Interested in contributing?</strong> See our open
+      positions on <a
+        href="http://buildwithnyc.github.io/">buildwithnyc.github.io</a>. Follow
+      our team on <a
+        href="https://github.com/orgs/CityOfNewYork/teams/nycopportunity">Github</a>
+      (if you are part of the <a
+        href="https://github.com/CityOfNewYork/">@cityofnewyork</a>
+      organization) or <a
+        href="https://github.com/search?q=nycopportunity">browse our work on
+        Github</a>.</p>
+  </main>
+</body>
 
-<p>
-  Utilities are reusable single-attribute styles used to customize markup. They are not tied to any element, component, or object, but they can override properties in certain contexts and help build views more efficiently by having to write less CSS. The Pattern Framework can rely on
-  <a href="https://tailwindcss.com/">Tailwindcss</a>
-  for most stylistic utilities, although, it is an optional dependency.
-</p>
-
-<h3>Design Tokens</h3>
-
-<p>
-  Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the
-  <code>variables</code>
-  command which converts stored tokens in &lt;u&gt;./config/variables.js&lt;/u&gt; into &lt;u&gt;./src/config/_variables.scss&lt;/u&gt;. They can also be passed to the
-  <a href="https://tailwindcss.com/docs/configuration">Tailwindcss Configuration</a>
-  for customization of CSS utilities.
-</p>
-
-<h2>Cross-Utility Library</h2>
-
-<p>
-  The pattern framework ships with shared ES Utility Modules (and some Sass) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the
-  <a href="./docs/readme.md">documentation</a>
-  .
-</p>
-
-<h2>Documentation</h2>
-
-<p>
-  Additional
-  <a href="./docs/readme.md">documentation can be found here</a>
-  .
-</p>
-
-<hr />
-
-<p><img alt="The Mayor&#39;s Office for Economic Opportunity" src="NYCMOEO_SecondaryBlue256px.png" /></p>
-
-<p>
-  <a href="http://nyc.gov/opportunity">The Mayor&#39;s Office for Economic Opportunity</a>
-  (NYC Opportunity) is committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback.
-  <strong>Interested in contributing?</strong>
-  See our open positions on
-  <a href="http://buildwithnyc.github.io/">buildwithnyc.github.io</a>
-  . Follow our team on
-  <a href="https://github.com/orgs/CityOfNewYork/teams/nycopportunity">Github</a>
-  (if you are part of the
-  <a href="https://github.com/CityOfNewYork/">@cityofnewyork</a>
-  organization) or
-  <a href="https://github.com/search?q=nycopportunity">browse our work on Github</a>
-  .
-</p>
-
-    </main>
-  </body>
 </html>

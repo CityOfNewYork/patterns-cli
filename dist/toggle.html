@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>NYC Opportunity Patterns Framework</title>
+  <link href="styles/site-default.css" rel="stylesheet" />
+</head>
+
+<body>
+  <main class="container mx-auto">
+    <h1>0.2.0</h1>
+    <h2>Toggle</h2>
+    <h1 id="heading-toggle">Toggle</h1>
+    <p>The Toggle utility uses JavaScript to expand and collapse elements based
+      on user interaction. This will toggle dynamic aria attributes as well as
+      dynamic classes on both the toggling element and target of the toggle. The
+      class “hidden” will be toggled on the target element and the class
+      “active” will be toggled on the toggling element and target element. The
+      target is selected using the static <code>aria-controls</code> attribute
+      by its <code>id</code>.</p>
+    <h2 id="heading-usage">Usage</h2>
+    <p>Optional. The Toggle Utility supports CSS animations for fading in so the
+      stylesheet can be imported.</p>
+    <pre><code>@import &#39;@nycopportunity/patterns-framework/src/utilities/toggle/toggle&#39;;
+
+</code></pre>
+    <h3 id="heading-javascript">JavaScript</h3>
+    <pre><code>import Toggle from &#39;@nycopportunity/patterns-framework/src/utilities/toggle/toggle&#39;;
+
+new Toggle();
+
+</code></pre>
+    <h3 id="heading-markup">Markup</h3>
+    <pre><code>&lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;true&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
+  Toggle
+&lt;/button&gt;
+
+&lt;div aria-hidden=&quot;false&quot; class=&quot;active&quot; id=&quot;toggle-target&quot;&gt;
+  Targeted Toggle Element
+&lt;/div&gt;
+
+</code></pre>
+    <p>The use of the dynamic <code>aria-expanded</code> attribute on the
+      toggling element is recommended for toggling elements as it will announce
+      that the target of the toggle is “expanded” or “collapsed.” Optionally,
+      the attribute <code>aria-pressed</code> can be used instead to announce
+      that the toggle button is “pressed” or “not pressed”. These attributes
+      provide different feedback to screenreaders and are appropriate for
+      different component types. <code>aria-expanded</code> would be used for
+      patterns such as <a
+        href="https://inclusive-components.design/collapsible-sections/"><strong>collapsible
+          sections</strong></a> and <code>aria-pressed</code> would be used for
+      <a href="https://inclusive-components.design/toggle-button/"><strong>toggle
+          buttons</strong></a> or <strong>switches</strong>. A full list of
+      dynamic and static attributes is described below.</p>
+    <p>Placement of the target should follow the toggling element so that it
+      appears next in order on the page for screen readers. For targets that are
+      far apart or appear in a different section of the page, the Anchor Toggle
+      may be more appropriate.</p>
+    <p>The Toggle Utility supports having more than one toggle element per
+      toggle target.</p>
+    <h3 id="heading-attributes">Attributes</h3>
+    <p>Attributes such as <code>aria-controls</code>,
+      <code>aria-expanded</code>, and <code>type</code> will help assistive
+      technologies understand the relationship between the toggle element and
+      the toggle target. These three attributes should be considered the bare
+      minimum but they may be interchanged with others based on the use case.
+      Below is an explanation of other possible attributes that can be used with
+      the toggle utility. <em>Static</em> attributes will not change.
+      <em>Dynamic</em> attributes will change when the toggle event is fired.
+    </p>
+    <p><strong>Toggling Element Attributes</strong></p>
+    <p>Attribute | State | Importance | Description —————-|———–|—————|-
+      <code>aria-controls</code> | <em>static</em> | required | ID of the target
+      element. Used by the toggle to select the target element.
+      <code>aria-expanded</code> | <em>dynamic</em> | recommended | Boolean that
+      announces that target content is “expanded” or “collapsed” when the
+      toggling element is clicked. <code>type</code> | <em>static</em> |
+      recommended | Setting a <code>&lt;button&gt;</code> element type to
+      “button” will distinguish it from other button types, such as “submit” and
+      “reset,” but only within <code>&lt;form&gt;</code> elements. By default, a
+      <code>&lt;button&gt;</code> is the type “submit” within a form.
+      <code>aria-pressed</code> | <em>dynamic</em> | optional | Boolean that
+      announces that the toggling element is toggled. Not recommended for use
+      with <code>aria-expanded</code>. <code>role</code> | <em>static</em> |
+      optional | If the toggling element is not a <code>&lt;button&gt;</code>
+      element, but looks and behaves like a button (see documentation for the <a
+        href="/buttons">Button Element</a>), then setting the <code>role</code>
+      attribute to “button” is recommended. See <a
+        href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role">MDN
+        documentation for the “button” role</a> for more information</p>
+    <p><strong>Target Element Attributes</strong></p>
+    <p>Attribute | State | Importance | Description ——————|———–|—————|-
+      <code>aria-hidden</code> | <em>dynamic</em> | recommended | Boolean that
+      hides the content of the target element when “collapsed.”
+      <code>role</code> | <em>static</em> | optional | Setting the target
+      element’s <code>role</code> to “region” identifies the target as a
+      significant area. See <a
+        href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Region_role">MDN
+        documentation for the “region” role</a> for more information.
+      <code>aria-labelledby</code> | <em>static</em> | optional | This is used
+      along with the <code>role</code> attribute to label the content of a
+      “region.” This can be set to the toggling elements <code>id</code> but can
+      also be set to a different elements <code>id</code>.</p>
+    <h3 id="heading-configuration">Configuration</h3>
+    <p>The Toggle Utility accepts an object <code>{}</code> with the following
+      properties:</p>
+    <p>Option | Type | Importance | Description —————-|——————|————|-
+      <code>selector</code> | <em>string</em> | optional | Full selector string
+      of the toggle element (this is passed to the <code>.matches()</code>
+      method). <code>inactiveClass</code> | <em>string/boolean</em> | optional |
+      Single class name that will be toggled on the toggle and target element
+      when the element is inactive or “collapsed.” Pass “false” to skip toggling
+      an inactive class (there is no inactive class for the toggle element).
+      <code>activeClass</code> | <em>string/boolean</em> | optional | Single
+      class name that will be toggled on the target element when the element is
+      active or “expanded.” Pass “false” to skip toggling an active class.
+      <code>before</code> | <em>function</em> | optional | A function that will
+      be executed before the toggling element and target classes and attributes
+      are toggled. The function is passed the instance of the toggle class.
+      <code>after</code> | <em>function</em> | optional | A function that will
+      be executed after the toggling element and target classes and attributes
+      are toggled. The function is passed the instance of the toggle class.</p>
+    <h3 id="heading-animation">Animation</h3>
+    <p>If the stylesheet is imported the following animations can be used when
+      toggling elements from hidden to visible.</p>
+    <h4 id="heading-fade-in-up">Fade In Up</h4>
+    <p>Adding the <code>hidden:fadeInUp animated</code> classes to the toggle
+      target will animatet it’s opacity from zero to one and up a few pixels.
+    </p>
+    <pre><code>&lt;button type=&quot;button&quot; data-js=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;toggle-target&quot;&gt;
+  Fade In Up
+&lt;/button&gt;
+
+&lt;div id=&quot;toggle-target&quot; aria-hidden=&quot;true&quot; class=&quot;hidden hidden:fadeInUp animated&quot;&gt;
+  Targeted toggle element
+&lt;/div&gt;
+
+</code></pre>
+    <h4 id="heading-overflow">Overflow</h4>
+    <p>Adding the <code>hidden:overflow animated</code> classes to the toggle
+      target will animate it’s height to full view. The toggle target should
+      have a nested <code>div</code> with it’s contents.</p>
+    <pre><code>&lt;button type=&#39;button&#39; data-js=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;toggle-target&quot;&gt;
+  Overflow Fade In Up
+&lt;/button&gt;
+
+&lt;div id=&quot;toggle-target&quot; aria-hidden=&quot;true&quot; class=&quot;hidden hidden:overflow animated&quot;&gt;
+  &lt;div&gt;
+    Targeted toggle element
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+    <h4 id="heading-overflow-fade-in-up">Overflow Fade In Up</h4>
+    <p>Adding the <code>hidden:overflowFadeInUp animated</code> classes to the
+      toggle target will animate it’s height to full view and it’s first child’s
+      opacity from zero to one and up a few pixels. The toggle target should
+      have a nested <code>div</code> with it’s contents and the class
+      <code>animated</code> as well.</p>
+    <pre><code>&lt;button type=&#39;button&#39; data-js=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;toggle-target&quot;&gt;
+  Overflow Fade In Up
+&lt;/button&gt;
+
+&lt;div id=&quot;toggle-target&quot; aria-hidden=&quot;true&quot; class=&quot;hidden hidden:overflowFadeInUp animated&quot;&gt;
+  &lt;div class=&quot;animated&quot;&gt;
+    Targeted toggle element
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+    <h2 id="heading-polyfills">Polyfills</h2>
+    <p>The script uses the <code>Element.prototype.matches</code>,
+      <code>Element.prototype.removes</code>,
+      <code>Nodelist.prototype.forEach</code> methods which require polyfills
+      for IE11 support.</p>
+    <h2 id="heading-demo">Demo</h2>
+    <p><button aria-controls="toggle-target" aria-expanded="true"
+        class="btn btn-primary mb-3" data-js="toggle"
+        type="button">Toggle</button>
+      <div aria-hidden="false"
+        class="bg-color-blue-light p-4 text-center active" id="toggle-target">
+        Targeted toggle element</div>
+    </p> &lt;button aria-controls=&quot;toggle-target&quot;
+    aria-expanded=&quot;true&quot; class=&quot;btn btn-primary mb-3&quot;
+    data-js=&quot;toggle&quot;
+    type=&quot;button&quot;&gt;Toggle&lt;/button&gt;&lt;div
+    aria-hidden=&quot;false&quot; class=&quot;bg-color-blue-light p-4
+    text-center active&quot; id=&quot;toggle-target&quot;&gt;Targeted toggle
+    element&lt;/div&gt;
+  </main>
+</body>
+
+</html>
