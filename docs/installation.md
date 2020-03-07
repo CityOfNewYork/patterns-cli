@@ -78,12 +78,12 @@ However, you can set the path to a different path that includes all of these fil
     // $cdn: '../'; (default)
     $cdn: 'path/to/assets/';
 
-This variable should be placed above all of your imports of the pattern Sass files. The CDN can be set to another local path (such as an absolute path), or, it can be set to the remote url within the `$variables` map.
+This variable should be placed above all of your imports of the pattern Sass files. The CDN can be set to another local path (such as an absolute path), or, it can be set to the remote url within the `$tokens` map.
 
 This default uses [jsDelivr](https://www.jsdelivr.com/) to pull the assets from the patterns GitHub repository and the tag of the installed version. ex;
 
-    @import 'config/variables';
-    $cdn: map-get($variables, 'cdn');
+    @import 'config/tokens';
+    $cdn: map-get($tokens, 'cdn');
 
 These are the default paths to the different asset types within the asset folder. Uncomment and set to override their defaults.
 

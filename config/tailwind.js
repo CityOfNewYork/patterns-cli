@@ -3,7 +3,7 @@
  */
 
 // const defaultConfig = require('tailwindcss/defaultConfig');
-// const variables = require('./variables.js');
+// const tokens = require('./tokens.js');
 
 /**
  * Config

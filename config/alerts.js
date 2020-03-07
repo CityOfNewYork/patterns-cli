@@ -1,5 +1,13 @@
+/**
+ * Dependencies
+ */
+
 let emoji = require('node-emoji');
 let chalk = require('chalk');
+
+/**
+ * Config
+ */
 
 module.exports = {
   styles: emoji.get('nail_care') + ' ',

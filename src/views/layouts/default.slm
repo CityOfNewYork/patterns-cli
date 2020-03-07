@@ -12,7 +12,7 @@ html lang='en'
   body
     main class='container mx-auto'
       h1
-        = this.site.versions.package
+        = this.package.version
 
       - if (title !== '')
         h2 = title
@@ -21,6 +21,7 @@ html lang='en'
 
     = content('scripts')
 
-    / The reload script. This is reserved for development only.
-    - if this.env.NODE_ENV === 'development'
+    / The reload script. This should not be compile during production builds
+    / @source https://www.npmjs.com/package/reload
+    - if this.process.env.NODE_ENV !== 'production'
       script src='/reload/reload.js'

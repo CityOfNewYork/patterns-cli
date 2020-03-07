@@ -11,9 +11,9 @@
 const sass = {
   sourceMapEmbed: true,
   includePaths: [
+    './src/',
     './node_modules/nyco-patterns/src/',
-    './src',
-    './node_modules'
+    './node_modules/animate.scss/'
   ]
 };
 
@@ -35,7 +35,8 @@ module.exports = [
     outDir: './dist/utilities/spinner/',
     outFile: 'spinner.css',
     sourceMapEmbed: sass.sourceMapEmbed,
-    includePaths: sass.includePaths
+    includePaths: sass.includePaths,
+    devModule: true
   },
   {
     file: './src/utilities/toggle/_toggle.scss',

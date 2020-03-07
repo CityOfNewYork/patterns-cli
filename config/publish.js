@@ -1,5 +1,11 @@
 /**
- *
+ * Dependencies
+ */
+
+// ...
+
+/**
+ * Config
  */
 
 module.exports = {
