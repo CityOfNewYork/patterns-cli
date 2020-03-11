@@ -9,7 +9,7 @@ concurrently([
   `node ${__dirname}/cli.js styles ${watch}`,
   `node ${__dirname}/rollup.js ${watch}`,
   `node ${__dirname}/cli.js slm ${watch}`,
-  `node ${__dirname}/svgs.js ${watch}`
+  `node ${__dirname}/cli.js svgs ${watch}`
 ], {
   prefix: 'none',
   raw: true
