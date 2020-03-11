@@ -4,7 +4,7 @@
  * Dependencies
  */
 
-const sass = require('sass');
+const sass = (process.env.SASS = 'libSass') ? require('node-sass') : require('sass');
 const path = require('path');
 const fs = require('fs');
 const alerts = require(`${process.env.PWD}/config/alerts`);

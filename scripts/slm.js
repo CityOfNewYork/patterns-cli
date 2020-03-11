@@ -28,8 +28,8 @@ const BASE_PATH = `${SOURCE}/${opts.views}`;
 
 const EXT = '.slm';
 const GLOBS = [
-  './src/**/*.slm',
-  './src/**/*.md'
+  `./${SOURCE}/**/*${EXT}`,
+  `./${SOURCE}/**/*.md`
 ];
 
 /**
@@ -73,9 +73,11 @@ const write = async (file, data) => {
       data = beautify(data, opts.beautify);
     }
 
-    fs.writeFileSync(dist, data);
+    let written = fs.writeFileSync(dist, data);
 
     console.log(`${alerts.success} Slm compiled ${alerts.path(src)} to ${alerts.path(local)}`);
+
+    return written;
   } catch (err) {
     console.log(`${alerts.error} Slm (write): ${err}`);
   }
@@ -235,15 +237,15 @@ const compile = {
 };
 
 /**
- * Read the file or views directory
+ * The main function to execute on files
  *
- * @param  {String}  file  The path of the directory or file to read
+ * @param  {String}  file  The path of the file to read
  */
 const main = async (file) => {
   if (file.includes(EXT)) {
     let compiled = await compile.slm(file);
 
-    write(file, compiled);
+    return write(file, compiled);
   }
 }
 
