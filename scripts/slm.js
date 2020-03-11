@@ -28,8 +28,8 @@ const BASE_PATH = `${SOURCE}/${opts.views}`;
 
 const EXT = '.slm';
 const GLOBS = [
-  `./${SOURCE}/**/*${EXT}`,
-  `./${SOURCE}/**/*.md`
+  `${SOURCE}/**/*${EXT}`,
+  `${SOURCE}/**/*.md`
 ];
 
 /**
@@ -46,7 +46,7 @@ const args = {
  *
  * @param  {Source}  url  https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob)), {
+const watcher = chokidar.watch(GLOBS, {
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
@@ -322,7 +322,7 @@ const run = async (dir = BASE_PATH) => {
         }
       });
 
-      console.log(`${alerts.watching} Slm watching ${alerts.ext(GLOBS.join(', '))}`);
+      console.log(`${alerts.watching} Slm watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     // One-off command
     } else {
       await walk(dir);

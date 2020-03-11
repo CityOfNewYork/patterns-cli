@@ -11,9 +11,14 @@ const tokens = require(`${__dirname}/tokens`);
 const tokensConfig = require(`${process.env.PWD}/config/tokens`).config;
 const sass = require(`${__dirname}/sass`);
 const postcss = require(`${__dirname}/postcss`);
+
+const SOURCE = path.join(process.env.PWD, 'src');
+const EXT = '.scss';
+const TOKENS = path.join(process.env.PWD, tokens.input);
+
 const globs = [
-  './src/**/*.scss',
-  tokens.input
+  `${SOURCE}/**/*${EXT}`,
+  TOKENS
 ];
 
 /**
@@ -53,7 +58,9 @@ console.log = (args.silent) ? () => {} : console.log;
  */
 const main = async (modules) => {
   await tokens.run();
+
   await sass.run(modules);
+
   await postcss.run(modules);
 
   console.log(`${alerts.success} Styles finished`);
@@ -64,7 +71,7 @@ const main = async (modules) => {
  *
  * @param {Source} url https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(globs.map(glob => path.join(process.env.PWD, glob)), {
+const watcher = chokidar.watch(globs, {
   ignored: path.join(process.env.PWD, tokensConfig.output.replace(/"/g, '')),
   usePolling: false,
   awaitWriteFinish: {
@@ -97,7 +104,7 @@ const run = async (styles = modules) => {
         main(styls);
       });
 
-      console.log(`${alerts.watching} Styles watching ${alerts.ext(globs.join(', '))}`);
+      console.log(`${alerts.watching} Styles watching ${alerts.ext(globs.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } else {
       await main(modules);
 

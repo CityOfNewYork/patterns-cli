@@ -29,7 +29,7 @@ const FILE = path.join(process.env.PWD, opts.dist, opts.svgs, config.svgstore.fi
 
 const EXT = '.svg';
 const GLOBS = [
-  `./${BASE_PATH}/**/*${EXT}`
+  `${BASE_PATH}/**/*${EXT}`
 ];
 
 
@@ -47,7 +47,7 @@ const args = {
  *
  * @param  {Source}  url  https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob)), {
+const watcher = chokidar.watch(GLOBS, {
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
@@ -195,7 +195,7 @@ const run = async (dir = BASE_PATH) => {
         console.log(`${alerts.success} Svgs finished`);
       });
 
-      console.log(`${alerts.watching} Svgs watching ${alerts.ext(GLOBS.join(', '))}`);
+      console.log(`${alerts.watching} Svgs watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }
