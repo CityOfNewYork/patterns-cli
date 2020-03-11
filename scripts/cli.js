@@ -7,7 +7,8 @@ let modules = [
   'sass',
   'postcss',
   'slm',
-  'serve'
+  'serve',
+  'svgs'
 ];
 
 if (script === undefined) {
