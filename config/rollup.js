@@ -2,11 +2,11 @@
  * Dependencies
  */
 
-import resolve from '@rollup/plugin-node-resolve'; // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
-import commonjs from '@rollup/plugin-commonjs';    // Convert CommonJS modules to ES6, so they can be included in a Rollup bundle
-import babel from 'rollup-plugin-babel';           // Transpile source code.
-import buble from '@rollup/plugin-buble';          // Convert ES2015 with buble.
-import replace from '@rollup/plugin-replace';      // Replace content while bundling.
+const resolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
+const commonjs = require('@rollup/plugin-commonjs');    // Convert CommonJS modules to ES6, so they can be included in a Rollup bundle
+const babel = require('rollup-plugin-babel');           // Transpile source code.
+const buble = require('@rollup/plugin-buble');          // Convert ES2015 with buble.
+const replace = require('@rollup/plugin-replace');      // Replace content while bundling.
 
 /**
  * Config
@@ -72,10 +72,9 @@ rollup.dist = [
 ];
 
 /**
- * Our list of modules we are exporting
- * @type {Array}
+ * @type {Array} Our list of modules we are exporting
  */
-const modules = [
+module.exports = [
   {
     input: `${process.env.PWD}/src/js/main.js`,
     output: [
@@ -87,7 +86,8 @@ const modules = [
         strict: rollup.strict
       }
     ],
-    plugins: rollup.plugins
+    plugins: rollup.plugins,
+    devModule: true
   },
   {
     input: `${process.env.PWD}/src/utilities/forms/forms.js`,
@@ -174,5 +174,3 @@ const modules = [
     ]
   },
 ];
-
-export default modules;

@@ -1,34 +1,120 @@
 #!/usr/bin/env node
 
-const shell = require('shelljs');
-const nodemon = require('nodemon');
+'use strict'
+
+/**
+ * Dependencies
+ */
+
+const path = require('path');
+const rollup = require('rollup');
+const chokidar = require('chokidar');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 
-const config = './config/rollup.js';
-const pathToConfig = `${process.env.PWD}/config/rollup.js`;
+/**
+ * Constants
+ */
 
-const argvs = process.argv.slice(2);
+const SOURCE = path.join(process.env.PWD, 'src');
+const DIST = path.join(process.env.PWD, 'dist');
+const EXT = '.js';
 
-const args = {
-  noisy: (argvs.includes('-n') || argvs.includes('--noisy')),
-  watch: (argvs.includes('-w') || argvs.includes('--watch'))
+const GLOBS = [
+  `${SOURCE}/**/*${EXT}`
+];
+
+/** Process CLI args */
+
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
+/**
+ * Development Mode
+ */
+
+let modules = require(`${process.env.PWD}/config/rollup`);
+
+if (process.env.NODE_ENV === 'development') {
+  modules = modules.filter(file => file.devModule);
+}
+
+/**
+ * Our Chokidar Watcher
+ *
+ * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ */
+const watcher = chokidar.watch(GLOBS, {
+  usePolling: false,
+  awaitWriteFinish: {
+    stabilityThreshold: 750
+  }
+});
+
+/**
+ * Main script process
+ *
+ * @param  {Array}  script  A rollup configuration object https://rollupjs.org/guide/en/#using-config-files
+ */
+const main = async (script) => {
+  try {
+    if (script.hasOwnProperty('devModule')) delete script.devModule;
+
+    const bundle = await rollup.rollup(script);
+    const local = script.input.replace(process.env.PWD, '');
+    const dist = DIST.replace(process.env.PWD, '');
+
+    for (let i = 0; i < script.output.length; i++) {
+      await bundle.write(script.output[i]);
+    }
+
+    cnsl.describe(`${alerts.rollup} Rollup bundle written to ${alerts.path(dist)} for ${alerts.path(local)}`);
+  } catch (err) {
+    cnsl.error(`Rollup failed (main): ${err.stack}`);
+  }
 };
 
-shell.config.silent = (args.noisy) ? false : true;
+/**
+ * Runner for the sample script
+ */
+const run = async (scripts = modules) => {
+  if (args.watch) {
+    try {
+      watcher.on('change', async changed => {
+        let local = changed.replace(process.env.PWD, '');
+        let scrpts = [];
 
-if (args.watch) {
-  let noisy = args.noisy ? '-n' : '';
-  nodemon(`-e js -w ${process.env.PWD}/src/ -x ${__dirname}/rollup.js ${noisy}`);
+        cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
 
-  console.log(`${alerts.watching} Rollup watching ${alerts.ext('.js')} in ${alerts.path('./src/')}`);
-} else {
-  shell.exec(`npx rollup -c ${pathToConfig}`, (code, stdout, stderr) => {
-    if (code) {
-      console.log(`${alerts.error} Rollup failed: ${stderr}`);
+        if (process.env.NODE_ENV !== 'development') {
+          let filtered = scripts.filter(s => path.basename(changed) === path.basename(s.input));
 
-      process.exit(1);
-    } else {
-      console.log(`${alerts.rollup} Rolled up scripts defined in ${alerts.path(config)}`);
+          scrpts = (filtered.length) ? filtered : scripts;
+        } else {
+          scrpts = scripts;
+        }
+
+        for (let i = 0; i < scrpts.length; i++) {
+          await main(scrpts[i]);
+        }
+      });
+
+      cnsl.watching(`Rollup watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+    } catch (err) {
+      console.error(`${alerts.error} Rollup (run): ${err.stack}`);
     }
-  });
-}
+  } else {
+    for (let i = 0; i < scripts.length; i++) {
+      await main(scripts[i]);
+    }
+
+    cnsl.success(`Rollup finished`);
+
+    process.exit();
+  }
+};
+
+/** @type  {Object}  Export our methods */
+module.exports = {
+  main: main,
+  run: run,
+  modules: modules
+};
