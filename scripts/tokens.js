@@ -31,6 +31,10 @@ const options = [
   {stringKeys: opts.stringKeys ? opts.stringKeys.replace(/"/g, '') : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
 ];
 
+/** Process CLI args */
+
+const cnsl = require(`${__dirname}/util/console`);
+
 /**
  * The single command for json-to-sass to process our Tokens
  *
@@ -49,19 +53,17 @@ const main = async (opts = options) => {
     // Re-enable logging
     process.stdout.write = write;
 
-    console.log(`${alerts.scripts} Created ${alerts.path(output)} from ${alerts.path(input)}`);
+    cnsl.describe(`${alerts.scripts} Created ${alerts.path(output)} from ${alerts.path(input)}`);
   } catch (err) {
-    console.log(`${alerts.error} Tokens failed: ${err}`);
-
-    process.exit(1);
+    cnsl.error(`Tokens failed: ${err.stack}`);
   }
 };
 
 /** @type  {Object}  Export our method */
 module.exports = {
-  'main': main,
-  'run': main,
-  'input': input,
-  'config': config,
-  'options': options
+  main: main,
+  run: main,
+  input: input,
+  config: config,
+  options: options
 };

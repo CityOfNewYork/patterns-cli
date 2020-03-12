@@ -9,6 +9,7 @@ const path = require('path');
 const postcss = require('postcss');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const config = require(`${process.env.PWD}/config/postcss`);
+const cnsl = require(`${__dirname}/util/console`);
 
 /** Get Modules */
 const modules = require(`${process.env.PWD}/config/sass`);
@@ -31,9 +32,9 @@ const main = async (style) => {
 
     fs.writeFileSync(result.opts.to, result.css);
 
-    console.log(`${alerts.styles} PostCSS processed ${alerts.path(style.outDir + style.outFile)}`);
+    cnsl.describe(`${alerts.styles} PostCSS processed ${alerts.path(style.outDir + style.outFile)}`);
   } catch (err) {
-    console.log(`${alerts.error} ${err}`);
+    cnsl.error(`PostCSS failed: ${err.stack}`);
   }
 }
 
@@ -50,14 +51,14 @@ const run = async (styles = modules) => {
       await main(styles[i]);
     }
   } catch (err) {
-    console.log(`${alerts.error} ${err}`);
+    cnsl.error(`PostCSS failed: ${err.stack}`);
   }
 };
 
 /** @type  {Object}  Export our methods */
 module.exports = {
-  'main': main,
-  'run': run,
-  'config': config,
-  'modules': modules
+  main: main,
+  run: run,
+  config: config,
+  modules: modules
 };

@@ -21,15 +21,10 @@ const globs = [
   TOKENS
 ];
 
-/**
- * Process CLI args
- */
+/** Process CLI args */
 
-const argvs = process.argv.slice(2);
-const args = {
-  watch: (argvs.includes('-w') || argvs.includes('--watch')),
-  silent: (argvs.includes('-s') || argvs.includes('--silent'))
-};
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Development Mode
@@ -42,12 +37,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 /**
- * Silent
- */
-
-console.log = (args.silent) ? () => {} : console.log;
-
-/**
  * Methods
  */
 
@@ -57,13 +46,15 @@ console.log = (args.silent) ? () => {} : console.log;
  * @param  {Array}  modules  The contents of config/sass.js
  */
 const main = async (modules) => {
-  await tokens.run();
+  try {
+    await tokens.run();
 
-  await sass.run(modules);
+    await sass.run(modules);
 
-  await postcss.run(modules);
-
-  console.log(`${alerts.success} Styles finished`);
+    await postcss.run(modules);
+  } catch (err) {
+    cnsl.error(`Styles failed: ${err.stack}`);
+  }
 };
 
 /**
@@ -91,10 +82,10 @@ const run = async (styles = modules) => {
         let local = changed.replace(process.env.PWD, '');
         let styls = [];
 
-        console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
 
         if (process.env.NODE_ENV !== 'development') {
-          let filtered = styles.filter(mod => path.basename(changed) === path.basename(mod.file));
+          let filtered = styles.filter(s => path.basename(changed) === path.basename(s.file));
 
           styls = (filtered.length) ? filtered : styles;
         } else {
@@ -104,14 +95,16 @@ const run = async (styles = modules) => {
         main(styls);
       });
 
-      console.log(`${alerts.watching} Styles watching ${alerts.ext(globs.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Styles watching ${alerts.ext(globs.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } else {
       await main(modules);
 
-      process.exit(0);
+      cnsl.success(`Styles finished`);
+
+      process.exit();
     }
   } catch (err) {
-    console.log(`${alerts.error} Styles failed: ${err}`);
+    cnsl.error(`Styles failed: ${err.stack}`);
   }
 };
 

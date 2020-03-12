@@ -9,9 +9,9 @@
 const Express = require('express');
 const reload = require('reload');
 const path = require('path');
-const alerts = require(`${process.env.PWD}/config/alerts`);
 const chokidar = require('chokidar');
 const http = require('http');
+const alerts = require(`${process.env.PWD}/config/alerts`);
 
 /**
  * Constants
@@ -25,14 +25,10 @@ const GLOBS = [
   './dist/scripts/*.js'
 ];
 
-/**
- * Process CLI args
- */
+/** Process CLI args */
 
-const argvs = process.argv.slice(2);
-const args = {
-  watch: (argvs.includes('-w') || argvs.includes('--watch'))
-};
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
 
  /**
  * Our Chokidar Watcher
@@ -65,8 +61,8 @@ APP.get('/*', (request, resolve, next) => {
   if (req === 'reload/reload.js') {
     next();
   } else {
-    let page = (req === '') ? 'index.html' :
-      (req.includes('.')) ? req : `${req}.html`;
+    let page = (req === '') ? 'index.html' : (req.includes('.')) ? req : `${req}.html`;
+
     resolve.sendFile(`${DIST}/${page}`);
   }
 });
@@ -86,7 +82,7 @@ const main = async (app = APP) => {
   server.listen(app.get('port'), () => {
     let port = app.get('port');
 
-    console.log(`${alerts.info} Serving ${alerts.path('./dist/')} to ${alerts.url('http://localhost:' + port)}`);
+    cnsl.notify(`${alerts.info} Serving ${alerts.path('./dist/')} to ${alerts.url('http://localhost:' + port)}`);
   });
 };
 
@@ -105,12 +101,12 @@ const run = async (app = APP) => {
       watcher.on('change', () => {
         reloadReturned.reload();
 
-        console.log(`${alerts.watching} Serve reloading`);
+        cnsl.watching(`Serve reloading`);
       });
 
-      console.log(`${alerts.watching} Serve watching ${alerts.ext(GLOBS.join(', '))}`);
+      cnsl.watching(`Serve watching ${alerts.ext(GLOBS.join(', '))}`);
     } catch (err) {
-      console.error(`${alerts.error} Serve (run): ${err}`);
+      cnsl.error(`Serve (run): ${err}`);
     }
   } else {
     main()
@@ -119,6 +115,6 @@ const run = async (app = APP) => {
 
 /** @type  {Object}  Export our methods */
 module.exports = {
-  'main': main,
-  'run': run
+  main: main,
+  run: run
 };

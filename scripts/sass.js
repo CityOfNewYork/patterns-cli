@@ -13,6 +13,9 @@ const config = require(`${process.env.PWD}/config/sass`);
 /** Get Modules */
 const modules = config;
 
+/** Process CLI args */
+const cnsl = require(`${__dirname}/util/console`);
+
 /**
  * The single command for Sass to process a Sass Module
  *
@@ -31,10 +34,10 @@ const main = async (style) => {
 
     fs.writeFileSync(`${outDir}${name}`, result.css);
 
-    console.log(`${alerts.styles} Sass compiled to ${alerts.path(style.outDir + name)}`);
+    cnsl.describe(`${alerts.styles} Sass compiled to ${alerts.path(style.outDir + name)}`);
   } catch (err) {
-    let error = (err.formatted) ? err.formatted : err;
-    console.log(`${alerts.error} Sass failed: ${error}`);
+    let error = (err.formatted) ? err.formatted : err.stack;
+    cnsl.error(`Sass failed: ${error}`);
   }
 }
 
@@ -51,14 +54,14 @@ const run = async (styles = modules) => {
       await main(styles[i]);
     }
   } catch (err) {
-    console.log(`${alerts.error} Sass failed: ${err}`);
+    cnsl.error(`Sass failed: ${err.stack}`);
   }
 };
 
 /** @type  {Object}  Export our methods */
 module.exports = {
-  'main': main,
-  'run': run,
-  'config': config,
-  'modules': modules
+  main: main,
+  run: run,
+  config: config,
+  modules: modules
 };

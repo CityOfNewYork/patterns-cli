@@ -32,14 +32,10 @@ const GLOBS = [
   `${SOURCE}/**/*.md`
 ];
 
-/**
- * Process CLI args
- */
+/** Process CLI args */
 
-const argvs = process.argv.slice(2);
-const args = {
-  watch: (argvs.includes('-w') || argvs.includes('--watch'))
-};
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Our Chokidar Watcher
@@ -73,13 +69,11 @@ const write = async (file, data) => {
       data = beautify(data, opts.beautify);
     }
 
-    let written = fs.writeFileSync(dist, data);
+    fs.writeFileSync(dist, data);
 
-    console.log(`${alerts.success} Slm compiled ${alerts.path(src)} to ${alerts.path(local)}`);
-
-    return written;
+    cnsl.describe(`${alerts.success} Slm compiled ${alerts.path(src)} to ${alerts.path(local)}`);
   } catch (err) {
-    console.log(`${alerts.error} Slm (write): ${err}`);
+    cnsl.error(`Slm (write): ${err.stack}`);
   }
 }
 
@@ -165,7 +159,7 @@ const include = (file) => {
   } else {
     data = compile['default'](file);
 
-    console.log(`${alerts.info} Slm (include): no handler exists for ${extname} files.`);
+    cnsl.notify(`${alerts.info} Slm (include): no handler exists for ${extname} files.`);
   }
 
   return data;
@@ -195,9 +189,8 @@ const compile = {
         basePath: dir,
         useCache: false
       })(CONFIG);
-
     } catch (err) {
-      console.log(`${alerts.error} Slm failed (compile.slm): ${err.stack}`);
+      cnsl.error(`Slm failed (compile.slm): ${err.stack}`);
     }
   },
   /**
@@ -217,7 +210,7 @@ const compile = {
 
       return md;
     } catch (err) {
-      console.log(`${alerts.error} Slm failed (compile.md): ${err.stack}`);
+      cnsl.error(`Slm failed (compile.md): ${err.stack}`);
     }
   },
   /**
@@ -231,7 +224,7 @@ const compile = {
     try {
       return fs.readFileSync(file, 'utf-8');
     } catch (err) {
-      console.log(`${alerts.error} Slm failed (compile.default): ${err.stack}`);
+      cnsl.error(`Slm failed (compile.default): ${err.stack}`);
     }
   }
 };
@@ -268,7 +261,7 @@ const walk = async (file, dir = BASE_PATH) => {
         await walk(files[i], file);
       }
     } catch (err) {
-      console.log(`${alerts.error} Slm failed (walk): ${err}`);
+      cnsl.error(`Slm failed (walk): ${err.stack}`);
     }
   }
 };
@@ -302,7 +295,7 @@ const run = async (dir = BASE_PATH) => {
           // Check that the file is in the views directory
           let inViews = changed.includes(BASE_PATH);
 
-          console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
+          cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
 
           // Run the single compiler task if the changed file is a view or has a view
           if (isView || hasView) {
@@ -322,21 +315,22 @@ const run = async (dir = BASE_PATH) => {
         }
       });
 
-      console.log(`${alerts.watching} Slm watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
-    // One-off command
+      cnsl.watching(`Slm watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } else {
       await walk(dir);
+
+      cnsl.success(`Slm finished`);
 
       process.exit(0);
     }
   } catch (err) {
-    console.log(`${alerts.error} Slm failed (run): ${err}`);
+    cnsl.error(`Slm failed (run): ${err.stack}`);
   }
 };
 
 /** @type  {Object}  Export our methods */
 module.exports = {
-  'main': main,
-  'run': run,
-  'config': CONFIG
+  main: main,
+  run: run,
+  config: CONFIG
 };

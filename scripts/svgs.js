@@ -33,14 +33,10 @@ const GLOBS = [
 ];
 
 
-/**
- * Process CLI args
- */
+/** Process CLI args */
 
-const argvs = process.argv.slice(2);
-const args = {
-  watch: (argvs.includes('-w') || argvs.includes('--watch'))
-};
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Our Chokidar Watcher
@@ -68,21 +64,19 @@ const write = async (file, data, store = false) => {
     let src = file.replace(process.env.PWD, '.');
     let local = dist.replace(process.env.PWD, '.');
 
+    let message = (store) ?
+      `${alerts.package} Svgs sprite written to ${alerts.path(local)}` :
+      `${alerts.compression} Svgs optimized ${alerts.path(src)} and saved to ${alerts.path(local)}`
+
     if (!fs.existsSync(path.dirname(dist))){
       fs.mkdirSync(path.dirname(dist));
     }
 
-    let written = fs.writeFileSync(dist, data);
+    fs.writeFileSync(dist, data);
 
-    if (store) {
-      console.log(`${alerts.package} Svgs sprite written to ${alerts.path(local)}`);
-    } else {
-      console.log(`${alerts.compression} Svgs optimized ${alerts.path(src)} and saved to ${alerts.path(local)}`);
-    }
-
-    return written;
+    cnsl.describe(message);
   } catch (err) {
-    console.log(`${alerts.error} Svgs (write): ${err.stack}`);
+    cnsl.error(`Svgs (write): ${err.stack}`);
   }
 }
 
@@ -106,7 +100,7 @@ const store = async (file, data) => {
 
     return SPRITE;
   } catch (err) {
-    console.log(`${alerts.error} Svgs failed (store): ${err}`);
+    cnsl.error(`Svgs failed (store): ${err.stack}`);
   }
 };
 
@@ -126,7 +120,7 @@ const optimize = async (file) => {
 
     return optimized.data;
   } catch (err) {
-    console.log(`${alerts.error} Svgs failed (optimize): ${err}`);
+    cnsl.error(`Svgs failed (optimize): ${err.stack}`);
   }
 };
 
@@ -146,7 +140,7 @@ const main = async (file) => {
 
     return optimized;
   } catch (err) {
-    console.log(`${alerts.error} Svgs failed (main): ${err}`);
+    cnsl.error(`Svgs failed (main): ${err.stack}`);
   }
 };
 
@@ -169,7 +163,7 @@ const walk = async (file, dir = BASE_PATH) => {
         await walk(files[i], file);
       }
     } catch (err) {
-      console.log(`${alerts.error} Svgs failed (walk): ${err}`);
+      cnsl.error(`Svgs failed (walk): ${err.stack}`);
     }
   }
 };
@@ -186,16 +180,16 @@ const run = async (dir = BASE_PATH) => {
       watcher.on('change', async (changed) => {
         let local = changed.replace(process.env.PWD, '');
 
-        console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
 
         await walk(dir);
 
         await write(FILE, SPRITE, true);
 
-        console.log(`${alerts.success} Svgs finished`);
+        cnsl.success(`Svgs finished`);
       });
 
-      console.log(`${alerts.watching} Svgs watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Svgs watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }
@@ -204,7 +198,7 @@ const run = async (dir = BASE_PATH) => {
 
     await write(FILE, SPRITE.toString(), true);
 
-    console.log(`${alerts.success} Svgs finished`);
+    cnsl.success(`Svgs finished`);
 
     process.exit();
   }

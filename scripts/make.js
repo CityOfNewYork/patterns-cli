@@ -131,7 +131,7 @@ function makeDefaults(type, pattern, callback) {
 
       callback();
     } else {
-      console.log(`${alerts.error} "${pattern}" already exists in ${relative}`);
+      cnsl.error(`"${pattern}" already exists in ${relative}`);
       callback();
     }
   });
@@ -161,7 +161,7 @@ function makeOptional(filetype, pattern, prompt) {
               console.log(`${alerts.success} ${file} was made in ${relative}`);
               logInfo(filetype);
             } else {
-              console.log(`${alerts.error} ${file} already exists in ${relative}`);
+              cnsl.error(`${file} already exists in ${relative}`);
             }
           });
 

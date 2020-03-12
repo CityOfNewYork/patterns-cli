@@ -1,15 +1,22 @@
 #!/usr/bin/env node
 
 const concurrently = require('concurrently');
-const args = process.argv.slice(2);
 
-let watch = (args.includes('-w') || args.includes('--watch')) ? '-w': '';
+/** Process CLI args */
+
+const args = require(`${__dirname}/util/args`).args;
+
+let flags = [
+  (args.watch) ? '-w' : '',
+  (args.silent) ? '-s' : '',
+  (args.nondescript) ? '-nd' : ''
+].join(' ');
 
 concurrently([
-  `node ${__dirname}/cli.js styles ${watch}`,
-  `node ${__dirname}/rollup.js ${watch}`,
-  `node ${__dirname}/cli.js slm ${watch}`,
-  `node ${__dirname}/cli.js svgs ${watch}`
+  `node ${__dirname}/cli.js styles ${flags}`,
+  `node ${__dirname}/cli.js rollup ${flags}`,
+  `node ${__dirname}/cli.js slm ${flags}`,
+  `node ${__dirname}/cli.js svgs ${flags}`
 ], {
   prefix: 'none',
   raw: true
