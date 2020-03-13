@@ -71,7 +71,7 @@ const write = async (file, data) => {
 
     fs.writeFileSync(dist, data);
 
-    cnsl.describe(`${alerts.success} Slm compiled ${alerts.path(src)} to ${alerts.path(local)}`);
+    cnsl.describe(`${alerts.success} Slm compiled ${alerts.str.path(src)} to ${alerts.str.path(local)}`);
   } catch (err) {
     cnsl.error(`Slm (write): ${err.stack}`);
   }
@@ -295,7 +295,7 @@ const run = async (dir = BASE_PATH) => {
           // Check that the file is in the views directory
           let inViews = changed.includes(BASE_PATH);
 
-          cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
+          cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
           // Run the single compiler task if the changed file is a view or has a view
           if (isView || hasView) {
@@ -315,7 +315,7 @@ const run = async (dir = BASE_PATH) => {
         }
       });
 
-      cnsl.watching(`Slm watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Slm watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } else {
       await walk(dir);
 

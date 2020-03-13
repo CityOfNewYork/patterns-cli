@@ -82,7 +82,7 @@ const main = async (app = APP) => {
   server.listen(app.get('port'), () => {
     let port = app.get('port');
 
-    cnsl.notify(`${alerts.info} Serving ${alerts.path('./dist/')} to ${alerts.url('http://localhost:' + port)}`);
+    cnsl.notify(`${alerts.info} Serving ${alerts.str.path('./dist/')} to ${alerts.str.url('http://localhost:' + port)}`);
   });
 };
 
@@ -104,7 +104,7 @@ const run = async (app = APP) => {
         cnsl.watching(`Serve reloading`);
       });
 
-      cnsl.watching(`Serve watching ${alerts.ext(GLOBS.join(', '))}`);
+      cnsl.watching(`Serve watching ${alerts.str.ext(GLOBS.join(', '))}`);
     } catch (err) {
       cnsl.error(`Serve (run): ${err}`);
     }

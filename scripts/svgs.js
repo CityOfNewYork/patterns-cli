@@ -65,8 +65,8 @@ const write = async (file, data, store = false) => {
     let local = dist.replace(process.env.PWD, '.');
 
     let message = (store) ?
-      `${alerts.package} Svgs sprite written to ${alerts.path(local)}` :
-      `${alerts.compression} Svgs optimized ${alerts.path(src)} and saved to ${alerts.path(local)}`
+      `${alerts.package} Svgs sprite written to ${alerts.str.path(local)}` :
+      `${alerts.compression} Svgs optimized ${alerts.str.path(src)} and saved to ${alerts.str.path(local)}`
 
     if (!fs.existsSync(path.dirname(dist))){
       fs.mkdirSync(path.dirname(dist));
@@ -180,7 +180,7 @@ const run = async (dir = BASE_PATH) => {
       watcher.on('change', async (changed) => {
         let local = changed.replace(process.env.PWD, '');
 
-        cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
         await walk(dir);
 
@@ -189,7 +189,7 @@ const run = async (dir = BASE_PATH) => {
         cnsl.success(`Svgs finished`);
       });
 
-      cnsl.watching(`Svgs watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Svgs watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }

@@ -32,7 +32,7 @@ const main = async (style) => {
 
     fs.writeFileSync(result.opts.to, result.css);
 
-    cnsl.describe(`${alerts.styles} PostCSS processed ${alerts.path(style.outDir + style.outFile)}`);
+    cnsl.describe(`${alerts.styles} PostCSS processed ${alerts.str.path(style.outDir + style.outFile)}`);
   } catch (err) {
     cnsl.error(`PostCSS failed: ${err.stack}`);
   }

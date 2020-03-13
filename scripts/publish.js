@@ -25,7 +25,7 @@ const remote = (process.env.NODE_ENV === 'production') ? 'origin' : process.env.
 
 const main = () => {
   if (undefined === remote) {
-    cnsl.notify(`${alerts.info} Can't publish. Set ${alerts.ext('process.env.NODE_ENV')} to the desired remote defined in ${alerts.path('config/publish.js')}`);
+    cnsl.notify(`${alerts.info} Can't publish. Set ${alerts.str.ext('process.env.NODE_ENV')} to the desired remote defined in ${alerts.str.path('config/publish.js')}`);
 
     process.exit();
   }

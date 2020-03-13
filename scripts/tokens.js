@@ -53,7 +53,7 @@ const main = async (opts = options) => {
     // Re-enable logging
     process.stdout.write = write;
 
-    cnsl.describe(`${alerts.scripts} Created ${alerts.path(output)} from ${alerts.path(input)}`);
+    cnsl.describe(`${alerts.scripts} Created ${alerts.str.path(output)} from ${alerts.str.path(input)}`);
   } catch (err) {
     cnsl.error(`Tokens failed: ${err.stack}`);
   }

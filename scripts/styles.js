@@ -82,7 +82,7 @@ const run = async (styles = modules) => {
         let local = changed.replace(process.env.PWD, '');
         let styls = [];
 
-        cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
         if (process.env.NODE_ENV !== 'development') {
           let filtered = styles.filter(s => path.basename(changed) === path.basename(s.file));
@@ -95,7 +95,7 @@ const run = async (styles = modules) => {
         main(styls);
       });
 
-      cnsl.watching(`Styles watching ${alerts.ext(globs.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Styles watching ${alerts.str.ext(globs.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } else {
       await main(modules);
 
