@@ -9,11 +9,13 @@ const path = require('path');
 const fs = require('fs');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const config = require(`${process.env.PWD}/config/sass`);
+const lint = require(`${__dirname}/lint`);
 
 /** Get Modules */
 const modules = config;
 
 /** Process CLI args */
+const args = require(`${__dirname}/util/args`);
 const cnsl = require(`${__dirname}/util/console`);
 
 /**
@@ -22,10 +24,13 @@ const cnsl = require(`${__dirname}/util/console`);
  * @param  {Array}  files  The contents of config/sass.js
  */
 const main = async (style) => {
-  let outDir = path.join(process.env.PWD, style.outDir);
-  let name = style.outFile;
-
   try {
+    let outDir = path.join(process.env.PWD, style.outDir);
+    let name = style.outFile;
+
+    /** Lint file */
+    if (!args.nolint) await lint.style(style.file);
+
     if (!fs.existsSync(outDir)){
       fs.mkdirSync(outDir);
     }
@@ -34,7 +39,7 @@ const main = async (style) => {
 
     fs.writeFileSync(`${outDir}${name}`, result.css);
 
-    cnsl.describe(`${alerts.styles} Sass compiled to ${alerts.path(style.outDir + name)}`);
+    cnsl.describe(`${alerts.styles} Sass compiled to ${alerts.str.path(style.outDir + name)}`);
   } catch (err) {
     let error = (err.formatted) ? err.formatted : err.stack;
     cnsl.error(`Sass failed: ${error}`);

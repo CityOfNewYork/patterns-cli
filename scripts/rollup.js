@@ -10,6 +10,7 @@ const path = require('path');
 const rollup = require('rollup');
 const chokidar = require('chokidar');
 const alerts = require(`${process.env.PWD}/config/alerts`);
+const lint = require(`${__dirname}/lint`);
 
 /**
  * Constants
@@ -56,6 +57,9 @@ const watcher = chokidar.watch(GLOBS, {
  */
 const main = async (script) => {
   try {
+    /** Lint file */
+    if (!args.nolint) await lint.es(script.input);
+
     if (script.hasOwnProperty('devModule')) delete script.devModule;
 
     const bundle = await rollup.rollup(script);
@@ -66,7 +70,7 @@ const main = async (script) => {
       await bundle.write(script.output[i]);
     }
 
-    cnsl.describe(`${alerts.rollup} Rollup bundle written to ${alerts.path(dist)} for ${alerts.path(local)}`);
+    cnsl.describe(`${alerts.rollup} Rollup bundle written to ${alerts.str.path(dist)} for ${alerts.str.path(local)}`);
   } catch (err) {
     cnsl.error(`Rollup failed (main): ${err.stack}`);
   }
@@ -82,7 +86,7 @@ const run = async (scripts = modules) => {
         let local = changed.replace(process.env.PWD, '');
         let scrpts = [];
 
-        cnsl.watching(`Detected change on ${alerts.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
         if (process.env.NODE_ENV !== 'development') {
           let filtered = scripts.filter(s => path.basename(changed) === path.basename(s.input));
@@ -97,7 +101,7 @@ const run = async (scripts = modules) => {
         }
       });
 
-      cnsl.watching(`Rollup watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Rollup watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Rollup (run): ${err.stack}`);
     }

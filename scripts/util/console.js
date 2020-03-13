@@ -24,6 +24,9 @@ const describe = (message) => {
 module.exports = {
   describe: describe,
   notify: notify,
+  lint: message => {
+    always(message);
+  },
   watching: message => {
     notify(`${alerts.watching} ${message}`);
   },

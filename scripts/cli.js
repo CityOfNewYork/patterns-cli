@@ -2,7 +2,7 @@
 
 let script = process.argv.splice(2, 1)[0];
 let modules = [
-  'styles', 'tokens', 'sass', 'postcss', 'slm', 'serve', 'svgs', 'rollup', 'publish'
+  'styles', 'tokens', 'sass', 'postcss', 'slm', 'serve', 'svgs', 'rollup', 'publish', 'lint'
 ];
 
 if (undefined === script) {
