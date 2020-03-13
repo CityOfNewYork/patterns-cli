@@ -14,6 +14,8 @@ const beautify = require('js-beautify').html;
 const marked = require('marked');
 const chokidar = require('chokidar');
 
+const pa11y = require(`${__dirname}/pa11y`);
+
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const CONFIG = require(`${process.env.PWD}/config/slm`);
 const opts = CONFIG.config;
@@ -72,6 +74,8 @@ const write = async (file, data) => {
     fs.writeFileSync(dist, data);
 
     cnsl.describe(`${alerts.success} Slm compiled ${alerts.str.path(src)} to ${alerts.str.path(local)}`);
+
+    return dist;
   } catch (err) {
     cnsl.error(`Slm (write): ${err.stack}`);
   }
@@ -238,7 +242,9 @@ const main = async (file) => {
   if (file.includes(EXT)) {
     let compiled = await compile.slm(file);
 
-    return write(file, compiled);
+    let dist = await write(file, compiled);
+
+    if (!args.nopa11y) await pa11y.main(dist);
   }
 }
 

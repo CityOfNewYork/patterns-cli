@@ -26,15 +26,19 @@ const dict = [
     flags: ['-nl', '--no-lint'],
     name: 'nolint',
     description: 'Disable linting on styles and scripts.'
+  },
+  {
+    flags: ['-np', '--no-pa11y'],
+    name: 'nopa11y',
+    description: 'Disable pa11y linting on html files.'
   }
 ];
 
-const args = {
-  watch: dict.find(d => d.name === 'watch').flags.some(f => argvs.includes(f)),
-  nondescript: dict.find(d => d.name === 'nondescript').flags.some(f => argvs.includes(f)),
-  silent: dict.find(d => d.name === 'silent').flags.some(f => argvs.includes(f)),
-  nolint: dict.find(d => d.name === 'nolint').flags.some(f => argvs.includes(f)),
-};
+const args = {};
+
+dict.forEach(d => {
+  args[d.name] = d.flags.some(f => argvs.includes(f))
+});
 
 args.notify = !(args.silent);
 

@@ -58,7 +58,7 @@ const watcher = chokidar.watch(GLOBS, {
 const main = async (script) => {
   try {
     /** Lint file */
-    if (!args.nolint) await lint.es(script.input);
+    if (!args.nolint) await lint.main(script.input);
 
     if (script.hasOwnProperty('devModule')) delete script.devModule;
 

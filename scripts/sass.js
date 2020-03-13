@@ -29,7 +29,7 @@ const main = async (style) => {
     let name = style.outFile;
 
     /** Lint file */
-    if (!args.nolint) await lint.style(style.file);
+    if (!args.nolint) await lint.main(style.file);
 
     if (!fs.existsSync(outDir)){
       fs.mkdirSync(outDir);

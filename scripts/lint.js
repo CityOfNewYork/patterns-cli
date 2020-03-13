@@ -7,10 +7,9 @@
  */
 
 const path = require('path');
-const chokidar = require('chokidar');
 const stylelint = require('stylelint');
 const eslint = require('eslint').CLIEngine;
-const pckg = require(`${process.env.PWD}/package.json`);
+const config = require(`${process.env.PWD}/config/lint`);
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const cnsl = require(`${__dirname}/util/console`);
 
@@ -32,18 +31,6 @@ const GLOBS = [
 const args = require(`${__dirname}/util/args`).args;
 
 /**
- * Our Chokidar Watcher
- *
- * @param  {Source}  url  https://github.com/paulmillr/chokidar
- */
-const watcher = chokidar.watch(GLOBS, {
-  usePolling: false,
-  awaitWriteFinish: {
-    stabilityThreshold: 750
-  }
-});
-
-/**
  * ES Linter
  *
  * @param  {String}  file  Glob or file path to lint
@@ -52,13 +39,13 @@ const watcher = chokidar.watch(GLOBS, {
  */
 const es = async (file = GLOBS.find(g => g.includes(EXT_ES))) => {
   try {
-    let eslinter = new eslint(pckg.eslintConfig).executeOnFiles([file]);
+    let eslinter = new eslint(config.eslint).executeOnFiles([file]);
 
     if (eslinter.errorCount) {
       eslinter.results.forEach((item) => {
         if (item.messages.length) {
           if (args.nondescript || args.silent) {
-            cnsl.lint(`${alerts.str.path(item.filePath.replace(process.env.PWD, '.'))}`);
+            cnsl.lint(`${alerts.str.path(item.filePath.replace(`file://${process.env.PWD}`, '.'))}`);
           } else {
             cnsl.lint(`${alerts.info} Suggestions for ${alerts.str.path(item.filePath.replace(process.env.PWD, '.'))}`);
           }
@@ -91,7 +78,7 @@ const style = async (file = GLOBS.find(g => g.includes(EXT_STYLE))) => {
   try {
     let data = await stylelint.lint({
       files: file,
-      config: pckg.stylelintConfig
+      config: config.stylelint
     })
 
     if (data.errored) {
@@ -156,35 +143,15 @@ const main = async (file = false) => {
  * Runner for the sample script
  */
 const run = async () => {
-  if (args.watch) {
-    try {
-      watcher.on('change', async changed => {
-        let local = changed.replace(process.env.PWD, '');
+  await main();
 
-        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
+  cnsl.success(`Lint finished`);
 
-        await main(changed);
-
-        cnsl.success(`Lint finished`);
-      });
-
-      cnsl.watching(`Lint watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
-    } catch (err) {
-      cnsl.error(`Lint (run): ${err.stack}`);
-    }
-  } else {
-    await main();
-
-    cnsl.success(`Lint finished`);
-
-    process.exit();
-  }
+  process.exit();
 };
 
 /** @type  {Object}  Export our methods */
 module.exports = {
   main: main,
-  run: run,
-  es: es,
-  style: style
+  run: run
 };
