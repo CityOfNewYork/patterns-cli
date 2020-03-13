@@ -10,7 +10,8 @@ const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
 const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/sample`);
+// Create a config file for this script
+// const config = require(`${process.env.PWD}/config/sample`);
 
 /**
  * Constants
@@ -27,10 +28,8 @@ const GLOBS = [
 
 /** Process CLI args */
 
-const argvs = process.argv.slice(2);
-const args = {
-  watch: (argvs.includes('-w') || argvs.includes('--watch'))
-};
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Our Chokidar Watcher
@@ -62,7 +61,7 @@ const write = async (file, data) => {
 
     let written = fs.writeFileSync(dist, data);
 
-    console.log(`${alerts.package} Sample written to ${alerts.path(local)}`);
+    cnsl.describe(`Sample written to ${alerts.str.path(local)}`);
 
     return written;
   } catch (err) {
@@ -82,7 +81,7 @@ const main = async (file) => {
 
     return data;
   } catch (err) {
-    cnsl.error(`Sample failed (main): ${err}`);
+    cnsl.error(`Sample failed (main): ${err.stack}`);
   }
 };
 
@@ -97,15 +96,15 @@ const run = async () => {
 
         await main(changed);
 
-        console.log(`${alerts.watching} Detected change on ${alerts.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
       });
 
-      console.log(`${alerts.watching} Sample watching ${alerts.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Sample watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
     } catch (err) {
-      console.error(`${alerts.error} Sample (run): ${err}`);
+      cnsl.error(`Sample (run): ${err.stack}`);
     }
   } else {
-    // await main();
+    await main();
 
     process.exit();
   }
@@ -113,7 +112,7 @@ const run = async () => {
 
 /** @type  {Object}  Export our methods */
 module.exports = {
-  'main': main,
-  'run': run,
-  'config': config
+  main: main,
+  run: run,
+  config: config
 };
