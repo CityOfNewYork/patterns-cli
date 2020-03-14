@@ -189,7 +189,7 @@ const run = async (dir = BASE_PATH) => {
         cnsl.success(`Svgs finished`);
       });
 
-      cnsl.watching(`Svgs watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Svgs watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }

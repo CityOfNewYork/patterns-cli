@@ -101,7 +101,7 @@ const run = async (scripts = modules) => {
         }
       });
 
-      cnsl.watching(`Rollup watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Rollup watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Rollup (run): ${err.stack}`);
     }

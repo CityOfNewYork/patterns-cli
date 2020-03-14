@@ -95,7 +95,7 @@ const run = async (styles = modules) => {
         main(styls);
       });
 
-      cnsl.watching(`Styles watching ${alerts.str.ext(globs.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Styles watching ${alerts.str.ext(globs.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
     } else {
       await main(modules);
 

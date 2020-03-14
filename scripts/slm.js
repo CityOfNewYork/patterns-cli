@@ -323,7 +323,7 @@ const run = async (dir = BASE_PATH) => {
         }
       });
 
-      cnsl.watching(`Slm watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Slm watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
     } else {
       await walk(dir);
 
