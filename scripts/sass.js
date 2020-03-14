@@ -15,7 +15,7 @@ const lint = require(`${__dirname}/lint`);
 const modules = config;
 
 /** Process CLI args */
-const args = require(`${__dirname}/util/args`);
+const args = require(`${__dirname}/util/args`).args;
 const cnsl = require(`${__dirname}/util/console`);
 
 /**

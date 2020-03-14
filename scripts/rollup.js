@@ -63,8 +63,8 @@ const main = async (script) => {
     if (script.hasOwnProperty('devModule')) delete script.devModule;
 
     const bundle = await rollup.rollup(script);
-    const local = script.input.replace(process.env.PWD, '');
-    const dist = DIST.replace(process.env.PWD, '');
+    const local = script.input.replace(process.env.PWD, '.');
+    const dist = DIST.replace(process.env.PWD, '.');
 
     for (let i = 0; i < script.output.length; i++) {
       await bundle.write(script.output[i]);

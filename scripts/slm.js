@@ -245,6 +245,8 @@ const main = async (file) => {
     let dist = await write(file, compiled);
 
     if (!args.nopa11y) await pa11y.main(dist);
+
+    return dist;
   }
 }
 

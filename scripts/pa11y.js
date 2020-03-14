@@ -44,7 +44,7 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
 
   if (results.issues.length) {
     if (args.nondescript || args.silent) {
-      cnsl.lint(`${alerts.str.path(results.pageUrl.replace(process.env.PWD, '.'))}`);
+      cnsl.lint(`${alerts.str.path(results.pageUrl.replace(`file://${process.env.PWD}`, '.'))}`);
     } else {
       cnsl.lint(`${alerts.accessible} Suggestions for ${alerts.str.path(results.pageUrl.replace(`file://${process.env.PWD}`, '.'))}`);
     }
