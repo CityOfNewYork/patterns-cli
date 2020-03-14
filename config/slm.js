@@ -30,8 +30,6 @@ module.exports = {
     marked: {
       gfm: true,
       headerIds: true,
-      headerPrefix: 'heading-',
-      pedantic: true,
       smartypants: true
     },
     /**
