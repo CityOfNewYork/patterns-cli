@@ -14,11 +14,8 @@
   },
   "homepage": "https://github.com/CityOfNewYork/nyco-patterns-framework#readme",
   "dependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/preset-env": "^7.8.7",
     "chokidar": "^3.3.1",
     "concurrently": "^5.1.0",
-    "core-js": "^3.6.4",
     "eslint": "^6.8.0",
     "express": "^4.17.1",
     "gh-pages": "^2.2.0",
@@ -36,12 +33,15 @@
     "svgstore": "^3.0.0-2"
   },
   "optionalDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.1",
     "animate.scss": "0.0.6",
     "chalk": "^3.0.0",
+    "core-js": "^3.6.4",
     "cross-env": "^7.0.2",
     "cssnano": "^4.1.10",
     "eslint-config-google": "^0.14.0",
