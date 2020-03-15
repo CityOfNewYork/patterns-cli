@@ -51,15 +51,15 @@
     "tailwindcss": "^1.2.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7071 concurrently \"scripts/default.js -w\" \"scripts/cli.js serve -w\" -p \"none\"",
-    "default": "cross-env NODE_ENV=production scripts/default.js",
+    "start": "cross-env NODE_ENV=development cross-env PORT=7071 concurrently \"bin/default.js -w\" \"bin/cli.js serve -w\" -p \"none\"",
+    "default": "cross-env NODE_ENV=production bin/default.js",
     "version": "npm run default && git add .",
     "prepublishOnly": "git push && git push --tags",
-    "publish": "cross-env NODE_ENV=production scripts/publish.js",
-    "pttrn": "scripts/cli.js"
+    "publish": "cross-env NODE_ENV=production bin/publish.js",
+    "pttrn": "bin/cli.js"
   },
   "bin": {
-    "pttrn": "scripts/cli.js"
+    "pttrn": "bin/cli.js"
   },
   "babel": {
     "presets": [
