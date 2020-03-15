@@ -1,22 +1,54 @@
 #!/usr/bin/env node
 
+/**
+ * Dependencies
+ */
+
 const concurrently = require('concurrently');
 
-/** Process CLI args */
+/**
+ * Args
+ */
 
 const arguments = require(`${__dirname}/util/args`);
 const args = arguments.args;
 const dict = arguments.dict;
 
-let flags = dict.map(d => (args[d.name]) ? d.flags[0] : '')
+const flags = dict.map(d => (args[d.name]) ? d.flags[0] : '')
   .filter(f => f != '').join(' ');
 
-concurrently([
-  `node ${__dirname}/cli.js styles ${flags}`,
-  `node ${__dirname}/cli.js rollup ${flags}`,
-  `node ${__dirname}/cli.js slm ${flags}`,
-  `node ${__dirname}/cli.js svgs ${flags}`
-], {
+/**
+ * Constants
+ */
+
+const scripts = [
+  'styles',
+  'rollup',
+  'slm',
+  'svgs'
+];
+
+const opts = {
   prefix: 'none',
   raw: true
-});
+};
+
+/**
+ * Main task
+ */
+const main = () => {
+  concurrently(scripts.map(s => `node ${__dirname}/cli.js ${s} ${flags}`), opts)
+};
+
+/**
+ * Runner
+ */
+const run = () => {
+  main();
+};
+
+/** @type {Object} Export our methods */
+module.exports = {
+  main: main,
+  run: run
+};
