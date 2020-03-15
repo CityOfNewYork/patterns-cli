@@ -336,7 +336,7 @@ const run = async (dir = BASE_PATH) => {
   }
 };
 
-/** @type  {Object}  Export our methods */
+/** @type {Object} Export our methods */
 module.exports = {
   main: main,
   run: run,

@@ -150,7 +150,7 @@ const run = async () => {
   process.exit();
 };
 
-/** @type  {Object}  Export our methods */
+/** @type {Object} Export our methods */
 module.exports = {
   main: main,
   run: run
