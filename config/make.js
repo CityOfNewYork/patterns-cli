@@ -30,20 +30,20 @@ const alerts = require(`${process.env.PWD}/config/alerts.js`);
  *
  */
 const templates = {
-  'markup': [
+  markup: [
       "/",
       "/ {{ Pattern }}",
       "/",
       "",
       "div class=\"{{ prefix }}{{ pattern }}\""
     ].join("\n"),
-  'markdown': [
+  markdown: [
       "",
       "**Source:** `src/{{ type }}/{{ pattern }}/{{ pattern }}`",
       "",
       "About the {{ Pattern }} {{ type }}.",
     ].join("\n"),
-  'styles': [
+  styles: [
       "/**",
       " * {{ Pattern }}",
       " */",
@@ -61,7 +61,7 @@ const templates = {
       "// Declarations",
       "// .{{ prefix }}{{ pattern }} { }"
     ].join("\n"),
-  'scripts': [
+  scripts: [
       "'use strict';",
       "",
       "class {{ Pattern }} {",
@@ -82,7 +82,7 @@ const templates = {
       "",
       "export default {{ Pattern }};",
     ].join("\n"),
-  'readme': [
+  readme: [
       "",
       "#### Usage",
       "",
@@ -122,7 +122,7 @@ const templates = {
       "`prop`   | A description of the property.",
       ""
     ].join("\n"),
-  'config': [
+  config: [
       "//",
       "// Config",
       "//",
@@ -134,7 +134,7 @@ const templates = {
       "// Using map-get to retrieve a variable from the global $tokens object.",
       "// $var: map-get(map-get($tokens, ''), '');"
     ].join("\n"),
-  'views': [
+  views: [
       "= extend('layouts/default')",
       "",
       "- title = '{{ Pattern }}'",
@@ -151,10 +151,10 @@ const templates = {
  * templates above.
  */
 const prefixes = {
-  'elements': '',
-  'components': 'c-',
-  'objects': 'o-',
-  'utilities': ''
+  elements: '',
+  components: 'c-',
+  objects: 'o-',
+  utilities: ''
 };
 
 /**
@@ -163,13 +163,13 @@ const prefixes = {
  * template. There must be a filename for each template in the list above.
  */
 const files = {
-  'markup': '{{ pattern }}.slm',
-  'markdown': '{{ pattern }}.md',
-  'styles': '_{{ pattern }}.scss',
-  'scripts': '{{ pattern }}.js',
-  'readme': 'readme.md',
-  'config': '_{{ pattern }}.scss',
-  'views': '{{ pattern }}.slm'
+  markup: '{{ pattern }}.slm',
+  markdown: '{{ pattern }}.md',
+  styles: '_{{ pattern }}.scss',
+  scripts: '{{ pattern }}.js',
+  readme: 'readme.md',
+  config: '_{{ pattern }}.scss',
+  views: '{{ pattern }}.slm'
 };
 
 /**
@@ -204,10 +204,10 @@ const patterns = [
  * to write files to, it should be added here.
  */
 const dirs = {
-  'base': Path.join(__dirname, '../'),
-  'src': 'src',
-  'config': 'config',
-  'views': 'views'
+  base: Path.join(__dirname, '../'),
+  src: 'src',
+  config: 'config',
+  views: 'views'
 };
 
 /**
@@ -220,17 +220,17 @@ const dirs = {
  * These paths also accept the same variables as the templates above.
  */
 const paths = {
-  'config': Path.join(dirs.src, dirs.config),
-  'views': Path.join(dirs.src, dirs.views),
-  'pattern': Path.join(dirs.src, '{{ type }}', '{{ pattern }}'), // covers default markup, markdown, and style templates as well as any custom templates defined in the patterns constant above.
-  'styles_global': 'src/scss/_imports.scss',
-  'styles_modules': 'config/modules.js',
-  'scripts_global': 'src/js/main.js',
-  'scripts_modules': 'config/rollup.js'
+  config: Path.join(dirs.src, dirs.config),
+  views: Path.join(dirs.src, dirs.views),
+  pattern: Path.join(dirs.src, '{{ type }}', '{{ pattern }}'), // covers default markup, markdown, and style templates as well as any custom templates defined in the patterns constant above.
+  styles_global: 'src/scss/_imports.scss',
+  styles_modules: 'config/modules.js',
+  scripts_global: 'src/js/main.js',
+  scripts_modules: 'config/rollup.js'
 };
 
 const messages = {
-  'styles': [
+  styles: [
     '\n',
     `${alerts.styles} Styles Info. `,
     `Import the "{{ pattern }}" stylesheet into the "${paths.styles_global}" file. `,
@@ -241,7 +241,7 @@ const messages = {
     `Component types).`,
     '\n'
   ],
-  'scripts': [
+  scripts: [
     '\n',
     `${alerts.scripts} Scripts Info. `,
     `Import the "{{ pattern }}" script into the "${paths.scripts_global}" file `,

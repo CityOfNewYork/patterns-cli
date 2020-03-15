@@ -9,6 +9,7 @@ const Path = require('path');
 const Readline = require('readline');
 const alerts = require(`${process.env.PWD}/config/alerts`);
 const config = require(`${process.env.PWD}/config/make`);
+const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Constants
@@ -26,10 +27,6 @@ let prompt = Readline.createInterface({
   });
 
 /**
- * Functions
- */
-
-/**
  * Parse variables in the config/make.js template strings.
  */
 const parseVariables = (str) => str
@@ -43,51 +40,49 @@ const parseVariables = (str) => str
       .charAt(0).toUpperCase() + PATTERN.slice(1)
   );
 
-/**
- * Evaluate a yes answer
- */
+/** Evaluate a yes answer */
 const yes = str => str.indexOf('y') === 0;
 
-/**
- * An async forEach function
- */
-const asyncForEach = async (array, callback) => {
+/** An async forEach function */
+const each = async (array, callback) => {
   for (let i = 0; i < array.length; i++) {
     await callback(array[i], i, array);
   }
 }
 
-/**
- * Log a message from MSG.
- */
+/** Log a message from MSG. */
 const logInfo = (type) => (config.messages[type]) ?
-  console.log(parseVariables(config.messages[type].join(''))) : false;
+  cnsl.describe(parseVariables(config.messages[type].join(''))) : false;
 
 /**
  * Create the directory for the pattern if it doesn't exist
- * @param  {string}   dir      The directory to write
- * @param  {string}   type     The pattern type: elements, components, objects
- * @param  {string}   pattern  The name of the pattern
- * @param  {Function} callback They file writing function
- * @return {[type]}            false if directory exists
+ *
+ * @param  {String}    dir       The directory to write
+ * @param  {String}    type      The pattern type: elements, components, objects
+ * @param  {Function}  callback  They file writing function
+ *
+ * @return {[type]}              false if directory exists
  */
-function fnDirectory(dir, type, pattern, callback) {
+const directory = (dir, type, callback) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
+
     callback(true);
   } else {
     callback(false);
   }
-}
+};
 
 /**
- * Make the config file for the pattern if it doesn't exist
- * @param  {string} dir     The directory to write
- * @param  {string} type    The pattern type: elements, components, objects
- * @param  {string} pattern The name of the pattern
- * @return {boolean}        false if already exists, true if created
+ * Make the file for the pattern if it doesn't exist
+ *
+ * @param  {String}  dir      The directory to write
+ * @param  {String}  type     The pattern type: elements, components, objects
+ * @param  {String}  pattern  The name of the pattern
+ *
+ * @return {Boolean}          false if already exists, true if created
  */
-function makeFile(dir, filetype, pattern, callback) {
+const write = (dir, filetype, callback) => {
   let file = parseVariables(config.files[filetype]);
 
   if (!fs.existsSync(`${dir}/${file}`)) {
@@ -95,7 +90,8 @@ function makeFile(dir, filetype, pattern, callback) {
 
     fs.writeFile(`${dir}/${file}`, content, err => {
       if (err) {
-        console.log(err);
+        cnsl.error(`Make failed (write): ${err.stack}`);
+
         return false;
       }
     });
@@ -104,26 +100,30 @@ function makeFile(dir, filetype, pattern, callback) {
   } else {
     callback(false, `${file}`);
   }
-}
+};
 
 /**
- * Delegate to create the pattern directory, if it exists, log message
- * @param  {string}  dir     The directory to write
- * @param  {string}  pattern The name of the pattern
- * @return {boolean}         False if nothing is created
+ * Delegate to create the pattern directory, if it exists, log message.
+ *
+ * @param  {String}   type     The pattern type
+ * @param  {String}   dir      The directory to write
+ * @param  {String}   pattern  The name of the pattern
+ *
+ * @return {Boolean}           False if nothing is created
  */
-function makeDefaults(type, pattern, callback) {
+const defaults = (type, pattern, callback) => {
   let relative = Path.join(config.dirs.src, type);
   let absolute = Path.join(config.dirs.base, relative, pattern);
 
-  fnDirectory(absolute, type, pattern, (success) => {
+  directory(absolute, type, (success) => {
     if (success) {
-      console.log(`${alerts.info} Creating source in ${relative}`);
+      cnsl.describe(`${alerts.info} Creating source in ${relative}`);
 
       FILENAMES.forEach(filetype => {
-        makeFile(absolute, filetype, pattern, (success, filename) => {
+        write(absolute, filetype, (success, filename) => {
           if (success) {
-            console.log(`${alerts.success} Created "${filename}".`);
+            cnsl.success(`Created "${filename}".`);
+
             logInfo(filetype);
           }
         });
@@ -132,19 +132,20 @@ function makeDefaults(type, pattern, callback) {
       callback();
     } else {
       cnsl.error(`"${pattern}" already exists in ${relative}`);
+
       callback();
     }
   });
-}
+};
 
 /**
  * Ask if we want to make the 'config' file.
- * @param  {string} dir     The directory to write
- * @param  {string} type    The pattern type: elements, components, objects
- * @param  {string} pattern The name of the pattern
- * @param  {[type]} prompt  The Readline prompt to ask if you want to creat a config
+ *
+ * @param  {String}  filetype  The pattern type: elements, components, objects
+ * @param  {String}  pattern   The name of the pattern
+ * @param  {[type]}  prompt    The Readline prompt to ask if you want to creat a config
  */
-function makeOptional(filetype, pattern, prompt) {
+const optional = (filetype, pattern, prompt) => {
   return new Promise(resolve => {
     let isPattern = config.patterns.indexOf(filetype) > -1;
     let path = (isPattern) ? config.paths.pattern : config.paths[filetype]; // use the patterns default path instead
@@ -156,9 +157,10 @@ function makeOptional(filetype, pattern, prompt) {
       `${alerts.question} Would you like to create a "${filetype}" file for "${pattern}"? (y/n)`,
       (answer) => {
         if (yes(answer))
-          makeFile(absolute, filetype, pattern, (success, file) => {
+          write(absolute, filetype, (success, file) => {
             if (success) {
-              console.log(`${alerts.success} ${file} was made in ${relative}`);
+              cnsl.success(`${file} was made in ${relative}`);
+
               logInfo(filetype);
             } else {
               cnsl.error(`${file} already exists in ${relative}`);
@@ -169,29 +171,41 @@ function makeOptional(filetype, pattern, prompt) {
       }
     );
   });
-}
+};
 
 /**
- * Initialize
+ * The main runner for the script
  */
+const run = async () => {
+  try {
+    if (FILE) {
+      (async () => {
+        await optional(FILE, PATTERN, prompt);
 
-if (FILE) {
-  (async () => {
-    await makeOptional(FILE, PATTERN, prompt);
-    prompt.close();
-  })();
+        prompt.close();
+      })();
 
-  return;
-}
+      return;
+    }
 
-// Make the standard files, then...
-makeDefaults(TYPE, PATTERN, () => {
-  // .. ask to make the option files
-  (async () => {
-    await asyncForEach(config.optional, async (type) => {
-      await makeOptional(type, PATTERN, prompt);
+    // Make the standard files, then...
+    defaults(TYPE, PATTERN, () => {
+      // .. ask to make the option files
+      (async () => {
+        await each(config.optional, async (type) => {
+          await optional(type, PATTERN, prompt);
+        });
+
+        prompt.close();
+      })();
     });
+  } catch (err) {
+    cnsl.error(`Make failed (run): ${err.stack}`);
+  }
+};
 
-    prompt.close();
-  })();
-});
+/** @type  {Object}  Export our methods */
+module.exports = {
+  run: run,
+  config: config
+};
