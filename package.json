@@ -60,17 +60,5 @@
   },
   "bin": {
     "pttrn": "bin/cli.js"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "modules": "false",
-          "useBuiltIns": "entry",
-          "corejs": 3
-        }
-      ]
-    ]
   }
 }
