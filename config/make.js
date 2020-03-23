@@ -180,7 +180,7 @@ const templates = {
       "// $var: map-get(map-get($tokens, ''), '');"
     ].join("\n"),
   views: [
-      "= extend('layouts/default')",
+      "= extend('templates/default')",
       "",
       "- title = '{{ Pattern }}'",
       "",

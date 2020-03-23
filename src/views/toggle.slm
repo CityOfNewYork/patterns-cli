@@ -1,4 +1,4 @@
-= extend('layouts/default')
+= extend('templates/default')
 
 - title = 'Toggle'
 
