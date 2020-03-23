@@ -2,12 +2,6 @@
  * Proposal Setup for Global Configuration. Example exists in make.js config
  */
 
-const path = require('path');
-
-/**
- * Config
- */
-
 module.exports = {
   base: process.env.PWD,
   /**
