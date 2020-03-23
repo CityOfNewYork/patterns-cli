@@ -2,25 +2,21 @@
  * Dependencies
  */
 
-const resolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
-const commonjs = require('@rollup/plugin-commonjs');    // Convert CommonJS modules to ES6, so they can be included in a Rollup bundle
-const babel = require('rollup-plugin-babel');           // Transpile source code.
-const buble = require('@rollup/plugin-buble');          // Convert ES2015 with buble.
-const replace = require('@rollup/plugin-replace');      // Replace content while bundling.
+const path = require('path');
+
+const noderesolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
+const commonjs = require('@rollup/plugin-commonjs');        // Convert CommonJS modules to ES6, so they can be included in a Rollup bundle
+const babel = require('rollup-plugin-babel');               // Transpile source code.
+const buble = require('@rollup/plugin-buble');              // Convert ES2015 with buble.
+const replace = require('@rollup/plugin-replace');          // Replace content while bundling.
+
+const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
+
+const package = resolve('package.json');
 
 /**
  * Config
  */
-
-/**
- * General configuration for Rollup
- * @type {Object}
- */
-let rollup = {
-  sourcemap: 'inline',
-  format: 'iife',
-  strict: true
-};
 
 /**
  * Plugin configuration
@@ -30,7 +26,7 @@ const plugins = {
   babel: babel({
     exclude: 'node_modules/**'
   }),
-  resolve: resolve({
+  noderesolve: noderesolve({
     browser: true,
     customResolveOptions: {
       moduleDirectory: 'node_modules'
@@ -48,6 +44,16 @@ const plugins = {
 };
 
 /**
+ * General configuration for Rollup
+ * @type {Object}
+ */
+let rollup = {
+  sourcemap: 'inline',
+  format: 'iife',
+  strict: true
+};
+
+/**
  * Distribution plugin settings. Order matters here.
  * @type {Array}
  */
@@ -55,7 +61,7 @@ const plugins = {
 /** These are plugins used for the global patterns script */
 rollup.local = [
   plugins.alias,
-  plugins.resolve,
+  plugins.noderesolve,
   plugins.common,
   plugins.vue,
   plugins.buble,
@@ -64,7 +70,7 @@ rollup.local = [
 ];
 
 rollup.dist = [
-  plugins.resolve,
+  plugins.noderesolve,
   plugins.common,
   plugins.vue,
   plugins.buble,
@@ -72,15 +78,16 @@ rollup.dist = [
 ];
 
 /**
- * @type {Array} Our list of modules we are exporting
+ * The global JS script.
+ * @type {Array}
  */
-module.exports = [
+let modules = [
   {
-    input: `${process.env.PWD}/src/js/main.js`,
+    input: './src/js/default.js',
     output: [
       {
-        name: 'Patterns',
-        file: `${process.env.PWD}/dist/scripts/patterns.js`,
+        name: 'Default',
+        file: './dist/scripts/default.js',
         sourcemap: rollup.sourcemap,
         format: rollup.format,
         strict: rollup.strict
@@ -88,89 +95,106 @@ module.exports = [
     ],
     plugins: rollup.plugins,
     devModule: true
-  },
+  }
+];
+
+/**
+ * The framework specific JS scripts that should only be bundled in this package.
+ * @type {Array}
+ */
+const nycojs = [
   {
-    input: `${process.env.PWD}/src/utilities/forms/forms.js`,
+    input: './src/utilities/forms/forms.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'Forms',
-        file: `${process.env.PWD}/dist/utilities/forms/forms.iffe.js`,
+        file: './dist/utilities/forms/forms.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/icons/icons.js`,
+    input: './src/utilities/icons/icons.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'Icons',
-        file: `${process.env.PWD}/dist/utilities/icons/icons.iffe.js`,
+        file: './dist/utilities/icons/icons.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/localize/localize.js`,
+    input: './src/utilities/localize/localize.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'localize',
-        file: `${process.env.PWD}/dist/utilities/localize/localize.iffe.js`,
+        file: './dist/utilities/localize/localize.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/lzw/lzw.js`,
+    input: './src/utilities/lzw/lzw.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'LZW',
-        file: `${process.env.PWD}/dist/utilities/lzw/lzw.iffe.js`,
+        file: './dist/utilities/lzw/lzw.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/spinner/spinner.js`,
+    input: './src/utilities/spinner/spinner.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'Spinner',
-        file: `${process.env.PWD}/dist/utilities/spinner/spinner.iffe.js`,
+        file: './dist/utilities/spinner/spinner.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/toggle/toggle.js`,
+    input: './src/utilities/toggle/toggle.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'Toggle',
-        file: `${process.env.PWD}/dist/utilities/toggle/toggle.iffe.js`,
+        file: './dist/utilities/toggle/toggle.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
   },
   {
-    input: `${process.env.PWD}/src/utilities/track/track.js`,
+    input: './src/utilities/track/track.js',
     plugins: rollup.dist,
     output: [
       {
         name: 'Track',
-        file: `${process.env.PWD}/dist/utilities/track/track.iffe.js`,
+        file: './dist/utilities/track/track.iffe.js',
         format: 'iife',
         strict: rollup.strict
       }
     ]
-  },
+  }
 ];
+
+/**
+ * If the __dirname contains the package name then it is likely
+ * installed in another project. Omit the NYCO JS bundles.
+ */
+if (!__dirname.includes(package.name)) {
+  modules = modules.concat(nycojs);
+}
+
+module.exports = modules;

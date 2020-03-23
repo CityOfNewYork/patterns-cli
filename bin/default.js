@@ -37,7 +37,7 @@ const opts = {
  * Main task
  */
 const main = () => {
-  concurrently(scripts.map(s => `node ${__dirname}/cli.js ${s} ${flags}`), opts)
+  concurrently(scripts.map(s => `${__dirname}/cli.js ${s} ${flags}`), opts)
 };
 
 /**

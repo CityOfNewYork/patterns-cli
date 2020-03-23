@@ -7,12 +7,14 @@
 const fs = require('fs');
 const path = require('path');
 const postcss = require('postcss');
-const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/postcss`);
+
+const resolve = require(`${__dirname}/util/resolve`);
 const cnsl = require(`${__dirname}/util/console`);
 
-/** Get Modules */
-const modules = require(`${process.env.PWD}/config/sass`);
+const alerts = resolve('config/alerts');
+const config = resolve('config/postcss');
+const modules = resolve('config/sass');
+
 
 /**
  * The single command for PostCSS to process a Sass Module

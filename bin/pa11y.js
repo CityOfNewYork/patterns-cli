@@ -7,13 +7,13 @@
 const pa11y = require('pa11y');
 const path = require('path');
 const fs = require('fs');
-const config = require(`${process.env.PWD}/config/pa11y`);
-const alerts = require(`${process.env.PWD}/config/alerts`);
-
-/** Process CLI args */
 
 const args = require(`${__dirname}/util/args`).args;
+const resolve = require(`${__dirname}/util/resolve`);
 const cnsl = require(`${__dirname}/util/console`);
+
+const config = resolve('config/pa11y');
+const alerts = resolve('config/alerts');
 
 /**
  * Constants

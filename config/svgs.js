@@ -1,20 +1,10 @@
-/**
- * Dependencies
- */
-
-/**
- * Config
- */
-
 module.exports = {
-  config: {
-    /** The source directory */
-    src: 'src',
-    /** The directory for the views (within the source) */
-    svgs: 'svg',
-    /** The distribution folder for the views */
-    dist: 'dist'
-  },
+  /** The source directory */
+  src: 'src',
+  /** The directory for the views (within the source) */
+  svgs: 'svg',
+  /** The distribution folder for the views */
+  dist: 'dist',
   /**
    * Plugin options for SVGO
    * @param {String} source https://github.com/svg/svgo#what-it-can-do

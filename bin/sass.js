@@ -4,19 +4,19 @@
  * Dependencies
  */
 
-const sass = (process.env.SASS === 'libSass') ? require('node-sass') : require('sass');
-const path = require('path');
 const fs = require('fs');
-const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/sass`);
-const lint = require(`${__dirname}/lint`);
+const path = require('path');
+const sass = (process.env.SASS === 'libSass') ? require('node-sass') : require('sass');
 
-/** Get Modules */
-const modules = config;
-
-/** Process CLI args */
 const args = require(`${__dirname}/util/args`).args;
 const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
+const lint = require(`${__dirname}/lint`);
+
+const alerts = resolve('config/alerts');
+const config = resolve('config/sass');
+
+const modules = config;
 
 /**
  * The single command for Sass to process a Sass Module

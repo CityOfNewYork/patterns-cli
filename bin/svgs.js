@@ -11,9 +11,14 @@ const path = require('path');
 const chokidar = require('chokidar');
 const svgolib = require('svgo/lib/svgo');
 const svgstore = require('svgstore');
-const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/svgs`);
-const opts = config.config;
+
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
+
+const alerts = resolve('config/alerts');
+const config = resolve('config/svgs');
+
 const plugins = {
   plugins: Object.keys(config.svgo).map((p) => {p: config.svgo[p]})
 };
@@ -22,21 +27,15 @@ const plugins = {
  * Constants
  */
 
-const SOURCE = path.join(process.env.PWD, opts.src);
-const DIST = path.join(process.env.PWD, opts.dist);
-const BASE_PATH = `${SOURCE}/${opts.svgs}`;
-const FILE = path.join(process.env.PWD, opts.dist, opts.svgs, config.svgstore.file);
+const SOURCE = path.join(process.env.PWD, config.src);
+const DIST = path.join(process.env.PWD, config.dist);
+const BASE_PATH = `${SOURCE}/${config.svgs}`;
+const FILE = path.join(process.env.PWD, config.dist, config.svgs, config.svgstore.file);
 
 const EXT = '.svg';
 const GLOBS = [
   `${BASE_PATH}/**/*${EXT}`
 ];
-
-
-/** Process CLI args */
-
-const args = require(`${__dirname}/util/args`).args;
-const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Our Chokidar Watcher
@@ -60,7 +59,7 @@ const watcher = chokidar.watch(GLOBS, {
  */
 const write = async (file, data, store = false) => {
   try {
-    let dist = file.replace(BASE_PATH, path.join(DIST, opts.svgs));
+    let dist = file.replace(BASE_PATH, path.join(DIST, config.svgs));
     let src = file.replace(process.env.PWD, '.');
     let local = dist.replace(process.env.PWD, '.');
 

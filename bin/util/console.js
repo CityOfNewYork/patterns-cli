@@ -2,8 +2,10 @@
  * Dependencies
  */
 
-const alerts = require(`${process.env.PWD}/config/alerts`);
 const args = require(`${__dirname}/args`).args;
+const resolve = require(`${__dirname}/resolve`);
+
+const alerts = resolve('config/alerts');
 
 /**
  *

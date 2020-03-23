@@ -5,35 +5,35 @@
  */
 
 const path = require('path');
-const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/tokens`);
+
 const jsJsonFilesToSassScssFiles = require('json-to-scss/lib/jsJsonFilesToSassScssFiles');
 
+const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
+
+const alerts = resolve('config/alerts');
+const config = resolve('config/tokens');
+
 /** Set options for json-to-sass */
-const opts = config.config;
-const input = './config/tokens.js';
-const output = opts.output.replace(/"/g, '');
+const input = resolve('config/tokens', false);
+const output = config.output.replace(/"/g, '');
 
 const options = [
-  {input: [path.join(process.env.PWD, input)]},
+  {input: [input]},
   {output: [path.join(process.env.PWD, output)]},
-  {prefix: opts.prefix ? opts.prefix.replace(/"/g, '') : '$tokens:'},
-  {suffix: opts.suffix ? opts.suffix.replace(/"/g, '') : ';'},
-  {format: opts.format ? opts.format.replace(/"/g, '') : '.scss'},
-  {indentationText: opts.indentationSize ? opts.indentationSize.replace(/"/g, '') : '  '},
-  {indentationSize: opts.indentationSize ? opts.indentationSize.replace(/"/g, '') : 1},
-  {emptyString: opts.emptyString ? opts.emptyString.replace(/"/g, '') : '""'},
-  {noUnderscore: opts.noUnderscore ? opts.noUnderscore : true},
-  {mergeSourceFiles: opts.mergeSourceFiles ? opts.mergeSourceFiles : false},
-  {mergeSassObjects: opts.mergeSassObjects ? opts.mergeSassObjects : false},
-  {keys: opts.keys ? opts.keys.replace(/"/g, '') : 'auto'},
-  {values: opts.values ? opts.values.replace(/"/g, '') : 'auto'},
-  {stringKeys: opts.stringKeys ? opts.stringKeys.replace(/"/g, '') : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
+  {prefix: config.prefix ? config.prefix.replace(/"/g, '') : '$tokens:'},
+  {suffix: config.suffix ? config.suffix.replace(/"/g, '') : ';'},
+  {format: config.format ? config.format.replace(/"/g, '') : '.scss'},
+  {indentationText: config.indentationSize ? config.indentationSize.replace(/"/g, '') : '  '},
+  {indentationSize: config.indentationSize ? config.indentationSize.replace(/"/g, '') : 1},
+  {emptyString: config.emptyString ? config.emptyString.replace(/"/g, '') : '""'},
+  {noUnderscore: config.noUnderscore ? config.noUnderscore : true},
+  {mergeSourceFiles: config.mergeSourceFiles ? config.mergeSourceFiles : false},
+  {mergeSassObjects: config.mergeSassObjects ? config.mergeSassObjects : false},
+  {keys: config.keys ? config.keys.replace(/"/g, '') : 'auto'},
+  {values: config.values ? config.values.replace(/"/g, '') : 'auto'},
+  {stringKeys: config.stringKeys ? config.stringKeys.replace(/"/g, '') : 'family,font-family,fontfamily,font-stack,fontstack,font-face,fontface'}
 ];
-
-/** Process CLI args */
-
-const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * The single command for json-to-sass to process our Tokens
@@ -53,7 +53,7 @@ const main = async (opts = options) => {
     // Re-enable logging
     process.stdout.write = write;
 
-    cnsl.describe(`${alerts.scripts} Created ${alerts.str.path(output)} from ${alerts.str.path(input)}`);
+    cnsl.describe(`${alerts.scripts} Created ${alerts.str.path(output)} from ${alerts.str.path(input.replace(process.env.PWD, '.'))}`);
   } catch (err) {
     cnsl.error(`Tokens failed: ${err.stack}`);
   }

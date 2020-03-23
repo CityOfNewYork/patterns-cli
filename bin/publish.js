@@ -8,9 +8,12 @@
 
 const ghpages = require('gh-pages');
 const Path = require('path');
-const config = require(`${process.env.PWD}/config/publish`);
-const alerts = require(`${process.env.PWD}/config/alerts`);
+
+const resolve = require(`${__dirname}/util/resolve`);
 const cnsl = require(`${__dirname}/util/console`);
+
+const config = resolve('config/publish');
+const alerts = resolve('config/alerts');
 
 /**
  * Constants

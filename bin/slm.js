@@ -6,38 +6,35 @@
  * Dependencies
  */
 
-const slm = require('slm').compile;
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
+const slm = require('slm').compile;
 const beautify = require('js-beautify').html;
 const marked = require('marked');
 const chokidar = require('chokidar');
 
 const pa11y = require(`${__dirname}/pa11y`);
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
 
-const alerts = require(`${process.env.PWD}/config/alerts`);
-const CONFIG = require(`${process.env.PWD}/config/slm`);
-const opts = CONFIG.config;
+const alerts = resolve('config/alerts');
+const CONFIG = resolve('config/slm');
 
 /**
  * Constants
  */
 
-const SOURCE = path.join(process.env.PWD, opts.src);
-const DIST = path.join(process.env.PWD, opts.dist);
-const BASE_PATH = `${SOURCE}/${opts.views}`;
+const SOURCE = path.join(process.env.PWD, CONFIG.src);
+const DIST = path.join(process.env.PWD, CONFIG.dist);
+const BASE_PATH = `${SOURCE}/${CONFIG.views}`;
 
 const EXT = '.slm';
 const GLOBS = [
   `${SOURCE}/**/*${EXT}`,
   `${SOURCE}/**/*.md`
 ];
-
-/** Process CLI args */
-
-const args = require(`${__dirname}/util/args`).args;
-const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Our Chokidar Watcher
@@ -67,8 +64,8 @@ const write = async (file, data) => {
       fs.mkdirSync(path.dirname(dist));
     }
 
-    if (opts.beautify) {
-      data = beautify(data, opts.beautify);
+    if (CONFIG.beautify) {
+      data = beautify(data, CONFIG.beautify);
     }
 
     fs.writeFileSync(dist, data);
@@ -87,8 +84,8 @@ const write = async (file, data) => {
  * however this implementation of the renderer doesn't appear to be correct.
  */
 
-// const renderer = (opts.marked.hasOwnProperty('renderer')) ?
-//   opts.marked.renderer : new marked.Renderer();
+// const renderer = (CONFIG.marked.hasOwnProperty('renderer')) ?
+//   CONFIG.marked.renderer : new marked.Renderer();
 //
 // renderer.slm = (data) => {
 //   let blocks = data.match(/include{{(.*)}}/g);
@@ -96,13 +93,13 @@ const write = async (file, data) => {
 //   console.log(blocks);
 // };
 
-// opts.marked.renderer = renderer;
+// CONFIG.marked.renderer = renderer;
 
 /**
  * Set marked options from config
  */
 
-marked.setOptions(opts.marked);
+marked.setOptions(CONFIG.marked);
 
 /**
  * Replace code blocks with the desired slm template
@@ -183,16 +180,26 @@ const compile = {
    */
   slm: (file, dir = BASE_PATH) => {
     try {
+      if (!fs.existsSync(file)) {
+        return '';
+      }
+
       let src = fs.readFileSync(file, 'utf-8');
 
       // Make the include method available to templates
       CONFIG.include = include;
 
-      return slm(src, {
-        filename: file,
-        basePath: dir,
-        useCache: false
-      })(CONFIG);
+      let data = slm(src, {
+          filename: file,
+          basePath: dir,
+          useCache: false
+        })(CONFIG);
+
+      if (CONFIG.beautify) {
+        data = beautify(data, CONFIG.beautify);
+      }
+
+      return data;
     } catch (err) {
       cnsl.error(`Slm failed (compile.slm): ${err.stack}`);
     }
@@ -206,6 +213,10 @@ const compile = {
    */
   md: (file) => {
     try {
+      if (!fs.existsSync(file)) {
+        return '';
+      }
+
       let md = fs.readFileSync(file, 'utf-8');
 
       md = marked(md);
@@ -226,6 +237,10 @@ const compile = {
    */
   default: (file) => {
     try {
+      if (!fs.existsSync(file)) {
+        return '';
+      }
+
       return fs.readFileSync(file, 'utf-8');
     } catch (err) {
       cnsl.error(`Slm failed (compile.default): ${err.stack}`);
@@ -261,7 +276,7 @@ const walk = async (file, dir = BASE_PATH) => {
 
   if (file.includes(EXT)) {
     await main(file);
-  } else if (!opts.blacklist.some(folder => file.includes(folder))) {
+  } else if (!CONFIG.blacklist.some(folder => file.includes(folder))) {
     try {
       let files = fs.readdirSync(file, 'utf-8');
 

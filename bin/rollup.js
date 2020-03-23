@@ -9,8 +9,14 @@
 const path = require('path');
 const rollup = require('rollup');
 const chokidar = require('chokidar');
-const alerts = require(`${process.env.PWD}/config/alerts`);
+
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
 const lint = require(`${__dirname}/lint`);
+
+const alerts = resolve('config/alerts');
+const config = resolve('config/rollup');
 
 /**
  * Constants
@@ -24,15 +30,11 @@ const GLOBS = [
   `${SOURCE}/**/*${EXT}`
 ];
 
-/** Process CLI args */
-
-const args = require(`${__dirname}/util/args`).args;
-const cnsl = require(`${__dirname}/util/console`);
 /**
  * Development Mode
  */
 
-let modules = require(`${process.env.PWD}/config/rollup`);
+let modules = config;
 
 if (process.env.NODE_ENV === 'development') {
   modules = modules.filter(file => file.devModule);

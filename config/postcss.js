@@ -2,9 +2,12 @@
  * Dependencies
  */
 
-const package = require(`${process.env.PWD}/package.json`);
-const tailwindcss = require('tailwindcss');                 // utility framework/management
-const cssnano = require('cssnano');                         // modern css compiling/minification
+const path = require('path');
+
+const tailwindcss = require('tailwindcss'); // utility framework
+const cssnano = require('cssnano');         // css optimization
+
+const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
 
 /**
  * Config
@@ -13,7 +16,7 @@ const cssnano = require('cssnano');                         // modern css compil
 module.exports = {
   parser: 'postcss-scss',
   plugins: [
-    tailwindcss(`${process.env.PWD}/config/tailwind.js`),
+    tailwindcss(resolve('config/tailwind', false)),
     cssnano()
   ]
 };

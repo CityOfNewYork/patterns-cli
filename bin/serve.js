@@ -6,12 +6,17 @@
  * Dependencies
  */
 
+const path = require('path');
+const http = require('http');
 const Express = require('express');
 const reload = require('reload');
-const path = require('path');
 const chokidar = require('chokidar');
-const http = require('http');
-const alerts = require(`${process.env.PWD}/config/alerts`);
+
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
+
+const alerts = resolve('config/alerts');
 
 /**
  * Constants
@@ -24,11 +29,6 @@ const GLOBS = [
   './dist/styles/*.css',
   './dist/scripts/*.js'
 ];
-
-/** Process CLI args */
-
-const args = require(`${__dirname}/util/args`).args;
-const cnsl = require(`${__dirname}/util/console`);
 
  /**
  * Our Chokidar Watcher

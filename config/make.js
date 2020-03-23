@@ -2,12 +2,57 @@
  * Dependencies
  */
 
-const Path = require('path');
-const alerts = require(`${process.env.PWD}/config/alerts.js`);
+const path = require('path');
+
+const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
+
+const g = resolve('config/global');
+const alerts = resolve('config/alerts');
 
 /**
- * Config
+ * Constants
  */
+
+const SRC = g.src.__dirname;
+const CONFIG = g.config.__dirname;
+
+/**
+ * This is a list of directories for the make file to reference. Changing them
+ * will change where things are written. If you want to create a custom directory
+ * to write files to, it should be added here.
+ */
+const dirs = {
+  base: g.base,
+  src: g.src.__dirname,
+  config: g.src.scss.config,
+  views: g.src.views
+};
+
+/**
+ * This is a list of paths where templates will be written. Default templates
+ * such as markup, markdown, and styles as well as templates defined in the
+ * patterns constant above will be written to the patterns path defined in this
+ * constant. If there is a custom template not included in the patterns constant
+ * above it must have a path defined here.
+ *
+ * These paths also accept the same variables as the templates above.
+ */
+const paths = {
+  config: path.join(dirs.src, dirs.config),
+  views: path.join(dirs.src, dirs.views),
+  /**
+   * Covers default markup, markdown, and style templates as well as any custom
+   * templates defined in the patterns constant.
+   */
+  pattern: path.join(dirs.src, '{{ type }}', '{{ pattern }}'),
+  /**
+   *
+   */
+  scss: `./${path.join(SRC, g.src.scss.__dirname, g.src.scss.default)}`,
+  sass: `./${path.join(CONFIG, g.config.sass)}`,
+  js: `./${path.join(SRC, g.src.js.__dirname, g.src.js.default)}`,
+  rollup: `./${path.join(CONFIG, g.config.rollup)}`
+};
 
 /**
  * Templates
@@ -17,12 +62,12 @@ const alerts = require(`${process.env.PWD}/config/alerts.js`);
  * for legibility. There are a view template variables that are replaced in by
  * the make.js script;
  *
- * {{ type }}    - The pattern type defined by the command, will either be
- *                 "elements", "objects", "utilities".
- * {{ prefix }}  - The pattern prefix, will be defined by the type and prefixes
- *                 in the prefixes constant below.
- * {{ pattern }} - The lower case name of the pattern.
- * {{ Pattern }} - The uppercase name of the pattern.
+ * {{ type }}     The pattern type defined by the command, will either be
+ *                "elements", "objects", "utilities".
+ * {{ prefix }}   The pattern prefix, will be defined by the type and prefixes
+ *                in the prefixes constant below.
+ * {{ pattern }}  The lower case name of the pattern.
+ * {{ Pattern }}  The uppercase name of the pattern.
  *
  * Each template must have a filename defined in the files constant below, as
  * well as a path to where it should be written (default pattern files including
@@ -199,57 +244,24 @@ const patterns = [
 ];
 
 /**
- * This is a list of directories for the make file to reference. Changing them
- * will change where things are written. If you want to create a custom directory
- * to write files to, it should be added here.
- */
-const dirs = {
-  base: Path.join(__dirname, '../'),
-  src: 'src',
-  config: 'config',
-  views: 'views'
-};
-
-/**
- * This is a list of paths where templates will be written. Default templates
- * such as markup, markdown, and styles as well as templates defined in the
- * patterns constant above will be written to the patterns path defined in this
- * constant. If there is a custom template not included in the patterns constant
- * above it must have a path defined here.
  *
- * These paths also accept the same variables as the templates above.
  */
-const paths = {
-  config: Path.join(dirs.src, dirs.config),
-  views: Path.join(dirs.src, dirs.views),
-  pattern: Path.join(dirs.src, '{{ type }}', '{{ pattern }}'), // covers default markup, markdown, and style templates as well as any custom templates defined in the patterns constant above.
-  styles_global: 'src/scss/_imports.scss',
-  styles_modules: 'config/modules.js',
-  scripts_global: 'src/js/main.js',
-  scripts_modules: 'config/rollup.js'
-};
-
 const messages = {
   styles: [
     '\n',
-    `${alerts.styles} Styles Info. `,
-    `Import the "{{ pattern }}" stylesheet into the "${paths.styles_global}" file. `,
-    `This is technically optional but necessary for integrating styles into the `,
-    `global stylesheet. Also, add the "{{ pattern }}" stylesheet module `,
-    `"${paths.styles_modules}" to create an independent distribution with all of `,
-    `the styles needed for it to function (this is mostly done for Object and `,
-    `Component types).`,
+    `${alerts.styles} Import the ${alerts.str.string('{{ pattern }}')} stylesheet `,
+    `into the ${alerts.str.path(paths.scss)} file (recommended). Add the `,
+    `${alerts.str.string('{{ pattern }}')} stylesheet to ${alerts.str.path(paths.sass)} `,
+    'to create an independent distribution (optional).',
     '\n'
   ],
   scripts: [
     '\n',
-    `${alerts.scripts} Scripts Info. `,
-    `Import the "{{ pattern }}" script into the "${paths.scripts_global}" file `,
-    `and create a public function for it in the main class. This is technically `,
-    `optional but necessary for integrating scripts into the global script. `,
-    `Also, add the "{{ pattern }}" script module to "${paths.scripts_modules}" to `,
-    `create an independent distribution (this could be any Pattern type that `,
-    `requires JavaScript to function) `,
+    `${alerts.scripts} Import the ${alerts.str.string('{{ pattern }}')} script `,
+    `into the ${alerts.str.path(paths.js)} file and create a public function `,
+    `for it in the main class (recommended). Add the `,
+    `${alerts.str.string('{{ pattern }}')} script to ${alerts.str.path(paths.rollup)} `,
+    `to create an independent distribution (optional).`,
     '\n'
   ]
 };

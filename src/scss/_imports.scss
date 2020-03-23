@@ -10,12 +10,9 @@
 // stylesheet '../' ex;
 // $cdn: 'path/to/assets/';
 
-// The CDN can be set to another local path, or, it can be set to the 'cdn'
-// within the $tokens map. This default uses jsDelivr to pull the assets
-// from the patterns GitHub repository and the tag of the installed version.
+// The CDN can be set to another local path or a public CDN.
 // ex;
-// @import 'config/tokens';
-// $cdn: map-get($tokens, 'cdn');
+// $cdn: 'https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework@v0.0.0/dist/';
 
 // These are the default paths to the different asset types within the asset
 // folder. Uncomment and set to override their defaults.

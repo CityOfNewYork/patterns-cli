@@ -7,9 +7,12 @@
 const fs = require('fs');
 const Path = require('path');
 const Readline = require('readline');
-const alerts = require(`${process.env.PWD}/config/alerts`);
-const config = require(`${process.env.PWD}/config/make`);
+
+const resolve = require(`${__dirname}/util/resolve`);
 const cnsl = require(`${__dirname}/util/console`);
+
+const alerts = resolve('config/alerts');
+const config = resolve('config/make');
 
 /**
  * Constants
@@ -117,12 +120,10 @@ const defaults = (type, pattern, callback) => {
 
   directory(absolute, type, (success) => {
     if (success) {
-      cnsl.describe(`${alerts.info} Creating source in ${relative}`);
-
       FILENAMES.forEach(filetype => {
         write(absolute, filetype, (success, filename) => {
           if (success) {
-            cnsl.success(`Created "${filename}".`);
+            cnsl.success(`Created ${alerts.str.path('./' + Path.join(relative, pattern, filename))}`);
 
             logInfo(filetype);
           }
@@ -131,7 +132,7 @@ const defaults = (type, pattern, callback) => {
 
       callback();
     } else {
-      cnsl.error(`"${pattern}" already exists in ${relative}`);
+      cnsl.error(`${alerts.str.path('./' + relative + '/' + pattern)} already exists.`);
 
       callback();
     }
@@ -154,16 +155,16 @@ const optional = (filetype, pattern, prompt) => {
     let absolute = Path.join(config.dirs.base, relative);
 
     prompt.question(
-      `${alerts.question} Would you like to create a "${filetype}" file for "${pattern}"? (y/n)`,
+      `${alerts.question} Would you like to create a ${alerts.str.string(filetype)} file for ${alerts.str.string(pattern)}? (y/n)`,
       (answer) => {
         if (yes(answer))
           write(absolute, filetype, (success, file) => {
             if (success) {
-              cnsl.success(`${file} was made in ${relative}`);
+              cnsl.success(`${alerts.str.path('./' + Path.join(relative, file))} was made.`);
 
               logInfo(filetype);
             } else {
-              cnsl.error(`${file} already exists in ${relative}`);
+              cnsl.error(`${alerts.str.path('./' + Path.join(relative, file))} already exists.`);
             }
           });
 

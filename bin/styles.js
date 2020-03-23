@@ -4,13 +4,18 @@
  * Dependencies
  */
 
-const chokidar = require('chokidar');
 const path = require('path');
-const alerts = require(`${process.env.PWD}/config/alerts`);
+const chokidar = require('chokidar');
+
 const tokens = require(`${__dirname}/tokens`);
-const tokensConfig = require(`${process.env.PWD}/config/tokens`).config;
 const sass = require(`${__dirname}/sass`);
 const postcss = require(`${__dirname}/postcss`);
+const args = require(`${__dirname}/util/args`).args;
+const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
+
+const tokensConfig = resolve('config/tokens');
+const alerts = resolve('config/alerts');
 
 const SOURCE = path.join(process.env.PWD, 'src');
 const EXT = '.scss';
@@ -20,11 +25,6 @@ const globs = [
   `${SOURCE}/**/*${EXT}`,
   TOKENS
 ];
-
-/** Process CLI args */
-
-const args = require(`${__dirname}/util/args`).args;
-const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Development Mode

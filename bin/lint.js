@@ -9,9 +9,12 @@
 const path = require('path');
 const stylelint = require('stylelint');
 const eslint = require('eslint').CLIEngine;
-const config = require(`${process.env.PWD}/config/lint`);
-const alerts = require(`${process.env.PWD}/config/alerts`);
+
 const cnsl = require(`${__dirname}/util/console`);
+const resolve = require(`${__dirname}/util/resolve`);
+
+const config = resolve('config/lint');
+const alerts = resolve('config/alerts');
 
 /**
  * Constants
