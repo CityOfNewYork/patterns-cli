@@ -16,19 +16,19 @@ module.exports = {
    * @param  {String}  Source  https://github.com/omnidan/node-emoji
    * @param  {String}  Dict    https://raw.githubusercontent.com/omnidan/node-emoji/master/lib/emoji.json
    */
-  styles: emoji.get('nail_care') + ' ',
-  scripts: emoji.get('rainbow') + ' ',
+  styles: emoji.get('nail_care'),
+  scripts: emoji.get('rainbow'),
   rollup: emoji.get('rolled_up_newspaper') + ' ',
-  question: emoji.get('question') + ' ',
-  attention: emoji.get('wave') + ' ',
-  info: emoji.get('nerd_face') + ' ',
-  error: emoji.get('octagonal_sign') + ' ',
-  warning: emoji.get('warning') + ' ',
-  success: emoji.get('sparkles') + ' ',
-  watching: emoji.get('eyes') + ' ',
+  question: emoji.get('question'),
+  attention: emoji.get('wave'),
+  info: emoji.get('nerd_face'),
+  error: emoji.get('octagonal_sign'),
+  warning: emoji.get('warning'),
+  success: emoji.get('sparkles'),
+  watching: emoji.get('eyes'),
   compression: emoji.get('compression') + ' ',
-  package: emoji.get('package') + ' ',
-  accessible: emoji.get('mens') + ' ',
+  package: emoji.get('package'),
+  accessible: emoji.get('mens'),
   /**
    * Chalk string coloring functions
    *
