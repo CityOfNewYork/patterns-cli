@@ -1,4 +1,4 @@
-= extend('templates/default')
+= extend('/slm/layouts/default')
 
 - title = 'Toggle'
 

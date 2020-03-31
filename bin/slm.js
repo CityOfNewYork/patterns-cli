@@ -28,7 +28,8 @@ const CONFIG = resolve('config/slm');
 
 const SOURCE = path.join(process.env.PWD, CONFIG.src);
 const DIST = path.join(process.env.PWD, CONFIG.dist);
-const BASE_PATH = `${SOURCE}/${CONFIG.views}`;
+const BASE_PATH = `${SOURCE}`;
+const VIEWS = `${BASE_PATH}/${CONFIG.views}`;
 
 const EXT = '.slm';
 const GLOBS = [
@@ -56,7 +57,7 @@ const watcher = chokidar.watch(GLOBS, {
  */
 const write = async (file, data) => {
   try {
-    let dist = file.replace(EXT, '.html').replace(BASE_PATH, DIST);
+    let dist = file.replace(EXT, '.html').replace(VIEWS, DIST);
     let src = file.replace(process.env.PWD, '.');
     let local = dist.replace(process.env.PWD, '.');
 
@@ -108,7 +109,7 @@ marked.setOptions(CONFIG.marked);
  *
  * @return  {String}        File contents with compiled slm
  */
-function mrkdwnslm(data) {
+function mrkdwnslm(data, dir = BASE_PATH) {
   let blocks = data.match(/include{{(.*)}}/g);
 
   if (blocks) {
@@ -120,7 +121,9 @@ function mrkdwnslm(data) {
       let src = fs.readFileSync(file, 'utf-8');
 
       let compiled = slm(src, {
-        filename: path
+        filename: path,
+        basePath: dir,
+        useCache: false
       })(CONFIG);
 
       data = data.replace(element, compiled);
@@ -160,7 +163,7 @@ const include = (file) => {
   } else {
     data = compile['default'](file);
 
-    cnsl.notify(`${alerts.info} Slm (include): no handler exists for ${extname} files.`);
+    cnsl.notify(`${alerts.info} Slm (include): no handler exists for ${extname} files. Rendering as is.`);
   }
 
   return data;
@@ -271,7 +274,7 @@ const main = async (file) => {
  * @param  {String}  file  A single file or directory to recursively walk
  * @param  {String}  dir   The base directory of the file
  */
-const walk = async (file, dir = BASE_PATH) => {
+const walk = async (file, dir = VIEWS) => {
   file = (file.includes(dir)) ? file : path.join(dir, file);
 
   if (file.includes(EXT)) {
@@ -294,7 +297,7 @@ const walk = async (file, dir = BASE_PATH) => {
  *
  * @param  {String}  dir  The base directory of the file
  */
-const run = async (dir = BASE_PATH) => {
+const run = async (dir = VIEWS) => {
   try {
     let views = fs.readdirSync(dir).filter(view => view.includes(EXT));
 
@@ -306,7 +309,7 @@ const run = async (dir = BASE_PATH) => {
           let local = changed.replace(process.env.PWD, '');
 
           // Check if the changed file is in the base views directory
-          let isView = views.some(view => changed.includes(view));
+          // let isView = views.some(view => changed.includes(view));
 
           // Check the parent directory of the changed file
           let hasView = views.some(view => {
@@ -316,23 +319,23 @@ const run = async (dir = BASE_PATH) => {
           });
 
           // Check that the file is in the views directory
-          let inViews = changed.includes(BASE_PATH);
+          // let inViews = changed.includes(VIEWS);
 
           cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
           // Run the single compiler task if the changed file is a view or has a view
-          if (isView || hasView) {
-            let pttrn = path.basename(path.dirname(changed));
-            let view = path.join(dir, pttrn + EXT);
+          // if (isView || hasView) {
+          let pttrn = path.basename(path.dirname(changed));
+          let view = path.join(dir, pttrn + EXT);
 
-            changed = (hasView) ? view : changed;
+          changed = (hasView) ? view : changed;
 
-            main(changed);
+          main(changed);
           // Walk if the changed file is in the views directory
           // such as a layout template or partial
-          } else if (inViews) {
-            await walk(dir);
-          }
+          // } else if (inViews) {
+          //   await walk(dir);
+          // }
         } else {
           await walk(dir);
         }
