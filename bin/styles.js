@@ -19,7 +19,7 @@ const alerts = resolve('config/alerts');
 
 const SOURCE = path.join(process.env.PWD, 'src');
 const EXT = '.scss';
-const TOKENS = path.join(process.env.PWD, tokens.input);
+const TOKENS = tokens.input;
 
 const globs = [
   `${SOURCE}/**/*${EXT}`,
