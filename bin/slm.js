@@ -322,7 +322,7 @@ const run = async (dir = VIEWS) => {
           });
 
           // Check that the file is in the views directory
-          // let inViews = changed.includes(VIEWS);
+          let inViews = changed.includes(VIEWS);
 
           cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
@@ -333,12 +333,14 @@ const run = async (dir = VIEWS) => {
 
           changed = (hasView) ? view : changed;
 
-          main(changed);
+          if (hasView || inViews) {
+            main(changed);
+          } else {
           // Walk if the changed file is in the views directory
           // such as a layout template or partial
           // } else if (inViews) {
-          //   await walk(dir);
-          // }
+            await walk(dir);
+          }
         } else {
           await walk(dir);
         }
