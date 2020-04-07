@@ -315,7 +315,10 @@ const run = async (dir = VIEWS) => {
           let hasView = views.some(view => {
             let pttrn = path.basename(view, EXT);
 
-            return path.dirname(changed).includes(pttrn);
+            return (
+               path.dirname(changed).includes(pttrn) &&
+              !path.dirname(changed).includes(VIEWS)
+            );
           });
 
           // Check that the file is in the views directory
