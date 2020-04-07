@@ -95,7 +95,7 @@ const store = async (file, data) => {
   try {
     let name = path.basename(file).replace(path.extname(file), '');
 
-    SPRITE = SPRITE.add(`${config.svgstore.prefix}${name}`, data);
+    SPRITE.add(`${config.svgstore.prefix}${name}`, data);
 
     return SPRITE;
   } catch (err) {
@@ -181,6 +181,8 @@ const run = async (dir = BASE_PATH) => {
 
         cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
+        let SPRITE = new svgstore();
+
         await walk(dir);
 
         await write(FILE, SPRITE, true);
@@ -193,6 +195,8 @@ const run = async (dir = BASE_PATH) => {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }
   } else {
+    let SPRITE = new svgstore();
+
     await walk(dir);
 
     await write(FILE, SPRITE.toString(), true);
