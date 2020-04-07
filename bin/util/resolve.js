@@ -13,7 +13,11 @@ const fs = require('fs');
 module.exports = (file = '', req = true) => {
   let pwd = path.join(process.env.PWD, file);
   let local = path.join(__dirname, '../../', file);
-  let resolved = (fs.existsSync(`${pwd}.js`)) ? require.resolve(pwd) : require.resolve(local);
+  let resolved = (
+      fs.existsSync(`${pwd}.js`) ||
+      fs.existsSync(`${pwd}.json`) ||
+      fs.existsSync(`${pwd}`)
+    ) ? require.resolve(pwd) : require.resolve(local);
 
   return (req) ? require(resolved) : resolved;
 };
