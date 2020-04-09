@@ -102,36 +102,68 @@ const write = async (file, data) => {
 
 marked.setOptions(CONFIG.marked);
 
-/**
- * Replace code blocks with the desired slm template
- *
- * @param   {Object}  data  File contents
- *
- * @return  {String}        File contents with compiled slm
- */
-function mrkdwnslm(data, dir = BASE_PATH) {
-  let blocks = data.match(/include{{(.*)}}/g);
 
-  if (blocks) {
-    blocks.forEach(element => {
-      let file = element.replace('include{{', '').replace('}}', '').trim();
+const mrkdwn = {
+  /**
+   * Replace code blocks with the desired slm template
+   *
+   * @param   {Object}  data  File contents
+   *
+   * @return  {String}        File contents with compiled slm
+   */
+  slm: function(data) {
+    let blocks = data.match(/include{{\s*[\w\.]+\s*}}/g);
 
-      file = `${SOURCE}/${file}`;
+    if (blocks) {
+      blocks.forEach(element => {
+        let file = element.replace('include{{', '').replace('}}', '').trim();
 
-      let src = fs.readFileSync(file, 'utf-8');
+        file = `${SOURCE}/${file}`;
 
-      let compiled = slm(src, {
-        filename: path,
-        basePath: dir,
-        useCache: false
-      })(CONFIG);
+        let src = fs.readFileSync(file, 'utf-8');
 
-      data = data.replace(element, compiled);
-    });
+        let compiled = slm(src, {
+          filename: path,
+          basePath: BASE_PATH,
+          useCache: false
+        })(CONFIG);
+
+        data = data.replace(element, compiled);
+      });
+    }
+
+    return data;
+  },
+  /**
+   * Replace mustache like variables with localized vars
+   *
+   * @param   {String}  data  Compiled markdown
+   *
+   * @return  {String}        Markdown with interpreted variables
+   */
+  vars: function(data) {
+    let blocks = data.match(/{{\s*[\w\.]+\s*}}/g);
+
+    if (blocks) {
+      blocks.forEach(element => {
+        if (element.includes('this.')) {
+          let variable = element.replace('{{', '').replace('}}', '')
+            .replace('this.', '').trim().split('.');
+
+          let obj = CONFIG;
+
+          while (variable.length) {
+            obj = obj[variable.shift()];
+          }
+
+          data = data.replace(element, obj);
+        }
+      });
+    }
+
+    return data;
   }
-
-  return data;
-}
+};
 
 /**
  * Include a file in a template
@@ -224,7 +256,9 @@ const compile = {
 
       md = marked(md);
 
-      md = mrkdwnslm(md);
+      md = mrkdwn.slm(md);
+
+      md = mrkdwn.vars(md);
 
       return md;
     } catch (err) {
@@ -250,6 +284,8 @@ const compile = {
     }
   }
 };
+
+// const ignore
 
 /**
  * The main function to execute on files
@@ -338,7 +374,6 @@ const run = async (dir = VIEWS) => {
           } else {
           // Walk if the changed file is in the views directory
           // such as a layout template or partial
-          // } else if (inViews) {
             await walk(dir);
           }
         } else {
