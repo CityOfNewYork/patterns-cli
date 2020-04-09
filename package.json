@@ -15,7 +15,7 @@
   },
   "cdn": {
     "url": "https://cdn.jsdelivr.net/gh/cityofnewyork/nyco-patterns-framework",
-    "source": "https://github.com/cityofnewyork/nyco-patterns-framework/",
+    "source": "https://github.com/cityofnewyork/nyco-patterns-framework",
     "archive": "https://github.com/cityofnewyork/nyco-patterns-framework/archive",
     "styles": "/dist/styles/default.css",
     "tailwindcss": "/dist/styles/tailwind.css",
