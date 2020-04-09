@@ -61,7 +61,7 @@ Importing tailwindcss is an exception because it is compiled to a Sass file in t
 
 ... and a CSS file in the distribution folder:
 
-    <link href="{{ this.package.cdn.url }}{{ this.package.name }}@v{{ this.package.name }}{{ this.package.cdn.tailwindcss }}" rel="stylesheet">
+    <link href="{{ this.package.cdn.url }}@v{{ this.package.version }}{{ this.package.cdn.tailwindcss }}" rel="stylesheet">
 
 #### Asset Paths and CDN
 
