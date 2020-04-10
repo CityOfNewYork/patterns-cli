@@ -1,17 +1,4 @@
-## Table of Contents
-
-* [NPM Install](#npm-install)
-* [CDN](#cdn)
-* [Download](#download)
-* [Usage](#Usage)
-  * [Sass](#sass)
-    * [tailwindcss](#tailwindcss)
-    * [Asset Paths and CDN](#asset-paths-and-cdn)
-    * [Include Paths](#include-paths)
-  * [Scripts](#scripts)
-    * [ES Module Import](#es-module-import)
-    * [IFFE](#iffe)
-    * [Global Pattern Script](#global-pattern-script)
+[NPM Install](#npm-install) | [CDN](#cdn) | [Download](#download) | [Usage](#usage)
 
 ## NPM Install
 
