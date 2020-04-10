@@ -181,7 +181,7 @@ const run = async (dir = BASE_PATH) => {
 
         cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
-        let SPRITE = new svgstore();
+        SPRITE = new svgstore();
 
         await walk(dir);
 
@@ -195,7 +195,7 @@ const run = async (dir = BASE_PATH) => {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }
   } else {
-    let SPRITE = new svgstore();
+    SPRITE = new svgstore();
 
     await walk(dir);
 
