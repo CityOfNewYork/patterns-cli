@@ -14,6 +14,14 @@ The following global script source can copied and pasted before the closing `</b
 
     <script src="{{ this.package.cdn.url }}@v{{ this.package.version }}{{ this.package.cdn.scripts }}"></script>
 
+With the script integrated, SVG icons can be added with the following snippet.
+
+    <script>
+      var patterns = new {{ this.package.instantiations.scripts }}();
+
+      patterns.icons('{{ this.package.cdn.url }}@v{{ this.package.version }}{{ this.package.cdn.svg }}');
+    </script>
+
 The following url is the base url for all distributed files available via a CDN.
 
     {{ this.package.cdn.url }}@v{{ this.package.version }}/dist/
