@@ -118,15 +118,7 @@ const mrkdwn = {
       blocks.forEach(element => {
         let file = element.replace('include{{', '').replace('}}', '').trim();
 
-        file = `${SOURCE}/${file}`;
-
-        let src = fs.readFileSync(file, 'utf-8');
-
-        let compiled = slm(src, {
-          filename: path,
-          basePath: BASE_PATH,
-          useCache: false
-        })(CONFIG);
+        let compiled = include(file);
 
         data = data.replace(element, compiled);
       });
@@ -172,7 +164,7 @@ const mrkdwn = {
  *
  * @return {String}         The compiled file
  */
-const include = (file) => {
+const include = (file, locals = {}) => {
   let data = file;
   let extname = path.extname(file);
 
@@ -191,9 +183,9 @@ const include = (file) => {
 
   // Pass file to the compile handler
   if (compile.hasOwnProperty(handler)) {
-    data = compile[handler](file);
+    data = compile[handler](file, locals);
   } else {
-    data = compile['default'](file);
+    data = compile['default'](file, locals);
 
     cnsl.notify(`${alerts.info} Slm (include): no handler exists for ${extname} files. Rendering as is.`);
   }
@@ -213,7 +205,7 @@ const compile = {
    *
    * @return {String}        The compiled html
    */
-  slm: (file, dir = BASE_PATH) => {
+  slm: (file, locals = {}) => {
     try {
       if (!fs.existsSync(file)) {
         return '';
@@ -221,14 +213,18 @@ const compile = {
 
       let src = fs.readFileSync(file, 'utf-8');
 
+      locals = Object.assign(locals, CONFIG);
+
       // Make the include method available to templates
-      CONFIG.include = include;
+      locals.include = include;
+
+      // console.dir(locals.include);
 
       let data = slm(src, {
           filename: file,
-          basePath: dir,
+          basePath: BASE_PATH,
           useCache: false
-        })(CONFIG);
+        })(locals);
 
       if (CONFIG.beautify) {
         data = beautify(data, CONFIG.beautify);
@@ -246,7 +242,7 @@ const compile = {
    *
    * @return {String}        The compiled html
    */
-  md: (file) => {
+  md: (file, locals = {}) => {
     try {
       if (!fs.existsSync(file)) {
         return '';
@@ -272,7 +268,7 @@ const compile = {
    *
    * @return {String}        The file contents
    */
-  default: (file) => {
+  default: (file, locals = {}) => {
     try {
       if (!fs.existsSync(file)) {
         return '';
