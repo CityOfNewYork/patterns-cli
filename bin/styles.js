@@ -14,16 +14,18 @@ const args = require(`${__dirname}/util/args`).args;
 const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
 
-const tokensConfig = resolve('config/tokens');
 const alerts = resolve('config/alerts');
 
 const SOURCE = path.join(process.env.PWD, 'src');
 const EXT = '.scss';
-const TOKENS = tokens.input;
+
+const TOKENS_INPUT = tokens.options().input;
+const TAILWINDCSS_INPUT = tokens.options().tailwindcss;
 
 const globs = [
   `${SOURCE}/**/*${EXT}`,
-  TOKENS
+  TOKENS_INPUT,
+  TAILWINDCSS_INPUT
 ];
 
 /**
@@ -63,7 +65,7 @@ const main = async (modules) => {
  * @param {Source} url https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(globs, {
-  ignored: path.join(process.env.PWD, tokensConfig.output.replace(/"/g, '')),
+  ignored: path.join(process.env.PWD, tokens.options().output.replace(/"/g, '')),
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
