@@ -15,7 +15,7 @@ var Icons = (function () {
         if (process.env.NODE_ENV !== 'production') {
           console.dir(response);
         }
-    })["catch"](function (error) {
+    }).catch(function (error) {
       // eslint-disable-next-line no-console
       if (process.env.NODE_ENV !== 'production') {
         console.dir(error);

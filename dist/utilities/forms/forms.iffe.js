@@ -89,7 +89,7 @@ var Forms = (function () {
     var elements = this.FORM.querySelectorAll(this.selectors.REQUIRED);
     /** Watch Individual Inputs */
 
-    var loop = function loop(i) {
+    var loop = function (i) {
       // Remove old messaging if it exists
       var el = elements[i];
       el.addEventListener('focus', function () {
@@ -102,9 +102,7 @@ var Forms = (function () {
       });
     };
 
-    for (var i = 0; i < elements.length; i++) {
-      loop(i);
-    }
+    for (var i = 0; i < elements.length; i++) loop(i);
     /** Submit Event */
 
 

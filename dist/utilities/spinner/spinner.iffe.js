@@ -9,7 +9,7 @@ var Spinner = (function () {
 
   var Spinner = function Spinner(settings) {
     if (settings === void 0) settings = {};
-    this["class"] = settings.hasOwnProperty('class') ? settings["class"] : Spinner["class"];
+    this.class = settings.hasOwnProperty('class') ? settings.class : Spinner.class;
     this.viewbox = settings.hasOwnProperty('viewbox') ? settings.viewbox : Spinner.viewbox;
     this.fill = settings.hasOwnProperty('fill') ? settings.fill : Spinner.fill;
     return this.create();
@@ -27,7 +27,7 @@ var Spinner = (function () {
     this.el.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
     this.el.setAttribute('viewBox', this.viewbox);
     this.el.setAttribute('version', '1.1');
-    this.el.setAttribute('class', "spinner " + this["class"]);
+    this.el.setAttribute('class', "spinner " + this.class);
     this.circle.setAttribute('cx', '12');
     this.circle.setAttribute('cy', '12');
     this.circle.setAttribute('r', '10');
@@ -37,7 +37,7 @@ var Spinner = (function () {
     return this.el;
   };
 
-  Spinner["class"] = 'icon-4';
+  Spinner.class = 'icon-4';
   Spinner.viewbox = '0 0 24 24';
   Spinner.fill = 'none';
 

@@ -1,7 +1,7 @@
 {
   "name": "@nycopportunity/patterns-framework",
   "nice": "NYCO Patterns Framework",
-  "version": "0.2.4",
+  "version": "1.0.0-0",
   "description": "Front-end utilities from the Mayor's Office for Economic Opportunity",
   "author": "NYC Opportunity<products@nycopportunity.nyc.gov>",
   "license": "GPL-3.0+",
