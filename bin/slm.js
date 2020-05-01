@@ -311,7 +311,7 @@ const walk = async (file, dir = VIEWS) => {
 
   if (file.includes(EXT)) {
     await main(file);
-  } else if (!CONFIG.blacklist.some(folder => file.includes(folder))) {
+  } else {
     try {
       let files = fs.readdirSync(file, 'utf-8');
 

@@ -20,10 +20,6 @@ module.exports = {
   views: 'views',
   /** The distribution folder for the views */
   dist: 'dist',
-  /** A list of sub directories to ignore while walking the views directory */
-  ignore: [
-    '/slm/layouts'
-  ],
   /**
    * Options to pass to the marked package
    * @param {Source} url https://marked.js.org/#/USING_ADVANCED.md#options
