@@ -21,9 +21,8 @@ module.exports = {
   /** The distribution folder for the views */
   dist: 'dist',
   /** A list of sub directories to ignore while walking the views directory */
-  blacklist: [
-    'partials',
-    'layouts'
+  ignore: [
+    '/slm/layouts'
   ],
   /**
    * Options to pass to the marked package
