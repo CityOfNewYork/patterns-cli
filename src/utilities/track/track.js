@@ -30,9 +30,11 @@ class Track {
 
   /**
    * Tracking function wrapper
-   * @param  {string}     key  The key or event of the data
-   * @param  {collection} data The data to track
-   * @return {object}          The final data object
+   *
+   * @param  {String}      key   The key or event of the data
+   * @param  {Collection}  data  The data to track
+   *
+   * @return {Object}            The final data object
    */
   track(key, data) {
     // Set the path name based on the location
@@ -55,9 +57,10 @@ class Track {
 
   /**
    * Data bus for tracking views in Webtrends and Google Analytics
-   * @param  {string}     app  The name of the Single Page Application to track
-   * @param  {string}     key  The key or event of the data
-   * @param  {collection} data The data to track
+   *
+   * @param  {String}      app   The name of the Single Page Application to track
+   * @param  {String}      key   The key or event of the data
+   * @param  {Collection}  data  The data to track
    */
   view(app, key, data) {
     let wt = this.webtrends(key, data);
@@ -71,14 +74,15 @@ class Track {
 
   /**
    * Push Events to Webtrends
-   * @param  {string}     key  The key or event of the data
-   * @param  {collection} data The data to track
+   *
+   * @param  {String}      key   The key or event of the data
+   * @param  {Collection}  data  The data to track
    */
   webtrends(key, data) {
     if (
       typeof Webtrends === 'undefined' ||
       typeof data === 'undefined' ||
-      !this.desinations.contains('webtrends')
+      !this.desinations.includes('webtrends')
     ) {
       return false;
     }
@@ -102,10 +106,12 @@ class Track {
 
     // If 'action' is used as the key (for gtag.js), switch it to Webtrends
     let action = data.argsa.indexOf('action');
+
     if (action) data.argsa[action] = 'DCS.dcsuri';
 
     // Webtrends doesn't send the page view for MultiTrack, add path to url
     let dcsuri = data.argsa.indexOf('DCS.dcsuri');
+
     if (dcsuri) {
       data.argsa[dcsuri + 1] = window.location.pathname +
         data.argsa[dcsuri + 1];
@@ -121,14 +127,15 @@ class Track {
 
   /**
    * Push Click Events to Google Analytics
-   * @param  {string}     key  The key or event of the data
-   * @param  {collection} data The data to track
+   *
+   * @param  {String}      key   The key or event of the data
+   * @param  {Collection}  data  The data to track
    */
   gtag(key, data) {
     if (
       typeof gtag === 'undefined' ||
       typeof data === 'undefined' ||
-      !this.desinations.contains('gtag')
+      !this.desinations.includes('gtag')
     ) {
       return false;
     }
@@ -148,14 +155,15 @@ class Track {
 
   /**
    * Push Screen View Events to Google Analytics
-   * @param  {string}     app  The name of the application
-   * @param  {string}     key  The key or event of the data
+   *
+   * @param  {String}  app  The name of the application
+   * @param  {String}  key  The key or event of the data
    */
   gtagView(app, key) {
     if (
       typeof gtag === 'undefined' ||
       typeof data === 'undefined' ||
-      !this.desinations.contains('gtag')
+      !this.desinations.includes('gtag')
     ) {
       return false;
     }
