@@ -26,9 +26,11 @@ var Track = (function () {
   };
   /**
    * Tracking function wrapper
-   * @param{string}   keyThe key or event of the data
-   * @param{collection} data The data to track
-   * @return {object}        The final data object
+   *
+   * @param{String}    key The key or event of the data
+   * @param{Collection}dataThe data to track
+   *
+   * @return {Object}          The final data object
    */
 
 
@@ -57,9 +59,10 @@ var Track = (function () {
   };
   /**
    * Data bus for tracking views in Webtrends and Google Analytics
-   * @param{string}   appThe name of the Single Page Application to track
-   * @param{string}   keyThe key or event of the data
-   * @param{collection} data The data to track
+   *
+   * @param{String}    app The name of the Single Page Application to track
+   * @param{String}    key The key or event of the data
+   * @param{Collection}dataThe data to track
    */
 
   Track.prototype.view = function view(app, key, data) {
@@ -77,12 +80,13 @@ var Track = (function () {
   };
   /**
    * Push Events to Webtrends
-   * @param{string}   keyThe key or event of the data
-   * @param{collection} data The data to track
+   *
+   * @param{String}    key The key or event of the data
+   * @param{Collection}dataThe data to track
    */
 
   Track.prototype.webtrends = function webtrends(key, data) {
-    if (typeof Webtrends === 'undefined' || typeof data === 'undefined' || !this.desinations.contains('webtrends')) {
+    if (typeof Webtrends === 'undefined' || typeof data === 'undefined' || !this.desinations.includes('webtrends')) {
       return false;
     }
 
@@ -132,12 +136,13 @@ var Track = (function () {
   };
   /**
    * Push Click Events to Google Analytics
-   * @param{string}   keyThe key or event of the data
-   * @param{collection} data The data to track
+   *
+   * @param{String}    key The key or event of the data
+   * @param{Collection}dataThe data to track
    */
 
   Track.prototype.gtag = function gtag$1(key, data) {
-    if (typeof gtag === 'undefined' || typeof data === 'undefined' || !this.desinations.contains('gtag')) {
+    if (typeof gtag === 'undefined' || typeof data === 'undefined' || !this.desinations.includes('gtag')) {
       return false;
     }
 
@@ -156,12 +161,13 @@ var Track = (function () {
   };
   /**
    * Push Screen View Events to Google Analytics
-   * @param{string}   appThe name of the application
-   * @param{string}   keyThe key or event of the data
+   *
+   * @param{String}appThe name of the application
+   * @param{String}keyThe key or event of the data
    */
 
   Track.prototype.gtagView = function gtagView(app, key) {
-    if (typeof gtag === 'undefined' || typeof data === 'undefined' || !this.desinations.contains('gtag')) {
+    if (typeof gtag === 'undefined' || typeof data === 'undefined' || !this.desinations.includes('gtag')) {
       return false;
     }
 
