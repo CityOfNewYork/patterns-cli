@@ -12,6 +12,7 @@
   * [Make](./commands/make.md)
   * [Publish](./commands/publish.md)
 * [JavaScript Utilities](../src/utilities)
+  * [Copy](../src/utilities/copy)
   * [Forms](../src/utilities/forms)
   * [Icons](../src/utilities/icons)
   * [Localize](../src/utilities/localize)
