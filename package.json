@@ -6,17 +6,17 @@
   "author": "NYC Opportunity<products@nycopportunity.nyc.gov>",
   "license": "GPL-3.0+",
   "bugs": {
-    "url": "https://github.com/cityofnewyork/nyco-patterns-framework/issues"
+    "url": "https://github.com/CityOfNewYork/nyco-patterns-framework/issues"
   },
-  "homepage": "https://github.com/cityofnewyork/nyco-patterns-framework#readme",
+  "homepage": "https://github.com/CityOfNewYork/nyco-patterns-framework#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cityofnewyork/nyco-patterns-framework.git"
+    "url": "https://github.com/CityOfNewYork/nyco-patterns-framework.git"
   },
   "cdn": {
-    "url": "https://cdn.jsdelivr.net/gh/cityofnewyork/nyco-patterns-framework",
-    "source": "https://github.com/cityofnewyork/nyco-patterns-framework",
-    "archive": "https://github.com/cityofnewyork/nyco-patterns-framework/archive",
+    "url": "https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework",
+    "source": "https://github.com/CityOfNewYork/nyco-patterns-framework",
+    "archive": "https://github.com/CityOfNewYork/nyco-patterns-framework/archive",
     "styles": "/dist/styles/default.css",
     "tailwindcss": "/dist/styles/tailwind.css",
     "tailwindsass": "/dist/styles/_tailwind.scss",
