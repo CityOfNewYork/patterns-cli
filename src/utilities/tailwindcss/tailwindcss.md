@@ -36,7 +36,7 @@ The plugin table below describes the available variants for each utility. An emp
 
 #### Core Plugins
 
-Example; the core plugin for padding is `padding`. Adding or removing it to the whitelist will determine wether those utilities are compiled to the global stylesheet.
+Example; the core plugin for padding is `padding`. Adding or removing it to the array will determine wether those utilities are compiled to the global stylesheet.
 
 include{{ utilities/tailwindcss/tailwindcss.slm }}
 

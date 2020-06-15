@@ -22,7 +22,7 @@ const alerts = resolve('config/alerts');
 const DIST = path.join(process.env.PWD, 'dist');
 const BASE_PATH = DIST;
 const EXT = '.html';
-const BLACKLIST = [
+const IGNORE = [
   'scripts',
   'styles',
   'svg',
@@ -87,7 +87,7 @@ const walk = async (file, dir = BASE_PATH) => {
 
   if (file.includes(EXT)) {
     await main(file);
-  } else if (!BLACKLIST.some(folder => file.includes(folder))) {
+  } else if (!IGNORE.some(folder => file.includes(folder))) {
     try {
       let files = fs.readdirSync(file, 'utf-8');
 
