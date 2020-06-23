@@ -27,8 +27,6 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 * ⚖️ A reduced number of dependencies.
 * 🔄 Switch from promise and callback based cli scripts to asynchronous.
 
----
-
 ## Contents
 
 * [Installation](#installation)
