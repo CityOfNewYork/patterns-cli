@@ -16,16 +16,18 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 
 ---
 
-**Version 1.0** is currently in progress and is available as a pre-release. All features in the pre v1 version will be available, however, the documentation may not accurately reflect all of the enhancements. [Major updates and migration guides are documented in the releases tab](https://github.com/CityOfNewYork/nyco-patterns-framework/releases). The [working branch can be found here](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/feature/next-major-release). Enhancements include;
+**Version 1.0** is currently in progress and is available as a pre-release. All features ^ before v1 will be available, however, the documentation may not accurately reflect all of the enhancements. [Major updates and migration guides are documented in the releases tab](https://github.com/CityOfNewYork/nyco-patterns-framework/releases). The [working branch can be found here](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/feature/next-major-release). Here is a brief summary of the enhancements:
 
-* 📤 Less configuration out of the box: Omit the configuration file for a cli scripts and rely on the defaults in this package.
-* 🛠️ More Control: Expose the configuration of dependencies used by cli scripts.
-* 👀 Better watching: Switching from nodemon to [Chokidar](https://github.com/paulmillr/chokidar) for running a command on a specific file during development.
-* ♿ Accessiblity linting using [pa11y](https://github.com/pa11y/pa11y).
+* 📤 **Less configuration** out of the box. Omit the configuration file for a cli script and rely on the default in this package.
+* 🛠️ **More control**. Modify the configuration of more dependencies used by cli scripts.
+* 👀 **Better watching**. Switching from nodemon to [Chokidar](https://github.com/paulmillr/chokidar) for running a command on a specific file during development.
+* ♿ **Accessiblity linting** using [pa11y](https://github.com/pa11y/pa11y).
+* 📄 **Maintain less documentation**. Use centralized markdown templates included in this package.
+* 🆕 Variable interpolation for Markdown files and better partial includes for *.slm* files.
 * 🤓 Better linting for scripts and stylesheets.
-* 🎌 More command flags for controlling linting and notifications.
+* 🎌 More command flags for controlling linting and stack notifications.
 * ⚖️ A reduced number of dependencies.
-* 🔄 Switch from promise and callback based cli scripts to asynchronous.
+* 🔄 Optimized scripts. Migrated from promise and callback based cli scripts to asynchronous.
 
 ## Contents
 
