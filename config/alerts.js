@@ -28,7 +28,7 @@ module.exports = {
   watching: emoji.get('eyes'),
   compression: emoji.get('compression') + ' ',
   package: emoji.get('package'),
-  accessible: emoji.get('mens'),
+  accessible: emoji.get('wheelchair'),
   /**
    * Chalk string coloring functions
    *
