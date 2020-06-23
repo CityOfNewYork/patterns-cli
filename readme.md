@@ -14,6 +14,18 @@ Front-end stack, CLI, and cross-utility library for design systems. Created by N
 
 Each major feature uses a [configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
 
+---
+
+**Version 1.0** is currently in progress and is available as a pre-release. Everything in the pre v1 version will be available however, the documentation may not accurately reflect all of the updates. [Major updates and migration guides are documented in the releases tab](https://github.com/CityOfNewYork/nyco-patterns-framework/releases). The [working branch can be found here](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/feature/next-major-release). Enhancements include;
+
+* 📤 Less configuration: Omit the configuration file for a cli command scripts and rely on the defaults in this package.
+* 🛠️ More Control: Expose the configuration of dependencies used by cli command scripts.
+* 👀 Better watching: Switching from nodemon to Chokidar for running a cli command on a specific file during development.
+* 🤓 Better linting for scripts and stylesheets.
+* ⚖️ A reduced number of dependencies.
+
+---
+
 ## Contents
 
 * [Installation](#installation)
