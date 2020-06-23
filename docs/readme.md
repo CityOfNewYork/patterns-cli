@@ -20,6 +20,8 @@
   * [Spinner](../src/utilities/spinner)
   * [Tailwind](../src/utilities/tailwind)
   * [Toggle](../src/utilities/toggle)
+  * [Tooltips](../src/utilities/tooltips)
   * [Track](../src/utilities/track)
+  * [Web Share](../src/utilities/web-share)
 
 Missing something!? Let us know by [filing an issue](https://github.com/CityOfNewYork/nyco-patterns-framework/issues).

@@ -36,8 +36,7 @@ var Toggle = (function () {
       this.element.addEventListener('click', function (event) {
         this$1.toggle(event);
       });
-    } else {
-      // If there isn't an existing instantiated toggle, add the event listener.
+    } else // If there isn't an existing instantiated toggle, add the event listener.
       if (!window.ACCESS_TOGGLES.hasOwnProperty(this.settings.selector)) {
         document.querySelector('body').addEventListener('click', function (event) {
           if (!event.target.matches(this$1.settings.selector)) {
@@ -46,8 +45,7 @@ var Toggle = (function () {
 
           this$1.toggle(event);
         });
-      }
-    } // Record that a toggle using this selector has been instantiated. This
+      } // Record that a toggle using this selector has been instantiated. This
     // prevents double toggling.
 
 

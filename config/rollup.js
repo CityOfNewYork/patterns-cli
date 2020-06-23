@@ -104,6 +104,18 @@ let modules = [
  */
 const nycojs = [
   {
+    input: './src/utilities/copy/copy.js',
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'Forms',
+        file: './dist/utilities/copy/copy.iffe.js',
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
+  {
     input: './src/utilities/forms/forms.js',
     plugins: rollup.dist,
     output: [
@@ -176,6 +188,18 @@ const nycojs = [
     ]
   },
   {
+    input: './src/utilities/tooltips/tooltips.js',
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'Forms',
+        file: './dist/utilities/tooltips/tooltips.iffe.js',
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
+  {
     input: './src/utilities/track/track.js',
     plugins: rollup.dist,
     output: [
@@ -186,7 +210,19 @@ const nycojs = [
         strict: rollup.strict
       }
     ]
-  }
+  },
+  {
+    input: './src/utilities/web-share/web-share.js',
+    plugins: rollup.dist,
+    output: [
+      {
+        name: 'Forms',
+        file: './dist/utilities/web-share/web-share.iffe.js',
+        format: 'iife',
+        strict: rollup.strict
+      }
+    ]
+  },
 ];
 
 /**

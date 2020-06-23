@@ -2,12 +2,6 @@
 
 /**
  * Copy to Clipboard Helper
- *
- * <input data-copy-target="web-share-url" id="web-share-url" name="web-share-url" type="text" value="https://myurl" />
- *
- * <button aria-pressed="false" data-copy="web-share-url" data-js="copy">
- *   Copy to Clipboard
- * </button>
  */
 class Copy {
   /**
@@ -68,13 +62,12 @@ class Copy {
 
     this.select(input);
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+    if (navigator.clipboard && navigator.clipboard.writeText)
       navigator.clipboard.writeText(input.value);
-    } else if (document.execCommand) {
+    else if (document.execCommand)
       document.execCommand('copy');
-    } else {
+    else
       return false;
-    }
 
     return true;
   }

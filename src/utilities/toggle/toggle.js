@@ -36,11 +36,11 @@ class Toggle {
 
     this.element = (s.element) ? s.element : false;
 
-    if (this.element) {
+    if (this.element)
       this.element.addEventListener('click', (event) => {
         this.toggle(event);
       });
-    } else {
+    else
       // If there isn't an existing instantiated toggle, add the event listener.
       if (!window.ACCESS_TOGGLES.hasOwnProperty(this.settings.selector))
         document.querySelector('body').addEventListener('click', (event) => {
@@ -49,7 +49,6 @@ class Toggle {
 
           this.toggle(event);
         });
-    }
 
     // Record that a toggle using this selector has been instantiated. This
     // prevents double toggling.

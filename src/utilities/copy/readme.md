@@ -1,6 +1,6 @@
 # Copy
 
-Copy value of an input to the clipboard.
+Copy value of an input to the clipboard. It will focus on the input an toggle the aria pressed attribute of the toggling button to indicate a successful copy.
 
 ## Usage
 

@@ -83,21 +83,19 @@ class Track {
       typeof Webtrends === 'undefined' ||
       typeof data === 'undefined' ||
       !this.desinations.includes('webtrends')
-    ) {
+    )
       return false;
-    }
 
     let event = [{
       'WT.ti': key
     }];
 
-    if (data[0] && data[0].hasOwnProperty(Track.key)) {
+    if (data[0] && data[0].hasOwnProperty(Track.key))
       event.push({
         'DCS.dcsuri': data[0][Track.key]
       });
-    } else {
+    else
       Object.assign(event, data);
-    }
 
     // Format data for Webtrends
     let wtd = {argsa: event.flatMap(e => {
@@ -112,10 +110,8 @@ class Track {
     // Webtrends doesn't send the page view for MultiTrack, add path to url
     let dcsuri = data.argsa.indexOf('DCS.dcsuri');
 
-    if (dcsuri) {
-      data.argsa[dcsuri + 1] = window.location.pathname +
-        data.argsa[dcsuri + 1];
-    }
+    if (dcsuri)
+      data.argsa[dcsuri + 1] = window.location.pathname + data.argsa[dcsuri + 1];
 
     /* eslint-disable no-undef */
     if (typeof Webtrends !== 'undefined')
@@ -136,9 +132,8 @@ class Track {
       typeof gtag === 'undefined' ||
       typeof data === 'undefined' ||
       !this.desinations.includes('gtag')
-    ) {
+    )
       return false;
-    }
 
     let uri = data.find((element) => element.hasOwnProperty(Track.key));
 
@@ -164,9 +159,8 @@ class Track {
       typeof gtag === 'undefined' ||
       typeof data === 'undefined' ||
       !this.desinations.includes('gtag')
-    ) {
+    )
       return false;
-    }
 
     let view = {
       app_name: app,
