@@ -1,0 +1,8 @@
+// Config
+
+// Dependencies
+@use 'config/tokens' as *;
+
+// Declarations
+// Using map-get to retrieve a variable from the global $tokens object.
+// $var: map-get(map-get($tokens, 'pattern'), 'token');

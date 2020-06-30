@@ -1,0 +1,5 @@
+= extend('templates/default')
+
+- title = '{{ Pattern }}'
+
+= content('main')

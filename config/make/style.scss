@@ -1,0 +1,10 @@
+/**
+ * {{ Pattern }}
+ */
+
+// Dependencies
+@use 'config/tokens' as *;
+// use 'config/{{ pattern }}';
+
+// Declarations
+.{{ prefix }}{{ pattern }} { }

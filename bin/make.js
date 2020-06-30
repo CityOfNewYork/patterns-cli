@@ -53,22 +53,24 @@ const each = async (array, callback) => {
   }
 }
 
-/** Log a message from MSG. */
+/**
+ * Log a message from the messages config. Parses variables in message.
+ *
+ * @param  {String}  type  The key of the message to write.
+ */
 const logInfo = (type) => (config.messages[type]) ?
   cnsl.describe(parseVariables(config.messages[type].join(''))) : false;
 
 /**
- * Create the directory for the pattern if it doesn't exist
+ * Create the directory for the pattern if it doesn't exist.
  *
- * @param  {String}    dir       The directory to write
+ * @param  {String}    dir       The directory to write.
  * @param  {String}    type      The pattern type: elements, components, objects
- * @param  {Function}  callback  They file writing function
- *
- * @return {[type]}              false if directory exists
+ * @param  {Function}  callback  They file writing function.
  */
 const directory = (dir, type, callback) => {
   if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
+    fs.mkdirSync(dir, {recursive: true});
 
     callback(true);
   } else {
@@ -77,19 +79,21 @@ const directory = (dir, type, callback) => {
 };
 
 /**
- * Make the file for the pattern if it doesn't exist
+ * Make the file for the pattern if it doesn't exist.
  *
- * @param  {String}  dir      The directory to write
- * @param  {String}  type     The pattern type: elements, components, objects
- * @param  {String}  pattern  The name of the pattern
- *
- * @return {Boolean}          false if already exists, true if created
+ * @param  {String}  dir      The directory to write.
+ * @param  {String}  type     The pattern type: elements, components, objects.
+ * @param  {String}  pattern  The name of the pattern.
  */
-const write = (dir, filetype, callback) => {
+const write = async (dir, filetype, callback) => {
   let file = parseVariables(config.files[filetype]);
 
   if (!fs.existsSync(`${dir}/${file}`)) {
-    let content = parseVariables(config.templates[filetype]);
+    let ext = config.files[filetype].split('.')[1];
+    let templatePath = resolve(`config/make/${filetype}.${ext}`, false);
+    let template = fs.readFileSync(templatePath, 'utf8');
+
+    let content = parseVariables(template);
 
     fs.writeFile(`${dir}/${file}`, content, err => {
       if (err) {
@@ -108,11 +112,9 @@ const write = (dir, filetype, callback) => {
 /**
  * Delegate to create the pattern directory, if it exists, log message.
  *
- * @param  {String}   type     The pattern type
- * @param  {String}   dir      The directory to write
- * @param  {String}   pattern  The name of the pattern
- *
- * @return {Boolean}           False if nothing is created
+ * @param  {String}   type     The pattern type.
+ * @param  {String}   dir      The directory to write.
+ * @param  {String}   pattern  The name of the pattern.
  */
 const defaults = (type, pattern, callback) => {
   let relative = Path.join(config.dirs.src, type);
@@ -140,7 +142,7 @@ const defaults = (type, pattern, callback) => {
 };
 
 /**
- * Ask if we want to make the 'config' file.
+ * Ask if we want to make the optional files.
  *
  * @param  {String}  filetype  The pattern type: elements, components, objects
  * @param  {String}  pattern   The name of the pattern
@@ -155,7 +157,7 @@ const optional = (filetype, pattern, prompt) => {
     let absolute = Path.join(config.dirs.base, relative);
 
     prompt.question(
-      `${alerts.question} Would you like to create a ${alerts.str.string(filetype)} file for ${alerts.str.string(pattern)}? (y/n)`,
+      `${alerts.question} Make a ${alerts.str.string(filetype)} file for ${alerts.str.string(pattern)}? y/n ↵ `,
       (answer) => {
         if (yes(answer))
           write(absolute, filetype, (success, file) => {
@@ -191,7 +193,7 @@ const run = async () => {
 
     // Make the standard files, then...
     defaults(TYPE, PATTERN, () => {
-      // .. ask to make the option files
+      // ... ask to make the option files
       (async () => {
         await each(config.optional, async (type) => {
           await optional(type, PATTERN, prompt);
@@ -205,7 +207,7 @@ const run = async () => {
   }
 };
 
-/** @type {Object} Export our methods */
+/** @type  {Object}  Export our methods */
 module.exports = {
   run: run,
   config: config
