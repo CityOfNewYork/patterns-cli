@@ -3,10 +3,8 @@
  */
 
 const path = require('path');
-
 const tailwindcss = require('tailwindcss'); // utility framework
 const cssnano = require('cssnano');         // css optimization
-
 const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
 
 /**
