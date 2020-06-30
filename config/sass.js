@@ -14,8 +14,7 @@ const sass = {
   sourceMapEmbed: true,
   includePaths: [
     `${process.env.PWD}/src/`,
-    `${process.env.PWD}/node_modules/nyco-patterns/src/`,
-    `${process.env.PWD}/node_modules/animate.scss/`
+    `${process.env.PWD}/node_modules/nyco-patterns/src/`
   ]
 };
 
@@ -31,6 +30,14 @@ let modules = [
     sourceMapEmbed: sass.sourceMapEmbed,
     includePaths: sass.includePaths,
     devModule: true // This needs to be set if we want the module to be compiled during development
+  },
+  {
+    file: './src/utilities/spinner/_spinner.scss',
+    outDir: './dist/utilities/',
+    outFile: 'spinner.css',
+    sourceMapEmbed: sass.sourceMapEmbed,
+    includePaths: sass.includePaths,
+    devModule: true
   }
 ];
 
@@ -46,13 +53,6 @@ const nycoscss = [
     sourceMapEmbed: sass.sourceMapEmbed,
     includePaths: sass.includePaths,
     devModule: true
-  },
-  {
-    file: './src/utilities/toggle/_toggle.scss',
-    outDir: './dist/utilities/toggle/',
-    outFile: 'toggle.css',
-    sourceMapEmbed: sass.sourceMapEmbed,
-    includePaths: sass.includePaths
   }
 ];
 

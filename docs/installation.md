@@ -40,19 +40,19 @@ You may also download an archive of the repository to include in your project; <
 
 Sass stylesheets for any pattern can be imported into a project from the source directory.
 
-    @import '{{ this.package.name }}/src/components/accordion/accordion';
+    @use '{{ this.package.name }}/src/components/accordion/accordion';
 
 #### Specificity
 
 The majority of patterns share the same filename for the Sass and JavaScript (if a pattern uses JavaScript). It may be necessary to specify that you need to import the Sass file for [React](https://reactjs.org/) (or other) applications.
 
-    @import '{{ this.package.name }}/src/components/accordion/_accordion.scss';
+    @use '{{ this.package.name }}/src/components/accordion/_accordion.scss';
 
 #### tailwindcss
 
 Importing tailwindcss is an exception because it is compiled to a Sass file in the _dist_ directory...
 
-    @import 'node_modules/{{ this.package.name }}{{ this.package.cdn.tailwindsass }}';
+    @use 'node_modules/{{ this.package.name }}{{ this.package.cdn.tailwindsass }}';
 
 ... and a CSS file in the distribution folder:
 
@@ -76,7 +76,7 @@ This variable should be placed above all of your imports of the pattern Sass fil
 
 This default uses [jsDelivr](https://www.jsdelivr.com/) to pull the assets from the patterns GitHub repository and the tag of the installed version. ex;
 
-    @import 'config/tokens';
+    @use 'config/tokens';
     $cdn: map-get($tokens, 'cdn');
 
 These are the default paths to the different asset types within the asset folder. Uncomment and set to override their defaults.
@@ -91,13 +91,13 @@ This is recommended for [Webpack](https://webpack.js.org/) projects using the [c
 
 You can add the string `'node_modules/{{ this.package.name }}/src'` to your "resolve" or "include" paths which will allow you to write the shorthand path;
 
-    @import 'components/accordion/accordion';
+    @use 'components/accordion/accordion';
 
 or
 
-    @import 'components/accordion/_accordion.scss';
+    @use 'components/accordion/_accordion.scss';
 
-For example; the [node-sass](https://github.com/sass/node-sass) `includePaths` option which is array of paths that attempt to resolve your `@import` declarations.
+For example; the [node-sass](https://github.com/sass/node-sass) `includePaths` option which is array of paths that attempt to resolve your `@use` declarations.
 
     Sass.render({
         file: './src/scss/default.scss',

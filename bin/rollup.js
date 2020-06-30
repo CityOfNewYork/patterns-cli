@@ -66,13 +66,13 @@ const main = async (script) => {
 
     const bundle = await rollup.rollup(script);
     const local = script.input.replace(process.env.PWD, '.');
-    const dist = DIST.replace(process.env.PWD, '.');
 
     for (let i = 0; i < script.output.length; i++) {
       await bundle.write(script.output[i]);
-    }
 
-    cnsl.describe(`${alerts.rollup} Rollup bundle written to ${alerts.str.path(dist)} for ${alerts.str.path(local)}`);
+      cnsl.describe(`${alerts.rollup} Rollup in ${alerts.str.path(local)} out ` +
+        `${alerts.str.path(script.output[i].file)}`);
+    }
   } catch (err) {
     cnsl.error(`Rollup failed (main): ${err.stack}`);
   }

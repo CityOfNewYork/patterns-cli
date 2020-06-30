@@ -1,15 +1,12 @@
-//
-// Mixins
-//
-
 // Dependencies
-@import 'config/tokens';
+@use 'config/tokens';
 
 // Declarations
 @mixin animate($animation: none, $speed: map-get(map-get($tokens, 'animate'), 'animate-scss-speed')) {
   @if $animation != none {
     animation-name: $animation;
   }
+
   animation-duration: $speed;
   animation-fill-mode: both;
   animation-timing-function: map-get(map-get($tokens, 'animate'), 'animate-timing-function');

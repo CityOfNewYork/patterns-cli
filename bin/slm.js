@@ -71,7 +71,7 @@ const write = async (file, data) => {
 
     fs.writeFileSync(dist, data);
 
-    cnsl.describe(`${alerts.success} Slm compiled ${alerts.str.path(src)} to ${alerts.str.path(local)}`);
+    cnsl.describe(`${alerts.success} Slm in ${alerts.str.path(src)} out ${alerts.str.path(local)}`);
 
     return dist;
   } catch (err) {

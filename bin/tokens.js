@@ -68,7 +68,7 @@ const main = async () => {
     // Re-enable logging
     process.stdout.write = write;
 
-    cnsl.describe(`${alerts.scripts} Created ${alerts.str.path(output)} from ${alerts.str.path(input.replace(process.env.PWD, '.'))}`);
+    cnsl.describe(`${alerts.tokens} Tokens in ${alerts.str.path(input.replace(process.env.PWD, '.'))} out ${alerts.str.path(output)}`);
   } catch (err) {
     cnsl.error(`Tokens failed: ${err.stack}`);
   }

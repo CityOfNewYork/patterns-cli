@@ -11,13 +11,11 @@
 
 <body>
   <main class="container mx-auto">
-    <h1>1.0.0-6</h1>
+    <h1>1.0.0-7</h1>
     <h2>Toggle</h2>
     <h1 id="toggle">Toggle</h1>
     <p>The Toggle utility uses JavaScript to expand and collapse elements based on user interaction. This will toggle dynamic aria attributes as well as dynamic classes on both the toggling element and target of the toggle. The class “hidden” will be toggled on the target element and the class “active” will be toggled on the toggling element and target element. The target is selected using the static <code>aria-controls</code> attribute by its <code>id</code>.</p>
     <h2 id="usage">Usage</h2>
-    <p>Optional. The Toggle Utility supports CSS animations for fading in so the stylesheet can be imported.</p>
-    <pre><code>@import &#39;@nycopportunity/patterns-framework/src/utilities/toggle/toggle&#39;;</code></pre>
     <h3 id="javascript">JavaScript</h3>
     <pre><code>import Toggle from &#39;@nycopportunity/patterns-framework/src/utilities/toggle/toggle&#39;;
 
@@ -213,39 +211,6 @@ new Toggle();</code></pre>
         </tr>
       </tbody>
     </table>
-    <h3 id="animation">Animation</h3>
-    <p>If the stylesheet is imported the following animations can be used when toggling elements from hidden to visible.</p>
-    <h4 id="fade-in-up">Fade In Up</h4>
-    <p>Adding the <code>hidden:fadeInUp animated</code> classes to the toggle target will animatet it’s opacity from zero to one and up a few pixels.</p>
-    <pre><code>&lt;button type=&quot;button&quot; data-js=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;toggle-target&quot;&gt;
-  Fade In Up
-&lt;/button&gt;
-
-&lt;div id=&quot;toggle-target&quot; aria-hidden=&quot;true&quot; class=&quot;hidden hidden:fadeInUp animated&quot;&gt;
-  Targeted toggle element
-&lt;/div&gt;</code></pre>
-    <h4 id="overflow">Overflow</h4>
-    <p>Adding the <code>hidden:overflow animated</code> classes to the toggle target will animate it’s height to full view. The toggle target should have a nested <code>div</code> with it’s contents.</p>
-    <pre><code>&lt;button type=&#39;button&#39; data-js=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;toggle-target&quot;&gt;
-  Overflow Fade In Up
-&lt;/button&gt;
-
-&lt;div id=&quot;toggle-target&quot; aria-hidden=&quot;true&quot; class=&quot;hidden hidden:overflow animated&quot;&gt;
-  &lt;div&gt;
-    Targeted toggle element
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-    <h4 id="overflow-fade-in-up">Overflow Fade In Up</h4>
-    <p>Adding the <code>hidden:overflowFadeInUp animated</code> classes to the toggle target will animate it’s height to full view and it’s first child’s opacity from zero to one and up a few pixels. The toggle target should have a nested <code>div</code> with it’s contents and the class <code>animated</code> as well.</p>
-    <pre><code>&lt;button type=&#39;button&#39; data-js=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;toggle-target&quot;&gt;
-  Overflow Fade In Up
-&lt;/button&gt;
-
-&lt;div id=&quot;toggle-target&quot; aria-hidden=&quot;true&quot; class=&quot;hidden hidden:overflowFadeInUp animated&quot;&gt;
-  &lt;div class=&quot;animated&quot;&gt;
-    Targeted toggle element
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
     <h2 id="polyfills">Polyfills</h2>
     <p>The script uses the <code>Element.prototype.matches</code>, <code>Element.prototype.removes</code>, <code>Nodelist.prototype.forEach</code> methods which require polyfills for IE11 support.</p>
     <h2 id="demo">Demo</h2>
@@ -254,6 +219,7 @@ new Toggle();</code></pre>
       <div aria-hidden="false" class="bg-color-blue-light p-4 text-center active" id="toggle-target">Targeted toggle element</div>
     </p> &lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;true&quot; class=&quot;btn btn-primary mb-3&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;Toggle&lt;/button&gt; &lt;div aria-hidden=&quot;false&quot; class=&quot;bg-color-blue-light p-4 text-center active&quot; id=&quot;toggle-target&quot;&gt;Targeted toggle element&lt;/div&gt;
   </main>
+  <script src="/reload/reload.js"></script>
 </body>
 
 </html>

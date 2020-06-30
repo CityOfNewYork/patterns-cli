@@ -18,6 +18,7 @@ module.exports = {
    */
   styles: emoji.get('nail_care'),
   scripts: emoji.get('rainbow'),
+  tokens: emoji.get('black_circle'),
   rollup: emoji.get('rolled_up_newspaper') + ' ',
   question: emoji.get('question'),
   attention: emoji.get('wave'),
@@ -28,7 +29,7 @@ module.exports = {
   watching: emoji.get('eyes'),
   compression: emoji.get('compression') + ' ',
   package: emoji.get('package'),
-  accessible: emoji.get('wheelchair'),
+  accessible: emoji.get('person_doing_cartwheel'),
   /**
    * Chalk string coloring functions
    *

@@ -44,7 +44,7 @@ include{{ utilities/tailwindcss/tailwindcss.slm }}
 
 **tailwindcss** is not imported the same way as other patterns. All utilities are compiled to a Sass file which can be imported in a Sass project...
 
-    @import 'node_modules/{{ this.package.name }}{{ this.package.cdn.tailwindsass }}';
+    @use 'node_modules/{{ this.package.name }}{{ this.package.cdn.tailwindsass }}';
 
 Or a a CSS file in the **/dist** folder which can be included through a CDN.
 

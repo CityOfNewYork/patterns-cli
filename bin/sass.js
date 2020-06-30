@@ -39,7 +39,8 @@ const main = async (style) => {
 
     fs.writeFileSync(`${outDir}${name}`, result.css);
 
-    cnsl.describe(`${alerts.styles} Sass compiled to ${alerts.str.path(style.outDir + name)}`);
+    cnsl.describe(`${alerts.styles} Sass in ${alerts.str.path(style.file)} out ` +
+      `${alerts.str.path(style.outDir + name)}`);
   } catch (err) {
     let error = (err.formatted) ? err.formatted : err.stack;
     cnsl.error(`Sass failed: ${error}`);

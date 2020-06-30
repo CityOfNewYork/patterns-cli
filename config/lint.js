@@ -32,11 +32,10 @@ module.exports = {
   stylelint: {
     extends: 'stylelint-config-standard',
     rules: {
-      'comment-whitespace-inside': null,
       'no-missing-end-of-source-newline': null,
-      'at-rule-empty-line-before': null,
-      'number-leading-zero': 'never',
-      'selector-pseudo-element-colon-notation': null
+      'at-rule-no-unknown': [true, {
+        'ignore': ['use', 'tailwind']
+      }]
     }
   }
 };

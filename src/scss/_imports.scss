@@ -20,6 +20,5 @@
 // $path-to-images: 'images/';
 // $path-to-svg: 'svg/';
 
-@import 'utilities/spinner/spinner';
-@import 'utilities/toggle/toggle';
-@import 'utilities/tailwindcss/tailwindcss';
+@use 'utilities/spinner/spinner';
+@use 'utilities/tailwindcss/tailwindcss';

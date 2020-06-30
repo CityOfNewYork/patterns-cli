@@ -65,7 +65,7 @@ const write = async (file, data, store = false) => {
 
     let message = (store) ?
       `${alerts.package} Svgs sprite written to ${alerts.str.path(local)}` :
-      `${alerts.compression} Svgs optimized ${alerts.str.path(src)} and saved to ${alerts.str.path(local)}`
+      `${alerts.compression} Svgs in ${alerts.str.path(src)} out ${alerts.str.path(local)}`
 
     if (!fs.existsSync(path.dirname(dist))){
       fs.mkdirSync(path.dirname(dist));

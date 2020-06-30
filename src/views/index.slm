@@ -3,4 +3,4 @@
 - title = 'Home'
 
 = content('main')
-  == this.include('../readme.md');
+  == this.include('../readme.md')

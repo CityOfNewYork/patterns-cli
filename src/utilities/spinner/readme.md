@@ -6,7 +6,7 @@ The Spinner Utility is a generic animation used to indicate a process or loading
 
 The Spinner uses CSS animation so the spinner stylesheet should be imported.
 
-    @import '@nycopportunity/patterns-framework/src/utilities/spinner/spinner';
+    @use '@nycopportunity/patterns-framework/src/utilities/spinner/spinner';
 
 ### Markup
 

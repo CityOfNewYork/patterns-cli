@@ -53,7 +53,6 @@
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.1",
-    "animate.scss": "0.0.6",
     "chalk": "^3.0.0",
     "core-js": "^3.6.4",
     "cross-env": "^7.0.2",
@@ -65,7 +64,7 @@
     "tailwindcss": "^1.2.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7071 concurrently \"bin/default.js -w\" \"bin/cli.js serve -w\" -p \"none\"",
+    "start": "cross-env NODE_ENV=development cross-env PORT=7071 concurrently \"bin/cli.js default -w\" \"bin/cli.js serve -w\" -p \"none\"",
     "default": "cross-env NODE_ENV=production bin/cli.js default",
     "version": "npm run default && git add .",
     "prepublishOnly": "git push && git push --tags",

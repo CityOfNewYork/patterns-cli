@@ -90,7 +90,7 @@ const style = async (file = GLOBS.find(g => g.includes(EXT_STYLE))) => {
           if (args.nondescript || args.silent) {
             cnsl.lint(`${alerts.str.path(item.source.replace(process.env.PWD, '.'))}`);
           } else {
-            cnsl.lint(`${alerts.info} Linting Suggestions for ${alerts.str.path(item.source.replace(process.env.PWD, '.'))}`);
+            cnsl.lint(`${alerts.info} Lint suggestions for ${alerts.str.path(item.source.replace(process.env.PWD, '.'))}`);
           }
 
           item.warnings.forEach((warning) => {
