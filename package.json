@@ -64,7 +64,7 @@
     "tailwindcss": "^1.2.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7071 concurrently \"bin/cli.js default -w\" \"bin/cli.js serve -w\" -p \"none\"",
+    "start": "cross-env NODE_ENV=development concurrently \"bin/cli.js default -w\" -p \"none\"",
     "default": "cross-env NODE_ENV=production bin/cli.js default",
     "version": "npm run default && git add .",
     "prepublishOnly": "git push && git push --tags",
