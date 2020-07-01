@@ -12,32 +12,70 @@ The Toggle utility uses JavaScript to expand and collapse elements based on user
 
 ### Markup
 
-    <button aria-controls="toggle-target" aria-expanded="true" data-js="toggle" type="button">
+Elements should have the hidden or active state set before initialization.
+
+**Hidden**
+
+    <button aria-controls="toggle-target" aria-expanded="false" data-js="toggle" type="button">
+      Toggle
+    </button>
+
+    <div aria-hidden="true" class="hidden" id="toggle-target">
+      <p>Targeted Toggle Element</p>
+    </div>
+
+**Active**
+
+    <button class="active" aria-controls="toggle-target" aria-expanded="true" data-js="toggle" type="button">
       Toggle
     </button>
 
     <div aria-hidden="false" class="active" id="toggle-target">
-      Targeted Toggle Element
+      <p>Targeted Toggle Element</p>
     </div>
 
 The use of the dynamic `aria-expanded` attribute on the toggling element is recommended for toggling elements as it will announce that the target of the toggle is "expanded" or "collapsed." Optionally, the attribute `aria-pressed` can be used instead to announce that the toggle button is "pressed" or "not pressed". These attributes provide different feedback to screenreaders and are appropriate for different component types. `aria-expanded` would be used for patterns such as [**collapsible sections**](https://inclusive-components.design/collapsible-sections/) and `aria-pressed` would be used for [**toggle buttons**](https://inclusive-components.design/toggle-button/) or **switches**. A full list of dynamic and static attributes is described below.
 
 Placement of the target should follow the toggling element so that it appears next in order on the page for screen readers. For targets that are far apart or appear in a different section of the page, the Anchor Toggle may be more appropriate.
 
-The Toggle Utility supports having more than one toggle element per toggle target.
+Elements that have aria-hidden set to `true` should not contain focusable elements. Setting their tabindex to `-1` will prevent them from being focused on. For convenience, child elements in the target element that have their `tabindex` set will be toggled.
+
+    <button aria-controls="toggle-target" aria-expanded="false" data-js="toggle" type="button">
+      Toggle
+    </button>
+
+    <div aria-hidden="true" class="hidden" id="toggle-target">
+      <p>Targeted Toggle Element</p>
+
+      <a href='#' tabindex="-1">A Focusable Child Element</a>
+    </div>
+
+The Toggle Utility supports having more than one toggle element per toggle target. An example use case is for "close" buttons within dialogue elements.
+
+    <button aria-controls="toggle-target" aria-expanded="false" data-js="toggle" type="button">
+      Toggle
+    </button>
+
+    <div aria-hidden="true" class="hidden" id="toggle-target">
+      <p>Targeted Toggle Element</p>
+
+      <button tabindex="-1" aria-controls="main-menu" aria-expanded="false" data-js="toggle">
+        Close
+      </button>
+    </div>
 
 ### Attributes
 
-Attributes such as `aria-controls`, `aria-expanded`, and `type` will help assistive technologies understand the relationship between the toggle element and the toggle target. These three attributes should be considered the bare minimum but they may be interchanged with others based on the use case. Below is an explanation of other possible attributes that can be used with the toggle utility. *Static* attributes will not change. *Dynamic* attributes will change when the toggle event is fired.
+Attributes on the Element, Target, and Target Children, such as `aria-hidden`, `aria-controls`, `aria-expanded`, `type`, and `tabindex` help assistive technologies understand the relationship between each element and their respective states of visibility. These attributes should be present but they may be interchanged with others based on the use case. Below is an explanation of all attributes that can be used with the toggle utility. *Static* attributes will not change. *Dynamic* attributes will change when the toggle event is fired.
 
 **Toggling Element Attributes**
 
 Attribute       | State     | Importance    | Description
 ----------------|-----------|---------------|-
-`aria-controls` | *static*  | required      | ID of the target element. Used by the toggle to select the target element.
+`aria-controls` | *static*  | **required**      | ID of the target element. Used by the toggle to select the target element.
 `aria-expanded` | *dynamic* | recommended   | Boolean that announces that target content is "expanded" or "collapsed" when the toggling element is clicked.
 `type`          | *static*  | recommended   | Setting a `<button>` element type to "button" will distinguish it from other button types, such as "submit" and "reset," but only within `<form>` elements. By default, a `<button>` is the type "submit" within a form.
-`aria-pressed`  | *dynamic* | optional      | Boolean that announces that the toggling element is toggled. Not recommended for use with `aria-expanded`.
+`aria-pressed`  | *dynamic* | optional      | Boolean that announces that the toggling element is toggled. Not recommended for use with `aria-expanded`. Commonly used with buttons that act as switches for options that are on or off.
 `role`          | *static*  | optional      | If the toggling element is not a `<button>` element, but looks and behaves like a button (see documentation for the [Button Element](/buttons)), then setting the `role` attribute to "button" is recommended. See [MDN documentation for the "button" role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role) for more information
 
 **Target Element Attributes**
@@ -48,6 +86,19 @@ Attribute         | State     | Importance    | Description
 `role`            | *static*  | optional      | Setting the target element's `role` to "region" identifies the target as a significant area. See [MDN documentation for the "region" role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Region_role) for more information.
 `aria-labelledby` | *static*  | optional      | This is used along with the `role` attribute to label the content of a "region." This can be set to the toggling elements `id` but can also be set to a different elements `id`.
 
+**Target Element Child Attributes**
+
+Attribute              | State     | Importance    | Description
+-----------------------|-----------|---------------|-
+`tabindex`             | *dynamic* | recommended   | Setting the toggle target's focusable children's `tabindex` attribute to "-1" will prevent them from being focused on when the parent is hidden. See the list below of potentially focusable elements that are supported.
+`data-toggle-tabindex` | *static*  | optional      | If an child element has a `tabindex` that needs to be set when the parent target is visible then the default value can be stored in this data attribute.
+
+**Potentially Focusable Elements**
+
+    a, button, input, select, textarea, object, embed, form,
+    fieldset, legend, label, area, audio, video, iframe, svg,
+    details, table, [tabindex], [contenteditable], [usemap]
+
 ### Configuration
 
 The Toggle Utility accepts an object `{}` with the following properties:
@@ -57,8 +108,8 @@ Option          | Type             | Importance | Description
 `selector`      | *string*         | optional   | Full selector string of the toggle element (this is passed to the `.matches()` method).
 `inactiveClass` | *string/boolean* | optional   | Single class name that will be toggled on the toggle and target element when the element is inactive or "collapsed." Pass "false" to skip toggling an inactive class (there is no inactive class for the toggle element).
 `activeClass`   | *string/boolean* | optional   | Single class name that will be toggled on the target element when the element is active or "expanded." Pass "false" to skip toggling an active class.
-`before`        | *function*       | optional   | A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class.
-`after`         | *function*       | optional   | A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class.
+`before`        | *function*       | optional   | A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event.
+`after`         | *function*       | optional   | A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event.
 
 ## Polyfills
 
