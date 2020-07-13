@@ -1,7 +1,7 @@
 {
   "name": "@nycopportunity/patterns-framework",
   "nice": "NYCO Patterns Framework",
-  "version": "1.0.0-8",
+  "version": "1.0.0-9",
   "description": "Front-end utilities from the Mayor's Office for Economic Opportunity",
   "author": "NYC Opportunity<products@nycopportunity.nyc.gov>",
   "license": "GPL-3.0+",
@@ -64,7 +64,7 @@
     "tailwindcss": "^1.2.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development cross-env PORT=7071 concurrently \"bin/cli.js default -w\" \"bin/cli.js serve -w\" -p \"none\"",
+    "start": "cross-env NODE_ENV=development concurrently \"bin/cli.js default -w\" -p \"none\"",
     "default": "cross-env NODE_ENV=production bin/cli.js default",
     "version": "npm run default && git add .",
     "prepublishOnly": "git push && git push --tags",

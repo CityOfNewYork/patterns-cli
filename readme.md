@@ -3,7 +3,7 @@
 Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and Growing Up/Generation NYC Patterns.
 
 * 📦 Creates and organizes pattern source code using a [design system methodology](#design-system-methodology).
-* ⚪ Manages [Design Tokens](#design-tokens) through JavaScript configuration and shares them with Sass files.
+* ⚫ Manages [Design Tokens](#design-tokens) through JavaScript configuration and shares them with Sass files.
 * 💅 Compiles [Sass](https://sass-lang.com/) using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
 * 🗞 Bundles JavaScript ES using [rollup.js](https://rollupjs.org/guide/en/).
 * 🗜️ SVG icon optimizer and sprite generator using [svgo](https://github.com/svg/svgo) and [svgstore-cli](https://github.com/svgstore/svgstore-cli).

@@ -29,7 +29,8 @@ var Toggle = (function () {
       activeClass: s.activeClass ? s.activeClass : Toggle.activeClass,
       before: s.before ? s.before : false,
       after: s.after ? s.after : false
-    };
+    }; // Store the element for potential use in callbacks
+
     this.element = s.element ? s.element : false;
 
     if (this.element) {
@@ -41,8 +42,10 @@ var Toggle = (function () {
         document.querySelector('body').addEventListener('click', function (event) {
           if (!event.target.matches(this$1.settings.selector)) {
             return;
-          }
+          } // Store the event for potential use in callbacks
 
+
+          this$1.event = event;
           this$1.toggle(event);
         });
       } // Record that a toggle using this selector has been instantiated. This
@@ -54,8 +57,10 @@ var Toggle = (function () {
   };
   /**
    * Logs constants to the debugger
-   * @param{object} eventThe main click event
-   * @return {object}      The class
+   *
+   * @param{Object}eventThe main click event
+   *
+   * @return {Object}       The class
    */
 
 
@@ -63,6 +68,7 @@ var Toggle = (function () {
     var this$1 = this;
     var el = event.target;
     var target = false;
+    var focusable = [];
     event.preventDefault();
     /** Anchor Links */
 
@@ -70,13 +76,16 @@ var Toggle = (function () {
     /** Toggle Controls */
 
     target = el.hasAttribute('aria-controls') ? document.querySelector("#" + el.getAttribute('aria-controls')) : target;
+    /** Focusable Children */
+
+    focusable = target ? target.querySelectorAll(Toggle.elFocusable.join(', ')) : focusable;
     /** Main Functionality */
 
     if (!target) {
       return this;
     }
 
-    this.elementToggle(el, target);
+    this.elementToggle(el, target, focusable);
     /** Undo */
 
     if (el.dataset[this.settings.namespace + "Undo"]) {
@@ -92,21 +101,30 @@ var Toggle = (function () {
   };
   /**
    * The main toggling method
-   * @param{object} el   The current element to toggle active
-   * @param{object} target The target element to toggle active/hidden
-   * @return {object}      The class
+   *
+   * @param{Object}  el       The current element to toggle active
+   * @param{Object}  target   The target element to toggle active/hidden
+   * @param{NodeList}focusableAny focusable children in the target
+   *
+   * @return {Object}        The class
    */
 
 
-  Toggle.prototype.elementToggle = function elementToggle(el, target) {
+  Toggle.prototype.elementToggle = function elementToggle(el, target, focusable) {
     var this$1 = this;
+    if (focusable === void 0) focusable = [];
     var i = 0;
     var attr = '';
     var value = ''; // Get other toggles that might control the same element
 
-    var others = document.querySelectorAll("[aria-controls=\"" + el.getAttribute('aria-controls') + "\"]");
+    var others = document.querySelectorAll("[aria-controls=\"" + el.getAttribute('aria-controls') + "\"]"); // Store elements for potential use in callbacks
+
+    this.element = el;
+    this.target = target;
+    this.others = others;
+    this.focusable = focusable;
     /**
-     * Toggling before hook.
+     * Toggling before hook
      */
 
     if (this.settings.before) {
@@ -147,9 +165,30 @@ var Toggle = (function () {
       }
     }
     /**
-     * Jump Links
+     * Hide the Toggle Target's focusable children from focus.
+     * If an element has the data-attribute 'data-toggle-tabindex', use that
+     * as the default tab index of the element.
      */
 
+
+    focusable.forEach(function (el) {
+      var tabindex = el.getAttribute('tabindex');
+
+      if (tabindex === '-1') {
+        var dataDefault = el.getAttribute("data-" + Toggle.namespace + "-tabindex");
+
+        if (dataDefault) {
+          el.setAttribute('tabindex', dataDefault);
+        } else {
+          el.removeAttribute('tabindex');
+        }
+      } else {
+        el.setAttribute('tabindex', '-1');
+      }
+    });
+    /**
+     * Jump to Target Element (if Toggle Element is an anchor link).
+     */
 
     if (el.hasAttribute('href')) {
       // Reset the history state, this will clear out
@@ -203,21 +242,24 @@ var Toggle = (function () {
 
 
   Toggle.selector = '[data-js*="toggle"]';
-  /** @type {String} The namespace for our data attribute settings */
+  /** @type  {String}  The namespace for our data attribute settings */
 
   Toggle.namespace = 'toggle';
-  /** @type {String} The hide class */
+  /** @type  {String}  The hide class */
 
   Toggle.inactiveClass = 'hidden';
-  /** @type {String} The active class */
+  /** @type  {String}  The active class */
 
   Toggle.activeClass = 'active';
-  /** @type {Array} Aria roles to toggle true/false on the toggling element */
+  /** @type  {Array}  Aria roles to toggle true/false on the toggling element */
 
   Toggle.elAriaRoles = ['aria-pressed', 'aria-expanded'];
-  /** @type {Array} Aria roles to toggle true/false on the target element */
+  /** @type  {Array}  Aria roles to toggle true/false on the target element */
 
   Toggle.targetAriaRoles = ['aria-hidden'];
+  /** @type  {Array}  Focusable elements to hide within the hidden target element */
+
+  Toggle.elFocusable = ['a', 'button', 'input', 'select', 'textarea', 'object', 'embed', 'form', 'fieldset', 'legend', 'label', 'area', 'audio', 'video', 'iframe', 'svg', 'details', 'table', '[tabindex]', '[contenteditable]', '[usemap]'];
 
   return Toggle;
 

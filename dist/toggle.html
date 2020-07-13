@@ -11,7 +11,7 @@
 
 <body>
   <main class="container mx-auto">
-    <h1>1.0.0-8</h1>
+    <h1>1.0.0-9</h1>
     <h2>Toggle</h2>
     <h1 id="toggle">Toggle</h1>
     <p>The Toggle utility uses JavaScript to expand and collapse elements based on user interaction. This will toggle dynamic aria attributes as well as dynamic classes on both the toggling element and target of the toggle. The class “hidden” will be toggled on the target element and the class “active” will be toggled on the toggling element and target element. The target is selected using the static <code>aria-controls</code> attribute by its <code>id</code>.</p>
@@ -21,12 +21,26 @@
 
 new Toggle();</code></pre>
     <h3 id="markup">Markup</h3>
-    <pre><code>&lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;true&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
+    <p>Elements should have the hidden or active state set before initialization.</p>
+    <p>
+      <strong>Hidden</strong>
+    </p>
+    <pre><code>&lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;false&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
+  Toggle
+&lt;/button&gt;
+
+&lt;div aria-hidden=&quot;true&quot; class=&quot;hidden&quot; id=&quot;toggle-target&quot;&gt;
+  &lt;p&gt;Targeted Toggle Element&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    <p>
+      <strong>Active</strong>
+    </p>
+    <pre><code>&lt;button class=&quot;active&quot; aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;true&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
   Toggle
 &lt;/button&gt;
 
 &lt;div aria-hidden=&quot;false&quot; class=&quot;active&quot; id=&quot;toggle-target&quot;&gt;
-  Targeted Toggle Element
+  &lt;p&gt;Targeted Toggle Element&lt;/p&gt;
 &lt;/div&gt;</code></pre>
     <p>The use of the dynamic <code>aria-expanded</code> attribute on the toggling element is recommended for toggling elements as it will announce that the target of the toggle is “expanded” or “collapsed.” Optionally, the attribute <code>aria-pressed</code> can be used instead to announce that the toggle button is “pressed” or “not pressed”. These attributes provide different feedback to screenreaders and are appropriate for different component types. <code>aria-expanded</code> would be used for patterns such as <a href="https://inclusive-components.design/collapsible-sections/">
         <strong>collapsible sections</strong>
@@ -34,9 +48,30 @@ new Toggle();</code></pre>
         <strong>toggle buttons</strong>
       </a> or <strong>switches</strong>. A full list of dynamic and static attributes is described below.</p>
     <p>Placement of the target should follow the toggling element so that it appears next in order on the page for screen readers. For targets that are far apart or appear in a different section of the page, the Anchor Toggle may be more appropriate.</p>
-    <p>The Toggle Utility supports having more than one toggle element per toggle target.</p>
+    <p>Elements that have aria-hidden set to <code>true</code> should not contain focusable elements. Setting their tabindex to <code>-1</code> will prevent them from being focused on. For convenience, child elements in the target element that have their <code>tabindex</code> set will be toggled.</p>
+    <pre><code>&lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;false&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
+  Toggle
+&lt;/button&gt;
+
+&lt;div aria-hidden=&quot;true&quot; class=&quot;hidden&quot; id=&quot;toggle-target&quot;&gt;
+  &lt;p&gt;Targeted Toggle Element&lt;/p&gt;
+
+  &lt;a href=&#39;#&#39; tabindex=&quot;-1&quot;&gt;A Focusable Child Element&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+    <p>The Toggle Utility supports having more than one toggle element per toggle target. An example use case is for “close” buttons within dialogue elements.</p>
+    <pre><code>&lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;false&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
+  Toggle
+&lt;/button&gt;
+
+&lt;div aria-hidden=&quot;true&quot; class=&quot;hidden&quot; id=&quot;toggle-target&quot;&gt;
+  &lt;p&gt;Targeted Toggle Element&lt;/p&gt;
+
+  &lt;button tabindex=&quot;-1&quot; aria-controls=&quot;main-menu&quot; aria-expanded=&quot;false&quot; data-js=&quot;toggle&quot;&gt;
+    Close
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
     <h3 id="attributes">Attributes</h3>
-    <p>Attributes such as <code>aria-controls</code>, <code>aria-expanded</code>, and <code>type</code> will help assistive technologies understand the relationship between the toggle element and the toggle target. These three attributes should be considered the bare minimum but they may be interchanged with others based on the use case. Below is an explanation of other possible attributes that can be used with the toggle utility. <em>Static</em> attributes will not change. <em>Dynamic</em> attributes will change when the toggle event is fired.</p>
+    <p>Attributes on the Element, Target, and Target Children, such as <code>aria-hidden</code>, <code>aria-controls</code>, <code>aria-expanded</code>, <code>type</code>, and <code>tabindex</code> help assistive technologies understand the relationship between each element and their respective states of visibility. These attributes should be present but they may be interchanged with others based on the use case. Below is an explanation of all attributes that can be used with the toggle utility. <em>Static</em> attributes will not change. <em>Dynamic</em> attributes will change when the toggle event is fired.</p>
     <p>
       <strong>Toggling Element Attributes</strong>
     </p>
@@ -57,7 +92,9 @@ new Toggle();</code></pre>
           <td>
             <em>static</em>
           </td>
-          <td>required</td>
+          <td>
+            <strong>required</strong>
+          </td>
           <td>ID of the target element. Used by the toggle to select the target element.</td>
         </tr>
         <tr>
@@ -88,7 +125,7 @@ new Toggle();</code></pre>
             <em>dynamic</em>
           </td>
           <td>optional</td>
-          <td>Boolean that announces that the toggling element is toggled. Not recommended for use with <code>aria-expanded</code>.</td>
+          <td>Boolean that announces that the toggling element is toggled. Not recommended for use with <code>aria-expanded</code>. Commonly used with buttons that act as switches for options that are on or off.</td>
         </tr>
         <tr>
           <td>
@@ -147,6 +184,47 @@ new Toggle();</code></pre>
         </tr>
       </tbody>
     </table>
+    <p>
+      <strong>Target Element Child Attributes</strong>
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>State</th>
+          <th>Importance</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>tabindex</code>
+          </td>
+          <td>
+            <em>dynamic</em>
+          </td>
+          <td>recommended</td>
+          <td>Setting the toggle target’s focusable children’s <code>tabindex</code> attribute to “-1” will prevent them from being focused on when the parent is hidden. See the list below of potentially focusable elements that are supported.</td>
+        </tr>
+        <tr>
+          <td>
+            <code>data-toggle-tabindex</code>
+          </td>
+          <td>
+            <em>static</em>
+          </td>
+          <td>optional</td>
+          <td>If an child element has a <code>tabindex</code> that needs to be set when the parent target is visible then the default value can be stored in this data attribute.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <strong>Potentially Focusable Elements</strong>
+    </p>
+    <pre><code>a, button, input, select, textarea, object, embed, form,
+fieldset, legend, label, area, audio, video, iframe, svg,
+details, table, [tabindex], [contenteditable], [usemap]</code></pre>
     <h3 id="configuration">Configuration</h3>
     <p>The Toggle Utility accepts an object <code>{}</code> with the following properties:</p>
     <table>
@@ -197,7 +275,7 @@ new Toggle();</code></pre>
             <em>function</em>
           </td>
           <td>optional</td>
-          <td>A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class.</td>
+          <td>A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event.</td>
         </tr>
         <tr>
           <td>
@@ -207,7 +285,7 @@ new Toggle();</code></pre>
             <em>function</em>
           </td>
           <td>optional</td>
-          <td>A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class.</td>
+          <td>A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event.</td>
         </tr>
       </tbody>
     </table>
