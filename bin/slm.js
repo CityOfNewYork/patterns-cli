@@ -20,29 +20,39 @@ const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
 
 const alerts = resolve('config/alerts');
-const CONFIG = resolve('config/slm');
 
 /**
- * Constants
+ * Set options to a function for watching config changes
+ *
+ * @return  {Object}  Containing the script options
  */
+const options = () => {
+  let config = resolve('config/slm', true, false);
+  let source = path.join(process.env.PWD, config.src);
+  let base_path = `${source}`;
+  let ext = '.slm';
 
-const SOURCE = path.join(process.env.PWD, CONFIG.src);
-const DIST = path.join(process.env.PWD, CONFIG.dist);
-const BASE_PATH = `${SOURCE}`;
-const VIEWS = `${BASE_PATH}/${CONFIG.views}`;
-
-const EXT = '.slm';
-const GLOBS = [
-  `${SOURCE}/**/*${EXT}`,
-  `${SOURCE}/**/*.md`
-];
+  return {
+    config: config,
+    source: source,
+    dist: path.join(process.env.PWD, config.dist),
+    base_path: base_path,
+    views: `${base_path}/${config.views}`,
+    ext: ext,
+    globs: [
+      resolve('config/slm', false),
+      `${source}/**/*${ext}`,
+      `${source}/**/*.md`
+    ]
+  }
+}
 
 /**
  * Our Chokidar Watcher
  *
  * @param  {Source}  url  https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(GLOBS, {
+const watcher = chokidar.watch(options().globs, {
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
@@ -57,7 +67,8 @@ const watcher = chokidar.watch(GLOBS, {
  */
 const write = async (file, data) => {
   try {
-    let dist = file.replace(EXT, '.html').replace(VIEWS, DIST);
+    let opts = options();
+    let dist = file.replace(opts.ext, '.html').replace(opts.views, opts.dist);
     let src = file.replace(process.env.PWD, '.');
     let local = dist.replace(process.env.PWD, '.');
 
@@ -65,8 +76,8 @@ const write = async (file, data) => {
       fs.mkdirSync(path.dirname(dist));
     }
 
-    if (CONFIG.beautify) {
-      data = beautify(data, CONFIG.beautify);
+    if (opts.config.beautify) {
+      data = beautify(data, opts.config.beautify);
     }
 
     fs.writeFileSync(dist, data);
@@ -100,8 +111,7 @@ const write = async (file, data) => {
  * Set marked options from config
  */
 
-marked.setOptions(CONFIG.marked);
-
+// marked.setOptions(CONFIG.marked);
 
 const mrkdwn = {
   /**
@@ -142,7 +152,7 @@ const mrkdwn = {
           let variable = element.replace('{{', '').replace('}}', '')
             .replace('this.', '').trim().split('.');
 
-          let obj = CONFIG;
+          let obj = options().config;
 
           while (variable.length) {
             obj = obj[variable.shift()];
@@ -167,17 +177,18 @@ const mrkdwn = {
 const include = (file, locals = {}) => {
   let data = file;
   let extname = path.extname(file);
+  let opts = options();
 
   // Assume file is slm if extension isn't specified
   if (extname === '') {
-    extname = EXT;
+    extname = opts.ext;
     file = file + extname;
   }
 
   let handler = extname.replace('.', '');
 
   // Set includes base path (source)
-  let dir = SOURCE;
+  let dir = opts.source;
 
   file = path.join(dir, file);
 
@@ -212,22 +223,21 @@ const compile = {
       }
 
       let src = fs.readFileSync(file, 'utf-8');
+      let opts = options();
 
-      locals = Object.assign(locals, CONFIG);
+      locals = Object.assign(locals, opts.config);
 
       // Make the include method available to templates
       locals.include = include;
 
-      // console.dir(locals.include);
-
       let data = slm(src, {
           filename: file,
-          basePath: BASE_PATH,
+          basePath: opts.base_path,
           useCache: false
         })(locals);
 
-      if (CONFIG.beautify) {
-        data = beautify(data, CONFIG.beautify);
+      if (opts.config.beautify) {
+        data = beautify(data, opts.config.beautify);
       }
 
       return data;
@@ -249,6 +259,8 @@ const compile = {
       }
 
       let md = fs.readFileSync(file, 'utf-8');
+
+      marked.setOptions(options().config.marked);
 
       md = marked(md);
 
@@ -289,7 +301,7 @@ const compile = {
  * @param  {String}  file  The path of the file to read
  */
 const main = async (file) => {
-  if (file.includes(EXT)) {
+  if (file.includes(options().ext)) {
     let compiled = await compile.slm(file);
 
     let dist = await write(file, compiled);
@@ -306,10 +318,12 @@ const main = async (file) => {
  * @param  {String}  file  A single file or directory to recursively walk
  * @param  {String}  dir   The base directory of the file
  */
-const walk = async (file, dir = VIEWS) => {
+const walk = async (file, dir = false) => {
+  let opts = options();
+  dir = (!dir) ? opts.views : dir;
   file = (file.includes(dir)) ? file : path.join(dir, file);
 
-  if (file.includes(EXT)) {
+  if (file.includes(opts.ext)) {
     await main(file);
   } else {
     try {
@@ -329,9 +343,11 @@ const walk = async (file, dir = VIEWS) => {
  *
  * @param  {String}  dir  The base directory of the file
  */
-const run = async (dir = VIEWS) => {
+const run = async () => {
   try {
-    let views = fs.readdirSync(dir).filter(view => view.includes(EXT));
+    let opts = options();
+    let dir = opts.views;
+    let views = fs.readdirSync(dir).filter(view => view.includes(opts.ext));
 
     // Watcher command
     if (args.watch) {
@@ -345,23 +361,23 @@ const run = async (dir = VIEWS) => {
 
           // Check the parent directory of the changed file
           let hasView = views.some(view => {
-            let pttrn = path.basename(view, EXT);
+            let pttrn = path.basename(view, opts.ext);
 
             return (
                path.dirname(changed).includes(pttrn) &&
-              !path.dirname(changed).includes(VIEWS)
+              !path.dirname(changed).includes(dir)
             );
           });
 
           // Check that the file is in the views directory
-          let inViews = changed.includes(VIEWS);
+          let inViews = changed.includes(dir);
 
           cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
           // Run the single compiler task if the changed file is a view or has a view
           // if (isView || hasView) {
           let pttrn = path.basename(path.dirname(changed));
-          let view = path.join(dir, pttrn + EXT);
+          let view = path.join(dir, pttrn + opts.ext);
 
           changed = (hasView) ? view : changed;
 
@@ -377,7 +393,7 @@ const run = async (dir = VIEWS) => {
         }
       });
 
-      cnsl.watching(`Slm watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
+      cnsl.watching(`Slm watching ${alerts.str.ext(opts.globs.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
     } else {
       await walk(dir);
 
@@ -394,5 +410,5 @@ const run = async (dir = VIEWS) => {
 module.exports = {
   main: main,
   run: run,
-  config: CONFIG
+  options: options
 };
