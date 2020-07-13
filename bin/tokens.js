@@ -12,12 +12,12 @@ const resolve = require(`${__dirname}/util/resolve`);
 const alerts = resolve('config/alerts');
 
 /**
- * Get options
+ * Set options to a function for watching config changes
  *
- * @return  {Object}  The set of library options
+ * @return  {Object}  Containing the script options
  */
 const options = () => {
-  let config = resolve('config/tokens');
+  let config = resolve('config/tokens', true, false);
   let input = resolve('config/tokens', false);
   let tailwindcss = resolve('config/tailwind', false);
   let output = config.output.replace(/"/g, '');

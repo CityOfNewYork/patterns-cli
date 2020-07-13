@@ -16,28 +16,37 @@ const resolve = require(`${__dirname}/util/resolve`);
 const lint = require(`${__dirname}/lint`);
 
 const alerts = resolve('config/alerts');
-const config = resolve('config/rollup');
 
 /**
- * Constants
+ * Set options to a function for watching config changes
+ *
+ * @return  {Object}  Containing the script options
  */
+const options = () => {
+  let config = resolve('config/rollup', true, false);
+  let source = path.join(process.env.PWD, 'src');
+  let ext = '.js';
 
-const SOURCE = path.join(process.env.PWD, 'src');
-const DIST = path.join(process.env.PWD, 'dist');
-const EXT = '.js';
+  let modules = config;
 
-const GLOBS = [
-  `${SOURCE}/**/*${EXT}`
-];
+  /**
+   * Development Mode
+   */
 
-/**
- * Development Mode
- */
+  if (process.env.NODE_ENV === 'development') {
+    modules = modules.filter(file => file.devModule);
+  }
 
-let modules = config;
-
-if (process.env.NODE_ENV === 'development') {
-  modules = modules.filter(file => file.devModule);
+  return {
+    config: resolve('config/rollup', true, false),
+    source: source,
+    ext: ext,
+    globs: [
+      resolve('config/rollup', false),
+      `${source}/**/*${ext}`,
+    ],
+    modules: modules
+  }
 }
 
 /**
@@ -45,7 +54,7 @@ if (process.env.NODE_ENV === 'development') {
  *
  * @param  {Source}  url  https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(GLOBS, {
+const watcher = chokidar.watch(options().globs, {
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
@@ -81,7 +90,9 @@ const main = async (script) => {
 /**
  * Runner for the sample script
  */
-const run = async (scripts = modules) => {
+const run = async () => {
+  let opts = options();
+
   if (args.watch) {
     try {
       watcher.on('change', async changed => {
@@ -91,11 +102,11 @@ const run = async (scripts = modules) => {
         cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
 
         if (process.env.NODE_ENV !== 'development') {
-          let filtered = scripts.filter(s => path.basename(changed) === path.basename(s.input));
+          let filtered = opts.modules.filter(s => path.basename(changed) === path.basename(s.input));
 
-          scrpts = (filtered.length) ? filtered : scripts;
+          scrpts = (filtered.length) ? filtered : opts.modules;
         } else {
-          scrpts = scripts;
+          scrpts = opts.modules;
         }
 
         for (let i = 0; i < scrpts.length; i++) {
@@ -103,13 +114,13 @@ const run = async (scripts = modules) => {
         }
       });
 
-      cnsl.watching(`Rollup watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
+      cnsl.watching(`Rollup watching ${alerts.str.ext(opts.globs.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Rollup (run): ${err.stack}`);
     }
   } else {
-    for (let i = 0; i < scripts.length; i++) {
-      await main(scripts[i]);
+    for (let i = 0; i < opts.modules.length; i++) {
+      await main(opts.modules[i]);
     }
 
     cnsl.success(`Rollup finished`);
@@ -122,5 +133,5 @@ const run = async (scripts = modules) => {
 module.exports = {
   main: main,
   run: run,
-  modules: modules
+  options: options
 };
