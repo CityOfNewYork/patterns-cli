@@ -134,7 +134,7 @@ const mrkdwn = {
    * @return  {String}        Markdown with interpreted variables
    */
   vars: function(data) {
-    let blocks = data.match(/{{\s*[\w\.]+\s*}}/g);
+    let blocks = data.match(/{{\s*[\w\.\-\_]+\s*}}/g);
 
     if (blocks) {
       blocks.forEach(element => {
