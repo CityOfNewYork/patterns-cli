@@ -17,6 +17,7 @@
   * [Icons](../src/utilities/icons)
   * [Localize](../src/utilities/localize)
   * [LZW](../src/utilities/lzw)
+  * [Newsletter](../src/utilities/newsletter)
   * [Spinner](../src/utilities/spinner)
   * [Tailwind](../src/utilities/tailwind)
   * [Toggle](../src/utilities/toggle)

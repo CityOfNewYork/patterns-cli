@@ -5,14 +5,15 @@ import Forms from '@nycopportunity/patterns-framework/src/utilities/forms/forms'
 import serialize from 'for-cerial';
 
 /**
- * The Newsletter module
- * @class
+ * @class  The Newsletter module
  */
 class Newsletter {
   /**
-   * The class constructor
-   * @param  {Object} element The Newsletter DOM Object
-   * @return {Class}          The instantiated Newsletter object
+   * @constructor
+   *
+   * @param   {Object}  element  The Newsletter DOM Object
+   *
+   * @return  {Class}            The instantiated Newsletter object
    */
   constructor(element) {
     this._el = element;
@@ -65,8 +66,10 @@ class Newsletter {
    * The form submission method. Requests a script with a callback function
    * to be executed on our page. The callback function will be passed the
    * response as a JSON object (function parameter).
-   * @param  {Event}   event The form submission event
-   * @return {Promise}       A promise containing the new script call
+   *
+   * @param   {Event}    event  The form submission event
+   *
+   * @return  {Promise}         A promise containing the new script call
    */
   _submit(event) {
     event.preventDefault();
@@ -77,7 +80,7 @@ class Newsletter {
     // Switch the action to post-json. This creates an endpoint for mailchimp
     // that acts as a script that can be loaded onto our page.
     let action = event.target.action.replace(
-      `${Newsletter.endpoints.MAIN}?`, `${Newsletter.endpoints.MAIN_JSON}?`
+      `${this.endpoints.MAIN}?`, `${this.endpoints.MAIN_JSON}?`
     );
 
     // Add our params to the action
@@ -105,8 +108,10 @@ class Newsletter {
 
   /**
    * The script onload resolution
-   * @param  {Event} event The script on load event
-   * @return {Class}       The Newsletter class
+   *
+   * @param   {Event}  event  The script on load event
+   *
+   * @return  {Class}         The Newsletter class
    */
   _onload(event) {
     event.path[0].remove();
@@ -116,8 +121,10 @@ class Newsletter {
 
   /**
    * The script on error resolution
-   * @param  {Object} error The script on error load event
-   * @return {Class}        The Newsletter class
+   *
+   * @param   {Object}  error  The script on error load event
+   *
+   * @return  {Class}          The Newsletter class
    */
   _onerror(error) {
     // eslint-disable-next-line no-console
@@ -128,8 +135,10 @@ class Newsletter {
 
   /**
    * The callback function for the MailChimp Script call
-   * @param  {Object} data The success/error message from MailChimp
-   * @return {Class}       The Newsletter class
+   *
+   * @param   {Object}  data  The success/error message from MailChimp
+   *
+   * @return  {Class}        The Newsletter class
    */
   _callback(data) {
     if (this[`_${data[this._key('MC_RESULT')]}`]) {
@@ -144,8 +153,10 @@ class Newsletter {
 
   /**
    * Submission error handler
-   * @param  {string} msg The error message
-   * @return {Class}      The Newsletter class
+   *
+   * @param   {string}  msg  The error message
+   *
+   * @return  {Class}        The Newsletter class
    */
   _error(msg) {
     this._elementsReset();
@@ -156,8 +167,10 @@ class Newsletter {
 
   /**
    * Submission success handler
-   * @param  {string} msg The success message
-   * @return {Class}      The Newsletter class
+   *
+   * @param   {string}  msg  The success message
+   *
+   * @return  {Class}        The Newsletter class
    */
   _success(msg) {
     this._elementsReset();
@@ -168,32 +181,32 @@ class Newsletter {
 
   /**
    * Present the response message to the user
-   * @param  {String} type The message type
-   * @param  {String} msg  The message
-   * @return {Class}       Newsletter
+   *
+   * @param   {String}  type  The message type
+   * @param   {String}  msg   The message
+   *
+   * @return  {Class}         Newsletter
    */
   _messaging(type, msg = 'no message') {
-    let strings = Object.keys(Newsletter.stringKeys);
+    let strings = Object.keys(this.stringKeys);
     let handled = false;
 
-    let alertBox = this._el.querySelector(
-      Newsletter.selectors[`${type}_BOX`]
-    );
+    let alertBox = this._el.querySelector(this.selectors[type]);
 
     let alertBoxMsg = alertBox.querySelector(
-      Newsletter.selectors.ALERT_BOX_TEXT
+      this.selectors.ALERT_TEXT
     );
 
     // Get the localized string, these should be written to the DOM already.
     // The utility contains a global method for retrieving them.
-    let stringKeys = strings.filter(s => msg.includes(Newsletter.stringKeys[s]));
+    let stringKeys = strings.filter(s => msg.includes(this.stringKeys[s]));
     msg = (stringKeys.length) ? this.strings[stringKeys[0]] : msg;
     handled = (stringKeys.length) ? true : false;
 
     // Replace string templates with values from either our form data or
     // the Newsletter strings object.
-    for (let x = 0; x < Newsletter.templates.length; x++) {
-      let template = Newsletter.templates[x];
+    for (let x = 0; x < this.templates.length; x++) {
+      let template = this.templates[x];
       let key = template.replace('{{ ', '').replace(' }}', '');
       let value = this._data[key] || this.strings[key];
       let reg = new RegExp(template, 'gi');
@@ -214,22 +227,23 @@ class Newsletter {
 
   /**
    * The main toggling method
-   * @return {Class}         Newsletter
+   *
+   * @return  {Class}  Newsletter
    */
   _elementsReset() {
-    let targets = this._el.querySelectorAll(Newsletter.selectors.ALERT_BOXES);
+    let targets = this._el.querySelectorAll(this.selectors.ALERTS);
 
     for (let i = 0; i < targets.length; i++)
-      if (!targets[i].classList.contains(Newsletter.classes.HIDDEN)) {
-        targets[i].classList.add(Newsletter.classes.HIDDEN);
+      if (!targets[i].classList.contains(this.classes.HIDDEN)) {
+        targets[i].classList.add(this.classes.HIDDEN);
 
-        Newsletter.classes.ANIMATE.split(' ').forEach((item) =>
+        this.classes.ANIMATE.split(' ').forEach((item) =>
           targets[i].classList.remove(item)
         );
 
         // Screen Readers
         targets[i].setAttribute('aria-hidden', 'true');
-        targets[i].querySelector(Newsletter.selectors.ALERT_BOX_TEXT)
+        targets[i].querySelector(this.selectors.ALERT_TEXT)
           .setAttribute('aria-live', 'off');
       }
 
@@ -238,16 +252,20 @@ class Newsletter {
 
   /**
    * The main toggling method
-   * @param  {object} target  Message container
-   * @param  {object} content Content that changes dynamically that should
-   *                          be announced to screen readers.
-   * @return {Class}          Newsletter
+   *
+   * @param   {object}  target   Message container
+   * @param   {object}  content  Content that changes dynamically that should
+   *                             be announced to screen readers.
+   *
+   * @return  {Class}            Newsletter
    */
   _elementShow(target, content) {
-    target.classList.toggle(Newsletter.classes.HIDDEN);
-    Newsletter.classes.ANIMATE.split(' ').forEach((item) =>
+    target.classList.toggle(this.classes.HIDDEN);
+
+    this.classes.ANIMATE.split(' ').forEach((item) =>
       target.classList.toggle(item)
     );
+
     // Screen Readers
     target.setAttribute('aria-hidden', 'true');
 
@@ -260,42 +278,44 @@ class Newsletter {
 
   /**
    * A proxy function for retrieving the proper key
-   * @param  {string} key The reference for the stored keys.
-   * @return {string}     The desired key.
+   *
+   * @param   {string}  key  The reference for the stored keys.
+   *
+   * @return  {string}       The desired key.
    */
   _key(key) {
-    return Newsletter.keys[key];
+    return this.keys[key];
   }
 }
 
-/** @type {Object} API data keys */
+/** @type  {Object}  API data keys */
 Newsletter.keys = {
   MC_RESULT: 'result',
   MC_MSG: 'msg'
 };
 
-/** @type {Object} API endpoints */
+/** @type  {Object}  API endpoints */
 Newsletter.endpoints = {
   MAIN: '/post',
   MAIN_JSON: '/post-json'
 };
 
-/** @type {String} The Mailchimp callback reference. */
+/** @type  {String}  The Mailchimp callback reference. */
 Newsletter.callback = 'NewsletterCallback';
 
-/** @type {Object} DOM selectors for the instance's concerns */
+/** @type  {Object}  DOM selectors for the instance's concerns */
 Newsletter.selectors = {
   ELEMENT: '[data-js="newsletter"]',
-  ALERT_BOXES: '[data-js-newsletter*="alert-box-"]',
-  WARNING_BOX: '[data-js-newsletter="alert-box-warning"]',
-  SUCCESS_BOX: '[data-js-newsletter="alert-box-success"]',
-  ALERT_BOX_TEXT: '[data-js-newsletter="alert-box__text"]'
+  ALERTS: '[data-js*="alert"]',
+  WARNING: '[data-js="alert-warning"]',
+  SUCCESS: '[data-js="alert-success"]',
+  ALERT_TEXT: '[data-js-alert="text"]'
 };
 
-/** @type {String} The main DOM selector for the instance */
+/** @type  {String}  The main DOM selector for the instance */
 Newsletter.selector = Newsletter.selectors.ELEMENT;
 
-/** @type {Object} String references for the instance */
+/** @type  {Object}  String references for the instance */
 Newsletter.stringKeys = {
   SUCCESS_CONFIRM_EMAIL: 'Almost finished...',
   ERR_PLEASE_ENTER_VALUE: 'Please enter a value',
@@ -304,7 +324,7 @@ Newsletter.stringKeys = {
   ERR_INVALID_EMAIL: 'looks fake or invalid'
 };
 
-/** @type {Object} Available strings */
+/** @type  {Object}  Available strings */
 Newsletter.strings = {
   VALID_REQUIRED: 'This field is required.',
   VALID_EMAIL_REQUIRED: 'Email is required.',
@@ -322,10 +342,10 @@ Newsletter.strings = {
                           'to list {{ LIST_NAME }}.',
   ERR_INVALID_EMAIL: 'This email address looks fake or invalid. ' +
                      'Please enter a real email address.',
-  LIST_NAME: 'ACCESS NYC - Newsletter'
+  LIST_NAME: 'Newsletter'
 };
 
-/** @type {Array} Placeholders that will be replaced in message strings */
+/** @type  {Array}  Placeholders that will be replaced in message strings */
 Newsletter.templates = [
   '{{ EMAIL }}',
   '{{ LIST_NAME }}'
