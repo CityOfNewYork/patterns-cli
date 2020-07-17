@@ -106,10 +106,73 @@ The Toggle Utility accepts an object `{}` with the following properties:
 Option          | Type             | Importance | Description
 ----------------|------------------|------------|-
 `selector`      | *string*         | optional   | Full selector string of the toggle element (this is passed to the `.matches()` method).
+`namespace`     | *string*         | optional   | The namespace for data selectors associated with the toggle element. Can be used in conjunction with customizing the selector. The default is `toggle`. Ex; the namespace in the `data-toggle-tabindex` selector (described above) would change the namespace in brackets; `data-{{ namespace }}-tabindex`.
 `inactiveClass` | *string/boolean* | optional   | Single class name that will be toggled on the toggle and target element when the element is inactive or "collapsed." Pass "false" to skip toggling an inactive class (there is no inactive class for the toggle element).
 `activeClass`   | *string/boolean* | optional   | Single class name that will be toggled on the target element when the element is active or "expanded." Pass "false" to skip toggling an active class.
-`before`        | *function*       | optional   | A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event.
-`after`         | *function*       | optional   | A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event.
+`before`        | *function*       | optional   | A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event. See below for details.
+`after`         | *function*       | optional   | A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event. See below for details.
+
+**Before/After Callback Instance Properties**
+
+Property     | Type           | Description
+-------------|----------------|-
+`element`    | *Node Element* | The element that triggered the toggle.
+`event`      | *Click Event*  | The original click event.
+`focusable`  | *Node List*    | A list of elements within the toggle target that can receive focus.
+`others`     | *Node List*    | A list of other toggle elements that can trigger the toggle.
+`settings`   | *Object*       | The settings of the toggle instance.
+`target`     | *Node Element* | The target toggle element.
+
+## Usage in a Pattern Module
+
+    'use strict';
+
+    import Toggle from '@nycopportunity/patterns-framework/src/utilities/toggle/toggle';
+
+    class MobileMenu {
+      constructor() {
+        this.selector = MobileMenu.selector;
+
+        this.namespace = MobileMenu.namespace;
+
+        this.selectors = MobileMenu.selectors;
+
+        this.toggle = new Toggle({
+          // Pass the pattern's custom selector
+          selector: this.selector,
+          // Pass the pattern's custom namespace
+          namespace: this.namespace,
+          // Pass a callback with functionality unique to the Mobile Menu Pattern
+          after: toggle => {
+            // Shift focus from the open to the close button in the Mobile Menu when toggled
+            if (toggle.target.classList.contains(Toggle.activeClass)) {
+              toggle.target.querySelector(this.selectors.CLOSE).focus();
+
+              // When the last focusable item in the list looses focus loop to the first
+              toggle.focusable.item(toggle.focusable.length - 1)
+                .addEventListener('blur', () => {
+                  toggle.focusable.item(0).focus();
+                });
+            } else {
+              document.querySelector(this.selectors.OPEN).focus();
+            }
+          }
+        });
+
+        return this;
+      }
+    }
+
+    MobileMenu.selector = '[data-js*="mobile-menu"]';
+
+    MobileMenu.namespace = 'mobile-menu';
+
+    MobileMenu.selectors = {
+      CLOSE: '[data-js-mobile-menu*="close"]',
+      OPEN: '[data-js-mobile-menu*="open"]'
+    };
+
+    export default MobileMenu;
 
 ## Polyfills
 

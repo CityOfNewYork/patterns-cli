@@ -93,7 +93,7 @@ class Toggle {
     if (!target) return this;
     this.elementToggle(el, target, focusable);
 
-    /** Undo */
+    /** Undo - may deprecate */
     if (el.dataset[`${this.settings.namespace}Undo`]) {
       const undo = document.querySelector(
         el.dataset[`${this.settings.namespace}Undo`]
@@ -174,7 +174,7 @@ class Toggle {
       let tabindex = el.getAttribute('tabindex');
 
       if (tabindex === '-1') {
-        let dataDefault = el.getAttribute(`data-${Toggle.namespace}-tabindex`);
+        let dataDefault = el.getAttribute(`data-${this.settings.namespace}-tabindex`);
 
         if (dataDefault) {
           el.setAttribute('tabindex', dataDefault);
