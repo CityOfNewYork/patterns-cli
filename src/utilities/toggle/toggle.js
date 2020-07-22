@@ -22,8 +22,8 @@ class Toggle {
    */
   constructor(s) {
     // Create an object to store existing toggle listeners (if it doesn't exist)
-    if (!window.hasOwnProperty('ACCESS_TOGGLES'))
-      window.ACCESS_TOGGLES = [];
+    if (!window.hasOwnProperty(Toggle.callback))
+      window[Toggle.callback] = [];
 
     s = (!s) ? {} : s;
 
@@ -39,32 +39,114 @@ class Toggle {
     // Store the element for potential use in callbacks
     this.element = (s.element) ? s.element : false;
 
-    if (this.element)
+    if (this.element) {
       this.element.addEventListener('click', (event) => {
         this.toggle(event);
       });
-    else
+    } else {
       // If there isn't an existing instantiated toggle, add the event listener.
-      if (!window.ACCESS_TOGGLES.hasOwnProperty(this.settings.selector))
-        document.querySelector('body').addEventListener('click', event => {
-          if (!event.target.matches(this.settings.selector))
-            return;
+      if (!window[Toggle.callback].hasOwnProperty(this.settings.selector)) {
+        let body = document.querySelector('body');
 
-          // Store the event for potential use in callbacks
-          this.event = event;
+        for (let i = 0; i < Toggle.events.length; i++) {
+          let tggleEvent = Toggle.events[i];
 
-          this.toggle(event);
-        });
+          body.addEventListener(tggleEvent, event => {
+            if (!event.target.matches(this.settings.selector))
+              return;
+
+            this.event = event;
+
+            let type = event.type.toUpperCase();
+
+            if (
+              this[event.type] &&
+              Toggle.elements[type] &&
+              Toggle.elements[type].includes(event.target.tagName)
+            ) this[event.type](event);
+          });
+        }
+      }
+    }
 
     // Record that a toggle using this selector has been instantiated. This
     // prevents double toggling.
-    window.ACCESS_TOGGLES[this.settings.selector] = true;
+    window[Toggle.callback][this.settings.selector] = true;
 
     return this;
   }
 
   /**
-   * Logs constants to the debugger
+   * Click event handler
+   *
+   * @param  {Event}  event  The original click event
+   */
+  click(event) {
+    this.toggle(event);
+  }
+
+  /**
+   * Input/select/textarea change event handler. Checks to see if the
+   * event.target is valid then toggles accordingly.
+   *
+   * @param  {Event}  event  The original input change event
+   */
+  change(event) {
+    let valid = event.target.checkValidity();
+
+    if (valid && !this.isActive(event.target)) {
+      this.toggle(event); // show
+    } else if (!valid && this.isActive(event.target)) {
+      this.toggle(event); // hide
+    }
+  }
+
+  /**
+   * Check to see if the toggle is active
+   *
+   * @param  {Object}  el  The toggle element (trigger)
+   */
+  isActive(el) {
+    let active = false;
+
+    if (this.settings.activeClass) {
+      active = el.classList.contains(this.settings.activeClass)
+    }
+
+    // if () {
+      // Toggle.elementAriaRoles
+      // Add catch to see if element aria roles are toggled
+    // }
+
+    // if () {
+      // Toggle.targetAriaRoles
+      // Add catch to see if target aria roles are toggled
+    // }
+
+    return active;
+  }
+
+  /**
+   * Get the target of the toggle element (trigger)
+   *
+   * @param  {Object}  el  The toggle element (trigger)
+   */
+  getTarget(el) {
+    let target = false;
+
+    /** Anchor Links */
+    target = (el.hasAttribute('href')) ?
+      document.querySelector(el.getAttribute('href')) : target;
+
+    /** Toggle Controls */
+    target = (el.hasAttribute('aria-controls')) ?
+      document.querySelector(`#${el.getAttribute('aria-controls')}`) : target;
+
+    return target;
+  }
+
+  /**
+   * The toggle event proxy for getting and setting the element/s and target
    *
    * @param  {Object}  event  The main click event
    *
@@ -77,13 +159,7 @@ class Toggle {
 
     event.preventDefault();
 
-    /** Anchor Links */
-    target = (el.hasAttribute('href')) ?
-      document.querySelector(el.getAttribute('href')) : target;
-
-    /** Toggle Controls */
-    target = (el.hasAttribute('aria-controls')) ?
-      document.querySelector(`#${el.getAttribute('aria-controls')}`) : target;
+    target = this.getTarget(el);
 
     /** Focusable Children */
     focusable = (target) ?
@@ -93,7 +169,7 @@ class Toggle {
     if (!target) return this;
     this.elementToggle(el, target, focusable);
 
-    /** Undo - may deprecate */
+    /** Undo */
     if (el.dataset[`${this.settings.namespace}Undo`]) {
       const undo = document.querySelector(
         el.dataset[`${this.settings.namespace}Undo`]
@@ -110,7 +186,7 @@ class Toggle {
   }
 
   /**
-   * The main toggling method
+   * The main toggling method for attributes
    *
    * @param  {Object}    el         The current element to toggle active
    * @param  {Object}    target     The target element to toggle active/hidden
@@ -174,7 +250,7 @@ class Toggle {
       let tabindex = el.getAttribute('tabindex');
 
       if (tabindex === '-1') {
-        let dataDefault = el.getAttribute(`data-${this.settings.namespace}-tabindex`);
+        let dataDefault = el.getAttribute(`data-${Toggle.namespace}-tabindex`);
 
         if (dataDefault) {
           el.setAttribute('tabindex', dataDefault);
@@ -201,8 +277,9 @@ class Toggle {
 
         target.setAttribute('tabindex', '-1');
         target.focus({preventScroll: true});
-      } else
+      } else {
         target.removeAttribute('tabindex');
+      }
     }
 
     /**
@@ -231,7 +308,7 @@ class Toggle {
   }
 }
 
-/** @type {String} The main selector to add the toggling function to */
+/** @type  {String}  The main selector to add the toggling function to */
 Toggle.selector = '[data-js*="toggle"]';
 
 /** @type  {String}  The namespace for our data attribute settings */
@@ -255,5 +332,17 @@ Toggle.elFocusable = [
   'fieldset', 'legend', 'label', 'area', 'audio', 'video', 'iframe', 'svg',
   'details', 'table', '[tabindex]', '[contenteditable]', '[usemap]'
 ];
+
+/** @type  {Array}  Key attribute for storing toggles in the window */
+Toggle.callback = ['TogglesCallback'];
+
+/** @type  {Array}  Default events to to watch for toggling. Each must have a handler in the class and elements to look for in Toggle.elements */
+Toggle.events = ['click', 'change'];
+
+/** @type  {Array}  Elements to delegate to each event handler */
+Toggle.elements = {
+  CLICK: ['A', 'BUTTON'],
+  CHANGE: ['SELECT', 'INPUT', 'TEXTAREA']
+};
 
 export default Toggle;
