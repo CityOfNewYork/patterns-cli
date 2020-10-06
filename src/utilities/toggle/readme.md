@@ -36,13 +36,33 @@ Elements must have the hidden or active state classes and attributes set before 
 
 The use of the dynamic `aria-expanded` attribute on the toggling element is recommended for toggling elements as it will announce that the target of the toggle is "expanded" or "collapsed." Optionally, the attribute `aria-pressed` can be used instead to announce that the toggle button is "pressed" or "not pressed". These attributes provide different feedback to screenreaders and are appropriate for different component types. `aria-expanded` would be used for patterns such as [**collapsible sections**](https://inclusive-components.design/collapsible-sections/) and `aria-pressed` would be used for [**toggle buttons**](https://inclusive-components.design/toggle-button/) or **switches**. A full list of dynamic and static attributes is described below.
 
-### Element Proximity
-
-Placement of the target should follow the toggling element so that it appears next in order on the page for screen readers. For targets that are far apart or appear in a different section of the page, the Anchor Toggle may be more appropriate as it will shift focus to the target.
-
 ### Tabindex
 
-Elements that have aria-hidden set to `true` should not contain focusable elements. Setting their tabindex to `-1` will prevent them from being focused on. For convenience, child elements in the target element will have their `tabindex` toggled. Refer to the full list of potentially focusable elements below that will be toggled.
+Elements that have aria-hidden set to `true` should not contain focusable elements. Setting their tabindex to `-1` will prevent them from being focused on. By default, child elements in the target element will have their `tabindex` toggled. Refer to the full list of potentially focusable elements below that will be toggled. This can be disabled by passing `false` to the `focusable` attribute of the [configuration object](#configuration).
+
+### Element Proximity and Anchor Toggles
+
+Placement of the target should follow the toggling element so that it appears next in order on the page for screen readers. For targets that are far apart or appear in a different section of the page, the **Anchor Toggle** may be more appropriate. By default it will visibly jump by scrolling to the element and shift focus to the target by setting the `tabindex` of the target to `0`. Anchor toggles should use the `<a>` tag for markup. This can be disabled by passing `false` to the `jump` attribute of the [configuration object](#configuration).
+
+**Hidden**
+
+    <a href="toggle-target" aria-expanded="false" data-js="toggle">
+      Jump to Anchor
+    </a>
+
+    <div aria-hidden="true" class="hidden" id="toggle-target">
+      <p>Targeted toggle element.</p>
+    </div>
+
+**Active**
+
+    <a class="active" href="toggle-target" aria-expanded="true" data-js="toggle">
+      Jump to Anchor
+    </button>
+
+    <div aria-hidden="false" class="active" id="toggle-target" tabindex="0">
+      <p>Targeted toggle element.</p>
+    </div>
 
 ### Multiple Toggle Elements (Triggers)
 
@@ -132,8 +152,12 @@ Option          | Type             | Importance | Description
 `activeClass`   | *string/boolean* | optional   | Single class name that will be toggled on the target element when the element is active or "expanded." Pass "false" to skip toggling an active class.
 `before`        | *function*       | optional   | A function that will be executed before the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event. See below for details.
 `after`         | *function*       | optional   | A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event. See below for details.
+`focusable`     | *boolean*        | optional   | Wether or not to use the focusable method to toggle the `tabindex` of potentially focusable children.
+`jump`          | *boolean*        | optional   | Wether to jump and shift focus to the target when using anchor links as toggling elements.
 
 **Before/After Callback Instance Properties**
+
+The entire instance and it's properties/methods are passed to the before and after callback. Below is an explanation of some of it's contents.
 
 Property     | Type           | Description
 -------------|----------------|-

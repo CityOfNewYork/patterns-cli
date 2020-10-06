@@ -47,10 +47,30 @@ new Toggle();</code></pre>
       </a> and <code>aria-pressed</code> would be used for <a href="https://inclusive-components.design/toggle-button/">
         <strong>toggle buttons</strong>
       </a> or <strong>switches</strong>. A full list of dynamic and static attributes is described below.</p>
-    <h3 id="element-proximity">Element Proximity</h3>
-    <p>Placement of the target should follow the toggling element so that it appears next in order on the page for screen readers. For targets that are far apart or appear in a different section of the page, the Anchor Toggle may be more appropriate as it will shift focus to the target.</p>
     <h3 id="tabindex">Tabindex</h3>
-    <p>Elements that have aria-hidden set to <code>true</code> should not contain focusable elements. Setting their tabindex to <code>-1</code> will prevent them from being focused on. For convenience, child elements in the target element will have their <code>tabindex</code> toggled. Refer to the full list of potentially focusable elements below that will be toggled.</p>
+    <p>Elements that have aria-hidden set to <code>true</code> should not contain focusable elements. Setting their tabindex to <code>-1</code> will prevent them from being focused on. By default, child elements in the target element will have their <code>tabindex</code> toggled. Refer to the full list of potentially focusable elements below that will be toggled. This can be disabled by passing <code>false</code> to the <code>focusable</code> attribute of the <a href="#configuration">configuration object</a>.</p>
+    <h3 id="element-proximity-and-anchor-toggles">Element Proximity and Anchor Toggles</h3>
+    <p>Placement of the target should follow the toggling element so that it appears next in order on the page for screen readers. For targets that are far apart or appear in a different section of the page, the <strong>Anchor Toggle</strong> may be more appropriate. By default it will visibly jump by scrolling to the element and shift focus to the target by setting the <code>tabindex</code> of the target to <code>0</code>. Anchor toggles should use the <code>&lt;a&gt;</code> tag for markup. This can be disabled by passing <code>false</code> to the <code>jump</code> attribute of the <a href="#configuration">configuration object</a>.</p>
+    <p>
+      <strong>Hidden</strong>
+    </p>
+    <pre><code>&lt;a href=&quot;toggle-target&quot; aria-expanded=&quot;false&quot; data-js=&quot;toggle&quot;&gt;
+  Jump to Anchor
+&lt;/a&gt;
+
+&lt;div aria-hidden=&quot;true&quot; class=&quot;hidden&quot; id=&quot;toggle-target&quot;&gt;
+  &lt;p&gt;Targeted toggle element.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    <p>
+      <strong>Active</strong>
+    </p>
+    <pre><code>&lt;a class=&quot;active&quot; href=&quot;toggle-target&quot; aria-expanded=&quot;true&quot; data-js=&quot;toggle&quot;&gt;
+  Jump to Anchor
+&lt;/button&gt;
+
+&lt;div aria-hidden=&quot;false&quot; class=&quot;active&quot; id=&quot;toggle-target&quot; tabindex=&quot;0&quot;&gt;
+  &lt;p&gt;Targeted toggle element.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
     <h3 id="multiple-toggle-elements-triggers">Multiple Toggle Elements (Triggers)</h3>
     <p>The Toggle Utility supports having more than one toggle element per toggle target. An example use case is for “close” buttons within dialogue elements.</p>
     <pre><code>&lt;button aria-controls=&quot;toggle-target&quot; aria-expanded=&quot;false&quot; data-js=&quot;toggle&quot; type=&quot;button&quot;&gt;
@@ -323,11 +343,32 @@ details, table, [tabindex], [contenteditable], [usemap]</code></pre>
           <td>optional</td>
           <td>A function that will be executed after the toggling element and target classes and attributes are toggled. The function is passed the instance of the toggle class with several values that may be useful in the callback such as the settings, toggle element, toggle target, and initial click event. See below for details.</td>
         </tr>
+        <tr>
+          <td>
+            <code>focusable</code>
+          </td>
+          <td>
+            <em>boolean</em>
+          </td>
+          <td>optional</td>
+          <td>Wether or not to use the focusable method to toggle the <code>tabindex</code> of potentially focusable children.</td>
+        </tr>
+        <tr>
+          <td>
+            <code>jump</code>
+          </td>
+          <td>
+            <em>boolean</em>
+          </td>
+          <td>optional</td>
+          <td>Wether to jump and shift focus to the target when using anchor links as toggling elements.</td>
+        </tr>
       </tbody>
     </table>
     <p>
       <strong>Before/After Callback Instance Properties</strong>
     </p>
+    <p>The entire instance and it’s properties/methods are passed to the before and after callback. Below is an explanation of some of it’s contents.</p>
     <table>
       <thead>
         <tr>
