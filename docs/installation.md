@@ -1,4 +1,4 @@
-[NPM Install](#npm-install) | [CDN](#cdn) | [Download](#download) | [Usage](#usage)
+[NPM Install](#npm-install) | [CDN](#cdn) | [Download](#download) | [Usage](#usage) | [Examples](#examples)
 
 ## NPM Install
 
@@ -72,9 +72,7 @@ However, you can set the path to a different path that includes all of these fil
     // $cdn: '../'; (default)
     $cdn: 'path/to/assets/';
 
-This variable should be placed above all of your imports of the pattern Sass files. The CDN can be set to another local path (such as an absolute path), or, it can be set to the remote url within the `$tokens` map.
-
-This default uses [jsDelivr](https://www.jsdelivr.com/) to pull the assets from the patterns GitHub repository and the tag of the installed version. ex;
+This variable should be placed above all of your imports of the pattern Sass files. The CDN can be set to another local path (such as an absolute path), or, it can be set to the remote url within the `$tokens` map. This default uses [jsDelivr](https://www.jsdelivr.com/) to pull the assets from the patterns GitHub repository and the tag of the installed version. ex;
 
     @use 'config/tokens';
     $cdn: map-get($tokens, 'cdn');
@@ -85,7 +83,7 @@ These are the default paths to the different asset types within the asset folder
     $path-to-images: 'images/';
     $path-to-svg: 'svg/';
 
-This is recommended for [Webpack](https://webpack.js.org/) projects using the [css-loader](https://webpack.js.org/loaders/css-loader) because Webpack will try to import the asset into your distributed stylesheet. If you don't want to change the `$cdn` variable it is recommended for to disable the [url / image-set functions handling with a boolean](https://webpack.js.org/loaders/css-loader/#boolean).
+This is recommended for [Webpack](https://webpack.js.org/) projects using the [css-loader](https://webpack.js.org/loaders/css-loader) (React Scripts (Create React App) use this loader) because Webpack will try to import the asset into your distributed stylesheet. If you don't want to change the `$cdn` variable it is recommended for to disable the [url / image-set functions handling with a boolean](https://webpack.js.org/loaders/css-loader/#boolean).
 
 #### Resolving Paths to Patterns
 
@@ -97,7 +95,7 @@ or
 
     @use 'components/accordion/_accordion.scss';
 
-For example; the [node-sass](https://github.com/sass/node-sass) `includePaths` option which is array of paths that attempt to resolve your `@use` declarations.
+For example; the [LibSass](https://github.com/sass/node-sass) `includePaths` option which is array of paths that attempt to resolve your `@use` declarations.
 
     Sass.render({
         file: './src/scss/default.scss',
@@ -120,6 +118,10 @@ Similar to the the [gulp-sass](https://www.npmjs.com/package/gulp-sass) `include
           'node_modules/{{ this.package.name }}/src'
         ]})).pipe(gulp.dest('./css'));
     });
+
+[LibSass](https://github.com/sass/node-sass) and [Dart Sass](https://github.com/sass/dart-sass) also support using the `SASS_PATH` environment variable. This variable is useful when configuring a React Application using [React Scripts (Create React App)](https://create-react-app.dev/docs/adding-a-sass-stylesheet).
+
+    SASS_PATH=node_modules:node_modules/{{ this.package.name }}/src
 
 [Webpack](https://webpack.js.org/) can be configured with the [resolve > modules](https://webpack.js.org/configuration/resolve/#resolvemodules) option.
 
@@ -166,3 +168,23 @@ You may also import the main patterns script with all of the dependencies in it.
     </script>
 
 The main JavaScript import file in the source will show how each component needs to be initialized if it isn't specified in the pattern's documentation.
+
+## Examples
+
+### Projects
+
+These projects use the framework and [pattern libraries](#pattern-libraries) created with the framework.
+
+* [WorkingNYC](https://github.com/NYCOpportunity/workingnyc/tree/main/wp-content/themes/workingnyc) - Assets managed by NPM Scripts; Dart Sass, and Rollup.js
+* [NYCO Patterns React App](https://github.com/CityOfNewYork/nyco-patterns-react) Demo - Assets managed by React Scripts (Create React App); Webpack and Dart Sass
+* [ACCESS NYC](https://github.com/CityOfNewYork/ACCESS-NYC/tree/main/wp-content/themes/access) - Assets managed by Gulp.js; LibSass, and Webpack
+* [Screening API Docs](https://github.com/CityOfNewYork/screeningapi-docs) - Assets managed by Gulp.js; LibSass and Browserify
+
+### Pattern Libraries
+
+Pattern libraries created using the framework.
+
+* [WorkingNYC Patterns](https://github.com/CityOfNewYork/nyco-wnyc-patterns)
+* [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns)
+* [ACCESS NYC Patterns](https://github.com/CityOfNewYork/ACCESS-NYC-PATTERNS/)
+* [NYCO Patterns](https://github.com/CityOfNewYork/nyco-patterns)
