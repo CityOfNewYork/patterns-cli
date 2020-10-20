@@ -95,6 +95,11 @@ const write = async (dir, filetype, callback) => {
 
     let content = parseVariables(template);
 
+    // Make the directory for the file if it doesn't exist
+    if (!fs.existsSync(`${dir}`)) {
+      fs.mkdirSync(dir, {recursive: true});
+    }
+
     fs.writeFile(`${dir}/${file}`, content, err => {
       if (err) {
         cnsl.error(`Make failed (write): ${err.stack}`);
