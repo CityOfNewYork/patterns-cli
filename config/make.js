@@ -157,8 +157,8 @@ const paths = {
 const messages = {
   style: [
     '\n',
-    `${alerts.styles} Import the ${alerts.str.string('{{ pattern }}')} styleheet `,
-    `into the ${alerts.str.path(paths.scss)} file (recommended). Add the `,
+    `${alerts.styles} Include the ${alerts.str.string('{{ pattern }}')} styleheet `,
+    `in the ${alerts.str.path(paths.scss)} file (recommended). Add the `,
     `${alerts.str.string('{{ pattern }}')} styleheet to ${alerts.str.path(paths.sass)} `,
     'to create an independent distribution (optional).',
     '\n'
