@@ -29,10 +29,10 @@ const globs = [
 ];
 
 /**
- * Development Mode
+ * Get Pattern Stylesheet Modules
  */
 
-let modules = require(`${process.env.PWD}/config/sass`);
+let modules = resolve('config/sass');
 
 if (process.env.NODE_ENV === 'development') {
   modules = modules.filter(file => file.devModule);
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'development') {
  * Methods
  */
 
- /**
+/**
  * Run each task on the modules
  *
  * @param  {Array}  modules  The contents of config/sass.js
