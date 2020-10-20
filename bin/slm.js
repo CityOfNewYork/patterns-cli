@@ -348,11 +348,11 @@ const run = async () => {
     let opts = options();
     let dir = opts.views;
 
-    // Throw error if the views directory does not exist
+    // Skip and notify if the views directory does not exist
     if (!fs.existsSync(dir)) {
-      let err = new Error();
-      err.stack = `Skipping command. ${alerts.str.path(dir.replace(process.env.PWD, '.'))} directory does not exist.`;
-      throw err;
+      cnsl.watching(`Slm skipping. ${alerts.str.path(dir.replace(process.env.PWD, '.'))} directory does not exist.`);
+
+      process.exit(0);
     }
 
     let views = fs.readdirSync(dir).filter(view => view.includes(opts.ext));
