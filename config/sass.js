@@ -30,14 +30,6 @@ let modules = [
     sourceMapEmbed: sass.sourceMapEmbed,
     includePaths: sass.includePaths,
     devModule: true // This needs to be set if we want the module to be compiled during development
-  },
-  {
-    file: './src/utilities/spinner/_spinner.scss',
-    outDir: './dist/utilities/',
-    outFile: 'spinner.css',
-    sourceMapEmbed: sass.sourceMapEmbed,
-    includePaths: sass.includePaths,
-    devModule: true
   }
 ];
 
@@ -58,7 +50,8 @@ const nycoscss = [
 
 /**
  * If the __dirname contains the package name then it is likely
- * installed in another project. Omit the NYCO JS bundles.
+ * installed in another project. Omit the Patterns Framework Sass
+ * bundles.
  */
 if (!__dirname.includes(package.name)) {
   modules = modules.concat(nycoscss);
