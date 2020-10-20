@@ -347,6 +347,14 @@ const run = async () => {
   try {
     let opts = options();
     let dir = opts.views;
+
+    // Throw error if the views directory does not exist
+    if (!fs.existsSync(dir)) {
+      let err = new Error();
+      err.stack = `Skipping command. ${alerts.str.path(dir.replace(process.env.PWD, '.'))} directory does not exist.`;
+      throw err;
+    }
+
     let views = fs.readdirSync(dir).filter(view => view.includes(opts.ext));
 
     // Watcher command
