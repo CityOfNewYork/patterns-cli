@@ -1,12 +1,13 @@
 module.exports = {
+  /** Prefix for icons */
+  prefix: 'svg-',
   /** The source directory */
-  src: 'src',
-  /** The directory for the views (within the source) */
-  svgs: 'svg',
+  src: 'src/svgs',
   /** The distribution folder for the views */
-  dist: 'dist',
+  dist: 'dist/svgs',
   /**
    * Plugin options for SVGO
+   *
    * @param {String} source https://github.com/svg/svgo#what-it-can-do
    */
   svgo: {
@@ -46,13 +47,12 @@ module.exports = {
     // removeAttrs: {attrs: '(stroke|fill)'}
   },
   /**
-   * Plugin options for SVGO
-   * @param {String} source https://github.com/svg/svgo#what-it-can-do
+   * Plugin options for svgstore
+   *
+   * @param {String} source https://github.com/svgstore/svgstore#options
    */
   svgstore: {
-    /** Prefix of the icon id. This will be prepended to the filename. */
-    prefix: '',
-    /** Filename of the sprite */
-    file: 'icons.svg'
+    /** Filename of the sprite. It will not use the prefix defined above. */
+    file: 'svgs.svg'
   }
-}
+};

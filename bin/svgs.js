@@ -29,13 +29,38 @@ const plugins = {
 
 const SOURCE = path.join(process.env.PWD, config.src);
 const DIST = path.join(process.env.PWD, config.dist);
-const BASE_PATH = `${SOURCE}/${config.svgs}`;
-const FILE = path.join(process.env.PWD, config.dist, config.svgs, config.svgstore.file);
+const FILE = path.join(process.env.PWD, config.dist, config.svgstore.file);
 
 const EXT = '.svg';
 const GLOBS = [
-  `${BASE_PATH}/**/*${EXT}`
+  `${SOURCE}/**/*${EXT}`
 ];
+
+// const options = () => {
+//   let config = resolve('config/svgs');
+
+//   let plugins = {
+//     plugins: Object.keys(config.svgo).map((p) => {p: config.svgo[p]})
+//   };
+
+//   let source = path.join(process.env.PWD, config.src);
+//   let dist = path.join(process.env.PWD, config.dist);
+//   let file = path.join(process.env.PWD, config.dist, config.svgstore.file);
+
+//   let ext = '.svg';
+
+//   let globs = [
+//     `${source}/**/*${ext}`
+//   ];
+
+//   return {
+//     source: source,
+//     dist: dist,
+//     file: file,
+//     ext: ext,
+//     globs: globs
+//   }
+// };
 
 /**
  * Our Chokidar Watcher
@@ -52,14 +77,21 @@ const watcher = chokidar.watch(GLOBS, {
 /**
  * Write the svg file to the distribution folder
  *
- * @param   {String}    file   The file source
- * @param   {Object}    data   The data to pass to the file
- * @param   {Boolean}   store  Flag for wether the store is being written or not
- * @return  {undefined}        The result of fs.writeFileSync()
+ * @param  {String}   file   The file source
+ * @param  {Object}   data   The data to pass to the file
+ * @param  {Boolean}  store  Flag for wether the store is being written or not
  */
 const write = async (file, data, store = false) => {
   try {
-    let dist = file.replace(BASE_PATH, path.join(DIST, config.svgs));
+    let dist = file.replace(SOURCE, DIST);
+    let basename = path.basename(dist);
+
+    // Do not add prefix if writing the sprite
+    if (!store) {
+      dist = (config.hasOwnProperty('prefix'))
+        ? dist.replace(basename, `${config.prefix}${basename}`) : dist;
+    }
+
     let src = file.replace(process.env.PWD, '.');
     let local = dist.replace(process.env.PWD, '.');
 
@@ -67,7 +99,7 @@ const write = async (file, data, store = false) => {
       `${alerts.package} Svgs sprite written to ${alerts.str.path(local)}` :
       `${alerts.compression} Svgs in ${alerts.str.path(src)} out ${alerts.str.path(local)}`
 
-    if (!fs.existsSync(path.dirname(dist))){
+    if (!fs.existsSync(path.dirname(dist))) {
       fs.mkdirSync(path.dirname(dist));
     }
 
@@ -89,6 +121,7 @@ let SPRITE = new svgstore();
  *
  * @param  {String}  file  The filename of the svg
  * @param  {String}  data  The raw contents of the file
+ *
  * @return {Object}        The svg sprite
  */
 const store = async (file, data) => {
@@ -107,6 +140,7 @@ const store = async (file, data) => {
  * Optimize an svg by it's filename
  *
  * @param  {String}  file  The filename of the svg
+ *
  * @return {String}        The optimized svg file contents
  */
 const optimize = async (file) => {
@@ -127,6 +161,7 @@ const optimize = async (file) => {
  * The main function for the svg script
  *
  * @param  {String}  file  The filename of the svg
+ *
  * @return {String}        The optimized svg file contents
  */
 const main = async (file) => {
@@ -149,7 +184,7 @@ const main = async (file) => {
  * @param  {String}  file  A single file or directory to recursively walk
  * @param  {String}  dir   The base directory of the file
  */
-const walk = async (file, dir = BASE_PATH) => {
+const walk = async (file, dir = SOURCE) => {
   file = (file.includes(dir)) ? file : path.join(dir, file);
 
   if (file.includes(EXT)) {
@@ -167,13 +202,12 @@ const walk = async (file, dir = BASE_PATH) => {
   }
 };
 
-
 /**
  * Runner for the script
  *
  * @param  {String}  dir  The basepath to run the script on
  */
-const run = async (dir = BASE_PATH) => {
+const run = async (dir = SOURCE) => {
   if (args.watch) {
     try {
       watcher.on('change', async (changed) => {
@@ -212,4 +246,5 @@ module.exports = {
   main: main,
   run: run,
   config: config
+  // options: options
 };
