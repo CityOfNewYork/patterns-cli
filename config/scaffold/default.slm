@@ -1,0 +1,66 @@
+doctype html
+html lang='en'
+  head
+    meta charset='utf-8'
+    meta http-equiv='X-UA-Compatible' content='IE=edge'
+    meta name='viewport' content='width=device-width, initial-scale=1'
+
+    link rel='icon' type='image/svg+xml' href='svgs/pttrn-a-perfect-heart-red.svg'
+
+    title = this.package.name
+
+    link rel='stylesheet' href='styles/default.css'
+
+    link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css'
+    script src='//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js'
+
+    javascript:
+      document.addEventListener('DOMContentLoaded', function(event) {
+        hljs.configure({
+          languages: ['html', 'javascript', 'css', 'sass']
+        });
+
+        document.querySelectorAll('pre')
+          .forEach(function(pre) {
+            pre.setAttribute('tabindex', '0');
+
+            hljs.highlightBlock(pre);
+          });
+      });
+
+  body class='bc-blue p-4'
+    header class='ta-center c-white p-4'
+      h1
+        = 'Welcome to'
+        br
+        = `${this.package.name} v${this.package.version}`
+
+      p = `${this.package.description}. Here's a sample component.`
+
+      br
+
+    main
+      = content('main')
+
+    footer class='ta-center p-4 c-white'
+      - let date = new Date();
+      - let opts = {year: 'numeric', month: 'long', day: 'numeric'};
+      p = `Last updated ${date.toLocaleDateString('en-US', opts)}`
+
+      a href='https://commons.wikimedia.org/wiki/File:A_perfect_SVG_heart.svg'
+        svg class='c-red' width='80' height='80'
+          title id='svg-a-perfect-heart' A perfect SVG heart
+          use xlink:href='#pttrn-a-perfect-heart'
+
+    script src='scripts/default.js'
+    script src='https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework@v1.0.0-15/dist/utilities/icons/icons.iffe.js'
+
+    javascript:
+      new Icons('svgs/svgs.svg');
+
+    = content('scripts')
+
+    / The reload script. This should not be compile during production builds
+    / @source https://www.npmjs.com/package/reload
+    - if this.process.env.NODE_ENV !== 'production'
+      script src='/reload/reload.js'

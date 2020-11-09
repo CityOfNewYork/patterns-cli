@@ -1,0 +1,1 @@
+The Details Component is a "native accordion component" for showing and hiding content. It uses the `<details>` and `<summary>` HTML elements. It can be styled with CSS, is decently accessible, and it doesn't require any JavaScript to work!

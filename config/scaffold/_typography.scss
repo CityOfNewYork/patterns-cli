@@ -1,0 +1,20 @@
+
+// Dependencies
+@use 'config/type';
+
+// Declarations
+html {
+  font-size: type.base('desktop');
+}
+
+body {
+  @include type.set('body');
+}
+
+pre {
+  @include type.set('pre');
+}
+
+.ta-center {
+  text-align: center
+}

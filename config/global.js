@@ -3,44 +3,168 @@
  */
 
 module.exports = {
+  /**
+   * Project Base Path
+   */
+
   base: process.env.PWD,
+
   /**
-   * Configuration path(s)
+   * Project Entrypoints
    */
-  config: {
-    __dirname: 'config',
-    sass: 'sass.js',
-    rollup: 'rollup.js'
+
+  entrypoints: {
+    styles: 'default.scss',
+    imports: '_imports.scss',
+    config: 'config',
+    scripts: 'default.js'
   },
-  /**
-   * Distribution Path
-   */
-  dist: 'dist',
-  /**
-   * Source and Patterns path(s)/naming
-   */
-  src: {
-    __dirname: 'src',
-    elements: 'elements',
-    components: 'components',
-    objects: 'objects',
-    utilities: 'utilities',
-    views: 'views',
-    scss: {
-      __dirname: 'scss',
-      config: 'config',
-      imports: '_imports.scss',
-      default: 'default.scss'
+
+  directories: [
+    /**
+     * Configuration Path(s)
+     */
+
+    {
+      __dirname: 'config',
+      files: [
+        'rollup.mjs',
+        'sass.js',
+        'tailwindcss.js',
+        'tokens.js'
+      ]
     },
-    js: {
-      __dirname: 'js',
-      default: 'default.js'
+
+    /**
+     * Distribution Path
+     */
+
+    {
+      __dirname: 'dist'
     },
-    svg: 'svg'
-  },
+
+    /**
+     * Source and Patterns path(s)/naming
+     */
+
+    {
+      __dirname: 'src',
+      directories: [
+        {
+          __dirname: 'components',
+          directories: [
+            {
+              __dirname: 'details',
+              files: [
+                '_details.scss',
+                'details.md',
+                'details.slm'
+              ]
+            }
+          ]
+        },
+        {
+          __dirname: 'config',
+          files: [
+            '_border.scss',
+            '_get.scss',
+            '_grid.scss',
+            '_tokens.scss',
+            '_type.scss'
+          ]
+        },
+        {
+          __dirname: 'elements',
+          directories: [
+            {
+              __dirname: 'base',
+              files: [
+                '_base-first-last.scss',
+                '_base.scss'
+              ]
+            }
+          ]
+        },
+        {
+          __dirname: 'js',
+          files: [
+            'default.js'
+          ]
+        },
+        {
+          __dirname: 'objects'
+        },
+        {
+          __dirname: 'scss',
+          files: [
+            '_imports.scss',
+            'default.scss'
+          ]
+        },
+        {
+          __dirname: 'slm',
+          directories: [
+            {
+              __dirname: 'layouts',
+              files: [
+                'default.slm'
+              ]
+            }
+          ]
+        },
+        {
+          __dirname: 'svgs',
+          files: [
+            'a-perfect-heart-red.svg',
+            'a-perfect-heart.svg'
+          ]
+        },
+        {
+          __dirname: 'utilities',
+          directories: [
+            {
+              __dirname: 'color',
+              files: [
+                '_color.scss'
+              ]
+            },
+            {
+              __dirname: 'padding',
+              files: [
+                '_padding.scss'
+              ]
+            },
+            {
+              __dirname: 'tailwindcss',
+              files: [
+                '_tailwindcss.scss'
+              ]
+            },
+            {
+              __dirname: 'typography',
+              files: [
+                '_typography.scss'
+              ]
+            }
+          ]
+        },
+        {
+          __dirname: 'views',
+          files: [
+            'index.slm'
+          ]
+        }
+      ]
+    }
+  ],
+
+  /**
+   * Default arguments
+   */
+
   args: {
-    notifications: '', // '--nondescript' or '--silent'
-    linting: '',       // '--no-lint'
-    pa11y: '',         // '--no-pa11y'
+    notifications: '', // '--nondescript -nd' or '--silent'
+    linting: '',       // '--no-lint -nl'
+    pa11y: '',         // '--no-pa11y -np'
   }
 };

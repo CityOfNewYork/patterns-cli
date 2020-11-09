@@ -1,0 +1,32 @@
+/**
+ * Sample
+ */
+
+// Dependencies
+@use 'config/tokens' as *;
+@use 'config/grid' as *;
+@use 'config/border';
+
+// Declarations
+.c-details {
+  display: block;
+  border-radius: border.get('radius');
+}
+
+.c-details__summary {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+
+  border-radius: border.get('radius');
+  padding: ($grid * 3) ($grid * 4);
+}
+
+.c-details[open] .c-details__summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c-details__body {
+  padding: ($grid * 3);
+}

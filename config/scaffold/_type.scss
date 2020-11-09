@@ -1,0 +1,24 @@
+
+// Dependencies
+@use 'config/tokens' as *;
+
+// Declaration
+@function get($key) {
+  @return map-get($tokens, $key);
+}
+
+@function family($key) {
+  @return map-get(get('font'), $key);
+}
+
+@mixin set($key) {
+  font-family: map-get(get('font-family'), family($key));
+  font-size: map-get(get('font-size'), $key);
+  font-weight: map-get(get('font-weight'), $key);
+  font-style: map-get(get('font-style'), $key);
+  line-height: map-get(get('line-height'), $key);
+}
+
+@function base($key) {
+  @return map-get(map-get($tokens, 'typography'), $key);
+}

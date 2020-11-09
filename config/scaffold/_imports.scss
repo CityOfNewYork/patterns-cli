@@ -1,0 +1,44 @@
+@charset 'utf-8';
+
+/**
+ * Asset Paths and CDN
+ */
+
+// This is the path to your asset folders. Uncomment and set to override the
+// default. By default, it is set to look for assets one director up from the
+// distributed stylesheet '../'
+// ex;
+// $cdn: 'path/to/assets/';
+
+// The CDN can be set to another local path or a public CDN.
+// ex;
+// $cdn: 'https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework@v0.0.0/dist/';
+
+// These are the default paths to the different asset types within the asset
+// folder. Uncomment and set to override their defaults.
+// $path-to-fonts: 'fonts/';
+// $path-to-images: 'images/';
+// $path-to-svg: 'svg/';
+
+// It will be important for libraries to use these variables for installations
+// of your library in React Scripts or other Webpack based apps.
+
+/** Elements */
+@forward 'elements/base/base';
+/** Elements - end */
+
+/** Components */
+@forward 'components/details/details';
+/** Components - end */
+
+/** Utilities */
+@forward 'utilities/color/color';
+@forward 'utilities/padding/padding';
+@forward 'utilities/typography/typography';
+/** Utilities - end */
+
+/**
+ * Base elements that need to be included after other patterns to take effect
+ */
+
+@forward 'elements/base/base-first-last';

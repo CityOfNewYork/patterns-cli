@@ -1,0 +1,6 @@
+
+// Dependencies
+@use 'config/tokens' as *;
+
+// Declaration
+$grid: map-get($tokens, 'grid');

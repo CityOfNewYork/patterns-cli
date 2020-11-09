@@ -1,0 +1,8 @@
+
+// Dependencies
+@use 'config/grid' as *;
+
+// Declarations
+.p-4 {
+  padding: $grid * 4 !important;
+}

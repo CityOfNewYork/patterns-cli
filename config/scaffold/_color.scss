@@ -1,0 +1,35 @@
+
+// Dependencies
+@use 'config/get' as *;
+
+// Declarations
+:root {
+  --color-white: #{get('color', white)};
+  --color-blue: #{get('color', blue)};
+  --color-red: #{get('color', red)};
+  --color-gray: #{get('color', gray)};
+}
+
+.bc-white {
+  background-color: var(--color-white);
+}
+
+.c-white {
+  color: var(--color-white);
+}
+
+.bc-blue {
+  background-color: var(--color-blue);
+}
+
+.bc-gray {
+  background-color: var(--color-gray);
+}
+
+.c-red {
+  color: var(--color-red);
+}
+
+.f-red {
+  fill: var(--color-red);
+}

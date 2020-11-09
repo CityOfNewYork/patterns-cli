@@ -1,0 +1,8 @@
+
+// Dependencies
+@use 'config/tokens' as *;
+
+// Declaration
+@function get($key) {
+  @return map-get(map-get($tokens, 'border'), $key);
+}
