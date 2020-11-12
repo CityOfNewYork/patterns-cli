@@ -1,6 +1,0 @@
-= extend('/slm/layouts/default')
-
-- title = 'Layouts'
-
-= content('main')
-  div Layout Demo
