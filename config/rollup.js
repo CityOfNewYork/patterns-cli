@@ -2,7 +2,7 @@
  * Dependencies
  */
 
-const noderesolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
+const nodeResolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
 const babel = require('@rollup/plugin-babel');              // Transpile source code.
 const replace = require('@rollup/plugin-replace');          // Replace content while bundling.
 
@@ -20,7 +20,7 @@ let plugins = {
     exclude: 'node_modules/**',
     babelHelpers: 'bundled'
   }),
-  noderesolve: noderesolve({
+  nodeResolve: nodeResolve.nodeResolve({
     browser: true,
     customResolveOptions: {
       moduleDirectory: 'node_modules'
@@ -33,12 +33,12 @@ let plugins = {
 
 let dev = [
   plugins.babel,
-  plugins.noderesolve
+  plugins.nodeResolve
 ];
 
 let prod = [
   plugins.babel,
-  plugins.noderesolve,
+  plugins.nodeResolve,
   plugins.replace
 ];
 
