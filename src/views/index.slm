@@ -1,6 +1,0 @@
-= extend('/slm/layouts/default')
-
-- title = 'Home'
-
-= content('main')
-  == this.include('../readme.md')
