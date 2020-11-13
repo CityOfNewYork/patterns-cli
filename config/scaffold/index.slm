@@ -19,5 +19,14 @@
     pre class='p-4'
       = this.include('components/details/details.slm');
 
-= content('scripts')
+  br
 
+  section class='bc-white p-4'
+    h2 Now you can make your own!
+
+    p Run the CLI to create a new component.
+
+    pre class='p-4'
+      code $ npx pttrn make component ...
+
+= content('scripts')

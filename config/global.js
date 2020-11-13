@@ -1,30 +1,43 @@
 /**
- * Proposal Setup for Global Configuration. Example exists in make.js config
+ * Global Configuration
+ *
+ * @type {Object}
  */
-
 module.exports = {
   /**
-   * Project Base Path
+   * Main Project Directories
+   *
+   * @type {String}
    */
-
   base: process.env.PWD,
+  src: 'src',
+  dist: 'dist',
 
   /**
    * Project Entrypoints
+   *
+   * @type {Object}
    */
-
-  entrypoints: {
-    styles: 'default.scss',
-    imports: '_imports.scss',
+  entry: {
+    styles: 'scss/default.scss',
+    imports: 'scss/_imports.scss',
     config: 'config',
-    scripts: 'default.js'
+    scripts: 'js/default.js',
+    name: 'Default',
+    views: 'views'
   },
 
+  /**
+   * Directories to scaffold
+   *
+   * @type {Object}
+   */
   directories: [
     /**
      * Configuration Path(s)
+     *
+   * @type {Object}
      */
-
     {
       __dirname: 'config',
       files: [
@@ -36,17 +49,19 @@ module.exports = {
     },
 
     /**
-     * Distribution Path
+     * Distribution Directory
+     *
+     * @type {Object}
      */
-
     {
       __dirname: 'dist'
     },
 
     /**
      * Source and Patterns path(s)/naming
+     *
+     * @type {Object}
      */
-
     {
       __dirname: 'src',
       directories: [
@@ -113,7 +128,7 @@ module.exports = {
           ]
         },
         {
-          __dirname: 'svgs',
+          __dirname: 'svg',
           files: [
             'a-perfect-heart-red.svg',
             'a-perfect-heart.svg'
@@ -160,8 +175,9 @@ module.exports = {
 
   /**
    * Default arguments
+   *
+   * @type {Object}
    */
-
   args: {
     notifications: '', // '--nondescript -nd' or '--silent'
     linting: '',       // '--no-lint -nl'

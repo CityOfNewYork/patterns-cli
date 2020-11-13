@@ -3,18 +3,35 @@
  */
 
 const path = require('path');
-const tailwindcss = require('tailwindcss'); // utility framework
-const cssnano = require('cssnano');         // css optimization
 const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
+const installed = require(path.join(__dirname, '../', 'bin/util/installed'));
 
 /**
- * Config
+ * PostCSS Plugins
+ *
+ * @type {Array}
+ */
+let plugins = [
+  require('cssnano')
+];
+
+/**
+ * Check for tailwindcss
  */
 
+if (installed('tailwindcss')) {
+  const tailwindcss = require('tailwindcss');
+  const config = resolve('config/tailwindcss', false);
+
+  plugins.push(tailwindcss(config));
+}
+
+/**
+ * PostCSS Configuration
+ *
+ * @type {Object}
+ */
 module.exports = {
   parser: 'postcss-scss',
-  plugins: [
-    tailwindcss(resolve('config/tailwind', false)),
-    cssnano()
-  ]
+  plugins: plugins
 };

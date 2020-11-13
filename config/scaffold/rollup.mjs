@@ -33,6 +33,38 @@ const rollup = {
 };
 
 /**
+ * Plugins Configuration
+ *
+ * @type {Object}
+ */
+let plugins = {
+  babel: babel.babel({
+    exclude: 'node_modules/**',
+    babelHelpers: 'bundled'
+  }),
+  noderesolve: noderesolve({
+    browser: true,
+    customResolveOptions: {
+      moduleDirectory: 'node_modules'
+    }
+  }),
+  replace: replace({
+    'process.env.NODE_ENV': "'production'"
+  })
+};
+
+let dev = [
+  plugins.babel,
+  plugins.noderesolve
+];
+
+let prod = [
+  plugins.babel,
+  plugins.noderesolve,
+  plugins.replace
+];
+
+/**
  * Rollup Export
  *
  * @type {Array}
@@ -43,13 +75,13 @@ export default [
     output: [
       {
         name: 'Default',
-        file: `${process.env.PWD}/dist/scripts/default.js`,
+        file: `${process.env.PWD}/dist/js/default.js`,
         sourcemap: rollup.sourcemap,
         format: rollup.format,
         strict: rollup.strict
       }
     ],
-    plugins: rollup.plugins,
+    plugins: (process.env.NODE_ENV === 'production') ? prod : dev,
     devModule: true
   }
 ];

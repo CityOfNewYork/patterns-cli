@@ -1,5 +1,8 @@
-= extend('templates/default')
+= extend('/slm/layouts/default')
 
 - title = '{{ Pattern }}'
 
 = content('main')
+  h2 = title
+
+= content('scripts')

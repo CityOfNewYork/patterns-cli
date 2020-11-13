@@ -9,7 +9,7 @@ html lang='en'
 
     title = this.package.name
 
-    link rel='stylesheet' href='styles/default.css'
+    link rel='stylesheet' href='css/default.css'
 
     link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css'
     script src='//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js'
@@ -52,11 +52,11 @@ html lang='en'
           title id='svg-a-perfect-heart' A perfect SVG heart
           use xlink:href='#pttrn-a-perfect-heart'
 
-    script src='scripts/default.js'
+    script src='js/default.js'
     script src='https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework@v1.0.0-15/dist/utilities/icons/icons.iffe.js'
 
     javascript:
-      new Icons('svgs/svgs.svg');
+      new Icons('svg/svgs.svg');
 
     = content('scripts')
 

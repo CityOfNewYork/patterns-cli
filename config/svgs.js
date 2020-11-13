@@ -1,10 +1,20 @@
+/**
+ * Dependencies
+ */
+
+const path = require('path');
+const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
+const global = resolve('config/global');
+
+/**
+ * Config
+ *
+ * @type {Object}
+ */
 module.exports = {
-  /** Prefix for icons */
-  prefix: 'svg-',
-  /** The source directory */
-  src: 'src/svgs',
-  /** The distribution folder for the views */
-  dist: 'dist/svgs',
+  src: `${global.src}/svg`,   // svg source
+  dist: `${global.dist}/svg`, // svg distribution
+  prefix: 'pttrn-',           // Prefix to prepend to optimized svgs
   /**
    * Plugin options for SVGO
    *

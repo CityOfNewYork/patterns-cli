@@ -5,22 +5,22 @@
 const path = require('path');
 const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
 const package = resolve('package.json');
+const global = resolve('config/global');
 const tokens = resolve('config/tokens');
 
 /**
  * Config
+ *
+ * @type {Object}
  */
-
 module.exports = {
-  /** The source directory */
-  src: 'src',
-  /** The directory for the views (within the source) */
-  views: 'views',
-  /** The distribution folder for the views */
-  dist: 'dist',
+  src: global.src,           // Base source directory for all possible slm files
+  dist: global.dist,         // Distribution for slm files
+  views: global.entry.views, // View directory within source directory ^
   /**
    * Options to pass to the marked package
-   * @param {Source} url https://marked.js.org/#/USING_ADVANCED.md#options
+   *
+   * @type {Source} https://marked.js.org/#/USING_ADVANCED.md#options
    */
   marked: {
     gfm: true,
@@ -29,7 +29,8 @@ module.exports = {
   },
   /**
    * Options to pass to the JS Beautify package for formatting html
-   * @param {Source} url https://github.com/beautify-web/js-beautify
+   *
+   * @type {Source} https://github.com/beautify-web/js-beautify
    */
   beautify: {
     indent_size: 2,
@@ -52,13 +53,14 @@ module.exports = {
    *
    * NOTE Functions can also be passed to the slm view render.
    *
-   * @param {Source} url https://github.com/slm-lang/slm#user-content-control-code--
+   * @type {Source} https://github.com/slm-lang/slm#user-content-control-code--
    */
   package: package,
+  global: global,
+  tokens: tokens,
   process: {
     env: {
       NODE_ENV: process.env.NODE_ENV
     }
-  },
-  tokens: tokens
+  }
 };

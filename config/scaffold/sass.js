@@ -1,7 +1,8 @@
 /**
  * Config
+ *
+ * @type {Object}
  */
-
 const sass = {
   sourceMapEmbed: true,
   includePaths: [
