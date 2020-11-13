@@ -62,7 +62,7 @@ const main = async (modules) => {
 /**
  * Our Chokidar Watcher
  *
- * @param {Source} url https://github.com/paulmillr/chokidar
+ * @type {Source} https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(globs, {
   ignored: path.join(process.env.PWD, tokens.options().output.replace(/"/g, '')),
@@ -81,10 +81,9 @@ const run = async (styles = modules) => {
   try {
     if (args.watch) {
       watcher.on('change', changed => {
-        let local = changed.replace(process.env.PWD, '');
         let styls = [];
 
-        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
         if (process.env.NODE_ENV !== 'development') {
           let filtered = styles.filter(s => path.basename(changed) === path.basename(s.file));
@@ -97,7 +96,7 @@ const run = async (styles = modules) => {
         main(styls);
       });
 
-      cnsl.watching(`Styles watching ${alerts.str.ext(globs.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
+      cnsl.watching(`Styles watching ${alerts.str.ext(globs.join(', '))}`);
     } else {
       await main(modules);
 

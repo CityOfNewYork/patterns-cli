@@ -57,7 +57,11 @@ const run = async (styles = modules) => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run,

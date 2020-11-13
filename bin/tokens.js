@@ -19,7 +19,7 @@ const alerts = resolve('config/alerts');
 const options = () => {
   let config = resolve('config/tokens', true, false);
   let input = resolve('config/tokens', false);
-  let tailwindcss = resolve('config/tailwind', false);
+  let tailwindcss = resolve('config/tailwindcss', false);
   let output = config.output.replace(/"/g, '');
 
   return {
@@ -68,7 +68,7 @@ const main = async () => {
     // Re-enable logging
     process.stdout.write = write;
 
-    cnsl.describe(`${alerts.tokens} Tokens in ${alerts.str.path(input.replace(process.env.PWD, '.'))} out ${alerts.str.path(output)}`);
+    cnsl.describe(`${alerts.tokens} Tokens in ${alerts.str.path(input)} out ${alerts.str.path(output)}`);
   } catch (err) {
     cnsl.error(`Tokens failed: ${err.stack}`);
   }

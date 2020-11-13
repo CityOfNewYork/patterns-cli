@@ -37,12 +37,12 @@ const main = async (base, dir) => {
       let templatePath = resolve(`config/scaffold/${dir.files[i]}`, false);
       let template = fs.readFileSync(templatePath, 'utf8');
 
-      if (!fs.existsSync(pth)) {
+      if (!fs.existsSync(pth.replace('.mjs', '.js'))) {
         await fs.writeFileSync(pth, template);
 
         cnsl.success(`${alerts.str.path(pth)} was made.`);
       } else {
-        cnsl.notify(`${alerts.str.path(pth)} already exists.`);
+        cnsl.notify(`${alerts.str.path(pth.replace('.mjs', '.js'))} already exists.`);
       }
     }
   } else if (!dir.hasOwnProperty('directories')) {
@@ -83,7 +83,11 @@ const run = async () => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run

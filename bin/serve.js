@@ -33,7 +33,7 @@ const GLOBS = [
  /**
  * Our Chokidar Watcher
  *
- * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ * @type {Source} https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob)), {
   usePolling: false,
@@ -45,7 +45,7 @@ const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob
 /**
  * The Express App
  *
- * @param  {Source}  url  https://expressjs.com/
+ * @type {Source} https://expressjs.com/
  */
 let APP = new Express();
 
@@ -113,7 +113,11 @@ const run = async (app = APP) => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run

@@ -34,7 +34,7 @@ const cnsl = require(`${__dirname}/util/console`);
 /**
  * Our Chokidar Watcher
  *
- * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ * @type {Source} https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(GLOBS, {
   usePolling: false,
@@ -110,7 +110,11 @@ const run = async () => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run,

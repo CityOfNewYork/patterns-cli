@@ -44,9 +44,9 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
 
   if (results.issues.length) {
     if (args.nondescript || args.silent) {
-      cnsl.lint(`${alerts.str.path(results.pageUrl.replace(`file://${process.env.PWD}`, '.'))}`);
+      cnsl.lint(`${alerts.str.path(results.pageUrl)}`);
     } else {
-      cnsl.lint(`${alerts.accessible} Pa11y suggestions for ${alerts.str.path(results.pageUrl.replace(`file://${process.env.PWD}`, '.'))}`);
+      cnsl.lint(`${alerts.accessible} Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
     }
 
     results.issues.forEach((issue) => {
@@ -113,7 +113,11 @@ const run = async (dir = BASE_PATH) => {
   process.exit();
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run,

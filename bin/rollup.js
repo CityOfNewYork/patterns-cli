@@ -52,7 +52,7 @@ const options = () => {
 /**
  * Our Chokidar Watcher
  *
- * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ * @type {Source} https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(options().globs, {
   usePolling: false,
@@ -74,12 +74,11 @@ const main = async (script) => {
     if (script.hasOwnProperty('devModule')) delete script.devModule;
 
     const bundle = await rollup.rollup(script);
-    const local = script.input.replace(process.env.PWD, '.');
 
     for (let i = 0; i < script.output.length; i++) {
       await bundle.write(script.output[i]);
 
-      cnsl.describe(`${alerts.rollup} Rollup in ${alerts.str.path(local)} out ` +
+      cnsl.describe(`${alerts.rollup} Rollup in ${alerts.str.path(script.input)} out ` +
         `${alerts.str.path(script.output[i].file)}`);
     }
   } catch (err) {
@@ -96,10 +95,9 @@ const run = async () => {
   if (args.watch) {
     try {
       watcher.on('change', async changed => {
-        let local = changed.replace(process.env.PWD, '');
         let scrpts = [];
 
-        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
+        cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
         if (process.env.NODE_ENV !== 'development') {
           let filtered = opts.modules.filter(s => path.basename(changed) === path.basename(s.input));
@@ -114,7 +112,7 @@ const run = async () => {
         }
       });
 
-      cnsl.watching(`Rollup watching ${alerts.str.ext(opts.globs.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
+      cnsl.watching(`Rollup watching ${alerts.str.ext(opts.globs.join(', '))}`);
     } catch (err) {
       console.error(`${alerts.error} Rollup (run): ${err.stack}`);
     }
@@ -129,7 +127,11 @@ const run = async () => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run,

@@ -48,9 +48,9 @@ const es = async (file = GLOBS.find(g => g.includes(EXT_ES))) => {
       eslinter.results.forEach((item) => {
         if (item.messages.length) {
           if (args.nondescript || args.silent) {
-            cnsl.lint(`${alerts.str.path(item.filePath.replace(`file://${process.env.PWD}`, '.'))}`);
+            cnsl.lint(`${alerts.str.path(item.filePath)}`);
           } else {
-            cnsl.lint(`${alerts.info} Suggestions for ${alerts.str.path(item.filePath.replace(process.env.PWD, '.'))}`);
+            cnsl.lint(`${alerts.info} Suggestions for ${alerts.str.path(item.filePath)}`);
           }
 
           item.messages.forEach((message) => {
@@ -88,9 +88,9 @@ const style = async (file = GLOBS.find(g => g.includes(EXT_STYLE))) => {
       JSON.parse(data.output).forEach((item) => {
         if (item.errored) {
           if (args.nondescript || args.silent) {
-            cnsl.lint(`${alerts.str.path(item.source.replace(process.env.PWD, '.'))}`);
+            cnsl.lint(`${alerts.str.path(item.source)}`);
           } else {
-            cnsl.lint(`${alerts.info} Lint suggestions for ${alerts.str.path(item.source.replace(process.env.PWD, '.'))}`);
+            cnsl.lint(`${alerts.info} Lint suggestions for ${alerts.str.path(item.source)}`);
           }
 
           item.warnings.forEach((warning) => {
@@ -153,7 +153,11 @@ const run = async () => {
   process.exit();
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run

@@ -6,15 +6,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const sass = (process.env.SASS === 'libSass') ? require('node-sass') : require('sass');
 
 const args = require(`${__dirname}/util/args`).args;
 const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
+const installed = require(`${__dirname}/util/installed`);
 const lint = require(`${__dirname}/lint`);
 
 const alerts = resolve('config/alerts');
 const config = resolve('config/sass');
+
+const sass = (installed('node-sass')) ? require('node-sass') : require('sass');
 
 const modules = config;
 
@@ -32,7 +34,7 @@ const main = async (style) => {
     if (!args.nolint) await lint.main(style.file);
 
     if (!fs.existsSync(outDir)){
-      fs.mkdirSync(outDir);
+      fs.mkdirSync(outDir, {recursive: true});
     }
 
     let result = sass.renderSync(style);
@@ -64,7 +66,11 @@ const run = async (styles = modules) => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run,

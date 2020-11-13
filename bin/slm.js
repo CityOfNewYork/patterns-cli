@@ -50,7 +50,7 @@ const options = () => {
 /**
  * Our Chokidar Watcher
  *
- * @param  {Source}  url  https://github.com/paulmillr/chokidar
+ * @type {Source} https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(options().globs, {
   usePolling: false,
@@ -69,8 +69,6 @@ const write = async (file, data) => {
   try {
     let opts = options();
     let dist = file.replace(opts.ext, '.html').replace(opts.views, opts.dist);
-    let src = file.replace(process.env.PWD, '.');
-    let local = dist.replace(process.env.PWD, '.');
 
     if (!fs.existsSync(path.dirname(dist))){
       fs.mkdirSync(path.dirname(dist));
@@ -82,7 +80,7 @@ const write = async (file, data) => {
 
     fs.writeFileSync(dist, data);
 
-    cnsl.describe(`${alerts.success} Slm in ${alerts.str.path(src)} out ${alerts.str.path(local)}`);
+    cnsl.describe(`${alerts.success} Slm in ${alerts.str.path(file)} out ${alerts.str.path(dist)}`);
 
     return dist;
   } catch (err) {
@@ -136,6 +134,7 @@ const mrkdwn = {
 
     return data;
   },
+
   /**
    * Replace mustache like variables with localized vars
    *
@@ -245,6 +244,7 @@ const compile = {
       cnsl.error(`Slm failed (compile.slm): ${err.stack}`);
     }
   },
+
   /**
    * Read a markdown file and compile it to html, return the data.
    *
@@ -273,6 +273,7 @@ const compile = {
       cnsl.error(`Slm failed (compile.md): ${err.stack}`);
     }
   },
+
   /**
    * Read a file and return it's contents.
    *
@@ -292,8 +293,6 @@ const compile = {
     }
   }
 };
-
-// const ignore
 
 /**
  * The main function to execute on files
@@ -350,7 +349,7 @@ const run = async () => {
 
     // Skip and notify if the views directory does not exist
     if (!fs.existsSync(dir)) {
-      cnsl.watching(`Slm skipping. ${alerts.str.path(dir.replace(process.env.PWD, '.'))} directory does not exist.`);
+      cnsl.watching(`Slm skipping. ${alerts.str.path(dir)} directory does not exist.`);
 
       process.exit(0);
     }
@@ -361,9 +360,6 @@ const run = async () => {
     if (args.watch) {
       watcher.on('change', async changed => {
         if (process.env.NODE_ENV === 'development') {
-          // Create local reference to log
-          let local = changed.replace(process.env.PWD, '');
-
           // Check if the changed file is in the base views directory
           // let isView = views.some(view => changed.includes(view));
 
@@ -380,7 +376,7 @@ const run = async () => {
           // Check that the file is in the views directory
           let inViews = changed.includes(dir);
 
-          cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
+          cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
           // Run the single compiler task if the changed file is a view or has a view
           // if (isView || hasView) {
@@ -401,7 +397,7 @@ const run = async () => {
         }
       });
 
-      cnsl.watching(`Slm watching ${alerts.str.ext(opts.globs.map(g => g.replace(process.env.PWD, '.')).join(', '))}`);
+      cnsl.watching(`Slm watching ${alerts.str.ext(opts.globs.join(', '))}`);
     } else {
       await walk(dir);
 
@@ -414,7 +410,11 @@ const run = async () => {
   }
 };
 
-/** @type {Object} Export our methods */
+/**
+ * Export our methods
+ *
+ * @type {Object}
+ */
 module.exports = {
   main: main,
   run: run,
