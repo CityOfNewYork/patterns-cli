@@ -3,7 +3,6 @@
  */
 
 const nodeResolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
-const babel = require('@rollup/plugin-babel');              // Transpile source code.
 const replace = require('@rollup/plugin-replace');          // Replace content while bundling.
 
 const path = require('path');
@@ -11,39 +10,26 @@ const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
 const global = resolve('config/global');
 
 /**
- * Plugin Configuration
+ * Plugin configuration. Refer to the package for details on the available options.
+ *
+ * @source https://github.com/rollup/plugins
  *
  * @type {Object}
  */
-let plugins = {
-  babel: babel.babel({
-    exclude: 'node_modules/**',
-    babelHelpers: 'bundled'
+let plugins = [
+  replace({
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }),
-  nodeResolve: nodeResolve.nodeResolve({
+  nodeResolve({
     browser: true,
     customResolveOptions: {
       moduleDirectory: 'node_modules'
     }
-  }),
-  replace: replace({
-    'process.env.NODE_ENV': "'production'"
   })
-};
-
-let dev = [
-  plugins.babel,
-  plugins.nodeResolve
-];
-
-let prod = [
-  plugins.babel,
-  plugins.nodeResolve,
-  plugins.replace
 ];
 
 /**
- * Rollup Exports
+ * ES Module Exports
  *
  * @type {Array}
  */
@@ -53,11 +39,11 @@ module.exports = [
     output: [{
       file: path.join(global.dist, global.entry.scripts),
       name: global.entry.name,
-      sourcemap: 'inline',
+      sourcemap: (process.env.NODE_ENV === 'production') ? false : 'inline',
       format: 'iife',
       strict: true
     }],
-    plugins: (process.env.NODE_ENV === 'production') ? prod : dev,
+    plugins: plugins,
     devModule: true
   }
 ];
