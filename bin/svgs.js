@@ -205,6 +205,8 @@ const walk = async (file, dir = SOURCE) => {
  * @param  {String}  dir  The basepath to run the script on
  */
 const run = async (dir = SOURCE) => {
+  if (!fs.existsSync(SOURCE)) process.exit();
+
   if (args.watch) {
     try {
       watcher.on('change', async (changed) => {
