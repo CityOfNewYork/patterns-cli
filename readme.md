@@ -1,195 +1,1384 @@
-# NYCO Patterns Framework
+# Patterns CLI
 
-Front-end stack, CLI, and cross-utility library for design systems. Created by NYC Opportunity for [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and Growing Up/Generation NYC Patterns.
+### Make, develop, and publish!
 
-* 📦 Creates and organizes pattern source code using a [design system methodology](#design-system-methodology).
-* ⚫ Manages [Design Tokens](#design-tokens) through JavaScript configuration and shares them with Sass files.
-* 💅 Compiles [Sass](https://sass-lang.com/) using [node-sass](https://github.com/sass/node-sass) and [PostCSS](https://postcss.org/).
-* 🗞 Bundles JavaScript ES using [rollup.js](https://rollupjs.org/guide/en/).
-* 🗜️ SVG icon optimizer and sprite generator using [svgo](https://github.com/svg/svgo) and [svgstore-cli](https://github.com/svgstore/svgstore-cli).
-* ✨ Generates a static site using [slm-lang](https://github.com/slm-lang) for documentation and development.
-* 🤓 Serves the local development environment using [Express.js](https://expressjs.com/).
-* 🌈 CSS and JavaScript Framework agnostic; use Bootstrap, Tailwindcss, Svelte, React, or Vue (or none of them... or all of them).
-* 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for integration in a digital product ecosystem.
+CLI for building and managing design pattern libraries. Created by [NYC Opportunity](https://github.com/NYCOpportunity) for [WorkingNYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns).
 
-Each major feature uses a [configuration file](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) for adding additional plugins and functionality. Additionally, this package can be extended with npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+* 📦 Creates and organizes component libraries using a [design system methodology](#design-system-methodology).
+
+* 🌈 Works well with [Tailwindcss](https://tailwindcss.com/) by managing [design tokens](#design-tokens) with JavaScript but otherwise completely agnostic of other CSS and JavaScript frameworks. Use it to manage a customized component library and/or extend the default module templates to build out Vanilla JS, React, Vue, or Svelte components.
+
+* 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for open sourcing and integration in a digital product ecosystem.
+
+## Features ([skip the pitch](#contents))
+
+### ✨ Make module based patterns
+
+The CLI has several commands, including `make`, for quickly generating new pattern modules using file templates.
+
+```shell
+$ npx pttrn make component accordion
+
+✨ Created ./src/components/accordion/accordion.slm
+✨ Created ./src/components/accordion/accordion.md
+✨ Created ./src/components/accordion/_accordion.scss
+```
+
+Templates can be extended to create files to support the framework of your choosing.
+
+### Design System Methodology
+
+All design pattern source code will be organized into four directories: **Elements**, **Components**, **Objects**, and **Utilities** (by default). The CLI takes care of the organization for you, creating the necessary files based on configurable templates.
+
+```
+📂 src
+├ 📁 elements
+├ 📂 components
+  └ 📂 accordion
+    ├ accordion.slm   - Markup
+    ├ accordion.js    - JavaScript
+    ├ _accordion.scss - Styling
+    ├ accordion.md    - Documentation
+    └ readme.md       - Developer Usage
+├ 📁 objects
+└ 📁 utilities
+```
+
+### 🔌 Demonstrate and document markup once
+
+Write dynamic and reusable markup used to create live demonstrations and document markup once using [slm-lang](https://github.com/slm-lang) (a templating language inspired by Pug).
+
+```pug
+- this.accordion = {}
+- this.accordion.id = this.createId()
+- this.accordion.active = true
+
+- if (typeof accordion !== 'undefined')
+  - this.accordion = Object.assign(this.accordion, accordion);
+
+article class='c-accordion'
+  header class='c-accordion__header'
+    /! { @data-js        "accordion" initalizes the Accordion toggle }
+    /! { @aria-controls  Targets the Accordion body }
+    /! { @aria-expanded  Indicates if the Accordion body is open or not }
+    button class='c-accordion__toggle w-full text-start print:hidden ${this.accordion.active ? 'active' : ''}' data-js='accordion' aria-controls='aria-c-${this.accordion.id}' aria-expanded='${this.accordion.active.toString()}'
+      span class='c-accordion__heading mt-0' id='aria-lb-${this.accordion.id}'
+        span = this.accordion.title
+
+      span class='c-accordion__toggle-active'
+        svg class='icon-wnyc-ui' aria-hidden='true'
+          use xlink:href='#icon-wnyc-ui-chevron-down'
+
+        span class='sr-only' hide this list
+
+      span class='c-accordion__toggle-inactive'
+        svg class='icon-wnyc-ui' aria-hidden='true'
+          use xlink:href='#icon-wnyc-ui-chevron-up'
+
+        span class='sr-only' show this list
+
+  /! { @id               Target of the Accordion toggle. Must match the "aria-controls" attribute of the toggling button }
+  /! { @role             Indicates an area of significance }
+  /! { @aria-labelledby  Associates the Accordion body with the header text }
+  /! { @aria-hidden      Indicates if the Accordion body is open or not }
+  div id='aria-c-${this.accordion.id}' role='region' class='c-accordion__body bg-scale-3 print:active hidden:overflow animated ${this.accordion.active ? 'active' : 'hidden'}' aria-labelledby='aria-lb-${this.accordion.id}' aria-hidden='${this.accordion.active ? 'false' : 'true'}'
+    div class='c-accordion__padding'
+      = this.accordion.body
+```
+
+### 💅 Style using [Dart Sass](https://sass-lang.com/dart-sass)
+
+Dart Sass has many perks such as namespaced dependencies. Additionally, CSS post processing can be customized with [PostCSS](https://postcss.org/) plugins. [LibSass](https://sass-lang.com/libsass) is also supported if desired.
+
+```scss
+// Dependencies
+@use 'config/dimensions';
+@use 'config/media';
+@use 'config/interaction';
+
+// Declarations
+.c-accordion {
+  margin: 0 0 dimensions.$spacing-base;
+}
+
+.c-accordion__header {
+  padding: dimensions.$spacing-base;
+}
+
+.c-accordion__heading {
+  flex: 1;
+  font-weight: bold;
+  margin: 0;
+}
+
+.c-accordion__toggle {
+  text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+
+  * {
+    @include interaction.disable-pointer-events
+  }
+}
+
+.c-accordion__toggle-active,
+.c-accordion__toggle-inactive {
+  align-items: center;
+}
+
+.c-accordion__toggle-active {
+  display: none;
+  visibility: hidden;
+
+  .c-accordion__toggle.active & {
+    @include interaction.disable-pointer-events;
+    display: inline-flex;
+    visibility: visible
+  }
+}
+
+.c-accordion__toggle-inactive {
+  @include interaction.disable-pointer-events;
+  display: inline-flex;
+  visibility: visible;
+
+  .c-accordion__toggle.active & {
+    display: none;
+    visibility: hidden
+  }
+}
+
+.c-accordion__padding {
+  padding: dimensions.$spacing-base
+}
+
+.c-accordion__padding > *:last-child {
+  margin-bottom: 0
+}
+```
+
+### 🤸 Lint for accessibility issues using Pa11y
+
+[Pa11y CI](https://github.com/pa11y/pa11y-ci) will run tests and provide suggestions for accessibility compliance.
+
+```shell
+🤸 Pa11y suggestions for ./dist/newsletter.html
+<form action="https://nyc.us18.list-manage.com/subscribe/post?u=d04b7b607bddbd338b416fa89&amp;id=aa67394696" id="mc-embedded-subscribe-form" method="post" target="_blank" novalidate="true">
+                    <div class...</form>
+duplicate-id    error   id attribute value must be unique (https://dequeuniversity.com/rules/axe/3.5/duplicate-id?application=axeAPI)
+
+<h4 class="wrap" id="newsletter-markup">
+            <a href="#newslett...</h4>
+heading-order   error   Heading levels should only increase by one (https://dequeuniversity.com/rules/axe/3.5/heading-order?application=axeAPI)
+
+<pre><code> form action="https://nyc...</pre>
+scrollable-region-focusable     error   Ensure that scrollable region has keyboard access (https://dequeuniversity.com/rules/axe/3.5/scrollable-region-focusable?application=axeAPI)
+
+<pre><code>import Newsletter from '@...</pre>
+scrollable-region-focusable     error   Ensure that scrollable region has keyboard access (https://dequeuniversity.com/rules/axe/3.5/scrollable-region-focusable?application=axeAPI)
+
+<pre><code>// ...
+let newsletter = ...</pre>
+scrollable-region-focusable     error   Ensure that scrollable region has keyboard access (https://dequeuniversity.com/rules/axe/3.5/scrollable-region-focusable?application=axeAPI)
+
+<form action="https://nyc.us18.list-manage.com/subscribe/post?u=d04b7b607bddbd338b416fa89&amp;id=aa67394696" id="mc-embedded-subscribe-form" method="post" target="_blank" novalidate="true">
+                  <!--{ @data-...</form>
+WCAG2AA.Principle4.Guideline4_1.4_1_1.F77       error   Duplicate id attribute value "mc-embedded-subscribe-form" found on the web page.
+```
+
+### 🗞 Script using ES module syntax.
+
+Library scripts are bundled using [rollup.js](https://rollupjs.org/guide/en/). Use the [library of utility modules](https://github.com/cityofnewyork/patterns-scripts/) to help keep scripting DRY.
+
+```javascript
+'use strict';
+
+import Toggle from '@nycopportunity/pttrn-scripts/src/toggle/toggle';
+
+/**
+ * The Accordion module
+ *
+ * @class
+ */
+class Accordion {
+  /**
+   * @constructor
+   *
+   * @return  {object}  The instantiated accordion component
+   */
+  constructor() {
+    this.toggle = new Toggle({
+      selector: Accordion.selector
+    });
+
+    return this;
+  }
+}
+
+/** @type {String} The dom selector for the module */
+Accordion.selector = '[data-js*="accordion"]';
+
+export default Accordion;
+```
+
+### ⚫ Manage design tokens in JavaScript
+
+[Design Tokens](#design-tokens) are compiled to a Sass map and can be imported into a [Tailwindcss](https://tailwindcss.com/docs/installation#create-your-tailwind-config-file) config for creating a single source between JavaScript, Sass files, and CSS utilities.
+
+```json
+module.exports = {
+  'output': '"./src/config/_tokens.scss"',
+  'border': {
+    'width': '3px',
+    'style': 'solid',
+    'radius': '16px'
+  },
+  'color': {
+    'white': '#FFF',
+    'blue': '#284CCA',
+    'red': '#FC5D52',
+    'gray': '#E6E8EC'
+  },
+  'font-family': {
+    'system': ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', '"Helvetica Neue"', 'sans-serif'],
+    'monospace': 'monospace'
+  },
+  'font': {
+    'body': 'system',
+    'pre': 'monospace'
+  },
+  'font-weight': {
+    'body': 'normal',
+    'pre': 'normal'
+  },
+  'font-style': {
+    'body': 'normal',
+    'pre': 'normal'
+  },
+  'font-size': {
+    'body': '1em',
+    'pre': '0.9em'
+  },
+  'line-height': {
+    'body': '1.2',
+    'pre': '1.5'
+  },
+  'grid': '8px', // 8px grid system
+  'typography': {
+    'small': '16px',
+    'mobile': '18px',
+    'tablet': '20px',
+    'desktop': '22px'
+  }
+};
+```
+
+### 🗜️ Optimize and generate SVG sprites
+
+Uses [svgo](https://github.com/svg/svgo) to optimze individual svgs and [svgstore-cli](https://github.com/svgstore/svgstore-cli) to concantenate an SVG sprite for rendering icons and vector graphics.
+
+```shell
+🗜️  Svgs in ./src/svg/shape-c.svg out ./dist/svg/pttrn-shape-c.svg
+🗜️  Svgs in ./src/svg/shape-b.svg out ./dist/svg/pttrn-shape-b.svg
+🗜️  Svgs in ./src/svg/shape-a.svg out ./dist/svg/pttrn-shape-a.svg
+🗜️  Svgs in ./src/svg/select-chevrons.svg out ./dist/svg/pttrn-select-chevrons.svg
+🗜️  Svgs in ./src/svg/option-radio.svg out ./dist/svg/pttrn-option-radio.svg
+🗜️  Svgs in ./src/svg/option-checkbox.svg out ./dist/svg/pttrn-option-checkbox.svg
+🗜️  Svgs in ./src/svg/logo-standard.svg out ./dist/svg/pttrn-logo-standard.svg
+🗜️  Svgs in ./src/svg/logo-stacked.svg out ./dist/svg/pttrn-logo-stacked.svg
+🗜️  Svgs in ./src/svg/logo-partnership.svg out ./dist/svg/pttrn-logo-partnership.svg
+🗜️  Svgs in ./src/svg/logo-nyc.svg out ./dist/svg/pttrn-logo-nyc.svg
+🗜️  Svgs in ./src/svg/logo-google-translate.svg out ./dist/svg/pttrn-logo-google-translate.svg
+📦 Svgs sprite written to ./dist/svg/svgs.svg
+✨ Svgs finished
+```
+
+### 👀 Watch and serve assets
+
+Watch for file changes using [Chokidar](https://github.com/paulmillr/chokidar) and serve distributed static assets to a local development environment using [Express.js](https://expressjs.com/).
+
+```shell
+$ npm start
+
+> @nycopportunity/pttrn-starter@0.1.0 start /@nycopportunity/pttrn-starter
+> cross-env NODE_ENV=development cross-env PORT=7070 concurrently "pttrn default -w" "pttrn serve -w" -p "none"
+
+👀 Serve watching ./dist/**/*.html, ./dist/css/*.css, ./dist/js/*.js
+🤓 Serving ./dist/ to http://localhost:7070
+👀 Slm watching ./config/slm.js, ./src/**/*.slm, ./src/**/*.md
+👀 Svgs watching ./src/svg/**/*.svg
+👀 Rollup watching ./config/rollup.js, ./src/**/*.js
+👀 Styles watching ./src/**/*.scss, ./config/tokens.js, ./config/tailwindcss.js
+```
+
+### No config or custom build
+
+Each major feature uses a [configuration file](https://github.com/CityOfNewYork/patterns-cli/tree/master/config) for adjusting the settings of every CLI script. Additionally, the package can be extended with other npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+
+```
+├ 📂 config         - Configuration directory
+  ├ 📂 make          - Templates for pattern files created by the make command
+    ├ style.scss       - Sass Stylesheet template
+    ├ markup.slm       - Markup template
+    ├ markdown.md      - Usage, design specs, and other documentation
+    ├ config.scss      - Sass variable and mixin storage
+    ├ script.js        - JavaScript module template
+    ├ readme.md        - Technical documentation such as JavaScript usage or installation
+    └ view.slm         - View template for displaying the demonstration and documentation
+  ├ make.js          - Make command settings
+  ├ alerts.js        - Configure the icons and colors of alerts in the output
+  ├ global.js        - Global paths and directories
+  ├ lint.js          - ESLint and Style Lint
+  ├ pa11y.js         - Settings for Pa11y linting
+  ├ postcss.js       - PostCSS settings and plugins
+  ├ publish.js       - Publish settings
+  ├ rollup.js        - Rollup.js settings
+  ├ sass.js          - Sass and Sass Module settings
+  ├ slm.js           - slm-lang templating system settings
+  ├ svgs.js          - Svg sprite settings for svgo and svgstore
+  ├ tailwindcss.js   - Tailwindcss config file
+  └ tokens.js        - Design tokens and json-to-scss settings
+├ 📁 dist          - Static distribution directory
+└ 📁 src           - Source directory
+```
 
 ## Contents
 
 * [Installation](#installation)
-* [NPM Scripts](#npm-scripts)
+
+* [Guide: Start from scratch](#start-from-scratch)
+  * [`make` command](#make-command)
+  * [The file specs](#the-file-specs)
+  * [Styles](#styles)
+  * [Scripts](#scripts)
+  * [Views](#views)
+  * [Serve](#serve)
+
+* [Guide: `scaffold` command](#scaffold-command)
+* [Guide: `start` command](#start-command)
+* [Guide: `publish` command](#publish-command)
+
 * [CLI](#cli)
+  * [Executing the binary](#executing-the-binary)
   * [Commands](#commands)
+    * [`default`](#default)
+    * [`styles`](#styles)
+    * [`tokens`](#tokens)
+    * [`sass`](#sass)
+    * [`postcss`](#postCSS)
+    * [`rollup`](#rollup)
+    * [`lint`](#lint)
+    * [`slm`](#slm)
+    * [`pa11y`](#pa11y)
+    * [`svgs`](#svgs)
+    * [`scaffold`](#scaffold)
+    * [`make`](#make)
+    * [`serve`](#serve)
+    * [`publish`](#publish)
+
   * [Flags](#flags)
-  * [NODE_ENV](#node_env)
+  * [Alerts](#alerts)
+  * [ES Configuration](#es-configuration)
+  * [NPM Scripts](#npm-scripts)
+
+* [Guide: Creating a new `make` command template](#creating-a-new-make-command-template)
 * [Optional dependencies](#optional-dependencies)
-* [Updating](#updating)
-* [NVM](#nvm)
-* [Design System Methodology](#design-system-methodology)
-* [Cross-Utility Library](#cross-utility-library)
 * [Documentation](#documentation)
 
-## Usage
+## Installation
 
-    $ npm install @nycopportunity/patterns-framework --save-dev
+**$1** Install as a normal dependency in a project.
 
-**$2** Copy the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/master/config) directory into the root your pattern library.
+```shell
+$ npm install @nycopportunity/pttrn
+```
 
-**$3** If you are using any of the [optional dependencies](#optional-dependencies) used by the scripts in the *./config* directory you will need to install them manually. If you do not want to use them they need to be removed from the config files in the *./config* directory.
+If you need to start a new project you can run `npm init` before installing.
 
-**$4** *Recommended*. Add the following npm scripts to your Patterns Library;
+## Start from scratch
 
-    "scripts": {
-      "pttrn": "pttrn",
-      "start": "cross-env NODE_ENV=development cross-env PORT=7070 concurrently \"pttrn default -w\" \"pttrn serve -w\" -p \"none\"",
-      "default": "cross-env NODE_ENV=production pttrn default",
-      "version": "npm run default && git add .",
-      "prepublishOnly": "git push && git push --tags",
-      "publish": "cross-env NODE_ENV=production pttrn publish"
-    },
+[... or quickly scaffold a new project](#scaffold-command)
 
-**$5**
+### `make` command
 
-Optional. Create an alias for the `pttrn` cli. If this step is not done, the npm script `pttrn` above can be used instead.
+**$2** Make a pattern by running `npx pttrn make {{ element/component/object/utility }} {{ pattern }}`
 
-    alias pttrn="./node_modules/.bin/pttrn"
+```shell
+$ npx pttrn make component accordion
 
-**$6** Make a pattern and configure **rollup.js** and **node-sass** to compile it;
+✨ Created ./src/components/accordion/accordion.slm
+✨ Created ./src/components/accordion/accordion.md
+✨ Created ./src/components/accordion/_accordion.scss
 
-    pttrn make component accordion
+💅 Include the accordion styleheet in your main Sass entrypoint. To create an independent distribution (optional) add the accordion styleheet to your Sass configuration.
 
-![Making Patterns](./docs/images/make.png)
+❓ Make a config file for accordion? y/n
+```
 
-**$6** Start the development server (assuming you've added the [npm scripts](#npm-scripts) above to your package.json) and writing code;
+What just happened?
 
-    npm start
+1. The make script has made required files for styling and documenting a component for you based on a few templates included with the Framework;
+1. reminded you to add the stylesheet module to the global default stylesheet so it's compiled accordingly;
+1. and prompted to create any of the other optional files specific to the accordion. If you decide not to make any of these files initially, they can be made by rerunning the `npx pttrn make component accordion {{ file }}` command. For the sake of this demonstration answer "yes" (y) to all of the questions.
 
-![Development Server](./docs/images/start.png)
+```shell
+✨ ./src/config/_accordion.scss was made.
 
-**$7** Version your library (assuming you've added the [npm scripts](#npm-scripts) above to your package.json)...
+❓ Make a view file for accordion? y/n
+✨ ./src/views/accordion.slm was made.
 
-    npm version {{ major/minor/patch }}
+❓ Make a script file for accordion? y/n
+✨ ./src/components/accordion/accordion.js was made.
 
-... then publish to **npm** for integration in other projects...
+🌈 Import the accordion script into your main JavaScript entrypoint file and create a public function for it in the default class. To create an independent distribution (optional) add the accordion script to your Rollup configuration.
 
-    npm publish
+❓ Make a readme file for accordion? y/n
+✨ ./src/components/accordion/readme.md was made.
+```
 
-## NPM Scripts
+### The file specs
 
-The recommended [npm scripts](https://docs.npmjs.com/misc/scripts) create shortcuts for using the cli.
+* **.slm** - files are used to define the markup of the component using [slm-lang](https://github.com/slm-lang) that has a syntax inspired by Pug. It is also the templating language for all views in a Patterns Framework project.
+* **.md** - files are markdown files used to store the documenation of the pattern. Here you would describe types, variations, use cases, etc.
+* **.scss** - files are used to style the pattern. All Pattern Framework project styling is module based.
+* **config** - A Sass configuration file where variables, mixins, functions, and other dependencies can be stored.
+* **view** - A static view template where the pattern may be demonstrated and documentation can be rendered.
+* **script** - An ES Module for JavaScript enhanced patterns.
+* **readme** - A markdown file where the pattern documenation is written.
 
-Command       | Args              | Description
---------------|-------------------|-
-`start`       |                   | This starts the [Express.js](https://expressjs.com/) development server, which uses Express to render the views in **dist/**. It also uses [Concurrently](https://www.npmjs.com/package/concurrently) to trigger **--watch** scripts for the [default and serve commands](#commands). The `NODE_ENV` is set to `development` which affects the the styles compilation process by only compiling the global stylesheet.
-`run default` |                   | Runs a one-off compilation of all assets to the distribution directory in `production` mode.
-`version`     | major/minor/patch | Runs the `default` script and creates a new release using [npm's semantic versioning command](https://docs.npmjs.com/cli/version).
-`publish`     |                   | Publish to the npm registry. This will run `prepublishOnly` and `publish` scripts in the recommended [npm scripts](#npm-scripts) above as well which push all tags to GitHub. Publishing requires running the `version` script before publishing.
+### Styles
+
+**$3** Create the default Sass entrypoint and add the newly created accordion component stylesheet to it.
+
+```shell
+$ mkdir -p src/scss && touch src/scss/default.scss
+$ echo "@use 'components/accordion/accordion';" >> src/scss/default.scss
+```
+
+Open up **./src/components/accordion/_accordion.scss**. It will have the following contents:
+
+```scss
+/**
+ * Accordion
+ */
+
+// Dependencies
+@use 'config/tokens' as *;
+// @use 'config/accordion';
+
+// Declarations
+.c-accordion { }
+```
+
+Edit the file as you wish (be sure to add style attributes to the selector otherwise it will not compile) then run the following command:
+
+```
+$ npx pttrn styles
+⚫ Tokens in @pttrn/config/tokens.js out ./src/config/_tokens.scss
+🤓 Lint suggestions for ./src/scss/default.scss
+💅 Sass in ./src/scss/default.scss out ./dist/css/default.css
+💅 PostCSS on ./dist/css/default.css
+✨ Styles finished
+```
+
+What just happened?
+
+1. The default tokens configuration from the **@pttrn** cli were compiled to Sass.
+1. StyleLint was run on the default Sass entrypoint.
+1. The default Sass entrypoint was compiled to CSS.
+1. PostCSS was run on the default CSS stylesheet.
+
+Open up **./dist/css/default.css** to see the compiled stylesheet.
+
+### Scripts
+
+**$4** Create the default JavaScript entrypoint and add the newly created accordion component stylesheet to it.
+
+```shell
+$ mkdir -p src/js && touch src/js/default.js
+```
+
+Copy and paste the following into **./src/js/default.js**. This creates a main class that will have an api for the accordion module instantiation.
+
+```javascript
+import Accordion from '../components/accordion/accordion';
+
+class Default {
+  constructor() {
+    if (process.env.NODE_ENV != 'production')
+      console.dir('@pttrn Development Mode');
+
+    return this;
+  }
+
+  accordion() {
+    return new Accordion();
+  }
+};
+
+export default Default;
+```
+
+Open up **./src/components/accordion/accordion.js**. It will have the following contents:
+
+```javascript
+'use strict';
+
+class Accordion {
+  /**
+   * @param  {Object}  settings  This could be some configuration options.
+   *                             for the pattern module.
+   * @param  {Object}  data      This could be a set of data that is needed
+   *                             for the pattern module to render.
+   * @constructor
+   */
+  constructor(settings, data) {
+    this.data = data;
+
+    this.settings = settings;
+
+    return this;
+  }
+}
+
+/** @param  {String}  selector  The main selector for the pattern */
+Accordion.selector = '[data-js*="accordion"]';
+
+export default Accordion;
+```
+
+The contents of this file are optional, however, using class based ES modules makes scoping JavaScript enhanced patterns easier to scope. Edit the file as you wish and run:
+
+```
+🗞️ Rollup in src/js/default.js out dist/js/default.js
+✨ Rollup finished
+```
+
+What just happened? The default ES entrypoint from the **@pttrn** cli was compiled in the iife format for browsers.
+
+### Views
+
+**$5** Create a layout for you pattern views.
+
+```shell
+$ mkdir -p src/slm/layouts && touch src/slm/layouts/default.slm
+```
+
+Copy and paste the following **slm** into the **src/slm/layouts/default.slm** file. Edit the file as you wish...
+
+```pug
+doctype html
+html lang='en'
+  head
+    meta charset='utf-8'
+    meta http-equiv='X-UA-Compatible' content='IE=edge'
+    meta name='viewport' content='width=device-width, initial-scale=1'
+
+    title My Patterns
+
+    link rel='stylesheet' href='css/default.css'
+
+  body
+    header
+      h1 My Patterns
+
+    main
+      = content('main')
+
+    footer
+      - let date = new Date();
+      - let opts = {year: 'numeric', month: 'long', day: 'numeric'};
+      p = `Last updated ${date.toLocaleDateString('en-US', opts)}`
+
+    script src='js/default.js'
+
+    javascript:
+      let MyPatterns = new Default();
+
+    = content('scripts')
+
+    / The reload script. This should not be compile during production builds
+    / @source https://www.npmjs.com/package/reload
+    - if this.process.env.NODE_ENV !== 'production'
+      script src='/reload/reload.js'
+```
+
+You'll need to instantiate the Accordion module in the default entrypoint class. Open **./src/views/accordion.slm** and add to the scripts block...
+
+```
+
+= content('scripts')
+
+```
+
+... the following script tag...
+
+```
+= content('scripts')
+  javascript:
+    MyPatterns.accordion();
+```
+
+... then run the command:
+
+```shell
+✨ Slm in ./src/views/accordion.slm out ./dist/accordion.html
+🤸 Running Pa11y CI on ./dist/accordion.html
+🤸 No Pa11y suggestions for ./dist/accordion.html
+✨ Slm finished
+```
+
+What just happened?
+
+1. The Accordion view **slm** file was compiled to html.
+1. The command triggered the [Pa11y CI](https://github.com/pa11y/pa11y-ci) to lint the HTML output for accessibility issues. Linting for accessibility issues is a helpful perk of the **@pttrn** cli. No issues here!
+
+Open up **./dist/accordion.html** to see the compiled accordion view.
+
+### Serve
+
+**$6** Start the development server to see view your work.
+
+```shell
+$ npx pttrn serve
+🤓 Serving ./dist/ to http://localhost:7000
+```
+
+Open up **http://localhost:7000/accordion** to see the Accordion Component page. Want to make a change? For development purposes we'll want to run the server as well as watch scripts and reload when changes are made. The CLI uses [Concurrently](https://www.npmjs.com/package/concurrently) to run multiple commands so the binary is available to execute the same way **@pttrn** is. Combine the **@pttrn** `default` command with the `serve` command. Adding the `-w` or `--watch` flag enable change detection on both commands:
+
+```shell
+$ npx concurrently 'pttrn -w' 'pttrn serve -w'
+[1] 👀 Serve watching ./dist/**/*.html, ./dist/**/*.css, ./dist/**/*.js
+[1] 🤓 Serving ./dist/ to http://localhost:7000
+[0] 👀 Slm watching @pttrn/config/slm.js, ./src/**/*.slm, ./src/**/*.md
+[0] 👀 Svgs watching ./src/svg/**/*.svg
+[0] 👀 Rollup watching @pttrn/config/rollup.js, ./src/**/*.js
+[0] 👀 Styles watching ./src/**/*.scss, @pttrn/config/tokens.js, @pttrn/config/tailwindcss.js
+```
+
+What just happened? The default watching processes have been announced. Once you save a change to the file Chokidar will detect it and run default style tasks and reload the development server. Make a change to any file, such as the **./src/components/accordion/accordion.scss**.
+
+```shell
+[0] 👀 Detected change on ./src/components/accordion/_accordion.scss
+[0] ⚫ Tokens in @pttrn/config/tokens.js out src/config/_tokens.scss
+[0] 🤓 Lint suggestions for ./src/scss/default.scss
+[0] 💅 Sass in ./src/scss/default.scss out dist/css/default.css
+[0] 💅 PostCSS on dist/css/default.css
+[0] 👀 Serve reloading
+```
+
+The change was detected and the style scripts were run.
+
+## `scaffold` command
+
+The `scaffold` command will create a minimal base project with the following:
+
+* CSS only Details Component
+* Configuration files for Tokens, Rollup.js, Sass, and Tailwindcss
+* Simple Sass library
+* Single page static demo site
+
+```shell
+$ npx pttrn scaffold
+
+✨ ./src was made.
+✨ ./src/views was made.
+✨ ./src/views/index.slm was made.
+✨ ./src/utilities was made.
+✨ ./src/utilities/typography was made.
+✨ ./src/utilities/typography/_typography.scss was made.
+✨ ./src/utilities/tailwindcss was made.
+✨ ./src/utilities/tailwindcss/_tailwindcss.scss was made.
+✨ ./src/utilities/padding was made.
+✨ ./src/utilities/padding/_padding.scss was made.
+✨ ./src/utilities/color was made.
+✨ ./src/utilities/color/_color.scss was made.
+✨ ./src/svg was made.
+✨ ./src/svg/a-perfect-heart.svg was made.
+✨ ./src/svg/a-perfect-heart-red.svg was made.
+✨ ./src/slm was made.
+✨ ./src/slm/layouts was made.
+✨ ./src/slm/layouts/default.slm was made.
+✨ ./src/scss was made.
+✨ ./src/scss/default.scss was made.
+✨ ./src/scss/_imports.scss was made.
+✨ ./src/objects was made.
+✨ ./src/js was made.
+✨ ./src/js/default.js was made.
+✨ ./src/elements was made.
+✨ ./src/elements/base was made.
+✨ ./src/elements/base/_base.scss was made.
+✨ ./src/elements/base/_base-first-last.scss was made.
+✨ ./src/config was made.
+✨ ./src/config/_type.scss was made.
+✨ ./src/config/_tokens.scss was made.
+✨ ./src/config/_grid.scss was made.
+✨ ./src/config/_get.scss was made.
+✨ ./src/config/_border.scss was made.
+✨ ./src/components was made.
+✨ ./src/components/details was made.
+✨ ./src/components/details/details.slm was made.
+✨ ./src/components/details/details.md was made.
+✨ ./src/components/details/_details.scss was made.
+✨ ./dist was made.
+✨ ./config was made.
+✨ ./config/tokens.js was made.
+✨ ./config/tailwindcss.js was made.
+✨ ./config/sass.js was made.
+✨ ./config/rollup.js was made.
+```
+
+Then run the following to start the development server and start making.
+
+```shell
+$ npx concurrently 'pttrn default -w' 'pttrn serve -w' -p 'none'
+
+👀 Serve watching ./dist/**/*.html, ./dist/**/*.css, ./dist/**/*.js
+🤓 Serving ./dist/ to http://localhost:7000
+👀 Slm watching ./config/slm.js, ./src/**/*.slm, ./src/**/*.md
+👀 Svgs watching ./src/svg/**/*.svg
+👀 Rollup watching ./config/rollup.js, ./src/**/*.js
+👀 Styles watching ./src/**/*.scss, ./config/tokens.js, ./config/tailwindcss.js
+```
+
+## `start` command
+
+Add this `start` script in your *package.json* file to create a shorthand for the development server command.
+
+```json
+"scripts": {
+  "start": "cross-env NODE_ENV=development cross-env PORT=7000 concurrently \"pttrn -w\" \"pttrn serve -w\" -p \"none\""
+}
+```
+
+This will hook into npm script's default start command for your project. Once this script is in place starting the server and watching files becomes can be done with the following command:
+
+```shell
+$ npm start
+
+> @nycopportunity/pttrn-starter@0.1.0 start /@nycopportunity/pttrn-starter
+> cross-env NODE_ENV=development cross-env PORT=7000 concurrently "pttrn default -w" "pttrn serve -w" -p "none"
+
+👀 Serve watching ./dist/**/*.html, ./dist/**/*.css, ./dist/**/*.js
+🤓 Serving ./dist/ to http://localhost:7070
+👀 Slm watching @pttrn/config/slm.js, ./src/**/*.slm, ./src/**/*.md
+👀 Svgs watching ./src/svg/**/*.svg
+👀 Rollup watching @pttrn/config/rollup.js, ./src/**/*.js
+👀 Styles watching ./src/**/*.scss, @pttrn/config/tokens.js, @pttrn/config/tailwind.js
+```
+
+## `publish` command
+
+Before publishing you'll need to have Git initialized for your project. The following lines will initialize Git and add prevent **/node_modules** from being committed to your project.
+
+```shell
+$ git init
+$ touch .gitignore
+$ echo '/node_modules' >> .gitignore
+```
+
+Then you can make the first commit by staging the working directory and committing.
+
+```shell
+$ git add .
+$ git commit -m 'init'
+```
+
+You will also need a remote git repository with the repository settings, specifically the url, are configured in your **package.json** file.
+
+```json
+"repository": {
+  "type": "git",
+  "url": "https://github.com/CityOfNewYork/pttrn-starter.git"
+}
+```
+
+Adding the `version`, `prepublishOnly`, and `publish` scripts in your **package.json** file wil create shorthands for quickly versioning and publishing your library on **npmjs.org**.
+
+```json
+"scripts": {
+  "version": "pttrn && git add .",
+  "prepublishOnly": "git push && git push --tags",
+  "publish": "cross-env NODE_ENV=production pttrn publish"
+}
+```
+
+When versioning your library you can pass `major`, `minor`, `patch`, or `prerelease` as the argument following [semantic versioning](https://semver.org/).
+
+```shell
+$ npm version minor
+v0.1.0
+
+> @nycopportunity/pttrn-starter@0.1.0 version /@nycopportunity/pttrn-starter
+> pttrn default && git add .
+
+✨ Slm in ./src/views/accordion.slm out ./dist/accordion.html
+🤸 Running Pa11y CI on ./dist/accordion.html
+🗞️ Rollup in src/js/default.js out dist/js/default.js
+✨ Rollup finished
+⚫ Tokens in @pttrn/config/tokens.js out src/config/_tokens.scss
+🤓 Lint suggestions for ./src/scss/default.scss
+💅 Sass in ./src/scss/default.scss out dist/css/default.css
+🤸 No Pa11y suggestions for ./dist/accordion.html
+✨ Slm finished
+💅 PostCSS on dist/css/default.css
+✨ Styles finished
+```
+
+... then publish to [npm](https://www.npmjs.com/) for integration in other projects...
+
+```shell
+$ npm publish
+
+> @nycopportunity/pttrn-starter@0.1.0 prepublishOnly .
+> git push && git push --tags
+
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 379 bytes | 379.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/CityOfNewYork/pttrn-starter
+   40e700a9..330cbad2  master -> master
+Everything up-to-date
+npm notice
+npm notice 📦  @nycopportunity/pttrn-starter@0.1.0
+npm notice === Tarball Contents ===
+npm notice 71B   dist/css/default.css
+npm notice 1.1kB dist/accordion.html
+npm notice 590B  src/components/accordion/accordion.js
+npm notice 2.5kB dist/js/default.js
+npm notice 127B  src/js/default.js
+npm notice 1.6kB package.json
+npm notice 87B   src/components/accordion/accordion.md
+npm notice 99B   readme.md
+npm notice 585B  src/components/accordion/readme.md
+npm notice 186B  src/components/accordion/_accordion.scss
+npm notice 198B  src/config/_accordion.scss
+npm notice 771B  src/config/_tokens.scss
+npm notice 40B   src/scss/default.scss
+npm notice 69B   src/components/accordion/accordion.slm
+npm notice 421B  src/views/accordion.slm
+npm notice 843B  src/slm/layouts/default.slm
+npm notice 232B  dist/svg/svgs.svg
+npm notice === Tarball Details ===
+npm notice name:          @nycopportunity/pttrn-starter
+npm notice version:       0.1.0
+npm notice package size:  4.6 kB
+npm notice unpacked size: 9.5 kB
+npm notice shasum:        47e2e2063c731c9c2b24841cce4288d457cf75c6
+npm notice integrity:     sha512-gXB4U+AJhlGDo[...]O/CzKHv1LUz4w==
+npm notice total files:   17
+npm notice
+
+> @nycopportunity/pttrn-starter@0.1.0 publish .
+> cross-env NODE_ENV=production pttrn publish
+
+🤓 Publishing to origin; https://github.com/CityOfNewYork/pttrn-starter.git
+✨ Published to GitHub Pages
++ @nycopportunity/pttrn-starter@0.1.0
+```
 
 ## CLI
 
-Individal commands can be executed using the `pttrn` command which maps to this package's bin script. Avaliable commands can be seen below.
+### Executing the binary
 
-    pttrn {{ command }}
+The key to using the cli is executing the **pttrn** binary in the *node_modules/.bin* directory when you install this module in your project. There are a few ways to execute the local binary;
 
-Each script has corresponding configuration files in the **config/** directory.
+**$A** Use [npx](https://www.npmjs.com/package/npx) before every `pttrn` command. For most cases this is the most convenient option as demonstrated in the getting started guide above.
+
+```shell
+$ npx pttrn {{ command }}
+```
+
+**$B** Create an alias to the binary in your shell environment configuration file (such as *.profile* or *.bash_profile*)
+
+```shell
+alias pttrn="./node_modules/.bin/pttrn"
+```
+
+Then running commands can be done like so:
+
+```shell
+$ pttrn {{ command }}
+```
+
+**$C** Or, add an npm script to your *package.json* file. npm will always execute local binaries referenced in the scripts block.
+
+```json
+"scripts": {
+  "pttrn": "pttrn"
+}
+```
+
+Then running commands can be done like so:
+
+```shell
+$ npm run pttrn {{ command }}
+```
 
 ### Commands
 
-Command                           | Configuration           | Optional&nbsp;Flags | Description
-----------------------------------|-------------------------|---------------------|-
-`default`                         |                         | -w -n               | Lints files then asynchronously runs the _scripts_, _styles_, _svg_, and _build_ scripts (detailed below).
-`serve`                           |                         | -w -n               | Starts and Express app that serves the static files in the *./dist/* directory. By default it runs on port `7000` but this can be modified by the `PORT` environment variable.
-[`make`](./docs/commands/make.md) | *make.js*               |                     | Starts a survey prompt for creating a new pattern using templates defined in the configuration. [Read the `make` command docs](./docs/commands/make.md).
-`lint`                            | *package.json*          |                     | Lints JS and Sass files in the *./src/* directory using the `eslintConfig` and `stylelintConfig` objects in the *package.json* file.
-`rollup `                         | *rollup.js*             | -w -n               | Runs Rollup.js, compiling pattern scripts defined in the configuration from ES Modules into CommonJS and/or iffe modules.
-`styles`                          |                         | -w                  | Syncronously runs the _tokens_, _sass_, and _postcss_ scripts (detailed below).
-`tokens`                          | *tokens.js*             | -w -n               | Converts *./config/tokens.js* into *./src/config/_tokens.scss*.
-`sass`                            | *sass.js*               |                     | Processes pattern Sass stylesheets defined in the configuration into CSS. If the NODE_ENV is set to "development" only the modules with the attribute `devModule: true` will be compiled.
-`postcss`                         | *sass.js*, *postcss.js* |                     | Runs PostCSS on Patterns CSS stylesheets defined in the *./config/sass.js* into CSS. PostCSS plugins are defined in the configuration.
-`svgs`                            |                         | -w -n               | Optimizes SVGS in the *./src/svg/* directory into the *./dist/svg* directory and creates an svg sprite for library icons in the *./dist/icons.svg* file.
-`slm`                             | *tokens.js*, *slm.js*   | -w                  | Compiles Slm Lang files in *./src/views/* directory into static .html pages in the *./dist* directory.
-`locals`                          | *tokens.js*, *slm.js*   |                     | This isn't a CLI script but it exports the local variables for the slm-lang templates.
-`publish`                         | *publish.js*            |                     | Publishes the *./dist* directory to the `gh-pages` branch of the repository.
+The basic pattern for commands is as follows:
+
+```shell
+$ {{ ENVIRONMENT_VARIABLE }}={{ value }} npx pttrn {{ command }} {{ flag }}
+```
+
+Every command is configured with one or a series of JavaScript files inside the [./config](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/main/config/) directory. **@pttrn** will check to see if there is an custom configuration file in the **./config** directory of the project it is installed in first. If it doesn't exist it will use the default configuration file in the **@pttrn** package. Project configurations can be used to pass in additional and custom options to each package that **@pttrn** uses. Below the packages used and default configurations are described in more detail.
+
+Optional [flags](#flags) can be passed to the commands for signaling watching and log settings. The log settings are universal so they aren't represented in the command tables below.
+
+- [`default`](#default)
+- [`styles`](#styles)
+- [`tokens`](#tokens)
+- [`sass`](#sass)
+- [`postcss`](#postCSS)
+- [`rollup`](#rollup)
+- [`lint`](#lint)
+- [`slm`](#slm)
+- [`pa11y`](#pa11y)
+- [`svgs`](#svgs)
+- [`scaffold`](#scaffold)
+- [`make`](#make)
+- [`serve`](#serve)
+- [`publish`](#publish)
+
+---
+
+#### Default
+
+Command          | Flags | Configuration | `NODE_ENV`
+-----------------|-------|---------------|-
+`default` or ` ` | `-w`  | n/a           | `production` or `development`
+
+Syncronously runs this series of commands; `styles`, `rollup`, `slm`, and `svgs` respectfully and described below.
+
+---
+
+#### Styles
+
+Command  | Flags | Configuration | `NODE_ENV`
+---------|-------|---------------|-
+`styles` | `-w`  | n/a           | `production` or `development`
+
+Syncronously runs this series of commands; `tokens`, `sass`, and `postcss` respectfully and described below.
+
+---
+
+#### Tokens
+
+Command  | Flags | Configuration
+---------|-------|-
+`tokens` | n/a   | *tokens.js*
+
+Uses [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) to convert design tokens defined in [./config/tokens.js](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/main/config/tokens.js) into **./src/config/_tokens.scss**. Tokens can be custom values for your Sass library as well as be values mapped directly to tokens in the Tailwindcss configuration (if used by your project). CSS variables can also be used in the token configuration. Note, other Tailwindcss configuration options, such as variants and modules should be configured in the `tailwindcss` configuration.
+
+Settings for [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) are set at the root level of the export and include setting the file output and specific transformation options. Refer to the source for available options.
+
+A custom `tokens` configuration is highly recommended (if not required) for any patterns library that uses **@pttrn** to manage unique design tokens.
+
+---
+
+#### Sass
+
+Command | Flags | Configuration | `NODE_ENV`
+--------|-------|---------------|-
+`sass`  | `-nl` | *sass.js*     | `production` or `development`
+
+Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entrypoint [./src/scss/default.js](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/main/config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
+
+A custom `sass` configuration could be used to add additional Sass modules to compile.
+
+---
+
+#### PostCSS
+
+Command   | Flags | Configuration
+----------|-------|-
+`postcss` | n/a   | *postcss.js* *tailwindcss.js*
+
+Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the **./config/tailwindcss.js** file where a custom [Tailwindcss confugration](https://tailwindcss.com/docs/configuration) would live.
+
+A custom `postcss` configuration could be used to configure PostCSS and add additional plugins needed for a particular project.
+
+A custom `tailwindcss` configuration can easliy import values from the `tokens` configuration to generate Tailwindcss utilities.
+
+---
+
+#### Rollup
+
+Command  | Flags      | Configuration | `NODE_ENV`
+---------|------------|---------------|-
+`rollup` | `-w` `-nl` | *rollup.js*   | `production` or `development`
+
+Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default it will bundle the default JavaScript entrypoint [./src/js/default.js](https://github.com/CityOfNewYork/nyco-patterns-framework/blob/main/config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
+
+* [Replace](https://github.com/rollup/plugins/tree/master/packages/replace) for replacing `process.env.NODE_ENV` in scripts with the `NODE_ENV` environment variable passed through the command.
+* [Node Resolve](https://github.com/rollup/plugins/tree/master/packages/node-resolve) for resolving module imports from the **./node_modules** directory.
+
+##### NODE_ENV
+
+The value `development` will affect the command directly by compiling only the modules with the attribute `devModule: true` (the default entrypoint module is a development module).
+
+Other ES modules in your library can use the `process.env.NODE_ENV` for things such as logging to the console during development. Say the following line appears in an ES module:
+
+```javascript
+if (process.env.NODE_ENV != 'production')
+  console.dir('A development only log');
+```
+
+If `NODE_ENV` is set any value other than `production` the statement above will appear in the output as the following:
+
+```javascript
+{
+  console.dir('A development only log');
+}
+```
+
+If `NODE_ENV` is set to `production` then the statement will not appear at all.
+
+##### Internet Explorer 11 Support
+
+IE 11 is no longer supported. If you absolutely must support it you will need to install and configure [Rollup Plugin Bublé](#https://github.com/rollup/plugins/tree/master/packages/buble) or [Rollup Plugin Babel](https://github.com/rollup/plugins/tree/master/packages/babel) and configure them in your project.
+
+A custom `rollup` configuration could be used to add additional output modules to support additional JavaScript environments, such as NodeJS, as well as utilize additional Rollup plugins needed for a particular project.
+
+---
+
+#### Lint
+
+Command | Flags | Configuration
+--------|-------|-
+`lint`  | n/a   | *lint.js*
+
+Uses [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to lint JavaScript and Sass files in the **./src/** directory. Linting suggestions are logged to the terminal. The default `lint` configuration uses [Google's JavaScript styleguide](https://github.com/google/eslint-config-google) and [stylelint's standard config](https://github.com/stylelint/stylelint-config-standard) with a few additional rules.
+
+A custom `lint` configuration could be used to change or extend the linting standards of a project.
+
+---
+
+#### Slm
+
+Command | Flags      | Configuration | `NODE_ENV`
+--------|------------|---------------|-
+`slm`   | `-w` `-np` | *slm.js*      | `production` or `development`
+
+Uses [Slm](https://github.com/slm-lang/slm) to compile Slm and Markdown files to static HTML in the **./dist** directory. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
+
+##### Include
+
+The include method, `this.include()`, accepts a single path argument of a file to be included. It will return the compiled HTML output of the file. Prefixing the method with the single equals sign `=` will escape the returned HTML enabling it to be rendered within a `pre` tag as a code demonstration on the page.
+
+```pug
+= this.include('components/accordion/accordion.slm');
+```
+
+The double equals sign `==` will prevent HTML escaping and render the HTML as a valid element to be rendered by the browser.
+
+```pug
+== this.include('components/accordion/accordion.slm');
+```
+
+Passing an **.md** file path without escaping will render the markdown file as HTML.
+
+```pug
+== this.include('components/accordion/accordion.md');
+```
+
+The `slm` command only supports Slm and Markdown files so other file types included by this method will be rendered "as is."
+
+Markdown files can also include Slm and other Markdown files using the following tag:
+
+```markdown
+include{{ path/to/file.slm }}
+```
+
+##### Variables
+
+The default `slm` configuration passes global variables to use in Slm templates. These include the **package.json**, **./config/global.js**, and **./config/tokens.js** files. Additionally, the `NODE_ENV` is also passed to templates.
+
+```pug
+= this.package
+= this.global
+= this.tokens
+= this.process.env.NODE_ENV
+```
+
+Variables are also available to Markdown files using the following tag:
+
+```pug
+{{ this.package }}
+{{ this.global }}
+{{ this.tokens }}
+{{ this.process.env.NODE_ENV }}
+```
+
+A custom `slm` configuration could be used to be used to pass additional data and methods to the view templates as well as futher configure JS Beautify and Marked.
+
+---
+
+#### Pa11y
+
+Command | Flags | Configuration
+--------|-------|-
+`pa11y` | n/a   | *pa11y.js*
+
+Uses [Pa11y](https://github.com/pa11y/pa11y) to test the static output of HTML files in the **./dist** directory for accessibility issues. Issues are logged to the terminal. The default `pa11y` configuration uses the WCAG AA [accessibility standard](https://github.com/pa11y/pa11y#standard-string), aXe-core and HTML CodeSniffer as [test runners](https://github.com/pa11y/pa11y#runners), and adds the selector `[data-pa11y="disable"]` to that can be used to [hide elements](https://github.com/pa11y/pa11y#hideelements-string) that shouldn't be tested in the static output.
+
+A custom `pa11y` configuration could be used to enable or disable many of the avaliable [configuration options for Pa11y](https://github.com/pa11y/pa11y#configuration).
+
+---
+
+#### Svgs
+
+Command | Flags | Configuration
+--------|-------|-
+`svgs`  | `-w`  | *svgs.js*
+
+Uses [svgo](https://github.com/svg/svgo) to optimize SVGs in the **./src/svg/** directory and saves them in the **./dist/svg** directory. Then, it uses [svgstore](https://github.com/svgstore/svgstore) to create an SVG sprite in the **./dist/svg/svgs.svg** file of all the optimized SVGs. The `svg` configuration passes svg file name prefix and svg sprite name settings to each package.
+
+A custom `pa11y` configuration could be used to enable or disable many of the
+
+---
+
+#### Scaffold
+
+Command    | Flags | Configuration
+-----------|-------|-
+`scaffold` | n/a   | *global.js* *scaffold/*
+
+As described in the [Scaffold guide](#scaffold-command) above this command will initalize a minimal base project with the following:
+
+* CSS only Details Component
+* Configuration files for Tokens, Rollup.js, Sass, and Tailwindcss
+* Simple Sass library
+* Single page static demo site
+
+The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entrypoints for a project. It also relys on file templates in the **./config/scaffold/** directory to source the contents of files described in the system.
+
+A custom `scaffold` configuration could be used to change the output of the scaffolded filesystem and contents of files for a project.
+
+---
+
+#### Make
+
+Command | Arguments                          | Flags | Configuration     |
+--------|------------------------------------|-------|-------------------|-
+`make`  | `type` `name` `template`(optional) | n/a   | *make.js* *make/* |
+
+Creates pattern directories and files using paths and variables defined in the `make` configuration with file contents defined in the **./config/make** directory as described in the [`make` command guide](#make-command). It will not permit overwritting pattern files if they already exist.
+
+##### Arguments
+
+- `type` - Determines where in the filesystem patterns will be stored. One of; `element`, `component`, `object`, or `utility`
+- `pattern` - Name of the pattern
+- `template` (optional) - If included the third argument can be used to create a single template from the **./config/make** directory. By default all files will be made.
+
+A custom `make` configuration could be used to add custom files with predefined templates in the **./config/make** direcory. **@pttrn** currently supports CSS and ES module based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
+
+Refer to the guide on [creating a new `make` command template](#creating-a-new-make-command-template) for details.
+
+##### Template directory
+
+Templates are stored in the **./config/make/** directory. These are the templates used for the files created by the `make` command.
+
+---
+
+#### Serve
+
+Command | Flags | Configuration | `PORT`
+--------|-------|---------------|-
+`serve` | `-w`  | n/a           | Any port number (ex; `8080`)
+
+Uses [Express](https://expressjs.com/) to serve static files in the **./dist/** directory. By default it runs on port `7000`. The `serve` command doesn't have a configuration file, however, the port number can be configured through the environment variable `PORT`.
+
+---
+
+#### Publish
+
+Command   | Flags | Configuration | `NODE_ENV`
+----------|-------|---------------|-
+`publish` | n/a   | *publish.js*  | `production` or `development`
+
+Uses [gh-pages](https://github.com/tschaub/gh-pages) to stand up the static output in the **./dist** directory to the [GitHub Pages](https://pages.github.com/) branch of your project's remote repository. The default `publish` configuration uses the `NODE_ENV=production` environment variable to push to the package repository url defined in the **package.json** file.
+
+A custom `publish` configuration could be used to push to different remote GitHub Pages repositories.
+
+---
 
 ### Flags
 
-Flag | Full&nbsp;Flag | Description
------|----------------|-
-`-w` | `--watch`      | Use [Nodemon](https://www.npmjs.com/package/nodemon) to watch source files and rerun the command when changes are made.
-`-n` | `--noisy`      | Some commands use [ShellJS](https://www.npmjs.com/package/shelljs) to execute other command line tasks. By default, their native output is silenced by configuring ShellJS to execute commands silently. This will allow those commands to show their native output.
+Flag                     | Description
+-------------------------|-
+`-w` or `--watch`        | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
+`-nd` or `--nondescript` | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
+`-s` or `--silent`       | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
+`-nl` or `--no-lint`     | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
+`-np` or `--no-pa11y`    | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
 
-### NODE_ENV
+### Alerts
 
-Some scripts, particularly `sass`, `rollup`, and `publish` require setting the `NODE_ENV` version to `production` or `development` in order to run. Patterns should be compiled in the production environment before publishing. The `npm publish` script will do this automatically.
+[Node Emoji](https://github.com/omnidan/node-emoji#readme) and [Chalk](https://github.com/chalk/chalk) are used to illustrate the logging alert output. The emoji symbols and colors can be modified with a custom **./config/alerts.js** configuration file.
 
-    NODE_ENV=production pttrn rollup
+### ES Configuration
 
-## Optional dependencies
+You may have noticed the `scaffold` command will create a `.config/rollup.mjs` configuration file. [Node.js has a stable support of the ECMAScript module spec](https://nodejs.org/api/esm.html) and they can be imported into traditional CommonJS (Node Modules). The configuration script will resolve ES Modules with the **.mjs** extension over **.js** files, however, use of ES Module configuration hasn't been fully tested with all of the commands.
 
-The following dependencies are optional as they are used by configuration files. If your pattern library uses them they will need to be added manually.
+### NPM Scripts
 
-    @rollup/plugin-buble
-    @rollup/plugin-commonjs
-    @rollup/plugin-node-resolve
-    @rollup/plugin-replace
-    autoprefixer
-    chalk
-    css-mqpacker
-    cssnano
-    eslint-config-google
-    node-emoji
-    rollup-plugin-babel
-    stylelint-config-standard
-    tailwindcss
+The recommended [npm scripts](https://docs.npmjs.com/misc/scripts) below create shortcuts for using the cli and hook into other npm methods to make starting, versioning, and publishing more convenient. They can be modified to suit the needs of a particular project. Add them to your project's *package.json* file.
 
-However, if you do not want to include them you will need to update the config files for PostCSS (config/postcss.js), Rollup.js (config/rollup.js), and alerts (config/alerts.js) by removing the required/imported dependencies and instances of their use in the file.
+```json
+"scripts": {
+  "start": "cross-env NODE_ENV=development concurrently \"pttrn -w\" \"pttrn serve -w\" -p \"none\"",
+  "version": "npm run default && git add .",
+  "prepublishOnly": "git push && git push --tags",
+  "publish": "cross-env NODE_ENV=production pttrn publish",
+  "default": "cross-env NODE_ENV=production pttrn"
+}
+```
 
-## Updating
+Then each script can be run using the following outline:
 
-It's easiest to specify a version of the framework to update to as well as link the updated version.
+```shell
+$ npm run {{ script }} {{ arg }}
+```
 
-    npm install @nycopportunity/patterns-framework@{{ version }}
+With the exception of `start`, `version`, and `publish` which hook into default npm commands.
 
-    npm link @nycopportunity/patterns-framework@{{ version }}
+```shell
+$ npm {{ start / version / publish }} {{ arg }}
+```
 
-## NVM
+Script           | Description
+-----------------|-
+`start`          | Hooks into the [npm-start](https://docs.npmjs.com/cli/v6/commands/npm-start) script to concurrently run the `default` and `serve` commands in watching mode for development.
+`version`        | Hooks into the [npm-version](https://docs.npmjs.com/cli/v6/commands/npm-version) script to commit a production ready distribution and semantic version tag for publishing. It accepts an argument describing the version number to increment such as `patch`, `minor`, `major`, or `prerelease`.
+`prepublishOnly` | Hooks into the [npm `prepublishOnly` script](https://docs.npmjs.com/misc/scripts) to push the latest distribution and semantic version tag to the remote repository for publishing.
+`publish`        | Hooks into the [npm-publish](https://docs.npmjs.com/cli/v6/commands/npm-publish) script to push the contents of the **./dist** folder in the remote repositories GitHub Pages branch.
+`default`        | Runs the `default` command in production mode to build a production ready distribution.
 
-If you are using `nvm` to manage versions of node, be sure you are using the correct version of node in your project directory. `npm link` creates a symlink to *node_modules/@nycopportunity/patterns-framework* in the current environment's node folder. Therefore, the CLI will reference the linked package in the environment's version of node.
+**start**
 
-## Design System Methodology
+* `cross-env` - A package for the support of setting environment variables across terminal platforms.
+* `NODE_ENV=development` - Sets the node environment variable to `development`.
+* `PORT=7000` - Sets the development server port environment variable to `7000`.
+* `concurrently` - A node.js package for running multiple commands in the same session.
+* `pttrn -w` - Runs the default pttrn command in watch mode.
+* `pttrn serve -w` - Runs the serve pttrn command for starting the development server.
+* `-p "none"` - This is a flag for Concurrently that removes the process prefix (`[0]`) from the log.
 
-![Elements, Components, Objects](./docs/images/naming-01.png)
+**version**
 
-All of your project's source code will be organized into four directories: **Elements**, **Components**, **Objects**, and **Utilities**. Read about this system in the [documentation](./docs/patterns.md). The [`make` command](./docs/commands/make.md) automatically takes care of the organization for you, creating the necessary files based on templates in the [`make` config](./config/make.js).
+- `pttrn` - This is the same as `npx pttrn default`. It will run **@pttrn** executable in the local **./node_modules** directory.
+- `git add .` - This stages the working directory for a commit. Since it runs after the default **@pttrn** command anything compiled will be committed to the release.
 
-    src/elements/pattern
-    src/components/pattern
-    src/objects/pattern
-    src/utilities/pattern
+**prepublishOnly**
 
-Each Pattern directory will contain all of the files needed for it's
+- `git push` - This will push the committed release files to the origin repository.
+- `git push --tags` - This will push the committed release tag to the origin repository.
 
-    src/component/pattern/pattern.slm   // Markup
-    src/component/pattern/pattern.js    // JavaScript
-    src/component/pattern/_pattern.scss // Styling
-    src/component/pattern/pattern.md    // Documentation
-    src/component/pattern/readme.md     // Developer Usage
+**publish**
 
-### Utilities
+- `cross-env NODE_ENV=production` - This sets the `NODE_ENV` variable to `production` for the next command.
+- `pttrn publish` - Takes the contents of the **./dist** directory and commits it to the `gh-pages` branch to create a [GitHub Pages](https://pages.github.com) site using the [gh-pages](https://github.com/tschaub/gh-pages) package.
 
-Utilities are reusable single-attribute styles used to customize markup. They are not tied to any element, component, or object, but they can override properties in certain contexts and help build views more efficiently by having to write less CSS. The Pattern Framework can rely on [Tailwindcss](https://tailwindcss.com/) for most stylistic utilities, although, it is an optional dependency.
+## Creating a new `make` command template
 
-### Design Tokens
+Custom templates can be created by the make script by creating a custom `make` configuration, modifying the settings, and adding a new template file in the [**./config/make/**](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/main/config/make/) directory. These are the steps that would need to be taken to include a [React](https://reactjs.org/) component template in the `make` command.
 
-Design Tokens are named variables that store visual properties. They are shared between JavaScript and Sass files using the `tokens` command which converts stored tokens in *./config/tokens.js* into *./src/config/_tokens.scss*. They can also be passed to the [Tailwindcss Configuration](https://tailwindcss.com/docs/configuration) for customization of CSS utilities.
+### Step 1: template contents
 
-## Cross-Utility Library
+First, a new template would be defined in the **./config/make/react.jsx** and a j template string would written to the content of any new React file;
 
-The pattern framework ships with shared ES Utility Modules (and some Sass) for front-end development which includes helpers for Form Validation, Toggling Elements, etc. Browse the current set in the [documentation](./docs/readme.md).
+```jsx
+class {{ Pattern }} extends React.Component {
+  render() {
+    return (
+      <div>
+        Hello {this.props.name}!
+      </div>
+    );
+  }
+}
 
-## Documentation
+ReactDOM.render(
+  <{{ Pattern }} name="World" />,
+  document.getElementById('js-{{ pattern }}')
+);
+```
 
-Additional [documentation can be found here](./docs/readme.md).
+#### Template Variables
+
+Within the template string, there are a handful of variables referencing the new pattern's name that will be replaced when the template is compiled. They are denoted by double brackets `{{  }}`;
+
+* `{{ type }}` - The pattern type defined by the command, will either be `elements`, `objects`, `utilities`.
+* `{{ prefix }}` - The pattern prefix, will either be `o-` for objects or `c-` for components.
+* `{{ pattern }}` - The lower case name of the pattern.
+* `{{ Pattern }}` - The uppercase name of the pattern.
+
+### Step 2: Filename
+
+Next, provide a filename in the `files` export attribute. Filenames use the same template variables above.
+
+```javascript
+files: {
+  'react': '{{ pattern }}.jsx'
+},
+```
+
+### Step 3: Is it optional?
+
+Next, if it is an optional template then add 'react' to the `optional` export attribute. This will generate a prompt to create the file with a yes/no question when running the make script.
+
+```javascript
+optional: [
+  'react'
+],
+```
+
+### Step 4: Where to write the template
+
+Next, if the template should written to every new pattern's dedicated directory (ex; **src/{{ type }}/{{ pattern }}/**) then add 'react' to the `patterns` export attribute. This is the default for most templates except views and Sass config.
+
+```javascript
+patterns: [
+  'react'
+],
+```
+
+If you do not add 'react' to the `patterns` export attribute, then you must provide a path you would like it written to in the `paths` export attribute. For the most part, pattern templates should be closely associated with their pattern so keeping them together is recommended as opposed to writing them to a different directory. However, there may be cases where this needs to be done.
+
+```javascript
+paths: {
+  'react': Path.join(dirs.src, 'js', 'react')
+},
+```
+
+## Optional Dependencies
+
+The CLI ships with several optional dependencies.
+
+* Rollup Plugin Node Resolve
+* Rollup Plugin Replace
+* Chalk
+* Cross ENV
+* cssnano
+* ESLint Config Google
+* Node Emoji
+* Stylelint Config Standard
+* Tailwindcss
+
+To omit these packages to keep your project lean, use the `--no-optional` flag when installing.
+
+```shell
+$ npm install @nycopportunity/pttrn --no-optional
+```
+
+These dependencies are required by the defuault configuration or recommended npm scripts. If you project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
 
 ---
 
