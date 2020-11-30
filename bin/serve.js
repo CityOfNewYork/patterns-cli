@@ -26,8 +26,8 @@ const PORT = process.env.PORT || '7000';
 const DIST = path.join(process.env.PWD, 'dist');
 const GLOBS = [
   './dist/**/*.html',
-  './dist/styles/*.css',
-  './dist/scripts/*.js'
+  './dist/**/*.css',
+  './dist/**/*.js'
 ];
 
  /**
