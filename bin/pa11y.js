@@ -32,14 +32,18 @@ const IGNORE = [
   'objects'
 ];
 
- /**
- * ES Linter
+/**
+ * a11y Linter
  *
  * @param  {String}  file  Glob or file path to lint
  *
  * @return                 Linting data
  */
 const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
+  if (!args.nondescript && !args.silent) {
+    cnsl.lint(`${alerts.accessible} Running Pa11y CI on ${alerts.str.path(file)}`);
+  }
+
   let results = await pa11y(file, config);
 
   if (results.issues.length) {
@@ -57,6 +61,10 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
         `\t${issue.message}`
       ].join(''));
     });
+  } else {
+    if (!args.nondescript && !args.silent) {
+      cnsl.lint(`${alerts.accessible} No Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
+    }
   }
 
   return results;
@@ -64,6 +72,7 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
 
 /**
  * Main script
+ *
  * @param  {String}  file  Glob or file path to lint
  */
 const main = async (file) => {
