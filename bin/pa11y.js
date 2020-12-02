@@ -22,15 +22,6 @@ const alerts = resolve('config/alerts');
 const DIST = path.join(process.env.PWD, 'dist');
 const BASE_PATH = DIST;
 const EXT = '.html';
-const IGNORE = [
-  'scripts',
-  'styles',
-  'svg',
-  'utilities',
-  'elements',
-  'components',
-  'objects'
-];
 
 /**
  * a11y Linter
@@ -53,12 +44,13 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
       cnsl.lint(`${alerts.accessible} Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
     }
 
-    results.issues.forEach((issue) => {
+    results.issues.forEach(issue => {
       cnsl.lint([
-        `${alerts.str.string(issue.context)}\n`,
-        `${alerts.str.comment(issue.code.split(',').pop())}\t`,
-        (issue.type === 'error') ? alerts.str.error('error') : alerts.str.warning('warn'),
-        `\t${issue.message}`
+        `${alerts.str.string(issue.context.split('\n').map(s => s.trim()).join(''))}\n`,
+        `${alerts.str.comment(issue.runner)}\t`,
+        issue.type === 'error' ? alerts.str.error('error') : alerts.str.warning('warn'),
+        `\t${issue.message}  `,
+        `${alerts.str.comment(issue.code.split(',').pop())}\n`
       ].join(''));
     });
   } else {
@@ -96,7 +88,7 @@ const walk = async (file, dir = BASE_PATH) => {
 
   if (file.includes(EXT)) {
     await main(file);
-  } else if (!IGNORE.some(folder => file.includes(folder))) {
+  } else if (fs.lstatSync(file).isDirectory()) {
     try {
       let files = fs.readdirSync(file, 'utf-8');
 
