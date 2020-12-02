@@ -7,5 +7,9 @@ if (undefined === script || script[0] === '-') {
 
   require(`${__dirname}/default`).run();
 } else {
-  require(`${__dirname}/${script}`).run();
+  try {
+    require(`${__dirname}/${script}`).run();
+  } catch (error) {
+    console.log(`"${script}" is not a supported command.`);
+  }
 }

@@ -14,13 +14,15 @@ const cnsl = require(`${__dirname}/util/console`);
 
 const config = resolve('config/publish');
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
 /**
  * Constants
  */
 
-const dist = Path.join(process.env.PWD, 'dist/');
-const remote = (process.env.NODE_ENV === 'production') ? 'origin' : process.env.NODE_ENV;
+const dist = Path.join(global.base, global.dist);
+const remote = (process.env.NODE_ENV === 'production')
+  ? 'origin' : process.env.NODE_ENV;
 
 /**
  * Functions

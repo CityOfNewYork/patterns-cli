@@ -22,7 +22,7 @@ const modules = resolve('config/sass');
  * @param  {Array}  files  The contents of config/sass.js
  */
 const main = async (style) => {
-  let bundle = path.join(process.env.PWD, style.outDir, style.outFile);
+  let bundle = path.join(style.outDir, style.outFile);
   let css = fs.readFileSync(bundle);
 
   try {

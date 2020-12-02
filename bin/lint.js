@@ -15,13 +15,13 @@ const resolve = require(`${__dirname}/util/resolve`);
 
 const config = resolve('config/lint');
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
 /**
  * Constants
  */
 
-const SOURCE = path.join(process.env.PWD, 'src');
-
+const SOURCE = path.join(global.base, global.src);
 const EXT_ES = '.js';
 const EXT_STYLE = '.scss';
 const GLOBS = [

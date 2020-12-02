@@ -12,9 +12,12 @@ const global = resolve('config/global');
  * @type {Object}
  */
 module.exports = {
-  src: `${global.src}/svg`,   // svg source
-  dist: `${global.dist}/svg`, // svg distribution
-  prefix: 'pttrn-',           // Prefix to prepend to optimized svgs
+  /**
+   * Prefix to prepend to optimized svgs
+   *
+   * @type {String}
+   */
+  prefix: 'pttrn-',
 
   /**
    * Plugin options for SVGO

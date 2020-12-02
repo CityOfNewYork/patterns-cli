@@ -14,12 +14,13 @@ const cnsl = require(`${__dirname}/util/console`);
 
 const config = resolve('config/pa11y');
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
 /**
  * Constants
  */
 
-const DIST = path.join(process.env.PWD, 'dist');
+const DIST = path.join(global.base, global.dist);
 const BASE_PATH = DIST;
 const EXT = '.html';
 

@@ -16,6 +16,7 @@ const resolve = require(`${__dirname}/util/resolve`);
 const lint = require(`${__dirname}/lint`);
 
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
 /**
  * Set options to a function for watching config changes
@@ -24,7 +25,7 @@ const alerts = resolve('config/alerts');
  */
 const options = () => {
   let config = resolve('config/rollup', true, false);
-  let source = path.join(process.env.PWD, 'src');
+  let source = path.join(global.base, global.src);
   let ext = '.js';
 
   let modules = config;

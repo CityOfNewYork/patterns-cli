@@ -15,8 +15,9 @@ const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
 
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
-const SOURCE = path.join(process.env.PWD, 'src');
+const SOURCE = path.join(global.base, global.src);
 const EXT = '.scss';
 
 const TOKENS_INPUT = tokens.options().input;

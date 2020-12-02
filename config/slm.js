@@ -14,10 +14,6 @@ const tokens = resolve('config/tokens');
  * @type {Object}
  */
 module.exports = {
-  src: global.src,           // Base source directory for all possible slm files
-  dist: global.dist,         // Distribution for slm files
-  views: global.entry.views, // View directory within source directory ^
-
   /**
    * Options to pass to the marked package
    *

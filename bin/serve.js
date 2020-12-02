@@ -17,13 +17,14 @@ const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
 
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
 /**
  * Constants
  */
 
 const PORT = process.env.PORT || '7000';
-const DIST = path.join(process.env.PWD, 'dist');
+const DIST = path.join(global.base, global.dist);
 const GLOBS = [
   `${DIST}/**/*.html`,
   `${DIST}/**/*.css`,

@@ -4,7 +4,6 @@
  * Dependencies
  */
 
-const path = require('path');
 const jsonToScss = require('json-to-scss/lib/jsJsonFilesToSassScssFiles');
 const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
@@ -29,7 +28,7 @@ const options = () => {
     tailwindcss: tailwindcss,
     jsonToScss: [
       {input: [input]},
-      {output: [path.join(process.env.PWD, output)]},
+      {output: [output]},
       {prefix: config.prefix ? config.prefix.replace(/"/g, '') : '$tokens:'},
       {suffix: config.suffix ? config.suffix.replace(/"/g, '') : ';'},
       {format: config.format ? config.format.replace(/"/g, '') : '.scss'},

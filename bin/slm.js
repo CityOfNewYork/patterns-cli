@@ -20,6 +20,7 @@ const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
 
 const alerts = resolve('config/alerts');
+const global = resolve('config/global');
 
 /**
  * Set options to a function for watching config changes
@@ -28,16 +29,16 @@ const alerts = resolve('config/alerts');
  */
 const options = () => {
   let config = resolve('config/slm', true, false);
-  let source = path.join(process.env.PWD, config.src);
+  let source = path.join(global.base, global.src);
   let base_path = `${source}`;
   let ext = '.slm';
 
   return {
     config: config,
     source: source,
-    dist: path.join(process.env.PWD, config.dist),
+    dist: path.join(global.base, global.dist),
     base_path: base_path,
-    views: `${base_path}/${config.views}`,
+    views: `${base_path}/${global.entry.views}`,
     ext: ext,
     globs: [
       resolve('config/slm', false),

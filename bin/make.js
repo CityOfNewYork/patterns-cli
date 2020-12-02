@@ -13,14 +13,19 @@ const cnsl = require(`${__dirname}/util/console`);
 
 const alerts = resolve('config/alerts');
 const config = resolve('config/make');
+const global = resolve('config/global');
 
 /**
  * Constants
  */
 
-const TYPE = (process.argv[2] === 'utility') ? 'utilities' : `${process.argv[2]}s`;
-const PATTERN = process.argv[3];
-const FILE = process.argv[4];
+const MAKE = process.argv.indexOf('make');
+const TYPE = (process.argv[MAKE + 1] === 'utility')
+  ? 'utilities' : `${process.argv[MAKE + 1]}s`;
+
+const PATTERN = process.argv[MAKE + 2];
+const FILE = process.argv[MAKE + 3];
+
 const FILENAMES = Object.keys(config.files)
   .filter(f => config.optional.indexOf(f) === -1);
 
@@ -122,8 +127,8 @@ const write = async (dir, filetype, callback) => {
  * @param  {String}   pattern  The name of the pattern.
  */
 const defaults = (type, pattern, callback) => {
-  let relative = Path.join(config.dirs.src, type);
-  let absolute = Path.join(config.dirs.base, relative, pattern);
+  let relative = Path.join(global.src, type);
+  let absolute = Path.join(global.base, relative, pattern);
 
   directory(absolute, type, (success) => {
     if (success) {
@@ -159,7 +164,7 @@ const optional = (filetype, pattern, prompt) => {
     let path = (isPattern) ? config.paths.pattern : config.paths[filetype]; // use the patterns default path instead
 
     let relative = parseVariables(path);
-    let absolute = Path.join(config.dirs.base, relative);
+    let absolute = Path.join(global.base, relative);
 
     prompt.question(
       `${alerts.question} Make a ${alerts.str.string(filetype)} file for ${alerts.str.string(pattern)}? y/n ↵ `,

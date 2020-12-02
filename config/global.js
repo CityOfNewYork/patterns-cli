@@ -25,7 +25,8 @@ module.exports = {
     config: 'config',
     scripts: 'js/default.js',
     name: 'Default',
-    views: 'views'
+    views: 'views',
+    svg: 'svg'
   },
 
   /**

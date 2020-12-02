@@ -29,29 +29,11 @@ const alerts = resolve('config/alerts');
  */
 
 /**
- * The main project directories.
- *
- * This is a list of directories for the make script to reference. Changing
- * them will change where things are written. If you want to create a custom
- * directory to write files to, it should be added here.
- *
- * @type {Object}
- */
-const dirs = {
-  base: global.base,
-  src: global.src,
-  config: global.entry.config,
-  view: global.entry.views
-};
-
-/**
  * Make configuration
  *
  * @type {Object}
  */
 module.exports = {
-  dirs: dirs,
-
   /**
    * The main project directory paths.
    *
@@ -66,9 +48,9 @@ module.exports = {
    * @type {Object}
    */
   paths: {
-    config: path.join(dirs.src, dirs.config),
-    view: path.join(dirs.src, dirs.view),
-    pattern: path.join(dirs.src, '{{ type }}', '{{ pattern }}'), // Represents the path for templates defined in the patterns constant.
+    config: path.join(global.src, global.entry.config),
+    view: path.join(global.src, global.entry.views),
+    pattern: path.join(global.src, '{{ type }}', '{{ pattern }}'), // Represents the path for templates defined in the patterns constant.
   },
 
   /**

@@ -27,19 +27,19 @@ const modules = config;
  */
 const main = async (style) => {
   try {
-    let outDir = path.join(process.env.PWD, style.outDir);
+    // let outDir = path.join(process.env.PWD, style.outDir);
     let name = style.outFile;
 
     /** Lint file */
     if (!args.nolint) await lint.main(style.file);
 
-    if (!fs.existsSync(outDir)){
-      fs.mkdirSync(outDir, {recursive: true});
+    if (!fs.existsSync(style.outDir)){
+      fs.mkdirSync(style.outDir, {recursive: true});
     }
 
     let result = sass.renderSync(style);
 
-    fs.writeFileSync(`${outDir}${name}`, result.css);
+    fs.writeFileSync(`${style.outDir}${name}`, result.css);
 
     cnsl.describe(`${alerts.styles} Sass in ${alerts.str.path(style.file)} out ` +
       `${alerts.str.path(style.outDir + name)}`);

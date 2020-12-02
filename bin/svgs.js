@@ -18,6 +18,7 @@ const resolve = require(`${__dirname}/util/resolve`);
 
 const alerts = resolve('config/alerts');
 const config = resolve('config/svgs');
+const global = resolve('config/global');
 
 const plugins = {
   plugins: Object.keys(config.svgo).map((p) => {p: config.svgo[p]})
@@ -27,9 +28,9 @@ const plugins = {
  * Constants
  */
 
-const SOURCE = path.join(process.env.PWD, config.src);
-const DIST = path.join(process.env.PWD, config.dist);
-const FILE = path.join(process.env.PWD, config.dist, config.svgstore.file);
+const SOURCE = path.join(global.base, global.src, global.entry.svg);
+const DIST = path.join(global.base, global.dist, global.entry.svg);
+const FILE = path.join(global.base, global.dist, config.svgstore.file);
 
 const EXT = '.svg';
 const GLOBS = [

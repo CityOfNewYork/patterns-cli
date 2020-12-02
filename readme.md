@@ -1350,7 +1350,7 @@ optional: [
 
 ### Step 4: Where to write the template
 
-Next, if the template should written to every new pattern's dedicated directory (ex; **src/{{ type }}/{{ pattern }}/**) then add `react` to the `patterns` export attribute. This is the default for most templates except views and Sass config.
+Next, if the template should written to every new pattern's dedicated module directory (ex; **src/{{ type }}/{{ pattern }}/**) then add `react` to the `patterns` export attribute. This is the default for most templates except views and Sass config.
 
 ```javascript
 patterns: [
@@ -1358,11 +1358,11 @@ patterns: [
 ]
 ```
 
-If you do not add `react` to the `patterns` export attribute, then you must provide a path you would like it written to in the `paths` export attribute. For the most part, pattern templates should be closely associated with their pattern so keeping them together is recommended as opposed to writing them to a different directory. However, there may be cases where this needs to be done.
+If you do not add `react` to the `patterns` export attribute, then you must provide a path you would like it written to in the `paths` export attribute. Below would write the new `react` template to the **./src/js/** directory.
 
 ```javascript
 paths: {
-  'react': Path.join(dirs.src, 'js', 'react')
+  'react': path.join(global.src, 'js', 'react')
 }
 ```
 
