@@ -31,6 +31,7 @@ module.exports = {
   compression: emoji.get('compression') + ' ',
   package: emoji.get('package'),
   accessible: emoji.get('person_doing_cartwheel'),
+  loading: emoji.get('hourglass_flowing_sand'),
 
   /**
    * Chalk configuration. Refer to the package for details on the available

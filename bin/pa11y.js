@@ -32,7 +32,7 @@ const EXT = '.html';
  */
 const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
   if (!args.nondescript && !args.silent) {
-    cnsl.lint(`${alerts.accessible} Running Pa11y CI on ${alerts.str.path(file)}`);
+    cnsl.lint(`${alerts.loading} Running Pa11y CI on ${alerts.str.path(file)}`);
   }
 
   let results = await pa11y(file, config);
@@ -41,7 +41,7 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
     if (args.nondescript || args.silent) {
       cnsl.lint(`${alerts.str.path(results.pageUrl)}`);
     } else {
-      cnsl.lint(`${alerts.accessible} Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
+      cnsl.lint(`${alerts.error} Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
     }
 
     results.issues.forEach(issue => {
@@ -55,7 +55,7 @@ const a11y = async (file = `${process.env.PWD}/dist/index.html`) => {
     });
   } else {
     if (!args.nondescript && !args.silent) {
-      cnsl.lint(`${alerts.accessible} No Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
+      cnsl.lint(`${alerts.success} No Pa11y suggestions for ${alerts.str.path(results.pageUrl)}`);
     }
   }
 
