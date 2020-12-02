@@ -10,7 +10,7 @@ const alerts = resolve('config/alerts');
 /**
  * Templates
  *
- * Templates are stored in the config/make directory. These are the templates
+ * Templates are stored in the ./config/make directory. These are the templates
  * used for the different filetypes. There are a few template variables that
  * are interpolated in by the make.js script;
  *
@@ -45,7 +45,7 @@ const dirs = {
 };
 
 /**
- * Make Configuration
+ * Make configuration
  *
  * @type {Object}
  */

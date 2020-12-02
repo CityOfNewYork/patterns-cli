@@ -6,7 +6,10 @@
 // const tokens = require('./tokens.js');
 
 /**
- * Config
+ * Tailwindcss Config
+ *
+ * @source https://tailwindcss.com/docs/configuration
+ *
+ * @type {Object}
  */
-
 module.exports = {};

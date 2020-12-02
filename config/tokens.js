@@ -14,11 +14,13 @@ const package = resolve('package.json');
  */
 module.exports = {
   /**
-   * Possiple options (and their defaults) to pass to json-to-scss
+   * JSON-TO-SCSS configuration. Below possible options and their defaults are listed
    *
-   * @type {Source} https://github.com/rlapoele/json-to-scss
+   * @source https://github.com/rlapoele/json-to-scss
+   *
+   * @type {Mixed}
    */
-  output: `"${global.src}/${global.entry.config}/_tokens.scss"`,
+  output: `"${path.join(global.base, global.src, global.entry.config, '_tokens.scss')}"`,
   // prefix: '"$tokens:"',
   // suffix: '"";""',
   // format: '".scss"',
@@ -31,6 +33,18 @@ module.exports = {
   // keys: 'auto',
   // values: 'auto',
   // stringKeys: '"family,font-family,fontfamily,font-stack,fontstack,font-face,fontface"',
+
+  /**
+   * Design tokens. These can be custom values for your Sass library as well
+   * as be values mapped directly to tokens in the Tailwindcss configuration.
+   * CSS variables can also be used in the token configuration. Note, other
+   * Tailwindcss configuration options, such as variants and modules should
+   * be configured in the `tailwindcss` configuration.
+   *
+   * @source https://tailwindcss.com/docs/configuration
+   *
+   * @type {Mixed}
+   */
   'version': `"${package.version}"`,
   'border': {
     'width': '3px',

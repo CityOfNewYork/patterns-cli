@@ -1,7 +1,9 @@
 /**
- * Configuration options for pa11y
+ * Pa11y configuration. Refer to the package for details on the available options.
  *
- * @param  {String}  url  https://github.com/pa11y/pa11y#configuration
+ * @source https://github.com/pa11y/pa11y#configuration
+ *
+ * @type {Object}
  */
 module.exports = {
   standard: 'WCAG2AA',

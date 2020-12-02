@@ -1,11 +1,11 @@
 /**
- * Global Configuration
+ * Global configuration
  *
  * @type {Object}
  */
 module.exports = {
   /**
-   * Main Project Directories
+   * Main project directories
    *
    * @type {String}
    */
@@ -14,7 +14,8 @@ module.exports = {
   dist: 'dist',
 
   /**
-   * Project Entrypoints
+   * Project entrypoints. These are used by other files to determine defaults.
+   * They must also have a reference in the directories configuration below.
    *
    * @type {Object}
    */
@@ -28,15 +29,17 @@ module.exports = {
   },
 
   /**
-   * Directories to scaffold
+   * Directories to scaffold. The scaffold command will create the filesystem
+   * configured here and use files in the ./scaffold directory as the contents
+   * for files described here.
    *
    * @type {Object}
    */
   directories: [
     /**
-     * Configuration Path(s)
+     * Configuration path(s)
      *
-   * @type {Object}
+     * @type {Object}
      */
     {
       __dirname: 'config',
@@ -49,7 +52,7 @@ module.exports = {
     },
 
     /**
-     * Distribution Directory
+     * Distribution directory
      *
      * @type {Object}
      */
@@ -58,7 +61,7 @@ module.exports = {
     },
 
     /**
-     * Source and Patterns path(s)/naming
+     * Source and patterns path(s)/naming
      *
      * @type {Object}
      */
@@ -173,14 +176,14 @@ module.exports = {
     }
   ],
 
-  /**
-   * Default arguments
-   *
-   * @type {Object}
-   */
-  args: {
-    notifications: '', // '--nondescript -nd' or '--silent'
-    linting: '',       // '--no-lint -nl'
-    pa11y: '',         // '--no-pa11y -np'
-  }
+  // /**
+  //  * Default arguments
+  //  *
+  //  * @type {Object}
+  //  */
+  // args: {
+  //   notifications: '', // '--nondescript -nd' or '--silent'
+  //   linting: '',       // '--no-lint -nl'
+  //   pa11y: '',         // '--no-pa11y -np'
+  // }
 };

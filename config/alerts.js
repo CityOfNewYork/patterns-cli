@@ -6,15 +6,16 @@ let emoji = require('node-emoji');
 let chalk = require('chalk');
 
 /**
- * Config
+ * Alert configuration
+ *
+ * @type {Object}
  */
-
 module.exports = {
   /**
-   * Node Emoji
+   * Node Emoji. Refer to the package for details on the available options.
    *
-   * @param  {String}  Source  https://github.com/omnidan/node-emoji
-   * @param  {String}  Dict    https://raw.githubusercontent.com/omnidan/node-emoji/master/lib/emoji.json
+   * @source https://github.com/omnidan/node-emoji
+   * @source https://raw.githubusercontent.com/omnidan/node-emoji/master/lib/emoji.json
    */
   styles: emoji.get('nail_care'),
   scripts: emoji.get('rainbow'),
@@ -30,11 +31,16 @@ module.exports = {
   compression: emoji.get('compression') + ' ',
   package: emoji.get('package'),
   accessible: emoji.get('person_doing_cartwheel'),
+
   /**
-   * Chalk string coloring functions
+   * Chalk configuration. Refer to the package for details on the available
+   * options. The current color selection is based on the NYC Opportunity
+   * brand colors.
    *
-   * @param  {String}  Source  https://github.com/chalk/chalk
-   * @param  {String}  Colors  https://nycopatterns.cityofnewyork.us/colors
+   * @source https://github.com/chalk/chalk
+   * @source https://nycopatterns.cityofnewyork.us/colors
+   *
+   * @type {Object}
    */
   str: {
     path: s => chalk.hex('#FFC0F6').underline(s), // pink

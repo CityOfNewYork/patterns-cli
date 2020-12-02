@@ -1,8 +1,16 @@
+/**
+ * Lint configuration
+ *
+ * @type {Object}
+ */
 module.exports = {
   /**
-   * ES Lint Configuration
+   * ESLint configuration. Refer to the package for details on the available options.
    *
-   * @param  {String}  url  https://eslint.org
+   * @source https://eslint.org/docs/user-guide/configuring
+   * @source https://github.com/google/eslint-config-google
+   *
+   * @type {Object}
    */
   eslint: {
     extends: 'google',
@@ -24,17 +32,21 @@ module.exports = {
       ]
     }
   },
+
   /**
-   * Stylelint
+   * stylelint configuration. Refer to the package for details on the available options.
    *
-   * @param  {String}  url  https://stylelint.io
+   * @source https://stylelint.io/user-guide/configure
+   *
+   * @type {Object}
    */
   stylelint: {
     extends: 'stylelint-config-standard',
     rules: {
+      'color-hex-case': 'upper',
       'no-missing-end-of-source-newline': null,
       'at-rule-no-unknown': [true, {
-        'ignore': ['use', 'tailwind']
+        'ignoreAtRules': ['use', 'forward', 'tailwind']
       }]
     }
   }

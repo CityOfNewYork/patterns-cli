@@ -7,7 +7,10 @@ const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
 const installed = require(path.join(__dirname, '../', 'bin/util/installed'));
 
 /**
- * PostCSS Plugins
+ * PostCSS plugins. This is where most of the configuration for PostCSS is
+ * handled. Refer to the PostCSS docs for details and available plugins.
+ *
+ * @source https://github.com/postcss/postcss#plugins
  *
  * @type {Array}
  */
@@ -16,7 +19,7 @@ let plugins = [
 ];
 
 /**
- * Check for tailwindcss
+ * Check for the tailwindcss package
  */
 
 if (installed('tailwindcss')) {
@@ -27,7 +30,7 @@ if (installed('tailwindcss')) {
 }
 
 /**
- * PostCSS Configuration
+ * PostCSS configuration.
  *
  * @type {Object}
  */

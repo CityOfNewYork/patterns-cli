@@ -17,6 +17,7 @@ module.exports = {
   src: global.src,           // Base source directory for all possible slm files
   dist: global.dist,         // Distribution for slm files
   views: global.entry.views, // View directory within source directory ^
+
   /**
    * Options to pass to the marked package
    *
@@ -27,6 +28,7 @@ module.exports = {
     headerIds: true,
     smartypants: true
   },
+
   /**
    * Options to pass to the JS Beautify package for formatting html
    *
@@ -41,6 +43,7 @@ module.exports = {
     wrap_line_length: 0,
     indent_inner_html: false
   },
+
   /**
    * The following objects are locals passed to the slm view render and
    * are accessed via control codes. For example, in a .slm template;
