@@ -7,7 +7,9 @@ import nodeResolve from '@rollup/plugin-node-resolve'; // Locate modules using t
 import replace from '@rollup/plugin-replace';          // Replace content while bundling.
 
 /**
- * Rollup Configuration
+ * Base module configuration. Refer to the package for details on the available options.
+ *
+ * @source https://rollupjs.org
  *
  * @type {Object}
  */
@@ -18,39 +20,30 @@ const rollup = {
 };
 
 /**
- * Plugins Configuration
+ * Plugin configuration. Refer to the package for details on the available options.
+ *
+ * @source https://github.com/rollup/plugins
  *
  * @type {Object}
  */
-let plugins = {
-  babel: babel.babel({
+let plugins = [
+  replace({
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  }),
+  babel.babel({
     exclude: 'node_modules/**',
     babelHelpers: 'bundled'
   }),
-  nodeResolve: nodeResolve.nodeResolve({
+  nodeResolve.nodeResolve({
     browser: true,
     customResolveOptions: {
       moduleDirectory: 'node_modules'
     }
-  }),
-  replace: replace({
-    'process.env.NODE_ENV': "'production'"
   })
-};
-
-let dev = [
-  plugins.babel,
-  plugins.nodeResolve
-];
-
-let prod = [
-  plugins.babel,
-  plugins.nodeResolve,
-  plugins.replace
 ];
 
 /**
- * Rollup Export
+ * ES Module Exports
  *
  * @type {Array}
  */
@@ -66,7 +59,7 @@ export default [
         strict: rollup.strict
       }
     ],
-    plugins: (process.env.NODE_ENV === 'production') ? prod : dev,
+    plugins: plugins,
     devModule: true
   }
 ];

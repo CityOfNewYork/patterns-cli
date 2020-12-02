@@ -56,6 +56,8 @@ html lang='en'
     script src='https://cdn.jsdelivr.net/gh/CityOfNewYork/nyco-patterns-framework@v1.0.0-15/dist/utilities/icons/icons.iffe.js'
 
     javascript:
+      var MyPatterns = new Default();
+
       new Icons('svg/svgs.svg');
 
     = content('scripts')

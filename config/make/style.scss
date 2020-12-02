@@ -4,7 +4,7 @@
 
 // Dependencies
 @use 'config/tokens' as *;
-// use 'config/{{ pattern }}';
+// @use 'config/{{ pattern }}';
 
 // Declarations
 .{{ prefix }}{{ pattern }} { }
