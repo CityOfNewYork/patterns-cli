@@ -25,9 +25,9 @@ const alerts = resolve('config/alerts');
 const PORT = process.env.PORT || '7000';
 const DIST = path.join(process.env.PWD, 'dist');
 const GLOBS = [
-  './dist/**/*.html',
-  './dist/**/*.css',
-  './dist/**/*.js'
+  `${DIST}/**/*.html`,
+  `${DIST}/**/*.css`,
+  `${DIST}/**/*.js`
 ];
 
  /**
@@ -82,7 +82,7 @@ const main = async (app = APP) => {
   server.listen(app.get('port'), () => {
     let port = app.get('port');
 
-    cnsl.notify(`${alerts.info} Serving ${alerts.str.path('./dist/')} to ${alerts.str.url('http://localhost:' + port)}`);
+    cnsl.notify(`${alerts.info} Serving ${alerts.str.path(DIST)} to ${alerts.str.url('http://localhost:' + port)}`);
   });
 };
 

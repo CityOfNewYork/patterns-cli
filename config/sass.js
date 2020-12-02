@@ -14,7 +14,7 @@ const global = resolve('config/global');
 module.exports = [
   {
     file: path.join(global.base, global.src, global.entry.styles),
-    outDir: path.join(global.dist, 'css') + '/',
+    outDir: path.join(global.base, global.dist, 'css') + '/',
     outFile: path.basename(global.entry.styles.replace('.scss', '.css')),
     sourceMapEmbed: true,
     includePaths: [

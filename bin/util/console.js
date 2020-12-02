@@ -18,12 +18,12 @@ const PKG = '@pttrn';
 
 const replace = (str) => {
   let pwd = new RegExp(process.env.PWD, 'g');
-  let file = new RegExp(`file://`, 'g');
+  let file = new RegExp('file://', 'g');
   let pkg = new RegExp(`./node_modules/${package.name}`, 'g');
 
   return str
-    .replace(pwd, PWD)
     .replace(file, '')
+    .replace(pwd, PWD)
     .replace(pkg, PKG);
 };
 

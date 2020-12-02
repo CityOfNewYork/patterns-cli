@@ -20,7 +20,7 @@ let plugins = [
   replace({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }),
-  nodeResolve({
+  nodeResolve.nodeResolve({
     browser: true,
     customResolveOptions: {
       moduleDirectory: 'node_modules'
@@ -35,9 +35,9 @@ let plugins = [
  */
 module.exports = [
   {
-    input: path.join(global.src, global.entry.scripts),
+    input: path.join(global.base, global.src, global.entry.scripts),
     output: [{
-      file: path.join(global.dist, global.entry.scripts),
+      file: path.join(global.base, global.dist, global.entry.scripts),
       name: global.entry.name,
       sourcemap: (process.env.NODE_ENV === 'production') ? false : 'inline',
       format: 'iife',

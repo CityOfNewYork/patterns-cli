@@ -44,13 +44,13 @@ const es = async (file = GLOBS.find(g => g.includes(EXT_ES))) => {
   try {
     let eslinter = new eslint(config.eslint).executeOnFiles([file]);
 
-    if (eslinter.errorCount) {
+    if (eslinter.errorCount || eslinter.warningCount) {
       eslinter.results.forEach((item) => {
         if (item.messages.length) {
           if (args.nondescript || args.silent) {
             cnsl.lint(`${alerts.str.path(item.filePath)}`);
           } else {
-            cnsl.lint(`${alerts.info} Suggestions for ${alerts.str.path(item.filePath)}`);
+            cnsl.lint(`${alerts.info} ESLint suggestions for ${alerts.str.path(item.filePath)}`);
           }
 
           item.messages.forEach((message) => {
@@ -85,15 +85,15 @@ const style = async (file = GLOBS.find(g => g.includes(EXT_STYLE))) => {
     })
 
     if (data.errored) {
-      JSON.parse(data.output).forEach((item) => {
+      data.results.forEach((item) => {
         if (item.errored) {
           if (args.nondescript || args.silent) {
             cnsl.lint(`${alerts.str.path(item.source)}`);
           } else {
-            cnsl.lint(`${alerts.info} Lint suggestions for ${alerts.str.path(item.source)}`);
+            cnsl.lint(`${alerts.info} stylelint suggestions for ${alerts.str.path(item.source)}`);
           }
 
-          item.warnings.forEach((warning) => {
+          item.warnings.forEach(warning => {
             let capture = /\(([^)]+)\)/;
             let ruleId = capture.exec(warning.text)[1];
 
@@ -102,6 +102,18 @@ const style = async (file = GLOBS.find(g => g.includes(EXT_STYLE))) => {
               (warning.severity === 'error') ? alerts.str.error('error') : alerts.str.warning('warn'),
               `${warning.text.split(' (')[0]}. ${alerts.str.comment(ruleId)}`
             ].join('\t'));
+          });
+
+          item.invalidOptionWarnings.forEach(warning => {
+            cnsl.lint(`${alerts.str.comment('lint.js')}\t${alerts.str.warning('warn')}\t${warning.text}`);
+          });
+
+          item.deprecations.forEach(warning => {
+            cnsl.lint(`${alerts.str.comment('n/a')}\t${alerts.str.warning('warn')}\t${JSON.stringify(warning)}`);
+          });
+
+          item.parseErrors.forEach(warning => {
+            cnsl.lint(`${alerts.str.comment('n/a')}\t${alerts.str.error('error')}\t${JSON.stringify(warning)}`);
           });
         }
       });
