@@ -9,17 +9,19 @@
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
-const alerts = require(`${process.env.PWD}/config/alerts`);
-// Create a config file for this script
-// const config = require(`${process.env.PWD}/config/sample`);
+
+const cnsl = require(`${process.env.PWD}/node_modules/nycopportunity/pttrn/bin/util/console`);
+const global = require(`${process.env.PWD}/node_modules/nycopportunity/pttrn/config/global`);
+const alerts = require(`${process.env.PWD}/node_modules/nycopportunity/pttrn/config/alerts`);
+const config = resolve(`${process.env.PWD}/config/sample`);
 
 /**
  * Constants
  */
 
-const SOURCE = path.join(process.env.PWD, opts.src);
-const DIST = path.join(process.env.PWD, opts.dist);
-const BASE_PATH = `${SOURCE}/${opts.views}`;
+const SOURCE = path.join(global.base, global.src);
+const DIST = path.join(global.base, global.dist);
+const BASE_PATH = path.join(SOURCE, global.entry.views);
 
 const EXT = '.ext';
 const GLOBS = [
@@ -48,6 +50,7 @@ const watcher = chokidar.watch(GLOBS, {
  *
  * @param   {String}    file   The file source
  * @param   {Object}    data   The data to pass to the file
+ *
  * @return  {undefined}        The result of fs.writeFileSync()
  */
 const write = async (file, data) => {

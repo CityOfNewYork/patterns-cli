@@ -387,11 +387,11 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
   * [Flags](#flags)
   * [Alerts](#alerts)
   * [ES Configuration](#es-configuration)
+  * [Custom Commands](#custom-commands)
   * [NPM Scripts](#npm-scripts)
 
 * [Guide: Creating a new `make` command template](#creating-a-new-make-command-template)
 * [Optional dependencies](#optional-dependencies)
-* [Documentation](#documentation)
 
 ## Installation
 
@@ -954,6 +954,8 @@ Optional [flags](#flags) can be passed to the commands for signaling watching an
 - [`serve`](#serve)
 - [`publish`](#publish)
 
+[Custom commands](#custom-commands) have been newly introduced and are described below.
+
 ---
 
 #### Default
@@ -1217,13 +1219,13 @@ A custom `publish` configuration could be used to push to different remote GitHu
 
 ### Flags
 
-Flag                                                             | Description
------------------------------------------------------------------|-
-<span style="white-space:nowrap">`-w` or `--watch`</span>        | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
-<span style="white-space:nowrap">`-nd` or `--nondescript`</span> | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
-<span style="white-space:nowrap">`-s` or `--silent`</span>       | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
-<span style="white-space:nowrap">`-nl` or `--no-lint`</span>     | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
-<span style="white-space:nowrap">`-np` or `--no-pa11y`</span>    | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
+Flag                                                           | Description
+---------------------------------------------------------------|-
+<div style="white-space:nowrap">`-w` or `--watch`</div>        | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
+<div style="white-space:nowrap">`-nd` or `--nondescript`</div> | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
+<div style="white-space:nowrap">`-s` or `--silent`</div>       | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
+<div style="white-space:nowrap">`-nl` or `--no-lint`</div>     | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
+<div style="white-space:nowrap">`-np` or `--no-pa11y`</div>    | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
 
 ### Alerts
 
@@ -1232,6 +1234,18 @@ Flag                                                             | Description
 ### ES Configuration
 
 You may have noticed the `scaffold` command will create a `.config/rollup.mjs` configuration file. [Node.js has stable support of the ECMAScript module spec](https://nodejs.org/api/esm.html) and they can be imported into CommonJS (Node modules). The configuration script will resolve ES modules with the **.mjs** extension over **.js** files, however, use of ES module configuration hasn't been fully tested with all of the commands.
+
+### Custom Commands
+
+As the commands above will look for a custom configuration file for each command in the **./config** directory of your project the CLI will also resolve custom command scripts in the **./bin** directory of your project. A [sample script](bin/_sample.js) is included in this repo and can be used to start the creation of a custom command. The bare minimum a command script should include is a `run()` method.
+
+```javascript
+module.exports = {
+  run: () => {
+    console.log('My custom command');
+  }
+};
+```
 
 ### NPM Scripts
 
