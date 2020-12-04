@@ -321,7 +321,7 @@ $ npm start
 
 ### No config or custom build
 
-Each major feature uses a [configuration file](tree/main/config) for adjusting the settings of every CLI script. Additionally, the package can be extended with other npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+Each major feature uses a [configuration file](config) for adjusting the settings of every CLI script. Additionally, the package can be extended with other npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
 
 ```
 ├ 📂 config         - Configuration directory
@@ -936,7 +936,7 @@ The basic pattern for commands is as follows:
 $ {{ ENVIRONMENT_VARIABLE }}={{ value }} npx pttrn {{ command }} {{ flag }}
 ```
 
-Every command is configured with one or a series of JavaScript files inside the [./config](tree/main/config/) directory. The CLI will check to see if there is an custom configuration file in the local **./config** directory of the project first. If it doesn't exist it will use the [default configuration file in the CLI package](tree/main/config/). Project configurations can be used to pass in additional and custom options to each package that the CLI uses. Below the packages used and default configurations are described in more detail.
+Every command is configured with one or a series of JavaScript files inside the [./config](config/) directory. The CLI will check to see if there is an custom configuration file in the local **./config** directory of the project first. If it doesn't exist it will use the [default configuration file in the CLI package](config/). Project configurations can be used to pass in additional and custom options to each package that the CLI uses. Below the packages used and default configurations are described in more detail.
 
 Optional [flags](#flags) can be passed to the commands for signaling watching and log settings. The log settings are universal so they aren't represented in the command tables below.
 
@@ -983,9 +983,9 @@ Syncronously runs this series of commands; `tokens`, `sass`, and `postcss` respe
 
 Command  | Flags | Configuration
 ---------|-------|-
-`tokens` | n/a   | [tokens.js](blob/main/config/tokens.js)
+`tokens` | n/a   | [tokens.js](config/tokens.js)
 
-Uses [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) to convert design tokens defined in [./config/tokens.js](blob/main/config/tokens.js) into **./src/config/_tokens.scss**. Tokens can be custom values for your Sass library as well as be values mapped directly to tokens in the Tailwindcss configuration (if used by your project). CSS variables can also be used in the token configuration. Note, other Tailwindcss configuration options, such as variants and modules should be configured in the `tailwindcss` configuration.
+Uses [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) to convert design tokens defined in [./config/tokens.js](config/tokens.js) into **./src/config/_tokens.scss**. Tokens can be custom values for your Sass library as well as be values mapped directly to tokens in the Tailwindcss configuration (if used by your project). CSS variables can also be used in the token configuration. Note, other Tailwindcss configuration options, such as variants and modules should be configured in the `tailwindcss` configuration.
 
 Settings for [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) are set at the root level of the export and include setting the file output and specific transformation options. Refer to the source for available options.
 
@@ -997,9 +997,9 @@ A custom `tokens` configuration is highly recommended (if not required) for any 
 
 Command | Flags | Configuration                                                                                | `NODE_ENV`
 --------|-------|----------------------------------------------------------------------------------------------|-
-`sass`  | `-nl` | [sass.js](blob/main/config/sass.js) | `production` or `development`
+`sass`  | `-nl` | [sass.js](config/sass.js) | `production` or `development`
 
-Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entrypoint [./src/scss/default.js](blob/main/config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
+Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entrypoint [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
 
 A custom `sass` configuration could be used to add additional Sass modules to compile.
 
@@ -1009,9 +1009,9 @@ A custom `sass` configuration could be used to add additional Sass modules to co
 
 Command   | Flags | Configuration
 ----------|-------|-
-`postcss` | n/a   | [postcss.js](blob/main/config/postcss.js) [tailwindcss.js](blob/main/config/tailwindcss.js)
+`postcss` | n/a   | [postcss.js](config/postcss.js) [tailwindcss.js](config/tailwindcss.js)
 
-Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the [./config/tailwindcss.js](blob/main/config/tailwindcss.js) file where a custom [Tailwindcss confugration](https://tailwindcss.com/docs/configuration) would live.
+Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the [./config/tailwindcss.js](config/tailwindcss.js) file where a custom [Tailwindcss confugration](https://tailwindcss.com/docs/configuration) would live.
 
 A custom `postcss` configuration could be used to configure PostCSS and add additional plugins needed for a particular project.
 
@@ -1023,9 +1023,9 @@ A custom `tailwindcss` configuration can easliy import values from the `tokens` 
 
 Command  | Flags      | Configuration                           | `NODE_ENV`
 ---------|------------|-----------------------------------------|-
-`rollup` | `-w` `-nl` | [rollup.js](blob/main/config/rollup.js) | `production` or `development`
+`rollup` | `-w` `-nl` | [rollup.js](config/rollup.js) | `production` or `development`
 
-Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default it will bundle the default JavaScript entrypoint [./src/js/default.js](blob/main/config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
+Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default it will bundle the default JavaScript entrypoint [./src/js/default.js](config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
 
 * [Replace](https://github.com/rollup/plugins/tree/master/packages/replace) for replacing `process.env.NODE_ENV` in scripts with the `NODE_ENV` environment variable passed through the command.
 * [Node Resolve](https://github.com/rollup/plugins/tree/master/packages/node-resolve) for resolving module imports from the **./node_modules** directory.
@@ -1063,7 +1063,7 @@ A custom `rollup` configuration could be used to add additional output modules t
 
 Command | Flags | Configuration
 --------|-------|-
-`lint`  | n/a   | [lint.js](blob/main/config/lint.js)
+`lint`  | n/a   | [lint.js](config/lint.js)
 
 Uses [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to lint JavaScript and Sass files in the **./src/** directory. Linting suggestions are logged to the terminal. The default `lint` configuration uses [Google's JavaScript styleguide](https://github.com/google/eslint-config-google) and [stylelint's standard config](https://github.com/stylelint/stylelint-config-standard) with a few additional rules.
 
@@ -1075,7 +1075,7 @@ A custom `lint` configuration could be used to change or extend the linting stan
 
 Command | Flags      | Configuration                     | `NODE_ENV`
 --------|------------|-----------------------------------|-
-`slm`   | `-w` `-np` | [slm.js](blob/main/config/slm.js) | `production` or `development`
+`slm`   | `-w` `-np` | [slm.js](config/slm.js) | `production` or `development`
 
 Uses [Slm](https://github.com/slm-lang/slm) to compile Slm and Markdown files to static HTML in the **./dist** directory. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
 
@@ -1109,7 +1109,7 @@ include{{ path/to/file.slm }}
 
 ##### Variables
 
-The default `slm` configuration passes global variables to use in Slm templates. These include the **package.json**, [./config/global.js](blob/main/config/global.js), and [./config/tokens.js](blob/main/config/tokens.js) files. Additionally, the `NODE_ENV` is also passed to templates.
+The default `slm` configuration passes global variables to use in Slm templates. These include the **package.json**, [./config/global.js](config/global.js), and [./config/tokens.js](config/tokens.js) files. Additionally, the `NODE_ENV` is also passed to templates.
 
 ```pug
 = this.package
@@ -1135,7 +1135,7 @@ A custom `slm` configuration could be used to be used to pass additional data an
 
 Command | Flags | Configuration
 --------|-------|-
-`pa11y` | n/a   | [pa11y.js](blob/main/config/pa11y.js)
+`pa11y` | n/a   | [pa11y.js](config/pa11y.js)
 
 Uses [Pa11y](https://github.com/pa11y/pa11y) to test the static output of HTML files in the **./dist** directory for accessibility issues. Issues are logged to the terminal. The default `pa11y` configuration uses the WCAG AA [accessibility standard](https://github.com/pa11y/pa11y#standard-string), aXe-core and HTML CodeSniffer as [test runners](https://github.com/pa11y/pa11y#runners), and adds the selector `[data-pa11y="disable"]` to that can be used to [hide elements](https://github.com/pa11y/pa11y#hideelements-string) that shouldn't be tested in the static output.
 
@@ -1147,7 +1147,7 @@ A custom `pa11y` configuration could be used to enable or disable many of the av
 
 Command | Flags | Configuration
 --------|-------|-
-`svgs`  | `-w`  | [svgs.js](blob/main/config/svgs.js)
+`svgs`  | `-w`  | [svgs.js](config/svgs.js)
 
 Uses [svgo](https://github.com/svg/svgo) to optimize SVGs in the **./src/svg/** directory and saves them in the **./dist/svg** directory. Then, it uses [svgstore](https://github.com/svgstore/svgstore) to create an SVG sprite in the **./dist/svg/svgs.svg** file of all the optimized SVGs. The `svg` configuration passes svg file name prefix and svg sprite name settings to each package.
 
@@ -1159,7 +1159,7 @@ A custom `svgs` configuration could be used to modify the svg file prefix, svg s
 
 Command    | Flags | Configuration
 -----------|-------|-
-`scaffold` | n/a   | [global.js](blob/main/config/global.js) [scaffold/*](tree/main/config/scaffold)
+`scaffold` | n/a   | [global.js](config/global.js) [scaffold/*](config/scaffold/)
 
 As described in the [Scaffold guide](#scaffold-command) above this command will initalize a minimal base project with the following:
 
@@ -1168,7 +1168,7 @@ As described in the [Scaffold guide](#scaffold-command) above this command will 
 * Simple Sass library
 * Single page static demo site
 
-The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entrypoints for a project. It also relys on file templates in the [./config/scaffold/](tree/main/config/scaffold) directory to source the contents of files described in the system.
+The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entrypoints for a project. It also relys on file templates in the [./config/scaffold/](config/scaffold/) directory to source the contents of files described in the system.
 
 A custom `scaffold` configuration could be used to change the output of the starter filesystem and contents of files for a project.
 
@@ -1178,9 +1178,9 @@ A custom `scaffold` configuration could be used to change the output of the star
 
 Command | Arguments                  | Flags | Configuration
 --------|----------------------------|-------|-
-`make`  | `type`* `name`* `template` | n/a   | [make.js](blob/main/config/make.js) [make/*](tree/main/config/make)
+`make`  | `type`* `name`* `template` | n/a   | [make.js](config/make.js) [make/*](config/make/)
 
-Creates pattern directories and files using paths and variables defined in the `make` configuration with file contents defined in the [./config/make](tree/main/config/make) directory as described in the [`make` command guide](#make-command). It will not permit overwritting pattern files if they already exist.
+Creates pattern directories and files using paths and variables defined in the `make` configuration with file contents defined in the [./config/make](config/make/) directory as described in the [`make` command guide](#make-command). It will not permit overwritting pattern files if they already exist.
 
 *denotes required arguments.
 
@@ -1188,9 +1188,9 @@ Creates pattern directories and files using paths and variables defined in the `
 
 - `type` _required_ - Determines where in the filesystem patterns will be stored. One of; `element`, `component`, `object`, or `utility`
 - `pattern` _required_ - Name of the pattern
-- `template` _optional_ - If included the third argument can be used to create a single template from the [./config/make](tree/main/config/make) directory. By default all files will be made.
+- `template` _optional_ - If included the third argument can be used to create a single template from the [./config/make](config/make/) directory. By default all files will be made.
 
-A custom `make` configuration could be used to add custom files with predefined templates in the [./config/make](tree/main/config/make) direcory. The CLI currently supports CSS and ES module based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
+A custom `make` configuration could be used to add custom files with predefined templates in the [./config/make](config/make/) direcory. The CLI currently supports CSS and ES module based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
 
 Refer to the guide on [creating a new `make` command template](#creating-a-new-make-command-template) for details.
 
@@ -1210,7 +1210,7 @@ Uses [Express](https://expressjs.com/) to serve static files in the **./dist/** 
 
 Command   | Flags | Configuration | `NODE_ENV`*
 ----------|-------|---------------|-
-`publish` | n/a   | [publish.js](blob/main/config/publish.js)  | `production` or `development`
+`publish` | n/a   | [publish.js](config/publish.js)  | `production` or `development`
 
 Uses [gh-pages](https://github.com/tschaub/gh-pages) to stand up the static output in the **./dist** directory to the [GitHub Pages](https://pages.github.com/) branch of your project's remote repository. The default `publish` configuration *requires* the `NODE_ENV=production` environment variable to push to the package repository url defined in the **package.json** file.
 
@@ -1230,7 +1230,7 @@ Flag                     | Description
 
 ### Alerts
 
-[Node Emoji](https://github.com/omnidan/node-emoji#readme) and [Chalk](https://github.com/chalk/chalk) are used to illustrate the logging alert output. The emoji symbols and colors can be modified or removed with a custom [./config/alerts.js](blob/main/config/alerts.js) configuration file.
+[Node Emoji](https://github.com/omnidan/node-emoji#readme) and [Chalk](https://github.com/chalk/chalk) are used to illustrate the logging alert output. The emoji symbols and colors can be modified or removed with a custom [./config/alerts.js](config/alerts.js) configuration file.
 
 ### ES Configuration
 
@@ -1311,7 +1311,7 @@ Below is an explainer each scripts contents.
 
 ## Creating a new `make` command template
 
-Custom templates can be created by the make script by creating a custom `make` configuration, modifying the settings, and adding a new template file in the [./config/make/](tree/main/config/make/) directory. These are the steps that would need to be taken to include a [React](https://reactjs.org/) component template in the list of files created by the `make` command.
+Custom templates can be created by the make script by creating a custom `make` configuration, modifying the settings, and adding a new template file in the [./config/make/](config/make/) directory. These are the steps that would need to be taken to include a [React](https://reactjs.org/) component template in the list of files created by the `make` command.
 
 ### Step 1: template contents
 
