@@ -10,33 +10,37 @@ const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
 
-const cnsl = require(`${process.env.PWD}/node_modules/nycopportunity/pttrn/bin/util/console`);
-const global = require(`${process.env.PWD}/node_modules/nycopportunity/pttrn/config/global`);
-const alerts = require(`${process.env.PWD}/node_modules/nycopportunity/pttrn/config/alerts`);
-const config = resolve(`${process.env.PWD}/config/sample`);
+/**
+ * Config file for this script
+ */
+
+const config = require(`${process.env.PWD}/config/_sample`);
+
+/**
+ * @pttrn Dependencies
+ */
+
+const pttrn = `${process.env.PWD}/node_modules/@nycopportunity/patterns-framework`;
+const alerts = require(`${pttrn}/config/alerts`);
+const args = require(`${pttrn}/bin/util/args`).args;
+const cnsl = require(`${pttrn}/bin/util/console`);
 
 /**
  * Constants
  */
 
-const SOURCE = path.join(global.base, global.src);
-const DIST = path.join(global.base, global.dist);
-const BASE_PATH = path.join(SOURCE, global.entry.views);
-
-const EXT = '.ext';
+const SRC = config.src;
+const DIST = config.dist;
+const ENTRY = config.entry;
+const EXT = config.ext;
 const GLOBS = [
-  `${SOURCE}/**/*${EXT}`
+  `${config.src}/${config.dist}/**/*${config.ext}`
 ];
-
-/** Process CLI args */
-
-const args = require(`${__dirname}/util/args`).args;
-const cnsl = require(`${__dirname}/util/console`);
 
 /**
  * Our Chokidar Watcher
  *
- * @type {Source} https://github.com/paulmillr/chokidar
+ * @source https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(GLOBS, {
   usePolling: false,
@@ -48,68 +52,113 @@ const watcher = chokidar.watch(GLOBS, {
 /**
  * Write file to the distribution folder
  *
- * @param   {String}    file   The file source
- * @param   {Object}    data   The data to pass to the file
+ * @param   {String}     file  The file source
+ * @param   {Object}     data  The data to pass to the file
  *
- * @return  {undefined}        The result of fs.writeFileSync()
+ * @return  {Undefined}        The result of fs.writeFileSync()
  */
 const write = async (file, data) => {
   try {
-    let dist = file.replace(BASE_PATH, path.join(DIST, opts.svgs));
-    let local = dist.replace(process.env.PWD, '.');
+    let dist = file.replace(SRC, DIST);
 
-    if (!fs.existsSync(path.dirname(dist))){
-      fs.mkdirSync(path.dirname(dist));
+    if (!fs.existsSync(path.dirname(dist))) {
+      fs.mkdirSync(path.dirname(dist), {recursive: true});
     }
 
     let written = fs.writeFileSync(dist, data);
 
-    cnsl.describe(`Sample written to ${alerts.str.path(local)}`);
+    cnsl.describe(`${alerts.success} ${alerts.str.path(file)} written to ${alerts.str.path(dist)}`);
 
     return written;
   } catch (err) {
-    cnsl.error(`Sample (write): ${err.stack}`);
+    cnsl.error(`Failed (write): ${err.stack}`);
   }
 }
 
 /**
- * Main script
+ * A sample file read and replace method
+ *
+ * @param   {String}  file  Path to the file
+ *
+ * @return  {String}        File contents
+ */
+const replace = async (file) => {
+  let data = await fs.readFileSync(file, 'utf-8');
+
+  return data.replace('{{ source }}', 'distribution');
+};
+
+/**
+ * The main task bus for transforming contents of a source file
+ *
+ * @param   {String}  file  Path to source file
+ *
+ * @return  {String}        Transformed data
  */
 const main = async (file) => {
   try {
-    // Main functionality. Call other async functions here.
-    // let data = await ...(file)
+    let data = await replace(file); // Do something with the file data here
 
     await write(file, data);
 
     return data;
   } catch (err) {
-    cnsl.error(`Sample failed (main): ${err.stack}`);
+    cnsl.error(`Failed (main): ${err.stack}`);
   }
 };
 
 /**
- * Runner for the sample script
+ * Read a specific file, if it is a directory read all of the files in it,
+ * then, perform the main task on the file.
+ *
+ * @param  {String}  file  A single file or directory to recursively walk
+ */
+const walk = async (file) => {
+  if (file.includes(EXT)) {
+    await main(file);
+  } else {
+    try {
+      let files = fs.readdirSync(file, 'utf-8');
+
+      for (let i = files.length - 1; i >= 0; i--) {
+        await walk(files[i], file);
+      }
+    } catch (err) {
+      cnsl.error(`Failed (walk): ${err.stack}`);
+    }
+  }
+};
+
+/**
+ * Runner for the sample script. If the -w or --watch flag is passed it will
+ * run the watcher method. If a single filename is passed it will run the
+ * main task on the file.
+ *
+ * @type {Function}
  */
 const run = async () => {
   if (args.watch) {
     try {
       watcher.on('change', async changed => {
-        let local = changed.replace(process.env.PWD, '');
+        cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
         await main(changed);
-
-        cnsl.watching(`Detected change on ${alerts.str.path(`.${local}`)}`);
       });
 
-      cnsl.watching(`Sample watching ${alerts.str.ext(GLOBS.map(g => g.replace(process.env.PWD, '')).join(', '))}`);
+      cnsl.watching(`Sample watching ${alerts.str.ext(GLOBS.join(', '))}`);
     } catch (err) {
-      cnsl.error(`Sample (run): ${err.stack}`);
+      cnsl.error(`Failed (run): ${err.stack}`);
     }
   } else {
-    await main();
+    let file = (process.argv[2]) ? process.argv[2] : false;
 
-    process.exit();
+    if (file) {
+      await main(`${SRC}/${ENTRY}/${file}`);
+    } else {
+      cnsl.error(`Failed (run): A file needs to be passed as an argument or a directory with files needs to be present if not using the ${alerts.str.string('--watch')} flag.`);
+    }
+
+    process.exit(); // One-off commands must exit
   }
 };
 
@@ -119,7 +168,5 @@ const run = async () => {
  * @type {Object}
  */
 module.exports = {
-  main: main,
-  run: run,
-  config: config
+  run: run
 };
