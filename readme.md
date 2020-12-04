@@ -350,21 +350,6 @@ Each major feature uses a [configuration file](tree/main/config) for adjusting t
 └ 📁 src           - Source directory
 ```
 
----
-
-**Version 1.0** is currently in progress and is available as a pre-release. All features ^ before v1 will be available, however, the documentation may not accurately reflect all of the enhancements. [Major updates and migration guides are documented in the releases tab](https://github.com/CityOfNewYork/nyco-patterns-framework/releases). The [working branch can be found here](https://github.com/CityOfNewYork/nyco-patterns-framework/tree/feature/next-major-release). Here is a brief summary of the enhancements:
-
-* 📤 **Less configuration** out of the box. Omit the configuration file for a cli script and rely on the default in this package.
-* 🛠️ **More control**. Modify the configuration of more dependencies used by cli scripts.
-* 👀 **Better watching**. Switching from nodemon to [Chokidar](https://github.com/paulmillr/chokidar) for running a command on a specific file during development.
-* ♿ **Accessiblity linting** using [pa11y](https://github.com/pa11y/pa11y).
-* 📄 **Maintain less documentation**. Use centralized markdown templates included in this package.
-* 🆕 Variable interpolation for Markdown files and better partial includes for *.slm* files.
-* 🤓 Better linting for scripts and stylesheets.
-* 🎌 More command flags for controlling linting and stack notifications.
-* ⚖️ A reduced number of dependencies.
-* 🔄 Optimized scripts. Migrated from promise and callback based cli scripts to asynchronous.
-
 ## Contents
 
 * [Installation](#installation)
@@ -1235,13 +1220,13 @@ A custom `publish` configuration could be used to push to different remote GitHu
 
 ### Flags
 
-Flag                                                           | Description
----------------------------------------------------------------|-
-<div style="white-space:nowrap">`-w` or `--watch`</div>        | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
-<div style="white-space:nowrap">`-nd` or `--nondescript`</div> | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
-<div style="white-space:nowrap">`-s` or `--silent`</div>       | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
-<div style="white-space:nowrap">`-nl` or `--no-lint`</div>     | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
-<div style="white-space:nowrap">`-np` or `--no-pa11y`</div>    | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
+Flag                     | Description
+-------------------------|-
+`-w` or `--watch`        | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
+`-nd` or `--nondescript` | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
+`-s` or `--silent`       | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
+`-nl` or `--no-lint`     | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
+`-np` or `--no-pa11y`    | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
 
 ### Alerts
 
