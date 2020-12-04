@@ -49,7 +49,6 @@
     "default": "cross-env NODE_ENV=production bin/cli.js default",
     "version": "npm run default && git add .",
     "prepublishOnly": "git push && git push --tags",
-    "publish": "cross-env NODE_ENV=production bin/cli.js publish",
     "pttrn": "bin/cli.js"
   },
   "bin": {
