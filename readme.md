@@ -2,7 +2,7 @@
 
 ### Make, develop, and publish!
 
-CLI for building and managing design pattern libraries. Created by [NYC Opportunity](https://github.com/NYCOpportunity) for [WorkingNYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns).
+A front-end CLI for building and managing design pattern libraries. Created by [NYC Opportunity](https://github.com/NYCOpportunity) for [WorkingNYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns).
 
 * 📦 Creates and organizes component libraries using a [design system methodology](#design-system-methodology).
 
@@ -196,7 +196,7 @@ htmlcs  error   This form field should be labelled in some way. Use the label el
 
 ### 🗞 Script using ES module syntax.
 
-Library scripts are bundled using [rollup.js](https://rollupjs.org/guide/en/). Use the [library of utility modules](https://github.com/cityofnewyork/patterns-scripts/) to help keep scripting DRY.
+Library scripts are bundled using [rollup.js](https://rollupjs.org/guide/en/). Use the [library of utility ES modules](https://github.com/CityOfNewYork/patterns-scripts) to help keep scripting DRY.
 
 ```javascript
 'use strict';
@@ -321,7 +321,7 @@ $ npm start
 
 ### No config or custom build
 
-Each major feature uses a [configuration file](https://github.com/CityOfNewYork/patterns-cli/tree/master/config) for adjusting the settings of every CLI script. Additionally, the package can be extended with other npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
+Each major feature uses a [configuration file](tree/main/config) for adjusting the settings of every CLI script. Additionally, the package can be extended with other npm packages and custom [npm scripts](https://docs.npmjs.com/misc/scripts).
 
 ```
 ├ 📂 config         - Configuration directory
@@ -392,6 +392,7 @@ Each major feature uses a [configuration file](https://github.com/CityOfNewYork/
 
 * [Guide: Creating a new `make` command template](#creating-a-new-make-command-template)
 * [Optional dependencies](#optional-dependencies)
+* [Supporting Packages](#supporting-packages)
 
 ## Installation
 
@@ -1401,6 +1402,16 @@ $ npm install @nycopportunity/pttrn --no-optional
 ```
 
 These dependencies are required by the defuault configuration or recommended npm scripts. If you project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
+
+## Supporting Packages
+
+Other packages to help support pattern library development.
+
+Package                                                                              | Description
+-------------------------------------------------------------------------------------|-
+[Patterns Scripts](https://github.com/CityOfNewYork/patterns-scripts) | A set of common utility ES modules to help keep scripting DRY and support accessibility.
+[Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) | The starter project created in the `make` command guide.
+[Patterns Docs](https://github.com/CityOfNewYork/patterns-docs)       | Reusable documentation for pattern libraries created with the CLI.
 
 ---
 
