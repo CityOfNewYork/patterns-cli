@@ -1,0 +1,9 @@
+- this.details = {}
+- this.details.id = Math.random().toString(16).substring(2)
+
+/! { @id Must be unique }
+details id='${this.details.id}' class='c-details bc-gray'
+  summary class='c-details__summary bc-blue c-white' Click this summary to see more.
+
+  div class='c-details__body'
+    p This is the details body. Any amount of content and links can be placed here. Read more about the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details">Details disclosure element in the MDN documentation</a>.

@@ -1,0 +1,13 @@
+/**
+ * Language
+ */
+
+// Setting the language code will override the default language setting which is
+// a blank string (""). Certain languages will change variables in the stylesheets,
+// specifically the direction of the language. Available languages within this
+// stylesheet include Arabic (ar), Spanish (es), Korean (ko), Urdu (ur), and
+// Chinese (tc).
+
+// @forward 'imports' // with ($language: '');
+
+@forward 'imports';

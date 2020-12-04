@@ -2,24 +2,39 @@
  * Dependencies
  */
 
-const package = require(`${process.env.PWD}/package.json`);
-const tailwindcss = require('tailwindcss'); // utility framework/management
-const autoprefixer = require('autoprefixer'); // adds vendor spec prefixes
-const cssnano = require('cssnano'); // modern css compiling/minification
-const mqpacker = require('css-mqpacker'); // packs media queries together
-const stylelint = require('stylelint');
+const path = require('path');
+const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
+const installed = require(path.join(__dirname, '../', 'bin/util/installed'));
 
 /**
- * Config
+ * PostCSS plugins. This is where most of the configuration for PostCSS is
+ * handled. Refer to the PostCSS docs for details and available plugins.
+ *
+ * @source https://github.com/postcss/postcss#plugins
+ *
+ * @type {Array}
+ */
+let plugins = [
+  require('cssnano')
+];
+
+/**
+ * Check for the tailwindcss package
  */
 
+if (installed('tailwindcss')) {
+  const tailwindcss = require('tailwindcss');
+  const config = resolve('config/tailwindcss', false);
+
+  plugins.push(tailwindcss(config));
+}
+
+/**
+ * PostCSS configuration.
+ *
+ * @type {Object}
+ */
 module.exports = {
   parser: 'postcss-scss',
-  plugins: [
-    stylelint(package.stylelintConfig),
-    tailwindcss(`${process.env.PWD}/config/tailwind.js`),
-    autoprefixer('last 4 version'),
-    mqpacker({sort: true}),
-    cssnano()
-  ]
+  plugins: plugins
 };

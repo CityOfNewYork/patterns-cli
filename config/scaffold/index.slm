@@ -1,0 +1,32 @@
+= extend('/slm/layouts/default')
+
+- title = 'Welcome to the @pttrn framework!'
+
+= content('main')
+  / == this.include('../readme.md')
+
+  section class='bc-white p-4'
+    h2 Details Component
+
+    == this.include('components/details/details.md');
+
+    h3 Demonstration
+
+    == this.include('components/details/details.slm');
+
+    h3 Markup
+
+    pre class='p-4'
+      = this.include('components/details/details.slm');
+
+  br
+
+  section class='bc-white p-4'
+    h2 Now you can make your own!
+
+    p Run the CLI to create a new component.
+
+    pre class='p-4'
+      code $ npx pttrn make component ...
+
+= content('scripts')

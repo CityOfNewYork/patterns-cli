@@ -2,47 +2,25 @@
  * Dependencies
  */
 
-// ...
+const path = require('path');
+const resolve = require(path.join(__dirname, '../', 'bin/util/resolve'));
+const global = resolve('config/global');
 
 /**
- * Config
+ * Sass Exports
+ *
+ * @type {Array}
  */
-
-const sass = {
-  sourceMapEmbed: true,
-  includePaths: [
-    './src/',
-    './node_modules/nyco-patterns/src/',
-    './node_modules/animate.scss/'
-  ]
-};
-
-/**
- * Our pattern style modules
- */
-
 module.exports = [
   {
-    file: './src/scss/site-default.scss',
-    outDir: './dist/styles/',
-    outFile: 'site-default.css',
-    sourceMapEmbed: sass.sourceMapEmbed,
-    includePaths: sass.includePaths,
+    file: path.join(global.base, global.src, global.entry.styles),
+    outDir: path.join(global.base, global.dist, 'css') + '/',
+    outFile: path.basename(global.entry.styles.replace('.scss', '.css')),
+    sourceMapEmbed: true,
+    includePaths: [
+      `${global.base}/${global.src}/`,
+      `${global.base}/node_modules/`
+    ],
     devModule: true // This needs to be set if we want the module to be compiled during development
-  },
-  {
-    file: './src/utilities/spinner/_spinner.scss',
-    outDir: './dist/utilities/spinner/',
-    outFile: 'spinner.css',
-    sourceMapEmbed: sass.sourceMapEmbed,
-    includePaths: sass.includePaths,
-    devModule: true
-  },
-  {
-    file: './src/utilities/toggle/_toggle.scss',
-    outDir: './dist/utilities/toggle/',
-    outFile: 'toggle.css',
-    sourceMapEmbed: sass.sourceMapEmbed,
-    includePaths: sass.includePaths
   }
 ];

@@ -1,7 +1,0 @@
-= extend('layouts/default')
-
-- title = 'Toggle'
-
-= content('main')
-  == this.include('utilities/toggle/readme.md');
-  = this.include('utilities/toggle/toggle');

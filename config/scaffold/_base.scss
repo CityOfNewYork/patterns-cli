@@ -1,0 +1,73 @@
+
+// Dependencies
+@use 'config/grid' as *;
+@use 'config/border';
+
+// Declarations
+:root {
+  // Works with the Window Vh JavaScript Utility to set
+  // this property based on the window's inner height.
+  --100vh: 100vh;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: auto;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+// for IE < 11,
+// See: http://caniuse.com/#feat=hidden
+[hidden] {
+  display: none !important;
+}
+
+// Fix for IE <= 11 where use elements within svgs would swallow click events
+// and prevent the event from propagating up.
+// See: https://connect.microsoft.com/IE/feedback/details/796745/mouse-events-are-not-delivered-at-all-anymore-when-inside-an-svg-a-use-is-removed-from-the-dom
+use {
+  pointer-events: none;
+}
+
+// Tailwind.css requires this border setting for it's borders to work properly
+[class*='border'] {
+  border-style: solid;
+  border-width: 0
+}
+
+img {
+  max-width: 100%;
+  height: auto
+}
+
+a {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+figure, figcaption {
+  margin: 0;
+  display: block
+}
+
+pre {
+  overflow: scroll
+}
+
+header, main, footer {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto
+}

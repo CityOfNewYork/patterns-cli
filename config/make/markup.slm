@@ -1,0 +1,5 @@
+/ {{ Pattern }}
+
+/ container
+div class='{{ prefix }}{{ pattern }}'
+  / pattern contents

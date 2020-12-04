@@ -1,0 +1,20 @@
+= extend('/slm/layouts/default')
+
+- title = '{{ Pattern }}'
+
+= content('main')
+  section class='bc-white p-4'
+    h2 = title
+
+    == this.include('{{ type }}/{{ pattern }}/{{ pattern }}.md');
+
+    h3 Demonstration
+
+    == this.include('{{ type }}/{{ pattern }}/{{ pattern }}.slm');
+
+    h3 Markup
+
+    pre class='p-4'
+      = this.include('{{ type }}/{{ pattern }}/{{ pattern }}.slm');
+
+= content('scripts')
