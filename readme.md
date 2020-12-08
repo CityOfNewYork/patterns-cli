@@ -395,6 +395,7 @@ Each major feature uses a [configuration file](config) for adjusting the setting
   * [Custom Commands](#custom-commands)
   * [NPM Scripts](#npm-scripts)
 
+* [Guide: Adding Tailwindcss](#adding-tailwindcss)
 * [Guide: Creating a new `make` command template](#creating-a-new-make-command-template)
 * [Optional dependencies](#optional-dependencies)
 * [Supporting Packages](#supporting-packages)
@@ -1046,11 +1047,11 @@ Command   | Flags | Configuration
 ----------|-------|-
 `postcss` | n/a   | [postcss.js](config/postcss.js) [tailwindcss.js](config/tailwindcss.js)
 
-Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the [./config/tailwindcss.js](config/tailwindcss.js) file where a custom [Tailwindcss confugration](https://tailwindcss.com/docs/configuration) would live.
+Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the [./config/tailwindcss.js](config/tailwindcss.js) file where a custom [Tailwindcss configuration](https://tailwindcss.com/docs/configuration) would live. Learn more about [adding tailwindcss in the guide below](#adding-tailwindcss).
 
 A custom `postcss` configuration could be used to configure PostCSS and add additional plugins needed for a particular project.
 
-A custom `tailwindcss` configuration can easliy import values from the `tokens` configuration to generate Tailwindcss utilities.
+A custom `tailwindcss` configuration can easily import values from the `tokens` configuration to generate Tailwindcss utilities.
 
 ---
 
@@ -1344,11 +1345,132 @@ Below is an explainer each scripts contents.
 - `cross-env NODE_ENV=production` - This sets the `NODE_ENV` variable to `production` for the next command.
 - `pttrn publish` - Takes the contents of the **./dist** directory and commits it to the `gh-pages` branch to create a [GitHub Pages](https://pages.github.com) site using the [gh-pages](https://github.com/tschaub/gh-pages) package.
 
+## Adding Tailwindcss
+
+From [Tailwindcss](https://tailwindcss.com);
+
+> ### Rapidly build modern websites without ever leaving your HTML.
+> A utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup.
+
+CSS utilities make it easier for developers who do not actively maintain your pattern library to create designs with components that aren't available in your stylesheet. They can also be used to modify existing components for different contexts. Tailwindcss ships as a dependency with the CLI but it needs to be configured and included in your project.
+
+### Step 1: Create your configuration file
+
+The `scaffold` command creates a [./config/tailwindcss.js](config/tailwindcss.js). If not using the `scaffold` command, create your own configuration file:
+
+```shell
+$ touch config/taiwindcss.js
+```
+
+In the configuration file, you can import your **./config/tokens.js** configuration and include design tokens from your project in the Tailwindcss configuration. You may also use the default configuration if desired.
+
+```javascript
+/**
+ * Dependencies
+ */
+
+const tokens = require('tokens');
+const tailwindcss = require('tailwindcss/defaultConfig');
+
+/**
+ * Config
+ */
+
+module.exports = {
+...
+```
+
+#### Further reference
+
+* [Tailwindcss step reference](https://tailwindcss.com/docs/installation#create-your-configuration-file)
+* [Tailwindcss configuration documentation](https://tailwindcss.com/docs/configuration)
+
+### Step 2: Include Tailwindcss in your CSS
+
+All that's needed to include Tailwindcss in your stylesheet is to add the `@` directives somewhere in your stylesheet.
+
+```scss
+@tailwind components;
+@tailwind utilities;
+```
+
+You may notice this does not include the `@tailwind base` tag which adds some base styling for Tailwindcss utilities. They aren't required and they can interfere with the styling of other patterns in your stylesheet. Use them at your own discretion.
+
+These directives can be added anywhere but we recommend keeping them in the **./src/utilites** directory. The `scaffold` command create a module directory for these directives automatically: **./src/utilities/tailwindcss**. If not using the `scaffold` command the directory and stylesheet can be added with the following `make` command:
+
+```shell
+$ npx pttrn make utility tailwindcss style
+```
+
+Below are sample contents of the stylesheet from the `scaffold` command. Copy and paste them into the stylesheet if using the `make` command above.
+
+```scss
+/**
+ * Tailwindcss
+ */
+
+// This injects all of Tailwind's utility classes, generated based on your
+// config file. View docs for usage; https://tailwindcss.com/docs/
+
+// @tailwind base; // Uncomment this to use Tailwindcss base styles. These may interfere with existing styles.
+@tailwind components;
+@tailwind utilities;
+```
+
+Now, in the stylesheet entry point, include the **_tailwindcss.scss** stylesheet.
+
+```scss
+@forward 'utilities/tailwindcss/tailwindcss';
+```
+
+PostCSS will inject Tailwindcss styles into your stylesheet.
+
+#### Further reference
+
+* [Tailwindcss step reference](https://tailwindcss.com/docs/installation#include-tailwind-in-your-css)
+
+### Step 3: Optional. Configure PostCSS
+
+The CLI already configures PostCSS to inject Tailwindcss styles where the directives are included in the stylesheet. You may, however, want to further configure PostCSS, you can create a custom **./config/postcss.js** file to modify the PostCSS plugins used in your project.
+
+Additionally, you may want to create a Tailwindcss only distribution for the inclusion in other projects. This can be done by adding new distribution modules to the **./config/sass.js** configuration. The example below creates a CDN and browser friendly CSS file and a project friendly Sass file:
+
+```javascript
+module.exports = [
+  {
+    file: `${process.env.PWD}/src/scss/default.scss`,
+    outDir: `${process.env.PWD}/dist/styles/`,
+    outFile: 'default.css',
+    sourceMapEmbed: sass.sourceMapEmbed,
+    includePaths: sass.includePaths,
+    devModule: true // This needs to be set if we want the module to be compiled during development
+  },
+  {
+    file: `${process.env.PWD}/src/utilities/tailwindcss/_tailwindcss.scss`,
+    outDir: `${process.env.PWD}/dist/styles/`,
+    outFile: 'tailwindcss.css', // CDN and browser friendly CSS file
+    sourceMapEmbed: sass.sourceMapEmbed,
+    includePaths: sass.includePaths,
+  },
+  {
+    file: `${process.env.PWD}/src/utilities/tailwindcss/_tailwindcss.scss`,
+    outDir: `${process.env.PWD}/dist/styles/`,
+    outFile: '_tailwindcss.scss', // Project friendly Sass file
+    sourceMapEmbed: sass.sourceMapEmbed,
+    includePaths: sass.includePaths,
+  }
+];
+```
+
+### Step 4: Optional (but recommended). Purge CSS
+
+Purge CSS will read static files and remove css from a stylesheet that isn't being used by those files. This is recommended for projects where the pattern library will be integrated. However, for the purpose of a Pattern Library, you will want to have all of the utilities present in the stylesheet. See the [optimizing for production Tailwindcss guide](https://tailwindcss.com/docs/optimizing-for-production).
+
 ## Creating a new `make` command template
 
 Custom templates can be created by the make script by creating a custom `make` configuration, modifying the settings, and adding a new template file in the [./config/make/](config/make/) directory. These are the steps that would need to be taken to include a [React](https://reactjs.org/) component template in the list of files created by the `make` command.
 
-### Step 1: template contents
+### Step 1: Template contents
 
 First, a new base template would be defined in the **./config/make/react.jsx**;
 
