@@ -1256,13 +1256,13 @@ A custom `publish` configuration could be used to push to different remote GitHu
 
 ### Flags
 
-Flag                     | Description
--------------------------|-
-`-w` or `--watch`        | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
-`-nd` or `--nondescript` | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
-`-s` or `--silent`       | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
-`-nl` or `--no-lint`     | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
-`-np` or `--no-pa11y`    | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
+Flag&nbsp; | Non&nbsp;abbreviated&nbsp;Flag | Description
+-----------|--------------------------------|-
+`-w`       | `--watch`                      | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
+`-nd`      | `--nondescript`                | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
+`-s`       | `--silent`                     | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
+`-nl`      | `--no-lint`                    | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
+`-np`      | `--no-pa11y`                   | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
 
 ### Alerts
 
