@@ -9,7 +9,7 @@ const package = require(`${process.env.PWD}/package.json`);
  */
 
 module.exports = {
-  'output': '"./src/config/_tokens.scss"',
+  'output': `"${process.env.PWD}/src/config/_tokens.scss"`,
   'version': `"${package.version}"`,
   'border': {
     'width': '3px',

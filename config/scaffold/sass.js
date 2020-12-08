@@ -18,8 +18,8 @@ const sass = {
  */
 module.exports = [
   {
-    file: './src/scss/default.scss',
-    outDir: './dist/styles/',
+    file: `${process.env.PWD}/src/scss/default.scss`,
+    outDir: `${process.env.PWD}/dist/styles/`,
     outFile: 'default.css',
     sourceMapEmbed: sass.sourceMapEmbed,
     includePaths: sass.includePaths,
