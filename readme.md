@@ -1570,6 +1570,7 @@ Package                                                               | Descript
 [Patterns Scripts](https://github.com/CityOfNewYork/patterns-scripts) | A set of common utility ES modules to help keep scripting DRY and support accessibility.
 [Patterns Demo](https://github.com/CityOfNewYork/patterns-demo)       | Source code for the starter project created in the ["start from scratch" guide](#start-from-scratch).
 [Patterns Docs](https://github.com/CityOfNewYork/patterns-docs)       | Reusable documentation for pattern libraries created with the CLI.
+[Patterns Test](https://github.com/CityOfNewYork/patterns-test)       | Testing repository for the CLI.
 
 ---
 
