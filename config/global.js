@@ -45,7 +45,7 @@ module.exports = {
     {
       __dirname: 'config',
       files: [
-        'rollup.mjs',
+        'rollup.js',
         'sass.js',
         'tailwindcss.js',
         'tokens.js'

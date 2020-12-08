@@ -66,7 +66,7 @@ const main = async (modules) => {
  * @type {Source} https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(globs, {
-  ignored: path.join(process.env.PWD, tokens.options().output.replace(/"/g, '')),
+  ignored: tokens.options().output.replace(/"/g, ''),
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750

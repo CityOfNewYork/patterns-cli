@@ -10,7 +10,9 @@ A front-end CLI for building and managing design pattern libraries. Created by [
 
 * 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for open sourcing and integration in a digital product ecosystem.
 
-## Features ([skip the pitch](#contents))
+## Features
+
+[... or skip the pitch](#contents)
 
 ### ✨ Make module based patterns
 
@@ -46,7 +48,7 @@ All design pattern source code will be organized into four directories: **Elemen
 
 ### 🔌 Demonstrate and document markup once
 
-Write dynamic and reusable markup used to create live demonstrations and document markup once using [slm-lang](https://github.com/slm-lang) (a templating language inspired by Pug).
+Write dynamic and reusable markup used to create live demonstrations and document markup once using [slm-lang](https://github.com/slm-lang) (an html template language inspired by Pug).
 
 ```pug
 - this.accordion = {}
@@ -88,7 +90,7 @@ article class='c-accordion'
 
 ### 💅 Style using [Dart Sass](https://sass-lang.com/dart-sass)
 
-Dart Sass has many perks such as moduled dependencies. Additionally, CSS post processing can be customized with [PostCSS](https://postcss.org/) plugins. [LibSass](https://sass-lang.com/libsass) is also supported if desired.
+Dart Sass has many perks such as module based dependencies. Additionally, CSS post processing can be customized with [PostCSS](https://postcss.org/) plugins. [LibSass](https://sass-lang.com/libsass) is also supported if desired.
 
 ```scss
 // Dependencies
@@ -283,7 +285,7 @@ module.exports = {
 
 ### 🗜️ Optimize and generate SVG sprites
 
-Uses [svgo](https://github.com/svg/svgo) to optimze individual svgs and [svgstore-cli](https://github.com/svgstore/svgstore-cli) to concantenate an SVG sprite for rendering icons and vector graphics.
+Uses [svgo](https://github.com/svg/svgo) to optimize individual svgs and [svgstore-cli](https://github.com/svgstore/svgstore-cli) to concatenate an SVG sprite for rendering icons and vector graphics.
 
 ```shell
 🗜️  Svgs in ./src/svg/shape-c.svg out ./dist/svg/pttrn-shape-c.svg
@@ -308,7 +310,7 @@ Watch for file changes using [Chokidar](https://github.com/paulmillr/chokidar) a
 ```shell
 $ npm start
 
-> @nycopportunity/pttrn-starter@0.1.0 start /@nycopportunity/pttrn-starter
+> @nycopportunity/pttrn-starter@0.1.0 start @nycopportunity/pttrn-starter
 > cross-env NODE_ENV=development cross-env PORT=7070 concurrently "pttrn default -w" "pttrn serve -w" -p "none"
 
 👀 Serve watching ./dist/**/*.html, ./dist/css/*.css, ./dist/js/*.js
@@ -366,6 +368,9 @@ Each major feature uses a [configuration file](config) for adjusting the setting
 * [Guide: `start` command](#start-command)
 * [Guide: `publish` command](#publish-command)
 
+* [Demo Source](#demo-source)
+* [Starter](#starter)
+
 * [CLI](#cli)
   * [Executing the binary](#executing-the-binary)
   * [Commands](#commands)
@@ -386,7 +391,7 @@ Each major feature uses a [configuration file](config) for adjusting the setting
 
   * [Flags](#flags)
   * [Alerts](#alerts)
-  * [ES Configuration](#es-configuration)
+  <!-- * [ES Configuration](#es-configuration) -->
   * [Custom Commands](#custom-commands)
   * [NPM Scripts](#npm-scripts)
 
@@ -402,11 +407,13 @@ Each major feature uses a [configuration file](config) for adjusting the setting
 $ npm install @nycopportunity/pttrn
 ```
 
-If you need to start a new project you can run `npm init` before installing.
+If you need to start a new project you can run `npm init -y` before installing.
 
 ## Start from scratch
 
 [... or quickly scaffold a new project](#scaffold-command)
+
+[... or use the Patterns Starter](#starter)
 
 ### `make` command
 
@@ -419,9 +426,9 @@ $ npx pttrn make component accordion
 ✨ Created ./src/components/accordion/accordion.md
 ✨ Created ./src/components/accordion/_accordion.scss
 
-💅 Include the accordion styleheet in your main Sass entrypoint. To create an independent distribution (optional) add the accordion styleheet to your Sass configuration.
+💅 Include the accordion stylesheet in your main Sass entry point. To create an independent distribution (optional) add the accordion stylesheet to your Sass configuration.
 
-❓ Make a config file for accordion? y/n
+❓ Make a config file for accordion? y/n ↵
 ```
 
 What just happened?
@@ -433,31 +440,31 @@ What just happened?
 ```shell
 ✨ ./src/config/_accordion.scss was made.
 
-❓ Make a view file for accordion? y/n
+❓ Make a view file for accordion? y/n ↵ y
 ✨ ./src/views/accordion.slm was made.
 
-❓ Make a script file for accordion? y/n
+❓ Make a script file for accordion? y/n ↵ y
 ✨ ./src/components/accordion/accordion.js was made.
 
-🌈 Import the accordion script into your main JavaScript entrypoint file and create a public function for it in the default class. To create an independent distribution (optional) add the accordion script to your Rollup configuration.
+🌈 Import the accordion script into your main JavaScript entry point file and create a public function for it in the default class. To create an independent distribution (optional) add the accordion script to your Rollup configuration.
 
-❓ Make a readme file for accordion? y/n
+❓ Make a readme file for accordion? y/n ↵ y
 ✨ ./src/components/accordion/readme.md was made.
 ```
 
 ### The file specs
 
-* **.slm** - files are used to define the markup of the component using [slm-lang](https://github.com/slm-lang) that has a syntax inspired by Pug. It is also the templating language for all views in a Patterns Framework project.
-* **.md** - files are markdown files used to store the documenation of the pattern. Here you would describe types, variations, use cases, etc.
-* **.scss** - files are used to style the pattern. All Pattern Framework project styling is module based.
-* **config** - A Sass configuration file where variables, mixins, functions, and other dependencies can be stored.
-* **view** - A static view template where the pattern may be demonstrated and documentation can be rendered.
-* **script** - An ES Module for JavaScript enhanced patterns.
-* **readme** - A markdown file where the pattern documenation is written.
+* **.slm** - files are used to define the markup of the component using [slm-lang](https://github.com/slm-lang) that has a syntax inspired by Pug. It is also the html template language for all views in a Patterns Framework project
+* **.md** - files are markdown files used to store the documentation of the pattern. Here you would describe types, variations, use cases, etc
+* **.scss** - files are used to style the pattern. All Pattern Framework project styling is module based
+* **config** - A Sass configuration file where variables, mixins, functions, and other dependencies can be stored
+* **view** - A static view template where the pattern may be demonstrated and documentation can be rendered
+* **script** - An ES Module for JavaScript enhanced patterns
+* **readme** - A markdown file where the pattern documentation is written
 
 ### Styles
 
-**$3** Create the default Sass entrypoint and add the newly created accordion component stylesheet to it.
+**$3** Create the default Sass entry point and add the newly created accordion component stylesheet to it.
 
 ```shell
 $ mkdir -p src/scss && touch src/scss/default.scss
@@ -479,7 +486,7 @@ Open up **./src/components/accordion/_accordion.scss**. It will have the followi
 .c-accordion { }
 ```
 
-Edit the file as you wish (be sure to add style attributes to the selector otherwise it will not compile) then run the following command:
+Edit the file as you wish (or change the background property to red; `background-color:red`). Be sure to add style attributes to the selector otherwise it will not compile. Then, run the following command:
 
 ```
 $ npx pttrn styles
@@ -493,15 +500,15 @@ $ npx pttrn styles
 What just happened?
 
 1. The default tokens configuration from the CLI were compiled to Sass.
-1. StyleLint was run on the default Sass entrypoint.
-1. The default Sass entrypoint was compiled to CSS.
+1. StyleLint was run on the default Sass entry point.
+1. The default Sass entry point was compiled to CSS.
 1. PostCSS was run on the default CSS stylesheet.
 
 Open up **./dist/css/default.css** to see the compiled stylesheet.
 
 ### Scripts
 
-**$4** Create the default JavaScript entrypoint and add the newly created accordion component stylesheet to it.
+**$4** Create the default JavaScript entry point and add the newly created accordion component stylesheet to it.
 
 ```shell
 $ mkdir -p src/js && touch src/js/default.js
@@ -558,12 +565,15 @@ export default Accordion;
 
 The contents of this file are optional, however, using class based ES modules makes scoping JavaScript enhanced patterns easier to scope. Edit the file as you wish and run:
 
-```
+```shell
+$ npx pttrn rollup
+🤓 ESLint suggestions for ./src/js/default.js
+6:7     warn    Unexpected console statement. no-console
 🗞️ Rollup in src/js/default.js out dist/js/default.js
 ✨ Rollup finished
 ```
 
-What just happened? The default ES entrypoint from the CLI was compiled in the iife format for browsers.
+What just happened? The default ES entry point from the CLI was linted and compiled in the iife format for browsers.
 
 ### Views
 
@@ -612,7 +622,7 @@ html lang='en'
       script src='/reload/reload.js'
 ```
 
-You'll need to instantiate the Accordion module in the default entrypoint class. Open **./src/views/accordion.slm** and add to the scripts block...
+You'll need to instantiate the Accordion module in the default entry point class. Open **./src/views/accordion.slm** and add to the scripts block...
 
 ```
 
@@ -631,9 +641,10 @@ You'll need to instantiate the Accordion module in the default entrypoint class.
 ... then run the command:
 
 ```shell
+$ npx pttrn slm
 ✨ Slm in ./src/views/accordion.slm out ./dist/accordion.html
-🤸 Running Pa11y CI on ./dist/accordion.html
-🤸 No Pa11y suggestions for ./dist/accordion.html
+⏳ Running Pa11y CI on ./dist/accordion.html
+✨ No Pa11y suggestions for ./dist/accordion.html
 ✨ Slm finished
 ```
 
@@ -740,7 +751,7 @@ $ npx pttrn scaffold
 Then run the following to start the development server and start making.
 
 ```shell
-$ npx concurrently 'pttrn default -w' 'pttrn serve -w' -p 'none'
+$ npx concurrently 'pttrn -w' 'pttrn serve -w' -p 'none'
 
 👀 Serve watching ./dist/**/*.html, ./dist/**/*.css, ./dist/**/*.js
 🤓 Serving ./dist/ to http://localhost:7000
@@ -765,7 +776,7 @@ This will hook into npm script's default start command for your project. Once th
 ```shell
 $ npm start
 
-> @nycopportunity/pttrn-starter@0.1.0 start /@nycopportunity/pttrn-starter
+> patterns-demo@1.0.0 start patterns-demo
 > cross-env NODE_ENV=development cross-env PORT=7000 concurrently "pttrn default -w" "pttrn serve -w" -p "none"
 
 👀 Serve watching ./dist/**/*.html, ./dist/**/*.css, ./dist/**/*.js
@@ -786,19 +797,12 @@ $ touch .gitignore
 $ echo '/node_modules' >> .gitignore
 ```
 
-Then you can make the first commit by staging the working directory and committing.
-
-```shell
-$ git add .
-$ git commit -m 'init'
-```
-
 You will also need a remote git repository with the repository settings, specifically the url, are configured in your **package.json** file. Below is an example:
 
 ```json
 "repository": {
   "type": "git",
-  "url": "https://github.com/CityOfNewYork/pttrn-starter.git"
+  "url": "https://github.com/CityOfNewYork/patterns-demo.git"
 }
 ```
 
@@ -812,13 +816,26 @@ Adding the `version`, `prepublishOnly`, and `publish` scripts in your **package.
 }
 ```
 
+You will want to start from a reasonable version number in your **package.json** file if starting a new project. Open it up and set the `version` value to `0.0.0`.
+
+```json
+"version": "0.0.0"
+```
+
+Then you can make the first commit by staging the working directory and committing.
+
+```shell
+$ git add .
+$ git commit -m 'init'
+```
+
 When versioning your library you can pass `major`, `minor`, `patch`, or `prerelease` as the argument following [semantic versioning](https://semver.org/).
 
 ```shell
 $ npm version minor
 v0.1.0
 
-> @nycopportunity/pttrn-starter@0.1.0 version /@nycopportunity/pttrn-starter
+> patterns-demo@0.1.0 version patterns-demo
 > pttrn default && git add .
 
 ✨ Slm in ./src/views/accordion.slm out ./dist/accordion.html
@@ -839,7 +856,7 @@ v0.1.0
 ```shell
 $ npm publish
 
-> @nycopportunity/pttrn-starter@0.1.0 prepublishOnly .
+> patterns-demo@0.1.0 prepublishOnly .
 > git push && git push --tags
 
 Enumerating objects: 5, done.
@@ -849,11 +866,11 @@ Compressing objects: 100% (3/3), done.
 Writing objects: 100% (3/3), 379 bytes | 379.00 KiB/s, done.
 Total 3 (delta 2), reused 0 (delta 0)
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
-To https://github.com/CityOfNewYork/pttrn-starter
+To https://github.com/CityOfNewYork/patterns-demo
    40e700a9..330cbad2  master -> master
 Everything up-to-date
 npm notice
-npm notice 📦  @nycopportunity/pttrn-starter@0.1.0
+npm notice 📦  patterns-demo@0.1.0
 npm notice === Tarball Contents ===
 npm notice 71B   dist/css/default.css
 npm notice 1.1kB dist/accordion.html
@@ -873,7 +890,7 @@ npm notice 421B  src/views/accordion.slm
 npm notice 843B  src/slm/layouts/default.slm
 npm notice 232B  dist/svg/svgs.svg
 npm notice === Tarball Details ===
-npm notice name:          @nycopportunity/pttrn-starter
+npm notice name:          patterns-demo
 npm notice version:       0.1.0
 npm notice package size:  4.6 kB
 npm notice unpacked size: 9.5 kB
@@ -882,13 +899,31 @@ npm notice integrity:     sha512-gXB4U+AJhlGDo[...]O/CzKHv1LUz4w==
 npm notice total files:   17
 npm notice
 
-> @nycopportunity/pttrn-starter@0.1.0 publish .
+> patterns-demo@0.1.0 publish .
 > cross-env NODE_ENV=production pttrn publish
 
-🤓 Publishing to origin; https://github.com/CityOfNewYork/pttrn-starter.git
+🤓 Publishing to origin; https://github.com/CityOfNewYork/patterns-demo.git
 ✨ Published to GitHub Pages
-+ @nycopportunity/pttrn-starter@0.1.0
++ patterns-demo@0.1.0
 ```
+
+## Demo Source
+
+The source code of the demo for the previous guides can be found in the [Patterns Demo repository](https://github.com/CityOfNewYork/patterns-demo).
+
+## Starter
+
+The [Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) makes it much quicker to initialize a new project. Run;
+
+```shell
+$ npm init @nycopportunity/pttrn-starter
+
+npx: installed 1 in 1.299s
+Setting up your new Patterns Project! Please wait...
+You're all set!
+```
+
+You'll still need to create a **package.json** file and [install the CLI as a dependency](#installation) of the project.
 
 ## CLI
 
@@ -965,7 +1000,7 @@ Command          | Flags | Configuration | `NODE_ENV`
 -----------------|-------|---------------|-
 `default` or ` ` | `-w`  | n/a           | `production` or `development`
 
-Syncronously runs this series of commands; `styles`, `rollup`, `slm`, and `svgs` respectfully and described below.
+Synchronously runs this series of commands; `styles`, `rollup`, `slm`, and `svgs` respectfully and described below.
 
 ---
 
@@ -975,7 +1010,7 @@ Command  | Flags | Configuration | `NODE_ENV`
 ---------|-------|---------------|-
 `styles` | `-w`  | n/a           | `production` or `development`
 
-Syncronously runs this series of commands; `tokens`, `sass`, and `postcss` respectfully and described below.
+Synchronously runs this series of commands; `tokens`, `sass`, and `postcss` respectfully and described below.
 
 ---
 
@@ -999,7 +1034,7 @@ Command | Flags | Configuration                                                 
 --------|-------|----------------------------------------------------------------------------------------------|-
 `sass`  | `-nl` | [sass.js](config/sass.js) | `production` or `development`
 
-Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entrypoint [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
+Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entry point [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
 
 A custom `sass` configuration could be used to add additional Sass modules to compile.
 
@@ -1025,14 +1060,14 @@ Command  | Flags      | Configuration                           | `NODE_ENV`
 ---------|------------|-----------------------------------------|-
 `rollup` | `-w` `-nl` | [rollup.js](config/rollup.js) | `production` or `development`
 
-Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default it will bundle the default JavaScript entrypoint [./src/js/default.js](config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
+Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default it will bundle the default JavaScript entry point [./src/js/default.js](config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
 
 * [Replace](https://github.com/rollup/plugins/tree/master/packages/replace) for replacing `process.env.NODE_ENV` in scripts with the `NODE_ENV` environment variable passed through the command.
 * [Node Resolve](https://github.com/rollup/plugins/tree/master/packages/node-resolve) for resolving module imports from the **./node_modules** directory.
 
 ##### NODE_ENV
 
-The value `development` will affect the command directly by compiling only the modules with the attribute `devModule: true` (the default entrypoint module is a development module).
+The value `development` will affect the command directly by compiling only the modules with the attribute `devModule: true` (the default entry point module is a development module).
 
 Other ES modules in your library can use the `process.env.NODE_ENV` for things such as logging to the console during development. Say the following line appears in an ES module:
 
@@ -1065,7 +1100,7 @@ Command | Flags | Configuration
 --------|-------|-
 `lint`  | n/a   | [lint.js](config/lint.js)
 
-Uses [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to lint JavaScript and Sass files in the **./src/** directory. Linting suggestions are logged to the terminal. The default `lint` configuration uses [Google's JavaScript styleguide](https://github.com/google/eslint-config-google) and [stylelint's standard config](https://github.com/stylelint/stylelint-config-standard) with a few additional rules.
+Uses [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to lint JavaScript and Sass files in the **./src/** directory. Linting suggestions are logged to the terminal. The default `lint` configuration uses [Google's JavaScript style guide](https://github.com/google/eslint-config-google) and [stylelint's standard config](https://github.com/stylelint/stylelint-config-standard) with a few additional rules.
 
 A custom `lint` configuration could be used to change or extend the linting standards of a project.
 
@@ -1127,7 +1162,7 @@ Variables are also available to Markdown files using the following tag:
 {{ this.process.env.NODE_ENV }}
 ```
 
-A custom `slm` configuration could be used to be used to pass additional data and methods to the view templates as well as futher configure JS Beautify and Marked.
+A custom `slm` configuration could be used to be used to pass additional data and methods to the view templates as well as further configure JS Beautify and Marked.
 
 ---
 
@@ -1139,7 +1174,7 @@ Command | Flags | Configuration
 
 Uses [Pa11y](https://github.com/pa11y/pa11y) to test the static output of HTML files in the **./dist** directory for accessibility issues. Issues are logged to the terminal. The default `pa11y` configuration uses the WCAG AA [accessibility standard](https://github.com/pa11y/pa11y#standard-string), aXe-core and HTML CodeSniffer as [test runners](https://github.com/pa11y/pa11y#runners), and adds the selector `[data-pa11y="disable"]` to that can be used to [hide elements](https://github.com/pa11y/pa11y#hideelements-string) that shouldn't be tested in the static output.
 
-A custom `pa11y` configuration could be used to enable or disable many of the avaliable [configuration options for Pa11y](https://github.com/pa11y/pa11y#configuration).
+A custom `pa11y` configuration could be used to enable or disable many of the available [configuration options for Pa11y](https://github.com/pa11y/pa11y#configuration).
 
 ---
 
@@ -1161,14 +1196,14 @@ Command    | Flags | Configuration
 -----------|-------|-
 `scaffold` | n/a   | [global.js](config/global.js) [scaffold/*](config/scaffold/)
 
-As described in the [Scaffold guide](#scaffold-command) above this command will initalize a minimal base project with the following:
+As described in the [Scaffold guide](#scaffold-command) above this command will initialize a minimal base project with the following:
 
 * CSS only Details Component
 * Configuration files for Tokens, Rollup.js, Sass, and Tailwindcss
 * Simple Sass library
 * Single page static demo site
 
-The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entrypoints for a project. It also relys on file templates in the [./config/scaffold/](config/scaffold/) directory to source the contents of files described in the system.
+The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entry points for a project. It also relies on file templates in the [./config/scaffold/](config/scaffold/) directory to source the contents of files described in the system.
 
 A custom `scaffold` configuration could be used to change the output of the starter filesystem and contents of files for a project.
 
@@ -1180,7 +1215,7 @@ Command | Arguments                  | Flags | Configuration
 --------|----------------------------|-------|-
 `make`  | `type`* `name`* `template` | n/a   | [make.js](config/make.js) [make/*](config/make/)
 
-Creates pattern directories and files using paths and variables defined in the `make` configuration with file contents defined in the [./config/make](config/make/) directory as described in the [`make` command guide](#make-command). It will not permit overwritting pattern files if they already exist.
+Creates pattern directories and files using paths and variables defined in the `make` configuration with file contents defined in the [./config/make](config/make/) directory as described in the [`make` command guide](#make-command). It will not permit overwriting pattern files if they already exist.
 
 *denotes required arguments.
 
@@ -1190,7 +1225,7 @@ Creates pattern directories and files using paths and variables defined in the `
 - `pattern` _required_ - Name of the pattern
 - `template` _optional_ - If included the third argument can be used to create a single template from the [./config/make](config/make/) directory. By default all files will be made.
 
-A custom `make` configuration could be used to add custom files with predefined templates in the [./config/make](config/make/) direcory. The CLI currently supports CSS and ES module based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
+A custom `make` configuration could be used to add custom files with predefined templates in the [./config/make](config/make/) directory. The CLI currently supports CSS and ES module based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
 
 Refer to the guide on [creating a new `make` command template](#creating-a-new-make-command-template) for details.
 
@@ -1232,9 +1267,9 @@ Flag                     | Description
 
 [Node Emoji](https://github.com/omnidan/node-emoji#readme) and [Chalk](https://github.com/chalk/chalk) are used to illustrate the logging alert output. The emoji symbols and colors can be modified or removed with a custom [./config/alerts.js](config/alerts.js) configuration file.
 
-### ES Configuration
+<!-- ### ES Configuration
 
-You may have noticed the `scaffold` command will create a `.config/rollup.mjs` configuration file. [Node.js has stable support of the ECMAScript module spec](https://nodejs.org/api/esm.html) and they can be imported into CommonJS (Node modules). The configuration script will resolve ES modules with the **.mjs** extension over **.js** files, however, use of ES module configuration hasn't been fully tested with all of the commands.
+You may have noticed the `scaffold` command will create a `.config/rollup.mjs` configuration file. [Node.js has stable support of the ECMAScript module spec](https://nodejs.org/api/esm.html) and they can be imported into CommonJS (Node modules). The configuration script will resolve ES modules with the **.mjs** extension over **.js** files, however, use of ES module configuration hasn't been fully tested with all of the commands. -->
 
 ### Custom Commands
 
@@ -1401,16 +1436,17 @@ To omit these packages to keep your project lean, use the `--no-optional` flag w
 $ npm install @nycopportunity/pttrn --no-optional
 ```
 
-These dependencies are required by the defuault configuration or recommended npm scripts. If you project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
+These dependencies are required by the default configuration or recommended npm scripts. If you project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
 
 ## Supporting Packages
 
 Other packages to help support pattern library development.
 
-Package                                                                              | Description
--------------------------------------------------------------------------------------|-
+Package                                                               | Description
+----------------------------------------------------------------------|-
+[Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) | Initializer source for new projects that hooks into [`npm init`](https://docs.npmjs.com/cli/v6/commands/npm-init).
 [Patterns Scripts](https://github.com/CityOfNewYork/patterns-scripts) | A set of common utility ES modules to help keep scripting DRY and support accessibility.
-[Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) | The starter project created in the `make` command guide.
+[Patterns Demo](https://github.com/CityOfNewYork/patterns-demo)       | Source code for the starter project created in the ["start from scratch" guide](#start-from-scratch).
 [Patterns Docs](https://github.com/CityOfNewYork/patterns-docs)       | Reusable documentation for pattern libraries created with the CLI.
 
 ---

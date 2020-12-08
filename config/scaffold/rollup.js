@@ -2,9 +2,8 @@
  * Dependencies
  */
 
-import babel from '@rollup/plugin-babel';              // Transpile source code.
-import nodeResolve from '@rollup/plugin-node-resolve'; // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
-import replace from '@rollup/plugin-replace';          // Replace content while bundling.
+const nodeResolve = require('@rollup/plugin-node-resolve'); // Locate modules using the Node resolution algorithm, for using third party modules in node_modules.
+const replace = require('@rollup/plugin-replace');          // Replace content while bundling.
 
 /**
  * Base module configuration. Refer to the package for details on the available options.
@@ -30,10 +29,6 @@ let plugins = [
   replace({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }),
-  babel.babel({
-    exclude: 'node_modules/**',
-    babelHelpers: 'bundled'
-  }),
   nodeResolve.nodeResolve({
     browser: true,
     customResolveOptions: {
@@ -47,7 +42,7 @@ let plugins = [
  *
  * @type {Array}
  */
-export default [
+module.exports = [
   {
     input: `${process.env.PWD}/src/js/default.js`,
     output: [

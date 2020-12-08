@@ -144,13 +144,13 @@ module.exports = {
   messages: {
     style: [
       '\n',
-      `${alerts.styles} Include the ${alerts.str.string('{{ pattern }}')} styleheet in your main Sass entrypoint. `,
-      `To create an independent distribution (optional) add the ${alerts.str.string('{{ pattern }}')} styleheet to your Sass configuration.`,
+      `${alerts.styles} Include the ${alerts.str.string('{{ pattern }}')} stylesheet in your main Sass entry point. `,
+      `To create an independent distribution (optional) add the ${alerts.str.string('{{ pattern }}')} stylesheet to your Sass configuration.`,
       '\n'
     ],
     script: [
       '\n',
-      `${alerts.scripts} Import the ${alerts.str.string('{{ pattern }}')} script into your main JavaScript entrypoint file and create a public function for it in the default class. `,
+      `${alerts.scripts} Import the ${alerts.str.string('{{ pattern }}')} script into your main JavaScript entry point file and create a public function for it in the default class. `,
       `To create an independent distribution (optional) add the ${alerts.str.string('{{ pattern }}')} script to your Rollup configuration.`,
       '\n'
     ]
