@@ -690,6 +690,8 @@ What just happened? The default watching processes have been announced. Once you
 
 The change was detected and the style scripts were run.
 
+[Back to table of contents ^](#contents)
+
 ## `scaffold` command
 
 The `scaffold` command will create a minimal base project with the following:
@@ -762,6 +764,8 @@ $ npx concurrently 'pttrn -w' 'pttrn serve -w' -p 'none'
 👀 Styles watching ./src/**/*.scss, ./config/tokens.js, ./config/tailwindcss.js
 ```
 
+[Back to table of contents ^](#contents)
+
 ## `start` command
 
 Add this `start` script in your **package.json** file to create a shorthand for the development server command.
@@ -787,6 +791,8 @@ $ npm start
 👀 Rollup watching @pttrn/config/rollup.js, ./src/**/*.js
 👀 Styles watching ./src/**/*.scss, @pttrn/config/tokens.js, @pttrn/config/tailwind.js
 ```
+
+[Back to table of contents ^](#contents)
 
 ## `publish` command
 
@@ -908,9 +914,13 @@ npm notice
 + patterns-demo@0.1.0
 ```
 
+[Back to table of contents ^](#contents)
+
 ## Demo Source
 
 The source code of the demo for the previous guides can be found in the [Patterns Demo repository](https://github.com/CityOfNewYork/patterns-demo).
+
+[Back to table of contents ^](#contents)
 
 ## Starter
 
@@ -925,6 +935,8 @@ You're all set!
 ```
 
 You'll still need to create a **package.json** file and [install the CLI as a dependency](#installation) of the project.
+
+[Back to table of contents ^](#contents)
 
 ## CLI
 
@@ -1003,6 +1015,8 @@ Command          | Flags | Configuration | `NODE_ENV`
 
 Synchronously runs this series of commands; `styles`, `rollup`, `slm`, and `svgs` respectfully and described below.
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 #### Styles
@@ -1012,6 +1026,8 @@ Command  | Flags | Configuration | `NODE_ENV`
 `styles` | `-w`  | n/a           | `production` or `development`
 
 Synchronously runs this series of commands; `tokens`, `sass`, and `postcss` respectfully and described below.
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1027,6 +1043,8 @@ Settings for [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) are set at
 
 A custom `tokens` configuration is highly recommended (if not required) for any patterns library that uses the CLI to manage unique design tokens.
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 #### Sass
@@ -1038,6 +1056,8 @@ Command | Flags | Configuration                                                 
 Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entry point [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
 
 A custom `sass` configuration could be used to add additional Sass modules to compile.
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1052,6 +1072,8 @@ Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` config
 A custom `postcss` configuration could be used to configure PostCSS and add additional plugins needed for a particular project.
 
 A custom `tailwindcss` configuration can easily import values from the `tokens` configuration to generate Tailwindcss utilities.
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1093,6 +1115,8 @@ IE 11 is no longer supported. If you absolutely must support it you will need to
 
 A custom `rollup` configuration could be used to add additional output modules to support additional JavaScript environments, such as NodeJS, as well as utilize additional Rollup plugins needed for a particular project.
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 #### Lint
@@ -1104,6 +1128,8 @@ Command | Flags | Configuration
 Uses [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to lint JavaScript and Sass files in the **./src/** directory. Linting suggestions are logged to the terminal. The default `lint` configuration uses [Google's JavaScript style guide](https://github.com/google/eslint-config-google) and [stylelint's standard config](https://github.com/stylelint/stylelint-config-standard) with a few additional rules.
 
 A custom `lint` configuration could be used to change or extend the linting standards of a project.
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1165,6 +1191,8 @@ Variables are also available to Markdown files using the following tag:
 
 A custom `slm` configuration could be used to be used to pass additional data and methods to the view templates as well as further configure JS Beautify and Marked.
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 #### Pa11y
@@ -1177,6 +1205,8 @@ Uses [Pa11y](https://github.com/pa11y/pa11y) to test the static output of HTML f
 
 A custom `pa11y` configuration could be used to enable or disable many of the available [configuration options for Pa11y](https://github.com/pa11y/pa11y#configuration).
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 #### Svgs
@@ -1188,6 +1218,8 @@ Command | Flags | Configuration
 Uses [svgo](https://github.com/svg/svgo) to optimize SVGs in the **./src/svg/** directory and saves them in the **./dist/svg** directory. Then, it uses [svgstore](https://github.com/svgstore/svgstore) to create an SVG sprite in the **./dist/svg/svgs.svg** file of all the optimized SVGs. The `svg` configuration passes svg file name prefix and svg sprite name settings to each package.
 
 A custom `svgs` configuration could be used to modify the svg file prefix, svg sprite name, and configuration options for [svgo](https://github.com/svg/svgo#what-it-can-do) and [svgstore](https://github.com/svgstore/svgstore#options).
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1207,6 +1239,8 @@ As described in the [Scaffold guide](#scaffold-command) above this command will 
 The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entry points for a project. It also relies on file templates in the [./config/scaffold/](config/scaffold/) directory to source the contents of files described in the system.
 
 A custom `scaffold` configuration could be used to change the output of the starter filesystem and contents of files for a project.
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1230,6 +1264,8 @@ A custom `make` configuration could be used to add custom files with predefined 
 
 Refer to the guide on [creating a new `make` command template](#creating-a-new-make-command-template) for details.
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 #### Serve
@@ -1239,6 +1275,8 @@ Command | Flags | Configuration | `PORT`
 `serve` | `-w`  | n/a           | Any port number (ex; `8080`)
 
 Uses [Express](https://expressjs.com/) to serve static files in the **./dist/** directory. By default it runs on port `7000`. The `serve` command doesn't have a configuration file, however, the port number can be configured through the environment variable `PORT`.
+
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1252,6 +1290,8 @@ Uses [gh-pages](https://github.com/tschaub/gh-pages) to stand up the static outp
 
 A custom `publish` configuration could be used to push to different remote GitHub Pages repositories.
 
+Back to: [commands ^](#commands) | [table of contents ^](#contents)
+
 ---
 
 ### Flags
@@ -1264,6 +1304,8 @@ Flag&nbsp; | Non&nbsp;abbreviated&nbsp;Flag | Description
 `-nl`      | `--no-lint`                    | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
 `-np`      | `--no-pa11y`                   | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
 
+[Back to table of contents ^](#contents)
+
 ### Alerts
 
 [Node Emoji](https://github.com/omnidan/node-emoji#readme) and [Chalk](https://github.com/chalk/chalk) are used to illustrate the logging alert output. The emoji symbols and colors can be modified or removed with a custom [./config/alerts.js](config/alerts.js) configuration file.
@@ -1271,6 +1313,8 @@ Flag&nbsp; | Non&nbsp;abbreviated&nbsp;Flag | Description
 <!-- ### ES Configuration
 
 You may have noticed the `scaffold` command will create a `.config/rollup.mjs` configuration file. [Node.js has stable support of the ECMAScript module spec](https://nodejs.org/api/esm.html) and they can be imported into CommonJS (Node modules). The configuration script will resolve ES modules with the **.mjs** extension over **.js** files, however, use of ES module configuration hasn't been fully tested with all of the commands. -->
+
+[Back to table of contents ^](#contents)
 
 ### Custom Commands
 
@@ -1283,6 +1327,8 @@ module.exports = {
   }
 };
 ```
+
+[Back to table of contents ^](#contents)
 
 ### NPM Scripts
 
@@ -1320,6 +1366,8 @@ Script           | Description
 
 Below is an explainer each scripts contents.
 
+Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+
 #### Start
 
 * `cross-env` - A package for the support of setting environment variables across terminal platforms.
@@ -1330,20 +1378,28 @@ Below is an explainer each scripts contents.
 * `pttrn serve -w` - Runs the serve pttrn command for starting the development server.
 * `-p "none"` - This is a flag for Concurrently that removes the process prefix (`[0]`) from the log.
 
+Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+
 #### Version
 
 - `pttrn` - This is the same as `npx pttrn default`. It will run the CLI executable in the local **./node_modules** directory.
 - `git add .` - This stages the working directory for a commit. Since it runs after the `default` command anything compiled will be committed to the release.
+
+Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 #### prepublishOnly
 
 - `git push` - This will push the committed release files to the origin repository.
 - `git push --tags` - This will push the committed release tag to the origin repository.
 
+Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+
 #### Publish
 
 - `cross-env NODE_ENV=production` - This sets the `NODE_ENV` variable to `production` for the next command.
 - `pttrn publish` - Takes the contents of the **./dist** directory and commits it to the `gh-pages` branch to create a [GitHub Pages](https://pages.github.com) site using the [gh-pages](https://github.com/tschaub/gh-pages) package.
+
+Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 ## Adding Tailwindcss
 
@@ -1466,6 +1522,8 @@ module.exports = [
 
 Purge CSS will read static files and remove css from a stylesheet that isn't being used by those files. This is recommended for projects where the pattern library will be integrated. However, for the purpose of a Pattern Library, you will want to have all of the utilities present in the stylesheet. See the [optimizing for production Tailwindcss guide](https://tailwindcss.com/docs/optimizing-for-production).
 
+[Back to table of contents ^](#contents)
+
 ## Creating a new `make` command template
 
 Custom templates can be created by the make script by creating a custom `make` configuration, modifying the settings, and adding a new template file in the [./config/make/](config/make/) directory. These are the steps that would need to be taken to include a [React](https://reactjs.org/) component template in the list of files created by the `make` command.
@@ -1538,6 +1596,8 @@ paths: {
 }
 ```
 
+[Back to table of contents ^](#contents)
+
 ## Optional Dependencies
 
 The CLI ships with several optional dependencies.
@@ -1560,6 +1620,8 @@ $ npm install @nycopportunity/pttrn --no-optional
 
 These dependencies are required by the default configuration or recommended npm scripts. If you project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
 
+[Back to table of contents ^](#contents)
+
 ## Supporting Packages
 
 Other packages to help support pattern library development.
@@ -1571,6 +1633,8 @@ Package                                                               | Descript
 [Patterns Demo](https://github.com/CityOfNewYork/patterns-demo)       | Source code for the starter project created in the ["start from scratch" guide](#start-from-scratch).
 [Patterns Docs](https://github.com/CityOfNewYork/patterns-docs)       | Reusable documentation for pattern libraries created with the CLI.
 [Patterns Test](https://github.com/CityOfNewYork/patterns-test)       | Testing repository for the CLI.
+
+[Back to table of contents ^](#contents)
 
 ---
 
