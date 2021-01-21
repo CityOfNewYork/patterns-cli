@@ -355,7 +355,6 @@ Each major feature uses a [configuration file](config) for adjusting the setting
 ## Contents
 
 * [Installation](#installation)
-
 * [Guide: Start from scratch](#start-from-scratch)
   * [`make` command](#make-command)
   * [The file specs](#the-file-specs)
@@ -363,14 +362,11 @@ Each major feature uses a [configuration file](config) for adjusting the setting
   * [Scripts](#scripts)
   * [Views](#views)
   * [Serve](#serve)
-
 * [Guide: `scaffold` command](#scaffold-command)
 * [Guide: `start` command](#start-command)
 * [Guide: `publish` command](#publish-command)
-
 * [Demo Source](#demo-source)
 * [Starter](#starter)
-
 * [CLI](#cli)
   * [Executing the binary](#executing-the-binary)
   * [Commands](#commands)
@@ -388,13 +384,10 @@ Each major feature uses a [configuration file](config) for adjusting the setting
     * [`make`](#make)
     * [`serve`](#serve)
     * [`publish`](#publish)
-
   * [Flags](#flags)
   * [Alerts](#alerts)
-  <!-- * [ES Configuration](#es-configuration) -->
   * [Custom Commands](#custom-commands)
   * [NPM Scripts](#npm-scripts)
-
 * [Guide: Adding Tailwindcss](#adding-tailwindcss)
 * [Guide: Creating a new `make` command template](#creating-a-new-make-command-template)
 * [Optional dependencies](#optional-dependencies)
