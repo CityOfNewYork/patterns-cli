@@ -1139,7 +1139,38 @@ Command | Flags      | Configuration                     | `NODE_ENV`
 --------|------------|-----------------------------------|-
 `slm`   | `-w` `-np` | [slm.js](config/slm.js) | `production` or `development`
 
-Uses [Slm](https://github.com/slm-lang/slm) to compile Slm and Markdown files to static HTML in the **./dist** directory. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
+Uses [Slm](https://github.com/slm-lang/slm) to compile Slm pages from the **./src/views/** directories to static HTML pages in the **./dist** directory. Slm files serve as the template language for site documentation and HTML spec for patterns. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes Markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
+
+##### Views
+
+The default entry-point for Slm views exist in the **./src/views/** directory. Files in this directory will be treated as pages and compiled to the **./dist/** directory. Sub-directories are supported for nested pages. Slm extras, such as partials and layouts, can be placed in the **./src/slm/** directory.
+
+```
+├ 📂 src/            - Source directory
+  ├ 📂 slm/          - Slm extras
+    ├ 📁 partials/
+    └ 📁 layouts/
+  ├ 📂 views/        - Slm views
+    ├ 📂 newsletter  - Sub-directory
+      └ index.slm
+    ├ index.slm      - Homepage
+    ├ accordion.slm  - Accordion demo page
+    └ buttons.slm    - Buttons demo page
+    └ ...
+  └ ...
+```
+
+Running `npx pttrn slm` would compile the files in the source above to the static distribution described below.
+
+```
+├ 📂 dist/
+  ├ 📂 newsletter
+    └ index.html
+  ├ index.html
+  ├ accordion.html
+  └ buttons.html
+  └ ...
+```
 
 ##### Include
 
