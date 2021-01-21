@@ -1139,7 +1139,7 @@ Command | Flags      | Configuration                     | `NODE_ENV`
 --------|------------|-----------------------------------|-
 `slm`   | `-w` `-np` | [slm.js](config/slm.js) | `production` or `development`
 
-Uses [Slm](https://github.com/slm-lang/slm) to compile Slm pages from the **./src/views/** directories to static HTML pages in the **./dist** directory. Slm files serve as the template language for site documentation and HTML spec for patterns. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes Markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
+Uses [Slm](https://github.com/slm-lang/slm) to compile Slm pages from the **./src/views/** directory to static HTML pages in the **./dist** directory. Slm files serve as the template language for site documentation and HTML spec for patterns. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes Markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
 
 ##### Views
 
@@ -1352,12 +1352,29 @@ You may have noticed the `scaffold` command will create a `.config/rollup.mjs` c
 As the commands above will look for a custom configuration file for each command in the **./config** directory of your project the CLI will also resolve custom command scripts in the **./bin** directory of your project. A [sample script](bin/_sample.js) is included in this repo and can be used to start the creation of a custom command. The bare minimum a command script should include is a `run()` method.
 
 ```javascript
+const cnsl = require('@nycopportunity/pttrn/bin/util/console');
+const alerts = require('@nycopportunity/pttrn/config/alerts');
+
 module.exports = {
   run: () => {
-    console.log('My custom command');
+    cnsl.describe(`${alerts.success} My custom command`);
   }
 };
 ```
+
+For example, a custom script named **bin/custom.js** that exports the `run()` method above can be executed with the CLI by running
+
+```shell
+$ npx pttrn custom
+✨ My custom command
+```
+
+Custom commands can use [other packages](https://www.npmjs.com/) that are not integrated in this project and reuse the CLI [scripts](bin/), [utilities](bin/util/), or [default configuration](config/). Custom commands can also be packaged, published, and shared between projects. Below are a few published custom command plugins.
+
+Plugin                                                                              | Description
+------------------------------------------------------------------------------------|-
+[Patterns Plugin Feather](https://github.com/CityOfNewYork/patterns-plugin-feather) | Compile a [Feather icon](https://feathericons.com/) sprite from the Feather package into the dist directory.
+[Patterns Plugin Twig](https://github.com/CityOfNewYork/patterns-plugin-twig)       | Will compile Twig view templates effectively replacing the default Slm compiler with [Twig.js](https://github.com/twigjs/twig.js/).
 
 [Back to table of contents ^](#contents)
 
