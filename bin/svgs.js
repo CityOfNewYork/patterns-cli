@@ -217,7 +217,7 @@ const run = async (dir = SOURCE) => {
 
         await walk(dir);
 
-        await write(FILE, SPRITE, true);
+        await write(FILE, SPRITE.toString(), true);
 
         cnsl.success(`Svgs finished`);
       });
