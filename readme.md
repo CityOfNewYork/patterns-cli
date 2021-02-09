@@ -8,13 +8,13 @@ A front-end CLI for building and managing design pattern libraries. Created by [
 
 * 🌈 Works well with [Tailwindcss](https://tailwindcss.com/) by managing [design tokens](#design-tokens) with JavaScript but otherwise completely agnostic of other CSS and JavaScript frameworks. Use it to manage a customized component library and/or extend the default module templates to build out Vanilla JS, [React](https://reactjs.org/), [Vue.js](https://vuejs.org/), or [Svelte](https://svelte.dev/) components.
 
-* 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for open sourcing and integration in a digital product ecosystem.
+* 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for open-sourcing and integration in a digital product ecosystem.
 
 ## Features
 
 [... or skip the pitch](#contents)
 
-### ✨ Make module based patterns
+### ✨ Make module-based patterns
 
 The CLI has several commands, including `make`, for quickly generating new pattern modules using file templates.
 
@@ -48,7 +48,7 @@ All design pattern source code will be organized into four directories: **Elemen
 
 ### 🔌 Demonstrate and document markup once
 
-Write dynamic and reusable markup used to create live demonstrations and document markup once using [slm-lang](https://github.com/slm-lang) (an html template language inspired by Pug).
+Write dynamic and reusable markup used to create live demonstrations and document markup once using [slm-lang](https://github.com/slm-lang) (an HTML template language inspired by Pug).
 
 ```pug
 - this.accordion = {}
@@ -90,7 +90,7 @@ article class='c-accordion'
 
 ### 💅 Style using [Dart Sass](https://sass-lang.com/dart-sass)
 
-Dart Sass has many perks such as module based dependencies. Additionally, CSS post processing can be customized with [PostCSS](https://postcss.org/) plugins. [LibSass](https://sass-lang.com/libsass) is also supported if desired.
+Dart Sass has many perks such as module-based dependencies. Additionally, CSS post-processing can be customized with [PostCSS](https://postcss.org/) plugins. [LibSass](https://sass-lang.com/libsass) is also supported if desired.
 
 ```scss
 // Dependencies
@@ -448,12 +448,12 @@ What just happened?
 
 ### The file specs
 
-* **.slm** - files are used to define the markup of the component using [slm-lang](https://github.com/slm-lang) that has a syntax inspired by Pug. It is also the html template language for all views in a Patterns Framework project
+* **.slm** - files are used to define markup of the component using [slm-lang](https://github.com/slm-lang) that has a syntax inspired by Pug. It is also the HTML template language for all views in a Patterns Framework project
 * **.md** - files are markdown files used to store the documentation of the pattern. Here you would describe types, variations, use cases, etc
-* **.scss** - files are used to style the pattern. All Pattern Framework project styling is module based
+* **.scss** - files are used to style the pattern. All Pattern Framework project styling is module-based
 * **config** - A Sass configuration file where variables, mixins, functions, and other dependencies can be stored
 * **view** - A static view template where the pattern may be demonstrated and documentation can be rendered
-* **script** - An ES Module for JavaScript enhanced patterns
+* **script** - An ES Module for JavaScript-enhanced patterns
 * **readme** - A markdown file where the pattern documentation is written
 
 ### Styles
@@ -508,7 +508,7 @@ Open up **./dist/css/default.css** to see the compiled stylesheet.
 $ mkdir -p src/js && touch src/js/default.js
 ```
 
-Copy and paste the following into **./src/js/default.js**. This creates a main class that will have an api for the accordion module instantiation.
+Copy and paste the following into **./src/js/default.js**. This creates the main class that will have an API for the accordion module instantiation.
 
 ```javascript
 import Accordion from '../components/accordion/accordion';
@@ -557,7 +557,7 @@ Accordion.selector = '[data-js*="accordion"]';
 export default Accordion;
 ```
 
-The contents of this file are optional, however, using class based ES modules makes scoping JavaScript enhanced patterns easier to scope. Edit the file as you wish and run:
+The contents of this file are optional, however, using class-based ES modules makes scoping JavaScript-enhanced patterns easier to scope. Edit the file as you wish and run:
 
 ```shell
 $ npx pttrn rollup
@@ -644,7 +644,7 @@ $ npx pttrn slm
 
 What just happened?
 
-1. The Accordion view **slm** file was compiled to html.
+1. The Accordion view **slm** file was compiled to HTML.
 1. The command triggered the [Pa11y CI](https://github.com/pa11y/pa11y-ci) to lint the HTML output for accessibility issues. Linting for accessibility issues is a helpful perk of the CLI. No issues here!
 
 Open up **./dist/accordion.html** to see the compiled accordion view.
@@ -789,7 +789,7 @@ $ npm start
 
 ## `publish` command
 
-Before publishing you'll need to have Git initialized for your project. The following lines will do just that and add prevent **/node_modules** from being committed to your project. You can skip these steps if you already have this set up.
+Before publishing, you'll need to have Git initialized for your project. The following lines will do just that and add prevent **/node_modules** from being committed to your project. You can skip these steps if you already have this setup.
 
 ```shell
 $ git init
@@ -797,7 +797,7 @@ $ touch .gitignore
 $ echo '/node_modules' >> .gitignore
 ```
 
-You will also need a remote git repository with the repository settings, specifically the url, are configured in your **package.json** file. Below is an example:
+You will also need a remote git repository with the repository settings, specifically the URL, are configured in your **package.json** file. Below is an example:
 
 ```json
 "repository": {
@@ -806,7 +806,7 @@ You will also need a remote git repository with the repository settings, specifi
 }
 ```
 
-Adding the `version`, `prepublishOnly`, and `publish` scripts in your **package.json** file wil create shorthands for quickly versioning and publishing your library on **npmjs.org**.
+Adding the `version`, `prepublishOnly`, and `publish` scripts in your **package.json** file will create shorthands for quickly versioning and publishing your library on **npmjs.org**.
 
 ```json
 "scripts": {
@@ -935,9 +935,9 @@ You'll still need to create a **package.json** file and [install the CLI as a de
 
 ### Executing the binary
 
-The key to using the cli is executing the **.pttrn** binary created in the **node_modules/.bin** directory when you install this module in your project. There are a few ways to execute the local binary;
+The key to using the CLI is executing the **.pttrn** binary created in the **node_modules/.bin** directory when you install this module in your project. There are a few ways to execute the local binary;
 
-**$A** Use [npx](https://www.npmjs.com/package/npx) before every `pttrn` command. For most cases this is the most convenient option as demonstrated in the getting started guide above.
+**$A** Use [npx](https://www.npmjs.com/package/npx) before every `pttrn` command. For most cases, this is the most convenient option as demonstrated in the getting started guide above.
 
 ```shell
 $ npx pttrn {{ command }}
@@ -955,7 +955,7 @@ Then running commands can be done like so:
 $ pttrn {{ command }}
 ```
 
-**$C** Or, add an npm script to your *package.json* file. npm will always execute local binaries referenced in the scripts block.
+**$C** Or, add an npm script to your *package.json* file. npm will always execute local binaries referenced in the script block.
 
 ```json
 "scripts": {
@@ -977,9 +977,7 @@ The basic pattern for commands is as follows:
 $ {{ ENVIRONMENT_VARIABLE }}={{ value }} npx pttrn {{ command }} {{ flag }}
 ```
 
-Every command is configured with one or a series of JavaScript files inside the [./config](config/) directory. The CLI will check to see if there is an custom configuration file in the local **./config** directory of the project first. If it doesn't exist it will use the [default configuration file in the CLI package](config/). Project configurations can be used to pass in additional and custom options to each package that the CLI uses. Below the packages used and default configurations are described in more detail.
-
-Optional [flags](#flags) can be passed to the commands for signaling watching and log settings. The log settings are universal so they aren't represented in the command tables below.
+Every command is configured with one or a series of JavaScript files inside the [./config](config/) directory. The CLI will check to see if there is a custom configuration file in the local **./config** directory of the project first. If it doesn't exist it will use the [default configuration file in the CLI package](config/). Project configurations can be used to pass in additional and custom options to each package that the CLI uses. Below the packages used and default configurations are described in more detail.
 
 - [`default`](#default)
 - [`styles`](#styles)
@@ -996,6 +994,8 @@ Optional [flags](#flags) can be passed to the commands for signaling watching an
 - [`serve`](#serve)
 - [`publish`](#publish)
 
+Optional [flags](#flags) can be passed to the commands for signaling watching and log settings. The log settings are universal so they aren't represented in the command tables below.
+
 [Custom commands](#custom-commands) have been newly introduced and are described below.
 
 ---
@@ -1008,7 +1008,7 @@ Command          | Flags | Configuration | `NODE_ENV`
 
 Synchronously runs this series of commands; `styles`, `rollup`, `slm`, and `svgs` respectfully and described below.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1020,7 +1020,7 @@ Command  | Flags | Configuration | `NODE_ENV`
 
 Synchronously runs this series of commands; `tokens`, `sass`, and `postcss` respectfully and described below.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1036,7 +1036,7 @@ Settings for [JSON-TO-SCSS](https://github.com/rlapoele/json-to-scss) are set at
 
 A custom `tokens` configuration is highly recommended (if not required) for any patterns library that uses the CLI to manage unique design tokens.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1046,11 +1046,11 @@ Command | Flags | Configuration                                                 
 --------|-------|----------------------------------------------------------------------------------------------|-
 `sass`  | `-nl` | [sass.js](config/sass.js) | `production` or `development`
 
-Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default it will compile the default Sass entry point [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
+Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default, it will compile the default Sass entry point [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
 
 A custom `sass` configuration could be used to add additional Sass modules to compile.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1060,13 +1060,13 @@ Command   | Flags | Configuration
 ----------|-------|-
 `postcss` | n/a   | [postcss.js](config/postcss.js) [tailwindcss.js](config/tailwindcss.js)
 
-Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the [./config/tailwindcss.js](config/tailwindcss.js) file where a custom [Tailwindcss configuration](https://tailwindcss.com/docs/configuration) would live. Learn more about [adding tailwindcss in the guide below](#adding-tailwindcss).
+Runs [PostCSS](https://postcss.org/) on CSS modules defined in the `sass` configuration. [PostCSS plugins](https://github.com/postcss/postcss#plugins) are defined in the configuration. By default, PostCSS is configured to use the plugins [cssnano](https://cssnano.co/) and, if installed in your project, [Tailwindcss](https://tailwindcss.com/). The command will use the [./config/tailwindcss.js](config/tailwindcss.js) file where a custom [Tailwindcss configuration](https://tailwindcss.com/docs/configuration) would live. Learn more about [adding tailwindcss in the guide below](#adding-tailwindcss).
 
 A custom `postcss` configuration could be used to configure PostCSS and add additional plugins needed for a particular project.
 
-A custom `tailwindcss` configuration can easily import values from the `tokens` configuration to generate Tailwindcss utilities.
+A custom `tailwindcss` configuration can easily import values from the configuration of the `tokens` to generate Tailwindcss utilities.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1076,7 +1076,7 @@ Command  | Flags      | Configuration                           | `NODE_ENV`
 ---------|------------|-----------------------------------------|-
 `rollup` | `-w` `-nl` | [rollup.js](config/rollup.js) | `production` or `development`
 
-Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default it will bundle the default JavaScript entry point [./src/js/default.js](config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
+Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default, it will bundle the default JavaScript entry point [./src/js/default.js](config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
 
 * [Replace](https://github.com/rollup/plugins/tree/master/packages/replace) for replacing `process.env.NODE_ENV` in scripts with the `NODE_ENV` environment variable passed through the command.
 * [Node Resolve](https://github.com/rollup/plugins/tree/master/packages/node-resolve) for resolving module imports from the **./node_modules** directory.
@@ -1092,7 +1092,7 @@ if (process.env.NODE_ENV != 'production')
   console.dir('A development only log');
 ```
 
-If `NODE_ENV` is set any value other than `production` the statement above will appear in the output as the following:
+If `NODE_ENV` is set any value other than `production` the statement above will appear in the output like the following:
 
 ```javascript
 {
@@ -1108,7 +1108,7 @@ IE 11 is no longer supported. If you absolutely must support it you will need to
 
 A custom `rollup` configuration could be used to add additional output modules to support additional JavaScript environments, such as NodeJS, as well as utilize additional Rollup plugins needed for a particular project.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1122,7 +1122,7 @@ Uses [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to lin
 
 A custom `lint` configuration could be used to change or extend the linting standards of a project.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1132,7 +1132,7 @@ Command | Flags      | Configuration                     | `NODE_ENV`
 --------|------------|-----------------------------------|-
 `slm`   | `-w` `-np` | [slm.js](config/slm.js) | `production` or `development`
 
-Uses [Slm](https://github.com/slm-lang/slm) to compile Slm pages from the **./src/views/** directory to static HTML pages in the **./dist** directory. Slm files serve as the template language for site documentation and HTML spec for patterns. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human readable markup. The Slm parser is extended with a method that includes Markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
+Uses [Slm](https://github.com/slm-lang/slm) to compile Slm pages from the **./src/views/** directory to static HTML pages in the **./dist** directory. Slm files serve as the template language for site documentation and HTML spec for patterns. The output is run through [JS Beautifier](https://github.com/beautify-web/js-beautify) for human-readable markup. The Slm parser is extended with a method that includes Markdown files compiled by [Marked](https://marked.js.org/). The default `slm` configuration passes configuration options to these packages as well as global variables described below.
 
 ##### Views
 
@@ -1215,7 +1215,7 @@ Variables are also available to Markdown files using the following tag:
 
 A custom `slm` configuration could be used to be used to pass additional data and methods to the view templates as well as further configure JS Beautify and Marked.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1225,11 +1225,11 @@ Command | Flags | Configuration
 --------|-------|-
 `pa11y` | n/a   | [pa11y.js](config/pa11y.js)
 
-Uses [Pa11y](https://github.com/pa11y/pa11y) to test the static output of HTML files in the **./dist** directory for accessibility issues. Issues are logged to the terminal. The default `pa11y` configuration uses the WCAG AA [accessibility standard](https://github.com/pa11y/pa11y#standard-string), aXe-core and HTML CodeSniffer as [test runners](https://github.com/pa11y/pa11y#runners), and adds the selector `[data-pa11y="disable"]` to that can be used to [hide elements](https://github.com/pa11y/pa11y#hideelements-string) that shouldn't be tested in the static output.
+Uses [Pa11y](https://github.com/pa11y/pa11y) to test the static output of HTML files in the **./dist** directory for accessibility issues. Issues are logged to the terminal. The default `pa11y` configuration uses the WCAG AA [accessibility standard](https://github.com/pa11y/pa11y#standard-string), aXe-core, and HTML CodeSniffer as [test runners](https://github.com/pa11y/pa11y#runners), and adds the selector `[data-pa11y="disable"]` to that can be used to [hide elements](https://github.com/pa11y/pa11y#hideelements-string) that shouldn't be tested in the static output.
 
 A custom `pa11y` configuration could be used to enable or disable many of the available [configuration options for Pa11y](https://github.com/pa11y/pa11y#configuration).
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1243,7 +1243,7 @@ Uses [svgo](https://github.com/svg/svgo) to optimize SVGs in the **./src/svg/** 
 
 A custom `svgs` configuration could be used to modify the svg file prefix, svg sprite name, and configuration options for [svgo](https://github.com/svg/svgo#what-it-can-do) and [svgstore](https://github.com/svgstore/svgstore#options).
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1262,9 +1262,9 @@ As described in the [Scaffold guide](#scaffold-command) above this command will 
 
 The `scaffold` command relies on the `global.js` configuration that describes the default filesystem and entry points for a project. It also relies on file templates in the [./config/scaffold/](config/scaffold/) directory to source the contents of files described in the system.
 
-A custom `scaffold` configuration could be used to change the output of the starter filesystem and contents of files for a project.
+A custom `scaffold` configuration could be used to change the output of the starter filesystem and the contents of files for a project.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1282,13 +1282,13 @@ Creates pattern directories and files using paths and variables defined in the `
 
 - `type` _required_ - Determines where in the filesystem patterns will be stored. One of; `element`, `component`, `object`, or `utility`
 - `pattern` _required_ - Name of the pattern
-- `template` _optional_ - If included the third argument can be used to create a single template from the [./config/make](config/make/) directory. By default all files will be made.
+- `template` _optional_ - If included the third argument can be used to create a single template from the [./config/make](config/make/) directory. By default, all files will be made.
 
-A custom `make` configuration could be used to add custom files with predefined templates in the [./config/make](config/make/) directory. The CLI currently supports CSS and ES module based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
+A custom `make` configuration could be used to add custom files with predefined templates in the [./config/make](config/make/) directory. The CLI currently supports CSS and ES module-based libraries out-of-the-box, however, with custom make templates, it could be extended to make [Vue.js](https://vuejs.org/), [React](https://reactjs.org/), [Svelte](https://svelte.dev/), or other component type files.
 
 Refer to the guide on [creating a new `make` command template](#creating-a-new-make-command-template) for details.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1298,9 +1298,9 @@ Command | Flags | Configuration | `PORT`
 --------|-------|---------------|-
 `serve` | `-w`  | n/a           | Any port number (ex; `8080`)
 
-Uses [Express](https://expressjs.com/) to serve static files in the **./dist/** directory. By default it runs on port `7000`. The `serve` command doesn't have a configuration file, however, the port number can be configured through the environment variable `PORT`.
+Uses [Express](https://expressjs.com/) to serve static files in the **./dist/** directory. By default, it runs on port `7000`. The `serve` command doesn't have a configuration file, however, the port number can be configured through the environment variable `PORT`.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1310,11 +1310,11 @@ Command   | Flags | Configuration | `NODE_ENV`*
 ----------|-------|---------------|-
 `publish` | n/a   | [publish.js](config/publish.js)  | `production` or `development`
 
-Uses [gh-pages](https://github.com/tschaub/gh-pages) to stand up the static output in the **./dist** directory to the [GitHub Pages](https://pages.github.com/) branch of your project's remote repository. The default `publish` configuration *requires* the `NODE_ENV=production` environment variable to push to the package repository url defined in the **package.json** file.
+Uses [gh-pages](https://github.com/tschaub/gh-pages) to stand up the static output in the **./dist** directory to the [GitHub Pages](https://pages.github.com/) branch of your project's remote repository. The default `publish` configuration *requires* the `NODE_ENV=production` environment variable to push to the package repository URL defined in the **package.json** file.
 
 A custom `publish` configuration could be used to push to different remote GitHub Pages repositories.
 
-Back to: [commands ^](#commands) | [table of contents ^](#contents)
+Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 ---
 
@@ -1325,8 +1325,8 @@ Flag&nbsp; | Non&nbsp;abbreviated&nbsp;Flag | Description
 `-w`       | `--watch`                      | Use Chokidar to watch for changes on concerned source files and run their scripts when changes are detected.
 `-nd`      | `--nondescript`                | Silence detailed logging (such as file writing writing) for commands. All other logs (such as script start and success) will display. **This can be used on all commands**.
 `-s`       | `--silent`                     | Disable all logging output. Note, some output will always log such as linting and errors. **This can be used on all commands**.
-`-nl`      | `--no-lint`                    | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will have no effect.
-`-np`      | `--no-pa11y`                   | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will have no effect.
+`-nl`      | `--no-lint`                    | Disable ESLint and stylelint. This only works the `rollup` and `sass` command respectively. Running `npx pttrn lint -nl` will not effect.
+`-np`      | `--no-pa11y`                   | Disable Pa11y linting. This only works for the `slm` command. Running `npx pttrn pa11y -np` command will not effect.
 
 [Back to table of contents ^](#contents)
 
@@ -1373,7 +1373,7 @@ Plugin                                                                          
 
 ### NPM Scripts
 
-The recommended [npm scripts](https://docs.npmjs.com/misc/scripts) below create shortcuts for using the cli and hook into other npm methods to make starting, versioning, and publishing more convenient. They can be modified to suit the needs of a particular project. Add them to your project's *package.json* file.
+The recommended [npm scripts](https://docs.npmjs.com/misc/scripts) below create shortcuts for using the CLI and hook into other npm methods to make starting, versioning, and publishing more convenient. They can be modified to suit the needs of a particular project. Add them to your project's *package.json* file.
 
 ```json
 "scripts": {
@@ -1391,7 +1391,7 @@ Then each script can be run using the following outline:
 $ npm run {{ script }} {{ arg }}
 ```
 
-With the exception of `start`, `version`, and `publish` which hook into default npm commands.
+Except for `start`, `version`, and `publish` which hook into default npm commands.
 
 ```shell
 $ npm {{ start / version / publish }} {{ arg }}
@@ -1400,14 +1400,14 @@ $ npm {{ start / version / publish }} {{ arg }}
 Script           | Description
 -----------------|-
 `start`          | Hooks into the [npm-start](https://docs.npmjs.com/cli/v6/commands/npm-start) script to concurrently run the `default` and `serve` commands in watching mode for development.
-`version`        | Hooks into the [npm-version](https://docs.npmjs.com/cli/v6/commands/npm-version) script to commit a production ready distribution and semantic version tag for publishing. It accepts an argument describing the version number to increment such as `patch`, `minor`, `major`, or `prerelease`.
+`version`        | Hooks into the [npm-version](https://docs.npmjs.com/cli/v6/commands/npm-version) script to commit a production-ready distribution and semantic version tag for publishing. It accepts an argument describing the version number to increment such as `patch`, `minor`, `major`, or `prerelease`.
 `prepublishOnly` | Hooks into the [npm `prepublishOnly` script](https://docs.npmjs.com/misc/scripts) to push the latest distribution and semantic version tag to the remote repository for publishing.
 `publish`        | Hooks into the [npm-publish](https://docs.npmjs.com/cli/v6/commands/npm-publish) script to push the contents of the **./dist** folder in the remote repositories GitHub Pages branch.
-`default`        | Runs the `default` command in production mode to build a production ready distribution.
+`default`        | Runs the `default` command in production mode to build a production-ready distribution.
 
-Below is an explainer each scripts contents.
+Below is an explainer of each script's contents.
 
-Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+Back to [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 #### Start
 
@@ -1419,41 +1419,41 @@ Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 * `pttrn serve -w` - Runs the serve pttrn command for starting the development server.
 * `-p "none"` - This is a flag for Concurrently that removes the process prefix (`[0]`) from the log.
 
-Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+Back to [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 #### Version
 
 - `pttrn` - This is the same as `npx pttrn default`. It will run the CLI executable in the local **./node_modules** directory.
 - `git add .` - This stages the working directory for a commit. Since it runs after the `default` command anything compiled will be committed to the release.
 
-Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+Back to [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 #### prepublishOnly
 
 - `git push` - This will push the committed release files to the origin repository.
 - `git push --tags` - This will push the committed release tag to the origin repository.
 
-Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+Back to [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 #### Publish
 
 - `cross-env NODE_ENV=production` - This sets the `NODE_ENV` variable to `production` for the next command.
 - `pttrn publish` - Takes the contents of the **./dist** directory and commits it to the `gh-pages` branch to create a [GitHub Pages](https://pages.github.com) site using the [gh-pages](https://github.com/tschaub/gh-pages) package.
 
-Back to: [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
+Back to [NPM scripts](#npm-scripts) | [table of contents ^](#contents)
 
 ## Adding Tailwindcss
 
 From [Tailwindcss](https://tailwindcss.com);
 
 > ### Rapidly build modern websites without ever leaving your HTML.
-> A utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup.
+> A utility-first CSS framework packed with classes like flex, pt-4, text-center, and rotate-90 that can be composed to build any design, directly in your markup.
 
 CSS utilities make it easier for developers who do not actively maintain your pattern library to create designs with components that aren't available in your stylesheet. They can also be used to modify existing components for different contexts. Tailwindcss ships as a dependency with the CLI but it needs to be configured and included in your project.
 
 ### Step 1: Create your configuration file
 
-The `scaffold` command creates a [./config/tailwindcss.js](config/tailwindcss.js). If not using the `scaffold` command, create your own configuration file:
+The `scaffold` command creates a [./config/tailwindcss.js](config/tailwindcss.js). If not using the `scaffold` command, create your configuration file:
 
 ```shell
 $ touch config/taiwindcss.js
@@ -1491,9 +1491,9 @@ All that's needed to include Tailwindcss in your stylesheet is to add the `@` di
 @tailwind utilities;
 ```
 
-You may notice this does not include the `@tailwind base` tag which adds some base styling for Tailwindcss utilities. They aren't required and they can interfere with the styling of other patterns in your stylesheet. Use them at your own discretion.
+You may notice this does not include the `@tailwind base` tag which adds some base styling for Tailwindcss utilities. They aren't required and they can interfere with the styling of other patterns in your stylesheet. Use them at your discretion.
 
-These directives can be added anywhere but we recommend keeping them in the **./src/utilites** directory. The `scaffold` command create a module directory for these directives automatically: **./src/utilities/tailwindcss**. If not using the `scaffold` command the directory and stylesheet can be added with the following `make` command:
+These directives can be added anywhere but we recommend keeping them in the **./src/utilites** directory. The `scaffold` command creates a module directory for these directives automatically: **./src/utilities/tailwindcss**. If not using the `scaffold` command the directory and stylesheet can be added with the following `make` command:
 
 ```shell
 $ npx pttrn make utility tailwindcss style
@@ -1530,7 +1530,7 @@ PostCSS will inject Tailwindcss styles into your stylesheet.
 
 The CLI already configures PostCSS to inject Tailwindcss styles where the directives are included in the stylesheet. You may, however, want to further configure PostCSS, you can create a custom **./config/postcss.js** file to modify the PostCSS plugins used in your project.
 
-Additionally, you may want to create a Tailwindcss only distribution for the inclusion in other projects. This can be done by adding new distribution modules to the **./config/sass.js** configuration. The example below creates a CDN and browser friendly CSS file and a project friendly Sass file:
+Additionally, you may want to create a Tailwindcss only distribution for inclusion in other projects. This can be done by adding new distribution modules to the **./config/sass.js** configuration. The example below creates a CDN and browser friendly CSS file and a project friendly Sass file:
 
 ```javascript
 module.exports = [
@@ -1561,7 +1561,7 @@ module.exports = [
 
 ### Step 4: Optional (but recommended). Purge CSS
 
-Purge CSS will read static files and remove css from a stylesheet that isn't being used by those files. This is recommended for projects where the pattern library will be integrated. However, for the purpose of a Pattern Library, you will want to have all of the utilities present in the stylesheet. See the [optimizing for production Tailwindcss guide](https://tailwindcss.com/docs/optimizing-for-production).
+Purge CSS will read static files and remove CSS from a stylesheet that isn't being used by those files. This is recommended for projects where the pattern library will be integrated. However, for a Pattern Library, you will want to have all of the utilities present in the stylesheet. See the [optimizing for production Tailwindcss guide](https://tailwindcss.com/docs/optimizing-for-production).
 
 [Back to table of contents ^](#contents)
 
@@ -1621,7 +1621,7 @@ optional: [
 
 ### Step 4: Where to write the template
 
-Next, if the template should written to every new pattern's dedicated module directory (ex; **src/{{ type }}/{{ pattern }}/**) then add `react` to the `patterns` export attribute. This is the default for most templates except views and Sass config.
+Next, if the template should be written to every new pattern's dedicated module directory (ex; **src/{{ type }}/{{ pattern }}/**) then add `react` to the `patterns` export attribute. This is the default for most templates except views and Sass config.
 
 ```javascript
 patterns: [
@@ -1659,7 +1659,7 @@ To omit these packages to keep your project lean, use the `--no-optional` flag w
 $ npm install @nycopportunity/pttrn --no-optional
 ```
 
-These dependencies are required by the default configuration or recommended npm scripts. If you project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
+These dependencies are required by the default configuration or recommended npm scripts. If your project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
 
 [Back to table of contents ^](#contents)
 
@@ -1681,4 +1681,4 @@ Package                                                               | Descript
 
 ![The Mayor's Office for Economic Opportunity](NYCMOEO_SecondaryBlue256px.png)
 
-[The Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity) (NYC Opportunity) is committed to sharing open source software that we use in our products. Feel free to ask questions and share feedback. **Interested in contributing?** See our open positions on [buildwithnyc.github.io](http://buildwithnyc.github.io/). Follow our team on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity) (if you are part of the [@cityofnewyork](https://github.com/CityOfNewYork/) organization) or [browse our work on Github](https://github.com/search?q=nycopportunity).
+[The Mayor's Office for Economic Opportunity](http://nyc.gov/opportunity) (NYC Opportunity) is committed to sharing open-source software that we use in our products. Feel free to ask questions and share feedback. **Interested in contributing?** See our open positions on [buildwithnyc.github.io](http://buildwithnyc.github.io/). Follow our team on [Github](https://github.com/orgs/CityOfNewYork/teams/nycopportunity) (if you are part of the [@cityofnewyork](https://github.com/CityOfNewYork/) organization) or [browse our work on Github](https://github.com/search?q=nycopportunity).
