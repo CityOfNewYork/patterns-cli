@@ -36,7 +36,7 @@ const GLOBS = [
  *
  * @type {Source} https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(GLOBS.map(glob => path.join(process.env.PWD, glob)), {
+const watcher = chokidar.watch(GLOBS, {
   usePolling: false,
   awaitWriteFinish: {
     stabilityThreshold: 750
