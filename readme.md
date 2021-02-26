@@ -2,7 +2,7 @@
 
 ### Make, develop, and publish!
 
-A front-end CLI for building and managing design pattern libraries. Created by [NYC Opportunity](https://github.com/NYCOpportunity) for [WorkingNYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns).
+A front-end CLI for building and managing design pattern libraries. Created by [NYC Opportunity](https://github.com/NYCOpportunity) for [Working NYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns).
 
 * 📦 Creates and organizes component libraries using a [design system methodology](#design-system-methodology).
 
