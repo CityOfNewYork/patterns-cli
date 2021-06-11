@@ -35,6 +35,6 @@ module.exports = {
    */
   svgstore: {
     /** Filename of the sprite. It will not use the prefix defined above. */
-    file: 'svgs.svg'
+    file: 'svg/svgs.svg'
   }
 };
