@@ -369,21 +369,7 @@ Each major feature uses a [configuration file](config) for adjusting the setting
 * [Starter](#starter)
 * [CLI](#cli)
   * [Executing the binary](#executing-the-binary)
-  * [Commands](#commands)
-    * [`default`](#default)
-    * [`styles`](#styles)
-    * [`tokens`](#tokens)
-    * [`sass`](#sass)
-    * [`postcss`](#postCSS)
-    * [`rollup`](#rollup)
-    * [`lint`](#lint)
-    * [`slm`](#slm)
-    * [`pa11y`](#pa11y)
-    * [`svgs`](#svgs)
-    * [`scaffold`](#scaffold)
-    * [`make`](#make)
-    * [`serve`](#serve)
-    * [`publish`](#publish)
+  * [Commands](#commands): [`default`](#default), [`styles`](#styles), [`tokens`](#tokens), [`sass`](#sass), [`postcss`](#postCSS), [`rollup`](#rollup), [`lint`](#lint), [`slm`](#slm), [`pa11y`](#pa11y), [`svgs`](#svgs), [`scaffold`](#scaffold), [`make`](#make), [`serve`](#serve), [`publish`](#publish)
   * [Flags](#flags)
   * [Alerts](#alerts)
   * [Custom Commands](#custom-commands)
@@ -1674,6 +1660,15 @@ Package                                                               | Descript
 [Patterns Demo](https://github.com/CityOfNewYork/patterns-demo)       | Source code for the starter project created in the ["start from scratch" guide](#start-from-scratch).
 [Patterns Docs](https://github.com/CityOfNewYork/patterns-docs)       | Reusable documentation for pattern libraries created with the CLI.
 [Patterns Test](https://github.com/CityOfNewYork/patterns-test)       | Testing repository for the CLI.
+
+### Plugins
+
+Refer to [custom commands](#custom-commands) on how to create plugins.
+
+Plugin                                                                              | Description
+------------------------------------------------------------------------------------|-
+[Patterns Plugin Feather](https://github.com/CityOfNewYork/patterns-plugin-feather) | Compile a [Feather icon](https://feathericons.com/) sprite from the Feather package into the dist directory.
+[Patterns Plugin Twig](https://github.com/CityOfNewYork/patterns-plugin-twig)       | Will compile Twig view templates effectively replacing the default Slm compiler with [Twig.js](https://github.com/twigjs/twig.js/).
 
 [Back to table of contents ^](#contents)
 
