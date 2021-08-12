@@ -32,6 +32,8 @@ This project started to make building and documenting accessible, CSS–first, a
 $ npx @nycopportunity/pttrn scaffold && npm install
 ```
 
+When scaffolding is finished run `npm start` to start the development server.
+
 ## Features
 
 ### ✨ Make module-based patterns
@@ -698,7 +700,9 @@ The `scaffold` command will create a minimal base project with the following:
 * Simple Sass library
 * Single page static demo site
 
-If you are running the command in an empty directory or without a **package.json** file, run `$ npx @nycopportunity/pttrn scaffold` then run `$ npm install`. If `@nycopportunity/pttrn` is already installed as a dependency of your project's **package.json** file you can run the following command.
+If you are running the command in an empty directory or without a **package.json** file, run `npx @nycopportunity/pttrn scaffold`, `npm install`. Once everything is scaffolded you can run `npm start` to start the development server.
+
+If `@nycopportunity/pttrn` is already installed as a dependency of your project's **package.json** file you can run the following command.
 
 ```shell
 $ npx pttrn scaffold
