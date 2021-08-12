@@ -2,17 +2,37 @@
 
 ### Make, develop, and publish!
 
-A front-end CLI for building and managing design pattern libraries. Created by [NYC Opportunity](https://github.com/NYCOpportunity) for [Working NYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns).
+A front-end CLI for managing static design pattern libraries. Created and maintained by [**@NYCOpportunity**](https://github.com/NYCOpportunity). For examples of what the CLI can create and manage, look at our existing pattern libraries; [Working NYC Patterns](https://cityofnewyork.github.io/nyco-wnyc-patterns), [NYCO Patterns](https://nycopatterns.cityofnewyork.us), [ACCESS NYC Patterns](https://accesspatterns.cityofnewyork.us), and [Growing Up NYC Patterns](https://github.com/NYCOpportunity/growingupnyc-patterns). Essentially, the CLI is a static generator with the following extra features.
 
 * 📦 Creates and organizes component libraries using a [design system methodology](#design-system-methodology).
 
-* 🌈 Works well with [Tailwindcss](https://tailwindcss.com/) by managing [design tokens](#design-tokens) with JavaScript but otherwise completely agnostic of other CSS and JavaScript frameworks. Use it to manage a customized component library and/or extend the default module templates to build out Vanilla JS, [React](https://reactjs.org/), [Vue.js](https://vuejs.org/), or [Svelte](https://svelte.dev/) components.
+* 🌈 Manages [design tokens](#design-tokens) in JSON format amd works well with [Tailwindcss](https://tailwindcss.com/).
 
-* 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for open-sourcing and integration in a digital product ecosystem.
+* ⚛️ Agnostic of existing JavaScript Frameworks. Use it to manage a customized component library or extend the default module templates to build out Vanilla ES, [React](https://reactjs.org/), [Vue.js](https://vuejs.org/), or [Svelte](https://svelte.dev/) components.
+
+* 🚀 Scripts for publishing a pattern library to [npm](https://www.npmjs.com/) for open sourcing and integration into multiple digital products.
+
+* 🤸 Ensures accessibility during development by linting rendered HTML with [Pa11y](https://pa11y.org/).
+
+* ⚙️ Highly configurable and pluggable for a particular project's needs.
+
+#### Background
+
+This project started to make building and documenting accessible, CSS–first, and framework–free pattern libraries quick, easy, and fun, doing so without task runners and a minimal amount of JavaScript to tie it all together. It does this very well, and over time it has grown into a build system of its own, so acknowledging this as an in-house alternative is essential. Other pattern build systems with more extensive community support also exist and are well worth a look. These include [Storybook.js](https://storybook.js.org/), [Fractal](https://fractal.build/), [Pattern Lab](https://patternlab.io/), and possibly more.
+
+## I want to
+
+* [Browse the features](#features).
+
+* [View the documentation](#contents).
+
+* [Quick start a new project](#scaffold-command). Run the following command.
+
+```shell
+$ npx @nycopportunity/pttrn scaffold && npm install
+```
 
 ## Features
-
-[... or skip the pitch](#contents)
 
 ### ✨ Make module-based patterns
 
@@ -366,7 +386,6 @@ Each major feature uses a [configuration file](config) for adjusting the setting
 * [Guide: `start` command](#start-command)
 * [Guide: `publish` command](#publish-command)
 * [Demo Source](#demo-source)
-* [Starter](#starter)
 * [CLI](#cli)
   * [Executing the binary](#executing-the-binary)
   * [Commands](#commands): [`default`](#default), [`styles`](#styles), [`tokens`](#tokens), [`sass`](#sass), [`postcss`](#postCSS), [`rollup`](#rollup), [`lint`](#lint), [`slm`](#slm), [`pa11y`](#pa11y), [`svgs`](#svgs), [`scaffold`](#scaffold), [`make`](#make), [`serve`](#serve), [`publish`](#publish)
@@ -392,8 +411,6 @@ If you need to start a new project you can run `npm init -y` before installing.
 ## Start from scratch
 
 [... or quickly scaffold a new project](#scaffold-command)
-
-[... or use the Patterns Starter](#starter)
 
 ### `make` command
 
@@ -675,14 +692,18 @@ The change was detected and the style scripts were run.
 
 The `scaffold` command will create a minimal base project with the following:
 
+* A **package.json** file with the recommended [NPM Scripts](#npm-scripts) and this package as a development dependency.
 * CSS only Details Component
 * Configuration files for Tokens, Rollup.js, Sass, and Tailwindcss
 * Simple Sass library
 * Single page static demo site
 
+If you are running the command in an empty directory or without a **package.json** file, run `$ npx @nycopportunity/pttrn scaffold` then run `$ npm install`. If `@nycopportunity/pttrn` is already installed as a dependency of your project's **package.json** file you can run the following command.
+
 ```shell
 $ npx pttrn scaffold
 
+./package.json already exists.
 ✨ ./src was made.
 ✨ ./src/views was made.
 ✨ ./src/views/index.slm was made.
@@ -901,21 +922,26 @@ The source code of the demo for the previous guides can be found in the [Pattern
 
 [Back to table of contents ^](#contents)
 
-## Starter
+<!-- ## Quick Starter
 
-The [Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) makes it much quicker to initialize a new project. Run;
+The [Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) makes it much quicker to initialize a new project.
+
+In a new project directory run;
 
 ```shell
 $ npm init @nycopportunity/pttrn-starter
-
-npx: installed 1 in 1.299s
-Setting up your new Patterns Project! Please wait...
-You're all set!
+Need to install the following packages:
+  @nycopportunity/create-pttrn-starter
+Ok to proceed? (y) y
+Installing @nycopportunity/pttrn...
+Scaffolding the project...
+Running the initial build...
+You're all set! Add the recommended npm scripts https://github.com/CityOfNewYork/patterns-cli#npm-scripts to your package.json then run "npm start"
 ```
 
-You'll still need to create a **package.json** file and [install the CLI as a dependency](#installation) of the project.
+You may need to add a **package.json** file if it wasn't created by running `npm init` then add the [recommended NPM Scripts](#npm-scripts).
 
-[Back to table of contents ^](#contents)
+[Back to table of contents ^](#contents) -->
 
 ## CLI
 
@@ -1655,7 +1681,6 @@ Other packages to help support pattern library development.
 
 Package                                                               | Description
 ----------------------------------------------------------------------|-
-[Patterns Starter](https://github.com/CityOfNewYork/patterns-starter) | Initializer source for new projects that hooks into [`npm init`](https://docs.npmjs.com/cli/v6/commands/npm-init).
 [Patterns Scripts](https://github.com/CityOfNewYork/patterns-scripts) | A set of common utility ES modules to help keep scripting DRY and support accessibility.
 [Patterns Demo](https://github.com/CityOfNewYork/patterns-demo)       | Source code for the starter project created in the ["start from scratch" guide](#start-from-scratch).
 [Patterns Docs](https://github.com/CityOfNewYork/patterns-docs)       | Reusable documentation for pattern libraries created with the CLI.
