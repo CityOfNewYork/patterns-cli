@@ -27,13 +27,16 @@ const rollup = {
  */
 let plugins = [
   replace({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    preventAssignment: true,
+    values: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }
   }),
   nodeResolve.nodeResolve({
     browser: true,
-    customResolveOptions: {
-      moduleDirectory: 'node_modules'
-    }
+    moduleDirectories: [
+      'node_modules'
+    ]
   })
 ];
 
