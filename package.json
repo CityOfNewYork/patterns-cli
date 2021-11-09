@@ -22,7 +22,7 @@
     "gh-pages": "^3.2.3",
     "js-beautify": "^1.14.0",
     "json-to-scss": "^1.6.2",
-    "marked": "^1.2.9",
+    "marked": "^2.0.0",
     "pa11y": "^5.3.1",
     "postcss": "^8.3.6",
     "reload": "^3.2.0",
