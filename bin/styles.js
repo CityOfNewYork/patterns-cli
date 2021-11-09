@@ -17,27 +17,27 @@ const resolve = require(`${__dirname}/util/resolve`);
 const alerts = resolve('config/alerts');
 const global = resolve('config/global');
 
-const SOURCE = path.join(global.base, global.src);
-const EXT = '.scss';
-
-const TOKENS_INPUT = tokens.options().input;
-const TAILWINDCSS_INPUT = tokens.options().tailwindcss;
-
-const globs = [
-  `${SOURCE}/**/*${EXT}`,
-  TOKENS_INPUT,
-  TAILWINDCSS_INPUT
-];
-
 /**
- * Get Pattern Stylesheet Modules
+ * Get Sass modules and options
+ *
+ * @return  {Options}  The configuration required for the styles command
  */
+const options = () => {
+  let modules = resolve('config/sass', true, false);
 
-let modules = resolve('config/sass');
+  if (process.env.NODE_ENV === 'development') {
+    modules = modules.filter(file => file.devModule);
+  }
 
-if (process.env.NODE_ENV === 'development') {
-  modules = modules.filter(file => file.devModule);
-}
+  return {
+    modules: modules,
+    globs: [
+      `${path.join(global.base, global.src)}/**/*.scss`,
+      tokens.options().input,
+      tokens.options().tailwindcss
+    ]
+  }
+};
 
 /**
  * Methods
@@ -65,7 +65,7 @@ const main = async (modules) => {
  *
  * @type {Source} https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(globs, {
+const watcher = chokidar.watch(options().globs, {
   ignored: tokens.options().output.replace(/"/g, ''),
   usePolling: false,
   awaitWriteFinish: {
@@ -75,31 +75,35 @@ const watcher = chokidar.watch(globs, {
 
 /**
  * Tne runner for single commands and the watcher
- *
- * @param   {Array}  styles  The contents of config/sass.js
  */
-const run = async (styles = modules) => {
+const run = async () => {
+  let opts = options();
+
   try {
     if (args.watch) {
       watcher.on('change', changed => {
         let styls = [];
 
+        opts = options();
+
+        opts.modules = opts.modules;
+
         cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
         if (process.env.NODE_ENV !== 'development') {
-          let filtered = styles.filter(s => path.basename(changed) === path.basename(s.file));
+          let filtered = opts.modules.filter(s => path.basename(changed) === path.basename(s.file));
 
-          styls = (filtered.length) ? filtered : styles;
+          styls = (filtered.length) ? filtered : opts.modules;
         } else {
-          styls = styles;
+          styls = opts.modules;
         }
 
         main(styls);
       });
 
-      cnsl.watching(`Styles watching ${alerts.str.ext(globs.join(', '))}`);
+      cnsl.watching(`Styles watching ${alerts.str.ext(options().globs.join(', '))}`);
     } else {
-      await main(modules);
+      await main(options().modules);
 
       cnsl.success(`Styles finished`);
 
@@ -112,7 +116,7 @@ const run = async (styles = modules) => {
 
 /** @type  {Object}  Export our method */
 module.exports = {
-  globs: globs,
+  globs: options().globs,
   main: main,
   run: run
 };

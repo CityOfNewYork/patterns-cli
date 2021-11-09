@@ -40,7 +40,7 @@ const options = () => {
     base_path: base_path,
     views: `${base_path}/${global.entry.views}`,
     ext: ext,
-    globs: [
+    globs: config.globs || [
       resolve('config/slm', false),
       `${source}/**/*${ext}`,
       `${source}/**/*.md`
@@ -89,28 +89,10 @@ const write = async (file, data) => {
   }
 }
 
-/**
- * Update marked renderer with slm compiler.
- * Intended to replace the mrkdwnslm() method of including slm files in Markdown
- * however this implementation of the renderer doesn't appear to be correct.
- */
-
-// const renderer = (CONFIG.marked.hasOwnProperty('renderer')) ?
-//   CONFIG.marked.renderer : new marked.Renderer();
-//
-// renderer.slm = (data) => {
-//   let blocks = data.match(/include{{(.*)}}/g);
-//
-//   console.log(blocks);
-// };
-
-// CONFIG.marked.renderer = renderer;
 
 /**
- * Set marked options from config
+ * Markdown Methods
  */
-
-// marked.setOptions(CONFIG.marked);
 
 const mrkdwn = {
   /**
@@ -205,7 +187,7 @@ const include = (file, locals = {}) => {
 };
 
 /**
- * Comiling methods
+ * Compiling methods
  */
 const compile = {
   /**
@@ -360,10 +342,9 @@ const run = async () => {
     // Watcher command
     if (args.watch) {
       watcher.on('change', async changed => {
-        if (process.env.NODE_ENV === 'development') {
-          // Check if the changed file is in the base views directory
-          // let isView = views.some(view => changed.includes(view));
+        opts = options();
 
+        if (process.env.NODE_ENV === 'development') {
           // Check the parent directory of the changed file
           let hasView = views.some(view => {
             let pttrn = path.basename(view, opts.ext);
@@ -379,18 +360,19 @@ const run = async () => {
 
           cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
-          // Run the single compiler task if the changed file is a view or has a view
-          // if (isView || hasView) {
+          // Modify the changed file to the view if the file has a view
           let pttrn = path.basename(path.dirname(changed));
           let view = path.join(dir, pttrn + opts.ext);
 
           changed = (hasView) ? view : changed;
 
           if (hasView || inViews) {
+            // Run the single compiler task if the changed
+            // file is a view or has a view
             main(changed);
           } else {
-          // Walk if the changed file is in the views directory
-          // such as a layout template or partial
+            // Walk if the changed file is in the views directory
+            // such as a layout template or partial
             await walk(dir);
           }
         } else {

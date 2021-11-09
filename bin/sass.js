@@ -5,7 +5,6 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 
 const args = require(`${__dirname}/util/args`).args;
 const cnsl = require(`${__dirname}/util/console`);
@@ -14,11 +13,14 @@ const installed = require(`${__dirname}/util/installed`);
 const lint = require(`${__dirname}/lint`);
 
 const alerts = resolve('config/alerts');
-const config = resolve('config/sass');
 
 const sass = (installed('node-sass')) ? require('node-sass') : require('sass');
 
-const modules = config;
+/**
+ * Retrieve modules from config
+ */
+
+const modules = resolve('config/sass', true, false);
 
 /**
  * The single command for Sass to process a Sass Module
@@ -45,14 +47,13 @@ const main = async (style) => {
       `${alerts.str.path(style.outDir + name)}`);
   } catch (err) {
     let error = (err.formatted) ? err.formatted : err.stack;
+
     cnsl.error(`Sass failed: ${error}`);
   }
 }
 
 /**
  * A batch process function for each Sass Module for Sass to run on
- *
- * @param  {Array}  files  The contents of config/sass.js
  */
 const run = async (styles = modules) => {
   let i = 0;
@@ -74,6 +75,6 @@ const run = async (styles = modules) => {
 module.exports = {
   main: main,
   run: run,
-  config: config,
+  config: modules,
   modules: modules
 };

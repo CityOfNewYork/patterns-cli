@@ -100,6 +100,8 @@ const run = async () => {
 
         cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
+        opts = options(); // Get fresh options
+
         if (process.env.NODE_ENV !== 'development') {
           let filtered = opts.modules.filter(s => path.basename(changed) === path.basename(s.input));
 
