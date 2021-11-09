@@ -22,9 +22,9 @@ let plugins = [
   }),
   nodeResolve.nodeResolve({
     browser: true,
-    customResolveOptions: {
-      moduleDirectory: 'node_modules'
-    }
+    moduleDirectories: [
+      'node_modules'
+    ]
   })
 ];
 
