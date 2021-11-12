@@ -37,11 +37,11 @@
   "optionalDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-replace": "^3.0.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.2",
     "cross-env": "^7.0.3",
     "cssnano": "^5.0.10",
     "eslint-config-google": "^0.14.0",
-    "node-emoji": "^1.10.0",
+    "node-emoji": "^1.11.0",
     "stylelint-config-standard": "^23.0.0",
     "tailwindcss": "^2.2.19"
   },
