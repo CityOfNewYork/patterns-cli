@@ -12,4 +12,6 @@
  *
  * @type {Object}
  */
-module.exports = {};
+module.exports = {
+  purge: false
+};
