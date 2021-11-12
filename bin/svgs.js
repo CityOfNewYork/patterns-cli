@@ -9,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
-const svgolib = require('svgo/lib/svgo');
+const { optimize } = require('svgo/lib/svgo');
 const svgstore = require('svgstore');
 
 const args = require(`${__dirname}/util/args`).args;
@@ -141,17 +141,15 @@ const store = async (file, data) => {
  *
  * @return {String}        The optimized svg file contents
  */
-const optimize = async (file) => {
+const svgo = async (file) => {
   try {
-    let svgo = new svgolib(plugins);
-
     let data = fs.readFileSync(file, 'utf-8');
 
-    let optimized = await svgo.optimize(data, {path: file});
+    let optimized = await optimize(data, {path: file});
 
     return optimized.data;
   } catch (err) {
-    cnsl.error(`Svgs failed (optimize): ${err.stack}`);
+    cnsl.error(`Svgs failed (svgo): ${err.stack}`);
   }
 };
 
@@ -164,7 +162,7 @@ const optimize = async (file) => {
  */
 const main = async (file) => {
   try {
-    let optimized = await optimize(file);
+    let optimized = await svgo(file);
 
     await store(file, optimized);
 
