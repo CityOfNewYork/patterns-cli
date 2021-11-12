@@ -21,14 +21,14 @@
     "express": "^4.17.1",
     "gh-pages": "^3.2.3",
     "js-beautify": "^1.14.0",
-    "json-to-scss": "^1.6.2",
+    "json-to-scss": "^1.3.1",
     "marked": "^4.0.1",
     "pa11y": "^6.1.0",
-    "postcss": "^8.3.6",
+    "postcss": "^8.3.11",
     "postcss-scss": "^4.0.2",
     "reload": "^3.2.0",
-    "rollup": "^2.56.2",
-    "sass": "^1.37.5",
+    "rollup": "^2.60.0",
+    "sass": "^1.43.4",
     "slm": "^2.0.0",
     "stylelint": "^14.0.1",
     "svgo": "^2.8.0",
@@ -43,7 +43,7 @@
     "eslint-config-google": "^0.14.0",
     "node-emoji": "^1.10.0",
     "stylelint-config-standard": "^23.0.0",
-    "tailwindcss": "^2.0.1"
+    "tailwindcss": "^2.2.19"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development concurrently \"bin/cli.js -w\" \"bin/cli.js serve -w\" -p \"none\"",
