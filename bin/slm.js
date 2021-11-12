@@ -11,7 +11,7 @@ const path = require('path');
 
 const slm = require('slm').compile;
 const beautify = require('js-beautify').html;
-const marked = require('marked');
+const { marked } = require('marked');
 const chokidar = require('chokidar');
 
 const pa11y = require(`${__dirname}/pa11y`);
