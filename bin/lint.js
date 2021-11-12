@@ -8,7 +8,7 @@
 
 const path = require('path');
 const stylelint = require('stylelint');
-const eslint = require('eslint').CLIEngine;
+const { ESLint } = require('eslint');
 
 const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
@@ -42,7 +42,7 @@ const args = require(`${__dirname}/util/args`).args;
  */
 const es = async (file = GLOBS.find(g => g.includes(EXT_ES))) => {
   try {
-    let eslinter = new eslint(config.eslint).executeOnFiles([file]);
+    let eslinter = new ESLint(config.eslint).lintFiles([file]);
 
     if (eslinter.errorCount || eslinter.warningCount) {
       eslinter.results.forEach((item) => {
@@ -95,7 +95,9 @@ const style = async (file = GLOBS.find(g => g.includes(EXT_STYLE))) => {
 
           item.warnings.forEach(warning => {
             let capture = /\(([^)]+)\)/;
-            let ruleId = capture.exec(warning.text)[1];
+            let ruleId = capture.exec(warning.text)
+
+            ruleId = (ruleId) ? ruleId[1] : 'rule id not available';
 
             cnsl.lint([
               alerts.str.comment(warning.line + ':' + warning.column),

@@ -13,23 +13,25 @@ module.exports = {
    * @type {Object}
    */
   eslint: {
-    extends: 'google',
-    env: {
-      browser: true,
-      es6: true
-    },
-    parserOptions: {
-      ecmaVersion: 6,
-      sourceType: 'module'
-    },
-    rules: {
-      'no-console': 1,
-      'one-var': 0,
-      'comma-dangle': 0,
-      'curly': [
-        'error',
-        'multi'
-      ]
+    overrideConfig: {
+      extends: 'google',
+      env: {
+        browser: true,
+        es6: true
+      },
+      parserOptions: {
+        ecmaVersion: 6,
+        sourceType: 'module'
+      },
+      rules: {
+        'no-console': 1,
+        'one-var': 0,
+        'comma-dangle': 0,
+        'curly': [
+          'error',
+          'multi'
+        ]
+      }
     }
   },
 
@@ -41,12 +43,14 @@ module.exports = {
    * @type {Object}
    */
   stylelint: {
+    customSyntax: 'postcss-scss',
     extends: 'stylelint-config-standard',
     rules: {
       'color-hex-case': 'upper',
+      'string-quotes': 'single',
       'no-missing-end-of-source-newline': null,
       'at-rule-no-unknown': [true, {
-        'ignoreAtRules': ['use', 'forward', 'tailwind']
+        'ignoreAtRules': ['use', 'forward', 'tailwind', 'function', 'return', 'mixin']
       }]
     }
   }
