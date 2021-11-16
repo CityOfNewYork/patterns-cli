@@ -4,55 +4,48 @@
  * Dependencies
  */
 
-const concurrently = require('concurrently');
+ const concurrently = require('concurrently');
+ const resolve = require(`${__dirname}/util/resolve`);
 
-/**
- * Args
- */
+ /**
+  * Args
+  */
 
-const arguments = require(`${__dirname}/util/args`);
-const args = arguments.args;
-const dict = arguments.dict;
+ const config = resolve('config/default.js');
+ const arguments = require(`${__dirname}/util/args`);
+ const args = arguments.args;
+ const dict = arguments.dict;
 
-const flags = dict.map(d => (args[d.name]) ? d.flags[0] : '')
-  .filter(f => f != '').join(' ');
+ const flags = dict.map(d => (args[d.name]) ? d.flags[0] : '')
+   .filter(f => f != '').join(' ');
 
-/**
- * Constants
- */
+ /**
+  * Constants
+  */
 
-const scripts = [
-  'styles',
-  'rollup',
-  'slm',
-  'svgs'
-];
+ const scripts = config.commands;
+ const opts = config.concurrently;
 
-const opts = {
-  prefix: 'none',
-  raw: true
-};
+ /**
+  * Main task
+  */
+ const main = () => {
+   concurrently(scripts.map(s => `${__dirname}/cli.js ${s} ${flags}`), opts);
+ };
 
-/**
- * Main task
- */
-const main = () => {
-  concurrently(scripts.map(s => `${__dirname}/cli.js ${s} ${flags}`), opts)
-};
+ /**
+  * Runner
+  */
+ const run = () => {
+   main();
+ };
 
-/**
- * Runner
- */
-const run = () => {
-  main();
-};
-
-/**
- * Export our methods
- *
- * @type {Object}
- */
-module.exports = {
-  main: main,
-  run: run
-};
+ /**
+  * Export our methods
+  *
+  * @type {Object}
+  */
+ module.exports = {
+   main: main,
+   run: run
+ };

@@ -18,7 +18,7 @@ A front-end CLI for managing static design pattern libraries. Created and mainta
 
 #### Background
 
-This project started to make building and documenting accessible, CSS–first, and framework–free pattern libraries quick, easy, and fun, doing so without task runners and a minimal amount of JavaScript to tie it all together. It does this very well, and over time it has grown into a build system of its own, so acknowledging this as an in-house alternative is essential. Other pattern build systems with more extensive community support also exist and are well worth a look. These include [Storybook.js](https://storybook.js.org/), [Fractal](https://fractal.build/), [Pattern Lab](https://patternlab.io/), and possibly more.
+The Patterns CLI is the core developer module of the [NYCO User Interface (UI) Patterns Framework](https://nycopportunity.github.io/patterns-framework/). The project started to make building and documenting accessible, CSS–first, and framework–free pattern libraries quick, easy, and fun, doing so without task runners and a minimal amount of JavaScript to tie it all together. It does this very well, and over time it has grown into a build system of its own, so acknowledging this as an in-house alternative is essential. Other pattern build systems with more extensive community support also exist and are well worth a look. These include [Storybook.js](https://storybook.js.org/), [Fractal](https://fractal.build/), [Pattern Lab](https://patternlab.io/), and possibly more.
 
 ## I want to
 
@@ -993,8 +993,6 @@ The basic pattern for commands is as follows:
 $ {{ ENVIRONMENT_VARIABLE }}={{ value }} npx pttrn {{ command }} {{ flag }}
 ```
 
-Every command is configured with one or a series of JavaScript files inside the [./config](config/) directory. The CLI will check to see if there is a custom configuration file in the local **./config** directory of the project first. If it doesn't exist it will use the [default configuration file in the CLI package](config/). Project configurations can be used to pass in additional and custom options to each package that the CLI uses. Below the packages used and default configurations are described in more detail.
-
 - [`default`](#default)
 - [`styles`](#styles)
 - [`tokens`](#tokens)
@@ -1010,9 +1008,17 @@ Every command is configured with one or a series of JavaScript files inside the 
 - [`serve`](#serve)
 - [`publish`](#publish)
 
+### Command Configuration
+
+Every command is configured with one or a series of JavaScript files inside the [./config](config/) directory. The CLI will check to see if there is a custom configuration file in the local **./config** directory of your project first. If it doesn't exist it will use the [default configuration file in the CLI package](config/). Project configurations can be used to pass in additional and custom options to each package that the CLI uses. Below the packages used and default configurations are described in more detail.
+
+### Command Flags
+
 Optional [flags](#flags) can be passed to the commands for signaling watching and log settings. The log settings are universal so they aren't represented in the command tables below.
 
-[Custom commands](#custom-commands) have been newly introduced and are described below.
+### Commands
+
+[Custom commands](#custom-commands) can be defined in the local project **./bin** are described below.
 
 ---
 
@@ -1022,7 +1028,7 @@ Command          | Flags | Configuration | `NODE_ENV`
 -----------------|-------|---------------|-
 `default` or ` ` | `-w`  | n/a           | `production` or `development`
 
-Synchronously runs this series of commands; `styles`, `rollup`, `slm`, and `svgs` respectfully and described below.
+Uses [Concurrently](https://github.com/open-cli-tools/concurrently) to synchronously run this series of commands; [`styles`](#styles), [`rollup`](#rollup), [`slm`](#slm), and [`svgs`](#svgs), respectfully. Each command is described in more detail below. The series of commands can be modified by editing the array of commands defined in a custom [./config/default.js](config/default.js) file. Addionally, the options passed to [Concurrently](https://github.com/open-cli-tools/concurrently#concurrentlycommands-options) can also be
 
 Back to [commands ^](#commands) | [table of contents ^](#contents)
 
@@ -1034,7 +1040,7 @@ Command  | Flags | Configuration | `NODE_ENV`
 ---------|-------|---------------|-
 `styles` | `-w`  | n/a           | `production` or `development`
 
-Synchronously runs this series of commands; `tokens`, `sass`, and `postcss` respectfully and described below.
+Asynchronously runs this series of commands; [`tokens`](#tokens), [`sass`](#sass), then [`postcss`](#postcss) respectfully and described below.
 
 Back to [commands ^](#commands) | [table of contents ^](#contents)
 
@@ -1058,8 +1064,8 @@ Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 #### Sass
 
-Command | Flags | Configuration                                                                                | `NODE_ENV`
---------|-------|----------------------------------------------------------------------------------------------|-
+Command | Flags | Configuration             | `NODE_ENV`
+--------|-------|---------------------------|-
 `sass`  | `-nl` | [sass.js](config/sass.js) | `production` or `development`
 
 Uses [Dart Sass](https://github.com/sass/dart-sass) to compile Sass modules defined in the `sass` configuration into CSS. It will use [Node Sass](https://github.com/sass/node-sass) in place of Dart Sass if it is required in a project's **package.json** file. By default, it will compile the default Sass entry point [./src/scss/default.js](config/scaffold/default.scss). If `NODE_ENV` is set to `development` only the modules with the attribute `devModule: true` will be compiled.
@@ -1378,12 +1384,9 @@ $ npx pttrn custom
 ✨ My custom command
 ```
 
-Custom commands can use [other packages](https://www.npmjs.com/) that are not integrated in this project and reuse the CLI [scripts](bin/), [utilities](bin/util/), or [default configuration](config/). Custom commands can also be packaged, published, and shared between projects. Below are a few published custom command plugins.
+#### Plugins
 
-Plugin                                                                              | Description
-------------------------------------------------------------------------------------|-
-[Patterns Plugin Feather](https://github.com/CityOfNewYork/patterns-plugin-feather) | Compile a [Feather icon](https://feathericons.com/) sprite from the Feather package into the dist directory.
-[Patterns Plugin Twig](https://github.com/CityOfNewYork/patterns-plugin-twig)       | Will compile Twig view templates effectively replacing the default Slm compiler with [Twig.js](https://github.com/twigjs/twig.js/).
+Custom commands can use [other packages](https://www.npmjs.com/) that are not integrated in this project and reuse the CLI [scripts](bin/), [utilities](bin/util/), or [default configuration](config/) in different ways. Custom commands can also be packaged, published, and shared between projects as plugins. A few published [custom command plugins](#custom-command-plugins) are described below.
 
 [Back to table of contents ^](#contents)
 
@@ -1472,7 +1475,7 @@ CSS utilities make it easier for developers who do not actively maintain your pa
 The `scaffold` command creates a [./config/tailwindcss.js](config/tailwindcss.js). If not using the `scaffold` command, create your configuration file:
 
 ```shell
-$ touch config/taiwindcss.js
+touch config/taiwindcss.js
 ```
 
 In the configuration file, you can import your **./config/tokens.js** configuration and include design tokens from your project in the Tailwindcss configuration. You may also use the default configuration if desired.
@@ -1512,7 +1515,7 @@ You may notice this does not include the `@tailwind base` tag which adds some ba
 These directives can be added anywhere but we recommend keeping them in the **./src/utilites** directory. The `scaffold` command creates a module directory for these directives automatically: **./src/utilities/tailwindcss**. If not using the `scaffold` command the directory and stylesheet can be added with the following `make` command:
 
 ```shell
-$ npx pttrn make utility tailwindcss style
+npx pttrn make utility tailwindcss style
 ```
 
 Below are sample contents of the stylesheet from the `scaffold` command. Copy and paste them into the stylesheet if using the `make` command above.
@@ -1672,7 +1675,7 @@ The CLI ships with several optional dependencies.
 To omit these packages to keep your project lean, use the `--no-optional` flag when installing.
 
 ```shell
-$ npm install @nycopportunity/pttrn --no-optional
+npm install @nycopportunity/pttrn --no-optional
 ```
 
 These dependencies are required by the default configuration or recommended npm scripts. If your project is relying on many of the Framework's default configurations or you want to model your project to closely resemble the original configuration then it is recommended to include them in your project.
@@ -1694,10 +1697,11 @@ Package                                                               | Descript
 
 Refer to [custom commands](#custom-commands) on how to create plugins.
 
-Plugin                                                                              | Description
-------------------------------------------------------------------------------------|-
-[Patterns Plugin Feather](https://github.com/CityOfNewYork/patterns-plugin-feather) | Compile a [Feather icon](https://feathericons.com/) sprite from the Feather package into the dist directory.
-[Patterns Plugin Twig](https://github.com/CityOfNewYork/patterns-plugin-twig)       | Will compile Twig view templates effectively replacing the default Slm compiler with [Twig.js](https://github.com/twigjs/twig.js/).
+Plugin                                                                                     | Description
+-------------------------------------------------------------------------------------------|-
+[Patterns Plugin Feather](https://github.com/CityOfNewYork/patterns-plugin-feather)        | Compile a [Feather icon](https://feathericons.com/) sprite from the Feather package into the dist directory.
+[Patterns Plugin Twig](https://github.com/CityOfNewYork/patterns-plugin-twig)              | Will compile Twig view templates effectively replacing the default Slm compiler with [Twig.js](https://github.com/twigjs/twig.js/).
+[Patterns Plugin Properties](https://github.com/NYCOpportunity/patterns-plugin-properties) | Will compile JSON tokens into CSS Custom Properties using [css-vars-from-json](https://github.com/TimoBechtel/css-vars-from-json).
 
 [Back to table of contents ^](#contents)
 
