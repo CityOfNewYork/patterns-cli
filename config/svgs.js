@@ -22,10 +22,21 @@ module.exports = {
   /**
    * Plugin options for SVGO
    *
-   * @source https://github.com/svg/svgo#what-it-can-do
+   * @source https://github.com/svg/svgo#built-in-plugins
    */
-  svgo: {
-    convertPathData: false,
+   svgo: {
+    plugins: [
+      {
+        name: 'preset-default',
+        params: {
+          overrides: {
+            convertPathData: false,
+            inlineStyles: false,
+            cleanupIDs: false
+          }
+        }
+      }
+    ]
   },
 
   /**

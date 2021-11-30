@@ -20,10 +20,6 @@ const alerts = resolve('config/alerts');
 const config = resolve('config/svgs');
 const global = resolve('config/global');
 
-const plugins = {
-  plugins: Object.keys(config.svgo).map((p) => {p: config.svgo[p]})
-};
-
 /**
  * Constants
  */
@@ -145,7 +141,10 @@ const svgo = async (file) => {
   try {
     let data = fs.readFileSync(file, 'utf-8');
 
-    let optimized = await optimize(data, {path: file});
+    let optimized = await optimize(data, {
+      path: file,
+      ...config.svgo
+    });
 
     return optimized.data;
   } catch (err) {
