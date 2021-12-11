@@ -1261,9 +1261,9 @@ Command | Flags | Configuration
 --------|-------|-
 `svgs`  | `-w`  | [svgs.js](config/svgs.js)
 
-Uses [svgo](https://github.com/svg/svgo) to optimize SVGs in the **./src/svg/** directory and saves them in the **./dist/svg** directory. Then, it uses [svgstore](https://github.com/svgstore/svgstore) to create an SVG sprite in the **./dist/svg/svgs.svg** file of all the optimized SVGs. The `svg` configuration passes svg file name prefix and svg sprite name settings to each package.
+Uses [svgo](https://github.com/svg/svgo) to optimize SVGs in the **./src/svg/** directory and saves them in the **./dist/svg** directory. Then, it uses [svgstore](https://github.com/svgstore/svgstore) to create an SVG sprite in the **./dist/svg/svgs.svg** file of all the optimized SVGs. The `svgs` configuration passes svg file name prefix and svg sprite name settings to each package.
 
-A custom `svgs` configuration could be used to modify the svg file prefix, svg sprite name, and configuration options for [svgo](https://github.com/svg/svgo#what-it-can-do) and [svgstore](https://github.com/svgstore/svgstore#options).
+A custom `svgs` configuration could be used to add multiple source directories and sprites, modify their svg file prefixes, svg sprite names, and configuration options for [svgo](https://github.com/svg/svgo#what-it-can-do) and [svgstore](https://github.com/svgstore/svgstore#options). Additionally, allows a restrict parameter to limit the svgs that will be compiled from the source directory and included in the sprite.
 
 Back to [commands ^](#commands) | [table of contents ^](#contents)
 

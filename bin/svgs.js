@@ -17,112 +17,70 @@ const cnsl = require(`${__dirname}/util/console`);
 const resolve = require(`${__dirname}/util/resolve`);
 
 const alerts = resolve('config/alerts');
-const config = resolve('config/svgs');
-const global = resolve('config/global');
 
 /**
- * Constants
- */
-
-const SOURCE = path.join(global.base, global.src, global.entry.svg);
-const DIST = path.join(global.base, global.dist, global.entry.svg);
-const FILE = path.join(global.base, global.dist, config.svgstore.file);
-
-const EXT = '.svg';
-const GLOBS = [
-  `${SOURCE}/**/*${EXT}`
-];
-
-// const options = () => {
-//   let config = resolve('config/svgs');
-
-//   let plugins = {
-//     plugins: Object.keys(config.svgo).map((p) => {p: config.svgo[p]})
-//   };
-
-//   let source = path.join(process.env.PWD, config.src);
-//   let dist = path.join(process.env.PWD, config.dist);
-//   let file = path.join(process.env.PWD, config.dist, config.svgstore.file);
-
-//   let ext = '.svg';
-
-//   let globs = [
-//     `${source}/**/*${ext}`
-//   ];
-
-//   return {
-//     source: source,
-//     dist: dist,
-//     file: file,
-//     ext: ext,
-//     globs: globs
-//   }
-// };
-
-/**
- * Our Chokidar Watcher
+ * Get modules and configuration options
  *
- * @type {Source} https://github.com/paulmillr/chokidar
+ * @return  {Object}  Object containing initial modules and settings
  */
-const watcher = chokidar.watch(GLOBS, {
-  usePolling: false,
-  awaitWriteFinish: {
-    stabilityThreshold: 750
+const options = () => {
+  let config = resolve('config/svgs', true, false);
+
+  return {
+    modules: config.map(m => {
+      m.ext = '.svg';
+
+      return m;
+    })
   }
-});
+};
 
 /**
  * Write the svg file to the distribution folder
  *
- * @param  {String}   file   The file source
- * @param  {Object}   data   The data to pass to the file
- * @param  {Boolean}  store  Flag for wether the store is being written or not
+ * @param  {Object}  mod  The svg module to write
  */
-const write = async (file, data, store = false) => {
+const write = async mod => {
   try {
-    let dist = file.replace(SOURCE, DIST);
-    let basename = path.basename(dist);
-
-    // Do not add prefix if writing the sprite
-    if (!store) {
-      dist = (config.hasOwnProperty('prefix'))
-        ? dist.replace(basename, `${config.prefix}${basename}`) : dist;
-    }
-
-    let message = (store) ?
-      `${alerts.package} Svgs sprite written to ${alerts.str.path(dist)}` :
-      `${alerts.compression} Svgs in ${alerts.str.path(file)} out ${alerts.str.path(dist)}`
+    let dist = path.join(mod.dist, mod.file);
 
     if (!fs.existsSync(path.dirname(dist))) {
-      fs.mkdirSync(path.dirname(dist));
+      fs.mkdirSync(path.dirname(dist), {recursive: true});
     }
 
-    fs.writeFileSync(dist, data);
+    if (mod.hasOwnProperty('store')) {
+      await fs.writeFileSync(dist, mod.store.data);
 
-    cnsl.describe(message);
+      cnsl.describe(`${alerts.package} Svgs sprite written to ${alerts.str.path(dist)}`);
+    } else {
+      await fs.writeFileSync(dist, mod.optimized.data);
+
+      cnsl.describe(`${alerts.compression} Svgs in ${alerts.str.path(mod.svg)} out ${alerts.str.path(dist)}`);
+    }
+
+    return mod;
   } catch (err) {
     cnsl.error(`Svgs (write): ${err.stack}`);
   }
 }
 
 /**
- * Create a new store
+ * Create a global store
+ *
+ * @type {Object}
  */
 let SPRITE = new svgstore();
 
 /**
  * Add a file and it's data to the store
  *
- * @param  {String}  file  The filename of the svg
- * @param  {String}  data  The raw contents of the file
+ * @param  {Object}  mod  The svg module to write
  *
  * @return {Object}        The svg sprite
  */
-const store = async (file, data) => {
+const store = async mod => {
   try {
-    let name = path.basename(file).replace(path.extname(file), '');
-
-    SPRITE.add(`${config.prefix}${name}`, data);
+    SPRITE.add(`${mod.prefix}${mod.name}`, mod.optimized.data);
 
     return SPRITE;
   } catch (err) {
@@ -137,16 +95,16 @@ const store = async (file, data) => {
  *
  * @return {String}        The optimized svg file contents
  */
-const svgo = async (file) => {
+const svgo = async mod => {
   try {
-    let data = fs.readFileSync(file, 'utf-8');
+    let data = fs.readFileSync(mod.svg, 'utf-8');
 
     let optimized = await optimize(data, {
-      path: file,
-      ...config.svgo
+      path: mod.svg,
+      ...mod.svgo
     });
 
-    return optimized.data;
+    return optimized;
   } catch (err) {
     cnsl.error(`Svgs failed (svgo): ${err.stack}`);
   }
@@ -155,19 +113,32 @@ const svgo = async (file) => {
 /**
  * The main function for the svg script
  *
- * @param  {String}  file  The filename of the svg
+ * @param  {Object}  mod  The svg module to write
  *
- * @return {String}        The optimized svg file contents
+ * @return {Object}       The svg module to write
  */
-const main = async (file) => {
+const main = async mod => {
   try {
-    let optimized = await svgo(file);
+    // If the module has a restricted list, check to see if the file is permitted.
+    if (mod.hasOwnProperty('restrict') && !mod.restrict.find(n => path.basename(mod.svg).includes(n))) {
+      return mod;
+    }
 
-    await store(file, optimized);
+    mod.file = `${mod.prefix}${path.basename(mod.svg)}`;
 
-    await write(file, optimized);
+    mod.name = path.basename(mod.file, path.extname(mod.file));
 
-    return optimized;
+    mod.optimized = await svgo(mod);
+
+    await store(mod);
+
+    // Do not write the individual optimized svg if mod.write.source is false
+    if (mod.hasOwnProperty('write') && mod.write.source === false)
+      return mod;
+
+    await write(mod);
+
+    return mod;
   } catch (err) {
     cnsl.error(`Svgs failed (main): ${err.stack}`);
   }
@@ -176,20 +147,28 @@ const main = async (file) => {
 /**
  * Read a specific file or if it's a directory, read all of the files in it
  *
- * @param  {String}  file  A single file or directory to recursively walk
- * @param  {String}  dir   The base directory of the file
+ * @param  {Object}  mod  The svg module to write
  */
-const walk = async (file, dir = SOURCE) => {
-  file = (file.includes(dir)) ? file : path.join(dir, file);
-
-  if (file.includes(EXT)) {
-    await main(file);
+const walk = async mod => {
+  if (mod.hasOwnProperty('svg')) {
+    await main(mod);
   } else {
     try {
-      let files = fs.readdirSync(file, 'utf-8');
+      let files = fs.readdirSync(mod.source, 'utf-8');
 
       for (let i = files.length - 1; i >= 0; i--) {
-        await walk(files[i], file);
+        let copy = Object.assign({}, mod);
+        let source = path.join(mod.source, files[i]);
+
+        if (path.basename(source).includes(mod.ext)) {
+          copy.svg = source;
+        } else if (fs.lstatSync(source).isDirectory()) {
+          copy.source = source;
+        } else {
+          continue;
+        }
+
+        await walk(copy);
       }
     } catch (err) {
       cnsl.error(`Svgs failed (walk): ${err.stack}`);
@@ -202,33 +181,66 @@ const walk = async (file, dir = SOURCE) => {
  *
  * @param  {String}  dir  The basepath to run the script on
  */
-const run = async (dir = SOURCE) => {
-  if (!fs.existsSync(SOURCE)) process.exit();
+const run = async () => {
+  let opts = options();
 
   if (args.watch) {
     try {
-      watcher.on('change', async (changed) => {
-        cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
+      for (let index = 0; index < opts.modules.length; index++) {
+        const mod = opts.modules[index];
 
-        SPRITE = new svgstore();
+        if (!fs.existsSync(mod.source)) continue;
 
-        await walk(dir);
+        const globs = [
+          `${mod.source}/**/*${mod.ext}`
+        ];
 
-        await write(FILE, SPRITE.toString(), true);
+        const watcher = chokidar.watch(globs, {
+          usePolling: false,
+          awaitWriteFinish: {
+            stabilityThreshold: 750
+          }
+        });
 
-        cnsl.success(`Svgs finished`);
-      });
+        watcher.on('change', async changed => {
+          cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
-      cnsl.watching(`Svgs watching ${alerts.str.ext(GLOBS.join(', '))}`);
+          SPRITE = (mod.hasOwnProperty('svgstore')) ?
+            new svgstore(mod.svgstore) : new svgstore();
+
+          await walk(mod);
+
+          mod.store = {
+            data: SPRITE.toString()
+          };
+
+          await write(mod);
+
+          cnsl.success(`Svgs finished`);
+        });
+
+        cnsl.watching(`Svgs watching ${alerts.str.ext(globs.join(', '))}`);
+      }
     } catch (err) {
       console.error(`${alerts.error} Svgs (run): ${err}`);
     }
   } else {
-    SPRITE = new svgstore();
+    for (let index = 0; index < opts.modules.length; index++) {
+      const mod = opts.modules[index];
 
-    await walk(dir);
+      if (!fs.existsSync(mod.source)) process.exit();
 
-    await write(FILE, SPRITE.toString(), true);
+      SPRITE = (mod.hasOwnProperty('svgstore')) ?
+        new svgstore(mod.svgstore) : new svgstore();
+
+      await walk(mod);
+
+      mod.store = {
+        data: SPRITE.toString()
+      };
+
+      await write(mod);
+    }
 
     cnsl.success(`Svgs finished`);
 
@@ -243,7 +255,5 @@ const run = async (dir = SOURCE) => {
  */
 module.exports = {
   main: main,
-  run: run,
-  config: config
-  // options: options
+  run: run
 };
