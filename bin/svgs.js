@@ -80,7 +80,7 @@ let SPRITE = new svgstore();
  */
 const store = async mod => {
   try {
-    SPRITE.add(`${mod.prefix}${mod.name}`, mod.optimized.data);
+    SPRITE.add(mod.name, mod.optimized.data);
 
     return SPRITE;
   } catch (err) {

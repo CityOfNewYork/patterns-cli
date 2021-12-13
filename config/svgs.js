@@ -17,6 +17,7 @@ const svgo = {
       name: 'preset-default',
       params: {
         overrides: {
+          removeViewBox: false,
           convertPathData: false,
           inlineStyles: false,
           cleanupIDs: false
