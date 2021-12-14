@@ -100,12 +100,12 @@ const run = async () => {
 
         opts = options(); // Get fresh options
 
-        if (process.env.NODE_ENV !== 'development') {
+        if (process.env.NODE_ENV === 'production') {
+          scrpts = opts.modules;
+        } else {
           let filtered = opts.modules.filter(s => path.basename(changed) === path.basename(s.input));
 
           scrpts = (filtered.length) ? filtered : opts.modules;
-        } else {
-          scrpts = opts.modules;
         }
 
         for (let i = 0; i < scrpts.length; i++) {

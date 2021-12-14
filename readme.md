@@ -1094,8 +1094,8 @@ Back to [commands ^](#commands) | [table of contents ^](#contents)
 
 #### Rollup
 
-Command  | Flags      | Configuration                           | `NODE_ENV`
----------|------------|-----------------------------------------|-
+Command  | Flags      | Configuration                 | `NODE_ENV`
+---------|------------|-------------------------------|-
 `rollup` | `-w` `-nl` | [rollup.js](config/rollup.js) | `production` or `development`
 
 Runs [Rollup.js](https://rollupjs.org/) on an array of ES modules defined in the `rollup` configuration and bundles them into a self-executing function (iife). By default, it will bundle the default JavaScript entry point [./src/js/default.js](config/scaffold/default.js). [Rollup.js plugins](https://github.com/rollup/plugins) included with the default `rollup` configuration include the following:
