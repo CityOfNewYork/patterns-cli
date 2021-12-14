@@ -38,12 +38,12 @@ const options = () => {
     source: source,
     dist: path.join(global.base, global.dist),
     base_path: base_path,
-    views: `${base_path}/${global.entry.views}`,
+    views: path.join(base_path, global.entry.views),
     ext: ext,
     globs: config.globs || [
       resolve('config/slm', false),
-      `${source}/**/*${ext}`,
-      `${source}/**/*.md`
+      path.join(source, `/**/*${ext}`),
+      path.join(source, '/**/*.md')
     ]
   }
 }
@@ -53,12 +53,7 @@ const options = () => {
  *
  * @type {Source} https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(options().globs, {
-  usePolling: false,
-  awaitWriteFinish: {
-    stabilityThreshold: 750
-  }
-});
+const watcher = chokidar.watch(options().globs, global.chokidar);
 
 /**
  * Write the html file to the distribution folder

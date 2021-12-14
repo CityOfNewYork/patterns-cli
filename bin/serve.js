@@ -31,17 +31,12 @@ const GLOBS = [
   `${DIST}/**/*.js`
 ];
 
- /**
+/**
  * Our Chokidar Watcher
  *
  * @type {Source} https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(GLOBS, {
-  usePolling: false,
-  awaitWriteFinish: {
-    stabilityThreshold: 750
-  }
-});
+const watcher = chokidar.watch(GLOBS, global.chokidar);
 
 /**
  * The Express App

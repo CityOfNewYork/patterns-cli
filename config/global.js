@@ -30,6 +30,18 @@ module.exports = {
   },
 
   /**
+   * Global chokidar options
+   *
+   * @type {Object}
+   */
+  chokidar: {
+    usePolling: false,
+    awaitWriteFinish: {
+      stabilityThreshold: 750
+    }
+  },
+
+  /**
    * Directories to scaffold. The scaffold command will create the filesystem
    * configured here and use files in the ./scaffold directory as the contents
    * for files described here.

@@ -55,12 +55,7 @@ const options = () => {
  *
  * @type {Source} https://github.com/paulmillr/chokidar
  */
-const watcher = chokidar.watch(options().globs, {
-  usePolling: false,
-  awaitWriteFinish: {
-    stabilityThreshold: 750
-  }
-});
+const watcher = chokidar.watch(options().globs, global.chokidar);
 
 /**
  * Main script process
@@ -72,7 +67,8 @@ const main = async (script) => {
     /** Lint file */
     if (!args.nolint) await lint.main(script.input);
 
-    if (script.hasOwnProperty('devModule')) delete script.devModule;
+    if (script.hasOwnProperty('devModule'))
+      delete script.devModule;
 
     const bundle = await rollup.rollup(script);
 
@@ -82,6 +78,8 @@ const main = async (script) => {
       cnsl.describe(`${alerts.rollup} Rollup in ${alerts.str.path(script.input)} out ` +
         `${alerts.str.path(script.output[i].file)}`);
     }
+
+    bundle.close();
   } catch (err) {
     cnsl.error(`Rollup failed (main): ${err.stack}`);
   }

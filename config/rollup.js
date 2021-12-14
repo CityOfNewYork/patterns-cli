@@ -37,6 +37,7 @@ let plugins = [
 module.exports = [
   {
     input: path.join(global.base, global.src, global.entry.scripts),
+    cache: true,
     output: [{
       file: path.join(global.base, global.dist, global.entry.scripts),
       name: global.entry.name,

@@ -32,9 +32,11 @@ const options = () => {
   return {
     modules: modules,
     globs: [
-      `${path.join(global.base, global.src)}/**/*.scss`,
-      tokens.options().input,
-      tokens.options().tailwindcss
+      resolve('config/tokens', false),
+      resolve('config/tailwindcss', false),
+      resolve('config/sass', false),
+      resolve('config/postcss', false),
+      path.join(global.base, global.src, '/**/*.scss')
     ]
   }
 };
@@ -67,10 +69,7 @@ const main = async (modules) => {
  */
 const watcher = chokidar.watch(options().globs, {
   ignored: tokens.options().output.replace(/"/g, ''),
-  usePolling: false,
-  awaitWriteFinish: {
-    stabilityThreshold: 750
-  }
+  ...global.chokidar
 });
 
 /**

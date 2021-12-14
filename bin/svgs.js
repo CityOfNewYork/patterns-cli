@@ -31,7 +31,10 @@ const options = () => {
       m.ext = '.svg';
 
       return m;
-    })
+    }),
+    globs: [
+      resolve('config/svgs', false)
+    ]
   }
 };
 
@@ -191,11 +194,10 @@ const run = async () => {
 
         if (!fs.existsSync(mod.source)) continue;
 
-        const globs = [
-          `${mod.source}/**/*${mod.ext}`
-        ];
-
-        const watcher = chokidar.watch(globs, {
+        const watcher = chokidar.watch([
+          `${mod.source}/**/*${mod.ext}`,
+          ...opts.globs
+        ], {
           usePolling: false,
           awaitWriteFinish: {
             stabilityThreshold: 750
@@ -219,7 +221,7 @@ const run = async () => {
           cnsl.success(`Svgs finished`);
         });
 
-        cnsl.watching(`Svgs watching ${alerts.str.ext(globs.join(', '))}`);
+        cnsl.watching(`Svgs watching ${alerts.str.ext(opts.globs.join(', '))}`);
       }
     } catch (err) {
       console.error(`${alerts.error} Svgs (run): ${err}`);
