@@ -65,7 +65,7 @@ const main = async (modules) => {
 /**
  * Our Chokidar Watcher
  *
- * @type {Source} https://github.com/paulmillr/chokidar
+ * @type  {Source}  https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(options().globs, {
   ignored: tokens.options().output.replace(/"/g, ''),
@@ -85,16 +85,17 @@ const run = async () => {
 
         opts = options();
 
-        opts.modules = opts.modules;
-
         cnsl.watching(`Detected change on ${alerts.str.path(changed)}`);
 
-        if (process.env.NODE_ENV !== 'development') {
+        opts.modules = opts.modules;
+
+        // Only run main on changed modules by default
+        if (process.env.NODE_ENV === 'production') {
+          styls = opts.modules;
+        } else {
           let filtered = opts.modules.filter(s => path.basename(changed) === path.basename(s.file));
 
           styls = (filtered.length) ? filtered : opts.modules;
-        } else {
-          styls = opts.modules;
         }
 
         main(styls);

@@ -43,8 +43,8 @@ const options = () => {
     source: source,
     ext: ext,
     globs: [
-      resolve('config/rollup', false),
-      `${source}/**/*${ext}`,
+      path.join(source, `/**/*${ext}`),
+      resolve('config/rollup', false)
     ],
     modules: modules
   }
@@ -53,7 +53,7 @@ const options = () => {
 /**
  * Our Chokidar Watcher
  *
- * @type {Source} https://github.com/paulmillr/chokidar
+ * @type  {Source}  https://github.com/paulmillr/chokidar
  */
 const watcher = chokidar.watch(options().globs, global.chokidar);
 
@@ -100,6 +100,7 @@ const run = async () => {
 
         opts = options(); // Get fresh options
 
+        // Only run main on changed modules by default
         if (process.env.NODE_ENV === 'production') {
           scrpts = opts.modules;
         } else {

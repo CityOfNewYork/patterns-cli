@@ -182,7 +182,7 @@ const walk = async mod => {
 /**
  * Runner for the script
  *
- * @param  {String}  dir  The basepath to run the script on
+ * @param  {String}  dir  The base path to run the script on
  */
 const run = async () => {
   let opts = options();
@@ -195,7 +195,7 @@ const run = async () => {
         if (!fs.existsSync(mod.source)) continue;
 
         const watcher = chokidar.watch([
-          `${mod.source}/**/*${mod.ext}`,
+          path.join(mod.source, `/**/*${mod.ext}`),
           ...opts.globs
         ], {
           usePolling: false,
