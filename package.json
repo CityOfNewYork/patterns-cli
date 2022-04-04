@@ -1,7 +1,7 @@
 {
   "name": "@nycopportunity/pttrn",
   "nice": "Patterns CLI",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "A front-end CLI for building and managing design pattern libraries",
   "author": "products@nycopportunity.nyc.gov",
   "license": "GPL-3.0+",
