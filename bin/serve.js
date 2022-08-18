@@ -57,6 +57,10 @@ APP.get('/*', (request, resolve, next) => {
   if (req === 'reload/reload.js') {
     next();
   } else {
+    // If it is a sub-directory request, use the directory's index.html
+    req = (req.substr(-1) === '/') ? `${req}index.html` : req;
+
+    // if the req is blank, use the index file, if it does not have an extension request append .html
     let page = (req === '') ? 'index.html' : (req.includes('.')) ? req : `${req}.html`;
 
     resolve.sendFile(`${DIST}/${page}`);
