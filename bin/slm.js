@@ -240,6 +240,25 @@ const compile = {
 
       marked.setOptions(options().config.marked);
 
+      /**
+       * Renderer for code blocks
+       *
+       * @var {Object}
+       */
+      let renderer = {
+        code(code) {
+          let escaped = code.replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/'/g, '&#39;')
+            .replace(/"/g, '&quot;');
+
+          return `<div class="code-block"><pre>${escaped}</pre></div>`;
+        }
+      };
+
+      marked.use({renderer});
+
       md = marked(md);
 
       md = mrkdwn.slm(md);
