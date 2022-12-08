@@ -98,7 +98,7 @@ const mrkdwn = {
    * @return  {String}        File contents with compiled slm
    */
   slm: function(data) {
-    let blocks = data.match(/include{{\s*[/\w\.]+\s*}}/g);
+    let blocks = data.match(/include{{\s*[-@/\w\.]+\s*}}/g);
 
     if (blocks) {
       blocks.forEach(element => {
