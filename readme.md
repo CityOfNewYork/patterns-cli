@@ -1512,7 +1512,7 @@ All that's needed to include Tailwindcss in your stylesheet is to add the `@` di
 
 You may notice this does not include the `@tailwind base` tag which adds some base styling for Tailwindcss utilities. They aren't required and they can interfere with the styling of other patterns in your stylesheet. Use them at your discretion.
 
-These directives can be added anywhere but we recommend keeping them in the **./src/utilites** directory. The `scaffold` command creates a module directory for these directives automatically: **./src/utilities/tailwindcss**. If not using the `scaffold` command the directory and stylesheet can be added with the following `make` command:
+These directives can be added anywhere but it is recommended to keep them in the **./src/utilites** directory. The `scaffold` command creates a module directory for these directives automatically: **./src/utilities/tailwindcss**. If not using the `scaffold` command the directory and stylesheet can be added with the following `make` command:
 
 ```shell
 npx pttrn make utility tailwindcss style
